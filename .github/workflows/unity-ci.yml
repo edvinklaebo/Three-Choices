@@ -1,0 +1,81 @@
+name: Unity CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  linux-builds:
+    name: Windows / Linux / Android
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+
+      - uses: game-ci/unity-builder@v4
+        with:
+          unityVersion: 2022.3.20f1
+          targetPlatform: StandaloneWindows64
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+
+      - uses: game-ci/unity-builder@v4
+        with:
+          unityVersion: 2022.3.20f1
+          targetPlatform: StandaloneLinux64
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+
+      - uses: game-ci/unity-builder@v4
+        with:
+          unityVersion: 2022.3.20f1
+          targetPlatform: Android
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-windows-android-builds
+          path: Builds
+
+  mac-builds:
+    name: macOS / iOS
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+
+      - uses: game-ci/unity-builder@v4
+        with:
+          unityVersion: 2022.3.20f1
+          targetPlatform: StandaloneOSX
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+
+      - uses: game-ci/unity-builder@v4
+        with:
+          unityVersion: 2022.3.20f1
+          targetPlatform: iOS
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mac-ios-builds
+          path: Builds
