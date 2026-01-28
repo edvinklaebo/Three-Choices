@@ -1,4 +1,0 @@
-repository "Roguelike PvE auto-battler/Roguelike PvE auto-battler@522111@cloud"
-  path "/"
-    br "/main"
-    co "/main"
