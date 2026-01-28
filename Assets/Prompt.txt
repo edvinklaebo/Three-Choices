@@ -1,0 +1,20 @@
+I’m building a roguelike PvE auto-battler in Unity with a single unit and a 1-of-3 draft upgrade system.
+
+Today I want to make concrete progress on [ONE specific system or problem].
+
+Current state (short):
+– Tech: Unity + C#
+– What already exists: [brief bullet list]
+– What’s missing / painful: [brief]
+
+Give me:
+
+A clear design for this system (minimal but solid)
+
+A suggested data model / class structure
+
+One or two implementation steps I can finish today
+
+Pitfalls I should avoid
+
+Prefer pragmatic solutions over perfect architecture.
