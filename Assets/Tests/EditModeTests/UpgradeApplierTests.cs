@@ -5,214 +5,200 @@ using System;
 
 namespace Tests.EditModeTests
 {
-public class UpgradeApplierTests
-{
-    private Unit _unit;
-
-    [SetUp]
-    public void Setup()
+    public class UpgradeApplierTests
     {
-        _unit = new Unit("Hero");
-        _unit.Stats = new Stats
+        private Unit _unit;
+
+        [SetUp]
+        public void Setup()
         {
-            MaxHP = 100,
-            CurrentHP = 50,
-            AttackPower = 10,
-            Armor = 5,
-            Speed = 3
-        };
-    }
+            _unit = new Unit("Hero");
+            _unit.Stats = new Stats
+            {
+                MaxHP = 100,
+                CurrentHP = 50,
+                AttackPower = 10,
+                Armor = 5,
+                Speed = 3
+            };
+        }
 
-    // ---------- DISPATCH TESTS ----------
+        // ---------- DISPATCH TESTS ----------
 
-    [Test]
-    public void Apply_StatUpgrade_DispatchesToStatHandler()
-    {
-        var upgrade = new UpgradeDefinition
+        [Test]
+        public void Apply_StatUpgrade_DispatchesToStatHandler()
         {
-            Type = UpgradeType.Stat,
-            Stat = StatType.AttackPower,
-            Amount = 5
-        };
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            upgrade.Type = UpgradeType.Stat;
+            upgrade.Stat = StatType.AttackPower;
+            upgrade.Amount = 5;
 
-        UpgradeApplier.Apply(upgrade, _unit);
+            UpgradeApplier.Apply(upgrade, _unit);
 
-        Assert.AreEqual(15, _unit.Stats.AttackPower);
-    }
+            Assert.AreEqual(15, _unit.Stats.AttackPower);
+        }
 
-    [Test]
-    public void Apply_UnknownUpgradeType_Throws()
-    {
-        var upgrade = new UpgradeDefinition
+        [Test]
+        public void Apply_UnknownUpgradeType_Throws()
         {
-            Type = (UpgradeType)999
-        };
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            UpgradeApplier.Apply(upgrade, _unit));
-    }
+            upgrade.Type = (UpgradeType)999;
 
-    // ---------- STAT UPGRADES ----------
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                UpgradeApplier.Apply(upgrade, _unit));
+        }
 
-    [Test]
-    public void ApplyStat_MaxHP_IncreasesMaxAndCurrentHP()
-    {
-        var upgrade = new UpgradeDefinition
+        // ---------- STAT UPGRADES ----------
+
+        [Test]
+        public void ApplyStat_MaxHP_IncreasesMaxAndCurrentHP()
         {
-            Type = UpgradeType.Stat,
-            Stat = StatType.MaxHP,
-            Amount = 20
-        };
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-        UpgradeApplier.Apply(upgrade, _unit);
+            upgrade.Type = UpgradeType.Stat;
+            upgrade.Stat = StatType.MaxHP;
+            upgrade.Amount = 20;
 
-        Assert.AreEqual(120, _unit.Stats.MaxHP);
-        Assert.AreEqual(70, _unit.Stats.CurrentHP);
-    }
+            UpgradeApplier.Apply(upgrade, _unit);
 
-    [Test]
-    public void ApplyStat_AttackPower_IncreasesAttack()
-    {
-        var upgrade = new UpgradeDefinition
+            Assert.AreEqual(120, _unit.Stats.MaxHP);
+            Assert.AreEqual(70, _unit.Stats.CurrentHP);
+        }
+
+        [Test]
+        public void ApplyStat_AttackPower_IncreasesAttack()
         {
-            Type = UpgradeType.Stat,
-            Stat = StatType.AttackPower,
-            Amount = 7
-        };
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-        UpgradeApplier.Apply(upgrade, _unit);
+            upgrade.Type = UpgradeType.Stat;
+            upgrade.Stat = StatType.AttackPower;
+            upgrade.Amount = 7;
 
-        Assert.AreEqual(17, _unit.Stats.AttackPower);
-    }
+            UpgradeApplier.Apply(upgrade, _unit);
 
-    [Test]
-    public void ApplyStat_Armor_IncreasesArmor()
-    {
-        var upgrade = new UpgradeDefinition
+            Assert.AreEqual(17, _unit.Stats.AttackPower);
+        }
+
+        [Test]
+        public void ApplyStat_Armor_IncreasesArmor()
         {
-            Type = UpgradeType.Stat,
-            Stat = StatType.Armor,
-            Amount = 4
-        };
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-        UpgradeApplier.Apply(upgrade, _unit);
+            upgrade.Type = UpgradeType.Stat;
+            upgrade.Stat = StatType.Armor;
+            upgrade.Amount = 4;
 
-        Assert.AreEqual(9, _unit.Stats.Armor);
-    }
+            UpgradeApplier.Apply(upgrade, _unit);
 
-    [Test]
-    public void ApplyStat_Speed_IncreasesSpeed()
-    {
-        var upgrade = new UpgradeDefinition
+            Assert.AreEqual(9, _unit.Stats.Armor);
+        }
+
+        [Test]
+        public void ApplyStat_Speed_IncreasesSpeed()
         {
-            Type = UpgradeType.Stat,
-            Stat = StatType.Speed,
-            Amount = 2
-        };
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-        UpgradeApplier.Apply(upgrade, _unit);
+            upgrade.Type = UpgradeType.Stat;
+            upgrade.Stat = StatType.Speed;
+            upgrade.Amount = 2;
 
-        Assert.AreEqual(5, _unit.Stats.Speed);
-    }
+            UpgradeApplier.Apply(upgrade, _unit);
 
-    [Test]
-    public void ApplyStat_UnknownStat_Throws()
-    {
-        var upgrade = new UpgradeDefinition
+            Assert.AreEqual(5, _unit.Stats.Speed);
+        }
+
+        [Test]
+        public void ApplyStat_UnknownStat_Throws()
         {
-            Type = UpgradeType.Stat,
-            Stat = (StatType)999,
-            Amount = 10
-        };
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            UpgradeApplier.Apply(upgrade, _unit));
-    }
+            upgrade.Type = UpgradeType.Stat;
+            upgrade.Stat = (StatType)999;
+            upgrade.Amount = 10;
 
-    // ---------- ABILITY UPGRADES ----------
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                UpgradeApplier.Apply(upgrade, _unit));
+        }
 
-    [Test]
-    public void ApplyAbility_AlwaysThrows_ForUnknownAbility()
-    {
-        var upgrade = new UpgradeDefinition
+        // ---------- ABILITY UPGRADES ----------
+
+        [Test]
+        public void ApplyAbility_AlwaysThrows_ForUnknownAbility()
         {
-            Type = UpgradeType.Ability,
-            AbilityId = "Fireball"
-        };
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            UpgradeApplier.Apply(upgrade, _unit));
-    }
+            upgrade.Type = UpgradeType.Ability;
+            upgrade.AbilityId = "Fireball";
 
-    // ---------- PASSIVE UPGRADES ----------
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                UpgradeApplier.Apply(upgrade, _unit));
+        }
 
-    [Test]
-    public void ApplyPassive_Thorns_LogsCorrectly()
-    {
-        var upgrade = new UpgradeDefinition
+        // ---------- PASSIVE UPGRADES ----------
+
+        [Test]
+        public void ApplyPassive_Thorns_LogsCorrectly()
         {
-            Type = UpgradeType.Passive,
-            AbilityId = "Thorns"
-        };
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-        LogAssert.Expect(LogType.Log, "Passive Applied: Thorns");
+            upgrade.Type = UpgradeType.Passive;
+            upgrade.AbilityId = "Thorns";
 
-        UpgradeApplier.Apply(upgrade, _unit);
-    }
+            LogAssert.Expect(LogType.Log, "Passive Applied: Thorns");
 
-    [Test]
-    public void ApplyPassive_Rage_LogsCorrectly()
-    {
-        var upgrade = new UpgradeDefinition
+            UpgradeApplier.Apply(upgrade, _unit);
+        }
+
+        [Test]
+        public void ApplyPassive_Rage_LogsCorrectly()
         {
-            Type = UpgradeType.Passive,
-            AbilityId = "Rage"
-        };
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-        LogAssert.Expect(LogType.Log, "Passive Applied: Rage");
+            upgrade.Type = UpgradeType.Passive;
+            upgrade.AbilityId = "Rage";
 
-        UpgradeApplier.Apply(upgrade, _unit);
-    }
+            LogAssert.Expect(LogType.Log, "Passive Applied: Rage");
 
-    [Test]
-    public void ApplyPassive_Lifesteal_LogsCorrectly()
-    {
-        var upgrade = new UpgradeDefinition
+            UpgradeApplier.Apply(upgrade, _unit);
+        }
+
+        [Test]
+        public void ApplyPassive_Lifesteal_LogsCorrectly()
         {
-            Type = UpgradeType.Passive,
-            AbilityId = "Lifesteal"
-        };
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-        LogAssert.Expect(LogType.Log, "Ability Applied: Lifesteal");
+            upgrade.Type = UpgradeType.Passive;
+            upgrade.AbilityId = "Lifesteal";
 
-        UpgradeApplier.Apply(upgrade, _unit);
-    }
+            LogAssert.Expect(LogType.Log, "Ability Applied: Lifesteal");
 
-    [Test]
-    public void ApplyPassive_Poison_LogsCorrectly()
-    {
-        var upgrade = new UpgradeDefinition
+            UpgradeApplier.Apply(upgrade, _unit);
+        }
+
+        [Test]
+        public void ApplyPassive_Poison_LogsCorrectly()
         {
-            Type = UpgradeType.Passive,
-            AbilityId = "Poison"
-        };
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-        LogAssert.Expect(LogType.Log, "Ability Applied: Poison");
+            upgrade.Type = UpgradeType.Passive;
+            upgrade.AbilityId = "Poison";
 
-        UpgradeApplier.Apply(upgrade, _unit);
-    }
+            LogAssert.Expect(LogType.Log, "Ability Applied: Poison");
 
-    [Test]
-    public void ApplyPassive_UnknownPassive_Throws()
-    {
-        var upgrade = new UpgradeDefinition
+            UpgradeApplier.Apply(upgrade, _unit);
+        }
+
+        [Test]
+        public void ApplyPassive_UnknownPassive_Throws()
         {
-            Type = UpgradeType.Passive,
-            AbilityId = "GodMode"
-        };
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            UpgradeApplier.Apply(upgrade, _unit));
+            upgrade.Type = UpgradeType.Passive;
+            upgrade.AbilityId = "GodMode";
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                UpgradeApplier.Apply(upgrade, _unit));
+        }
     }
-}
 }

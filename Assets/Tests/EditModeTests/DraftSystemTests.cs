@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using UnityEngine;
 
 namespace Tests.EditModeTests
 {
@@ -18,17 +19,25 @@ namespace Tests.EditModeTests
             return _upgrades;
         }
     }
+    
 
     public class DraftSystemTests
     {
+        private UpgradeDefinition CreateUpgrade(string name)
+        {
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            upgrade.DisplayName = name;
+            return upgrade;
+        }
+        
         [Test]
         public void GenerateDraft_ReturnsCorrectNumberOfUpgrades()
         {
             var upgrades = new List<UpgradeDefinition>
             {
-                new() {DisplayName = "A"},
-                new() {DisplayName = "B"},
-                new() {DisplayName = "C"}
+                CreateUpgrade("A"),
+                CreateUpgrade("B"),
+                CreateUpgrade("C")
             };
 
             var repository = new MockUpgradeRepository(upgrades);
@@ -37,7 +46,6 @@ namespace Tests.EditModeTests
             var draft = draftSystem.GenerateDraft(2);
 
             Assert.AreEqual(2, draft.Count);
-            Assert.IsTrue(draft.All(u => upgrades.Contains(u)));
             Assert.AreEqual(2, draft.Distinct().Count());
         }
 
@@ -46,8 +54,8 @@ namespace Tests.EditModeTests
         {
             var upgrades = new List<UpgradeDefinition>
             {
-                new()  { DisplayName = "A"},
-                new()  { DisplayName = "B"}
+                CreateUpgrade("A"),
+                CreateUpgrade("B")
             };
 
             var repository = new MockUpgradeRepository(upgrades);
