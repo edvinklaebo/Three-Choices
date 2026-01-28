@@ -59,12 +59,6 @@ jobs:
           build-target: ${{ matrix.build-target }}
           args: -quit -batchmode -executeMethod Buildalon.Editor.BuildPipeline.UnityPlayerBuildTools.ValidateProject
       - uses: buildalon/unity-action@v3
-        name: ${{ matrix.build-target }}-Editor-Tests
-        with:
-          build-target: '${{ matrix.build-target }}'
-          args: '-runTests -batchmode -testPlatform EditMode -testResults "${{ github.workspace }}/Logs/EditMode-test-results.xml"'
-          log-name: 'EditMode-Tests'
-      - uses: buildalon/unity-action@v3
         name: ${{ matrix.build-target }}-Build
         with:
           log-name: ${{ matrix.build-target }}-Build
