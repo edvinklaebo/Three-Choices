@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PixelRect:
     serializedVersion: 2
-    x: 8
-    y: 51
-    width: 1904
-    height: 988
+    x: 0
+    y: 43
+    width: 1920
+    height: 997
   m_ShowMode: 4
-  m_Title: Unity Version Control
+  m_Title: Console
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
-  m_Maximized: 0
+  m_Maximized: 1
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -44,8 +44,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1904
-    height: 988
+    width: 1920
+    height: 997
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
@@ -69,7 +69,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1904
+    width: 1920
     height: 30
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -90,8 +90,8 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 968
-    width: 1904
+    y: 977
+    width: 1920
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -113,12 +113,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 30
-    width: 1904
-    height: 938
+    width: 1920
+    height: 947
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 125
+  controlID: 766
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -138,12 +138,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1904
-    height: 938
+    width: 1920
+    height: 947
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 126
+  controlID: 767
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -163,12 +163,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1425
-    height: 938
+    width: 1437
+    height: 947
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 127
+  controlID: 652
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -188,12 +188,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1425
-    height: 564
+    width: 1437
+    height: 572
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 24
+  controlID: 653
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -211,8 +211,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 361
-    height: 564
+    width: 364
+    height: 572
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 16}
@@ -235,10 +235,10 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 361
+    x: 364
     y: 0
-    width: 1064
-    height: 564
+    width: 1073
+    height: 572
   m_MinSize: {x: 102, y: 121}
   m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 18}
@@ -266,13 +266,13 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 564
-    width: 1425
-    height: 374
+    y: 572
+    width: 1437
+    height: 375
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 128
+  controlID: 732
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -290,8 +290,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 457
-    height: 374
+    width: 440
+    height: 375
   m_MinSize: {x: 231, y: 271}
   m_MaxSize: {x: 10001, y: 10021}
   m_ActualView: {fileID: 20}
@@ -309,23 +309,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: UVCSWindow
+  m_Name: ConsoleWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 457
+    x: 440
     y: 0
-    width: 968
-    height: 374
-  m_MinSize: {x: 602, y: 371}
+    width: 997
+    height: 375
+  m_MinSize: {x: 102, y: 121}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 22}
+  m_ActualView: {fileID: 15}
   m_Panes:
+  - {fileID: 15}
   - {fileID: 21}
-  - {fileID: 22}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -341,15 +341,15 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1425
+    x: 1437
     y: 0
-    width: 479
-    height: 938
+    width: 483
+    height: 947
   m_MinSize: {x: 101, y: 121}
   m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 23}
   m_Panes:
-  - {fileID: 15}
+  - {fileID: 22}
   - {fileID: 23}
   m_Selected: 1
   m_LastSelected: 0
@@ -362,21 +362,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 1
-  m_Script: {fileID: 12019, guid: 0000000000000000e000000000000000, type: 0}
+  m_Script: {fileID: 12003, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MinSize: {x: 275, y: 50}
+  m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
-    m_Text: Inspector
-    m_Image: {fileID: -2667387946076563598, guid: 0000000000000000d000000000000000, type: 0}
+    m_Text: Console
+    m_Image: {fileID: -4327648978806127646, guid: 0000000000000000d000000000000000, type: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1433
-    y: 81
-    width: 478
-    height: 910
+    x: 440
+    y: 645
+    width: 995
+    height: 354
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -387,19 +387,6 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
     m_OverlaysVisible: 1
-  m_ObjectsLockedBeforeSerialization: []
-  m_InstanceIDsLockedBeforeSerialization: 
-  m_PreviewResizer:
-    m_CachedPref: 277
-    m_ControlHash: -371814159
-    m_PrefName: Preview_InspectorPreview
-  m_LastInspectedObjectInstanceID: 9418
-  m_LastVerticalScrollValue: 0
-  m_GlobalObjectId: 
-  m_InspectorMode: 0
-  m_LockTracker:
-    m_IsLocked: 0
-  m_PreviewWindow: {fileID: 0}
 --- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -420,10 +407,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 8
-    y: 81
-    width: 360
-    height: 543
+    x: 0
+    y: 73
+    width: 363
+    height: 551
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -439,7 +426,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 0ef0ffff
+      m_ExpandedIDs: dee3ffffc4edffff06eeffff48eeffff8aeeffffd2eeffff18efffff5aefffff9cefffffdeefffff20f0ffff62f0ffffa4f0ffffe6f0ffff28f1ffff6ef1ffffb6f1ffff88f2ffff4ef3ffff30f5ffff12f6ffffe6f6ffff18fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -944,10 +931,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 369
-    y: 81
-    width: 1062
-    height: 543
+    x: 364
+    y: 73
+    width: 1071
+    height: 551
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -964,7 +951,7 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1062, y: 522}
+  m_TargetSize: {x: 1071, y: 530}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -979,10 +966,10 @@ MonoBehaviour:
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -531
-    m_HBaseRangeMax: 531
-    m_VBaseRangeMin: -261
-    m_VBaseRangeMax: 261
+    m_HBaseRangeMin: -535.5
+    m_HBaseRangeMax: 535.5
+    m_VBaseRangeMin: -265
+    m_VBaseRangeMax: 265
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -1000,23 +987,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1062
-      height: 522
+      width: 1071
+      height: 530
     m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 531, y: 261}
+    m_Translation: {x: 535.5, y: 265}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -531
-      y: -261
-      width: 1062
-      height: 522
+      x: -535.5
+      y: -265
+      width: 1071
+      height: 530
     m_MinimalGUI: 1
   m_defaultScale: 1
-  m_LastWindowPixelSize: {x: 1062, y: 543}
+  m_LastWindowPixelSize: {x: 1071, y: 551}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -1076,10 +1063,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 8
+    x: 0
     y: 645
-    width: 456
-    height: 353
+    width: 439
+    height: 354
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1101,7 +1088,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1109,16 +1096,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scripts
+  - Assets
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\Edvin\Roguelike PvE auto-battler
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: fe270000
-    m_LastClickedID: 10238
-    m_ExpandedIDs: 000000002e280000ee67000000ca9a3bffffff7f
+    m_SelectedIDs: d2640000
+    m_LastClickedID: 25810
+    m_ExpandedIDs: 00000000d0640000d264000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1146,7 +1133,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000002e280000ee670000
+    m_ExpandedIDs: 00000000d0640000d264000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1210,40 +1197,6 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
-  m_EditorHideFlags: 1
-  m_Script: {fileID: 12003, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Console
-    m_Image: {fileID: -4327648978806127646, guid: 0000000000000000d000000000000000, type: 0}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: 465
-    y: 641
-    width: 966
-    height: 350
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_OverlaysVisible: 1
---- !u!114 &22
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6629f1bb292b749a18b5fff7994c8b19, type: 3}
   m_Name: 
@@ -1256,10 +1209,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 465
+    x: 440
     y: 645
-    width: 966
-    height: 353
+    width: 995
+    height: 354
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1271,6 +1224,53 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   mForceToReOpen: 0
+--- !u!114 &22
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12019, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Inspector
+    m_Image: {fileID: -2667387946076563598, guid: 0000000000000000d000000000000000, type: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 1433
+    y: 81
+    width: 478
+    height: 910
+  m_SerializedDataModeController:
+    m_DataMode: 0
+    m_PreferredDataMode: 0
+    m_SupportedDataModes: 
+    isAutomatic: 1
+  m_ViewDataDictionary: {fileID: 0}
+  m_OverlayCanvas:
+    m_LastAppliedPresetName: Default
+    m_SaveData: []
+    m_OverlaysVisible: 1
+  m_ObjectsLockedBeforeSerialization: []
+  m_InstanceIDsLockedBeforeSerialization: 
+  m_PreviewResizer:
+    m_CachedPref: 277
+    m_ControlHash: -371814159
+    m_PrefName: Preview_InspectorPreview
+  m_LastInspectedObjectInstanceID: -1
+  m_LastVerticalScrollValue: 0
+  m_GlobalObjectId: 
+  m_InspectorMode: 0
+  m_LockTracker:
+    m_IsLocked: 0
+  m_PreviewWindow: {fileID: 0}
 --- !u!114 &23
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1291,10 +1291,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1433
-    y: 81
-    width: 478
-    height: 917
+    x: 1437
+    y: 73
+    width: 482
+    height: 926
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1306,12 +1306,12 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 293
+    ID: 794
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
-    - 635
-    - 212
+    - 642
+    - 214
     relativeSizes:
     - 0.75
     - 0.25
@@ -1321,7 +1321,7 @@ MonoBehaviour:
     maxSizes:
     - 0
     - 0
-    lastTotalSize: 847
+    lastTotalSize: 856
     splitSize: 6
     xOffset: 0
     m_Version: 1
@@ -1394,9 +1394,9 @@ MonoBehaviour:
       uniqueId: '[Roguelike PvE auto-battler][suite]'
       name: Roguelike PvE auto-battler
       fullName: Roguelike PvE auto-battler
-      resultStatus: 2
-      duration: 0.2058468
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 0.2138455
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1410,9 +1410,9 @@ MonoBehaviour:
       uniqueId: '[EditModeTests.dll][suite]'
       name: EditModeTests.dll
       fullName: C:/Users/Edvin/Roguelike PvE auto-battler/Library/ScriptAssemblies/EditModeTests.dll
-      resultStatus: 2
-      duration: 0.1828536
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 0.1815649
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1426,9 +1426,9 @@ MonoBehaviour:
       uniqueId: EditModeTests.dll/[Tests][suite]
       name: Tests
       fullName: Tests
-      resultStatus: 2
-      duration: 0.1813264
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 0.1810164
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1442,9 +1442,9 @@ MonoBehaviour:
       uniqueId: EditModeTests.dll/Tests/[EditModeTests][suite]
       name: EditModeTests
       fullName: Tests.EditModeTests
-      resultStatus: 2
-      duration: 0.180422
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 0.1798129
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -1459,7 +1459,7 @@ MonoBehaviour:
       name: CombatSystemTests
       fullName: Tests.EditModeTests.CombatSystemTests
       resultStatus: 1
-      duration: 0.1284005
+      duration: 0.1323904
       messages: 
       output: 
       stacktrace: 
@@ -1475,7 +1475,7 @@ MonoBehaviour:
       name: ArmorReducesDamage_Correctly
       fullName: Tests.EditModeTests.CombatSystemTests.ArmorReducesDamage_Correctly
       resultStatus: 1
-      duration: 0.0344919
+      duration: 0.0348039
       messages: 
       output: '[INFO] Combat started | { attacker = Attacker, defender = Tank, attackerHp
         = 100, defenderHp = 100, attackerAtk = 50, defenderAtk = 0, attackerArmor
@@ -1622,7 +1622,7 @@ MonoBehaviour:
       name: BothDealDamage_ExactlyOneSurvives
       fullName: Tests.EditModeTests.CombatSystemTests.BothDealDamage_ExactlyOneSurvives
       resultStatus: 1
-      duration: 0.0132855
+      duration: 0.0133867
       messages: 
       output: '[INFO] Combat started | { attacker = A, defender = B, attackerHp =
         40, defenderHp = 40, attackerAtk = 10, defenderAtk = 10, attackerArmor =
@@ -1765,7 +1765,7 @@ MonoBehaviour:
       name: EqualSpeed_AttackerStarts_AndWins
       fullName: Tests.EditModeTests.CombatSystemTests.EqualSpeed_AttackerStarts_AndWins
       resultStatus: 1
-      duration: 0.0098453
+      duration: 0.0099094
       messages: 
       output: '[INFO] Combat started | { attacker = Attacker, defender = Defender,
         attackerHp = 30, defenderHp = 30, attackerAtk = 10, defenderAtk = 10, attackerArmor
@@ -1878,7 +1878,7 @@ MonoBehaviour:
       name: FasterUnit_AttacksFirst_AndWins
       fullName: Tests.EditModeTests.CombatSystemTests.FasterUnit_AttacksFirst_AndWins
       resultStatus: 1
-      duration: 0.0351777
+      duration: 0.0361137
       messages: 
       output: '[INFO] Combat started | { attacker = Fast, defender = Slow, attackerHp
         = 100, defenderHp = 100, attackerAtk = 10, defenderAtk = 10, attackerArmor
@@ -2229,7 +2229,7 @@ MonoBehaviour:
       name: HighArmorStillTakesAtLeastOneDamage
       fullName: Tests.EditModeTests.CombatSystemTests.HighArmorStillTakesAtLeastOneDamage
       resultStatus: 1
-      duration: 0.016602
+      duration: 0.0192507
       messages: 
       output: '[INFO] Combat started | { attacker = Needle, defender = Wall, attackerHp
         = 100, defenderHp = 5, attackerAtk = 1, defenderAtk = 0, attackerArmor =
@@ -2410,7 +2410,7 @@ MonoBehaviour:
       name: RunFight_CompletesWithWinner
       fullName: Tests.EditModeTests.CombatSystemTests.RunFight_CompletesWithWinner
       resultStatus: 1
-      duration: 0.0064189
+      duration: 0.0064618
       messages: 
       output: '[INFO] Combat started | { attacker = A, defender = B, attackerHp =
         10, defenderHp = 10, attackerAtk = 5, defenderAtk = 4, attackerArmor = 0,
@@ -2487,7 +2487,7 @@ MonoBehaviour:
       name: RunFight_DoesNotModifyUnitsWithZeroHP
       fullName: Tests.EditModeTests.CombatSystemTests.RunFight_DoesNotModifyUnitsWithZeroHP
       resultStatus: 1
-      duration: 0.0012247
+      duration: 0.0013627
       messages: 
       output: '[INFO] Combat started | { attacker = A, defender = B, attackerHp =
         0, defenderHp = 10, attackerAtk = 5, defenderAtk = 4, attackerArmor = 0,
@@ -2514,9 +2514,9 @@ MonoBehaviour:
       uniqueId: EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.DraftSystemTests][suite]
       name: DraftSystemTests
       fullName: Tests.EditModeTests.DraftSystemTests
-      resultStatus: 2
-      duration: 0.0188505
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 0.0162971
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -2531,31 +2531,24 @@ MonoBehaviour:
       name: GenerateDraft_DoesNotReturnMoreThanPool
       fullName: Tests.EditModeTests.DraftSystemTests.GenerateDraft_DoesNotReturnMoreThanPool
       resultStatus: 1
-      duration: 0.0061935
+      duration: 0.005716
       messages: 
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
+      output: '[INFO] DraftSystem initialized | { repositoryType = MockUpgradeRepository
+        }
 
-        UpgradeDefinition must
-        be instantiated using the ScriptableObject.CreateInstance method instead
-        of new UpgradeDefinition.
+        [INFO] GenerateDraft called | { count = 5 }
 
-        [INFO] DraftSystem initialized | { repositoryType
-        = MockUpgradeRepository }
+        [INFO] Upgrade
+        pool retrieved | { poolSize = 2 }
 
-        [INFO] GenerateDraft called | { count
-        = 5 }
+        [INFO] Draft selection | { round
+        = 0, selected = B, remainingPool = 2 }
 
-        [INFO] Upgrade pool retrieved | { poolSize = 2 }
+        [INFO] Draft selection |
+        { round = 1, selected = A, remainingPool = 1 }
 
-        [INFO]
-        Draft selection | { round = 0, selected = B, remainingPool = 2 }
-
-        [INFO]
-        Draft selection | { round = 1, selected = A, remainingPool = 1 }
-
-        [INFO]
-        Draft generated | { draftSize = 2, selectedUpgrades = B,A }
+        [INFO] Draft generated
+        | { draftSize = 2, selectedUpgrades = B,A }
 
 '
       stacktrace: 
@@ -2571,42 +2564,28 @@ MonoBehaviour:
       uniqueId: EditModeTests.dll/Tests/EditModeTests/DraftSystemTests/[EditModeTests][Tests.EditModeTests.DraftSystemTests.GenerateDraft_ReturnsCorrectNumberOfUpgrades]
       name: GenerateDraft_ReturnsCorrectNumberOfUpgrades
       fullName: Tests.EditModeTests.DraftSystemTests.GenerateDraft_ReturnsCorrectNumberOfUpgrades
-      resultStatus: 2
-      duration: 0.0051483
-      messages: "  Expected: True\r\n  But was:  False\r\n"
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
+      resultStatus: 1
+      duration: 0.0028124
+      messages: 
+      output: '[INFO] DraftSystem initialized | { repositoryType = MockUpgradeRepository
+        }
 
-        UpgradeDefinition must
-        be instantiated using the ScriptableObject.CreateInstance method instead
-        of new UpgradeDefinition.
+        [INFO] GenerateDraft called | { count = 2 }
 
-        UpgradeDefinition must be instantiated
-        using the ScriptableObject.CreateInstance method instead of new UpgradeDefinition.
+        [INFO] Upgrade
+        pool retrieved | { poolSize = 3 }
 
-        [INFO]
-        DraftSystem initialized | { repositoryType = MockUpgradeRepository }
+        [INFO] Draft selection | { round
+        = 0, selected = B, remainingPool = 3 }
 
-        [INFO]
-        GenerateDraft called | { count = 2 }
+        [INFO] Draft selection |
+        { round = 1, selected = C, remainingPool = 2 }
 
-        [INFO] Upgrade pool retrieved
-        | { poolSize = 3 }
-
-        [INFO] Draft selection | { round = 0, selected
-        = C, remainingPool = 3 }
-
-        [INFO] Draft selection | { round = 1, selected
-        = B, remainingPool = 2 }
-
-        [INFO] Draft generated | { draftSize =
-        2, selectedUpgrades = C,B }
+        [INFO] Draft generated
+        | { draftSize = 2, selectedUpgrades = B,C }
 
 '
-      stacktrace: 'at Tests.EditModeTests.DraftSystemTests.GenerateDraft_ReturnsCorrectNumberOfUpgrades
-        () [0x00080] in C:\Users\Edvin\Roguelike PvE auto-battler\Assets\Tests\EditModeTests\DraftSystemTests.cs:40
-
-'
+      stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
       description: 
@@ -2620,7 +2599,7 @@ MonoBehaviour:
       name: EnemyFactoryTests
       fullName: Tests.EditModeTests.EnemyFactoryTests
       resultStatus: 1
-      duration: 0.0077122
+      duration: 0.0073662
       messages: 
       output: 
       stacktrace: 
@@ -2636,9 +2615,9 @@ MonoBehaviour:
       name: Create_ReturnsUnitWithCorrectStats
       fullName: Tests.EditModeTests.EnemyFactoryTests.Create_ReturnsUnitWithCorrectStats
       resultStatus: 1
-      duration: 0.0037819
+      duration: 0.0035324
       messages: 
-      output: '[INFO] Enemy created | { fightIndex = 3, unitName = Krifang the Mighty,
+      output: '[INFO] Enemy created | { fightIndex = 3, unitName = Fenshade the Terrible,
         maxHP = 30, attackPower = 6, armor = 3, speed = 6 }
 
 '
@@ -2656,7 +2635,7 @@ MonoBehaviour:
       name: MonsterNameTests
       fullName: Tests.EditModeTests.MonsterNameTests
       resultStatus: 1
-      duration: 0.0091409
+      duration: 0.0082184
       messages: 
       output: 
       stacktrace: 
@@ -2672,7 +2651,7 @@ MonoBehaviour:
       name: Random_AlwaysUsesValidPrefixAndSuffix
       fullName: Tests.EditModeTests.MonsterNameTests.Random_AlwaysUsesValidPrefixAndSuffix
       resultStatus: 1
-      duration: 0.0034568
+      duration: 0.0033544
       messages: 
       output: 
       stacktrace: 
@@ -2689,7 +2668,7 @@ MonoBehaviour:
       name: Random_ReturnsNonEmptyString
       fullName: Tests.EditModeTests.MonsterNameTests.Random_ReturnsNonEmptyString
       resultStatus: 1
-      duration: 0.0001725
+      duration: 0.0001444
       messages: 
       output: 
       stacktrace: 
@@ -2706,7 +2685,7 @@ MonoBehaviour:
       name: Random_SometimesHasTitle_AndSometimesNot
       fullName: Tests.EditModeTests.MonsterNameTests.Random_SometimesHasTitle_AndSometimesNot
       resultStatus: 1
-      duration: 0.0003929
+      duration: 0.0003695
       messages: 
       output: 
       stacktrace: 
@@ -2723,7 +2702,7 @@ MonoBehaviour:
       name: Random_TitleIfPresent_IsFromTitleList
       fullName: Tests.EditModeTests.MonsterNameTests.Random_TitleIfPresent_IsFromTitleList
       resultStatus: 1
-      duration: 0.0013329
+      duration: 0.0012556
       messages: 
       output: 
       stacktrace: 
@@ -2740,7 +2719,7 @@ MonoBehaviour:
       name: Random_WithFixedSeed_IsDeterministic
       fullName: Tests.EditModeTests.MonsterNameTests.Random_WithFixedSeed_IsDeterministic
       resultStatus: 1
-      duration: 0.0001823
+      duration: 0.0001491
       messages: 
       output: 
       stacktrace: 
@@ -2757,7 +2736,7 @@ MonoBehaviour:
       name: UpgradeApplierTests
       fullName: Tests.EditModeTests.UpgradeApplierTests
       resultStatus: 1
-      duration: 0.0150134
+      duration: 0.0106094
       messages: 
       output: 
       stacktrace: 
@@ -2773,12 +2752,9 @@ MonoBehaviour:
       name: Apply_StatUpgrade_DispatchesToStatHandler
       fullName: Tests.EditModeTests.UpgradeApplierTests.Apply_StatUpgrade_DispatchesToStatHandler
       resultStatus: 1
-      duration: 0.0008768
+      duration: 0.0004144
       messages: 
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -2793,12 +2769,9 @@ MonoBehaviour:
       name: Apply_UnknownUpgradeType_Throws
       fullName: Tests.EditModeTests.UpgradeApplierTests.Apply_UnknownUpgradeType_Throws
       resultStatus: 1
-      duration: 0.0011742
+      duration: 0.0011761
       messages: 
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -2813,12 +2786,9 @@ MonoBehaviour:
       name: ApplyAbility_AlwaysThrows_ForUnknownAbility
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyAbility_AlwaysThrows_ForUnknownAbility
       resultStatus: 1
-      duration: 0.0006032
+      duration: 0.0002248
       messages: 
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -2833,12 +2803,9 @@ MonoBehaviour:
       name: ApplyPassive_Lifesteal_LogsCorrectly
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Lifesteal_LogsCorrectly
       resultStatus: 1
-      duration: 0.0017918
+      duration: 0.0013933
       messages: 
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
-
-        Ability Applied: Lifesteal
+      output: 'Ability Applied: Lifesteal
 
 '
       stacktrace: 
@@ -2855,12 +2822,9 @@ MonoBehaviour:
       name: ApplyPassive_Poison_LogsCorrectly
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Poison_LogsCorrectly
       resultStatus: 1
-      duration: 0.00101
+      duration: 0.0005189
       messages: 
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
-
-        Ability Applied: Poison
+      output: 'Ability Applied: Poison
 
 '
       stacktrace: 
@@ -2877,12 +2841,9 @@ MonoBehaviour:
       name: ApplyPassive_Rage_LogsCorrectly
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Rage_LogsCorrectly
       resultStatus: 1
-      duration: 0.0009425
+      duration: 0.0004817
       messages: 
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
-
-        Passive Applied: Rage
+      output: 'Passive Applied: Rage
 
 '
       stacktrace: 
@@ -2899,12 +2860,9 @@ MonoBehaviour:
       name: ApplyPassive_Thorns_LogsCorrectly
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Thorns_LogsCorrectly
       resultStatus: 1
-      duration: 0.0008524
+      duration: 0.0004817
       messages: 
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
-
-        Passive Applied: Thorns
+      output: 'Passive Applied: Thorns
 
 '
       stacktrace: 
@@ -2921,12 +2879,9 @@ MonoBehaviour:
       name: ApplyPassive_UnknownPassive_Throws
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_UnknownPassive_Throws
       resultStatus: 1
-      duration: 0.0005978
+      duration: 0.0002238
       messages: 
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -2941,12 +2896,9 @@ MonoBehaviour:
       name: ApplyStat_Armor_IncreasesArmor
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_Armor_IncreasesArmor
       resultStatus: 1
-      duration: 0.0005202
+      duration: 0.0001495
       messages: 
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -2961,12 +2913,9 @@ MonoBehaviour:
       name: ApplyStat_AttackPower_IncreasesAttack
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_AttackPower_IncreasesAttack
       resultStatus: 1
-      duration: 0.0005131
+      duration: 0.0001466
       messages: 
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -2981,12 +2930,9 @@ MonoBehaviour:
       name: ApplyStat_MaxHP_IncreasesMaxAndCurrentHP
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_MaxHP_IncreasesMaxAndCurrentHP
       resultStatus: 1
-      duration: 0.0005265
+      duration: 0.000157
       messages: 
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -3001,12 +2947,9 @@ MonoBehaviour:
       name: ApplyStat_Speed_IncreasesSpeed
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_Speed_IncreasesSpeed
       resultStatus: 1
-      duration: 0.0005115
+      duration: 0.0001419
       messages: 
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -3021,12 +2964,9 @@ MonoBehaviour:
       name: ApplyStat_UnknownStat_Throws
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_UnknownStat_Throws
       resultStatus: 1
-      duration: 0.0005815
+      duration: 0.0002081
       messages: 
-      output: 'UpgradeDefinition must be instantiated using the ScriptableObject.CreateInstance
-        method instead of new UpgradeDefinition.
-
-'
+      output: 
       stacktrace: 
       notRunnable: 0
       ignoredOrSkipped: 0
@@ -3036,28 +2976,13 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1020
       parentUniqueId: EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]
-    m_ResultText: "GenerateDraft_ReturnsCorrectNumberOfUpgrades (0,005s)\n---\nExpected:
-      True\r\n  But was:  False\n---\nat Tests.EditModeTests.DraftSystemTests.GenerateDraft_ReturnsCorrectNumberOfUpgrades
-      () [0x00080] in C:\\Users\\Edvin\\Roguelike PvE auto-battler\\Assets\\Tests\\EditModeTests\\DraftSystemTests.cs:40\n---\nUpgradeDefinition
-      must be instantiated using the ScriptableObject.CreateInstance method instead
-      of new UpgradeDefinition.\nUpgradeDefinition must be instantiated using the
-      ScriptableObject.CreateInstance method instead of new UpgradeDefinition.\nUpgradeDefinition
-      must be instantiated using the ScriptableObject.CreateInstance method instead
-      of new UpgradeDefinition.\n[INFO] DraftSystem initialized | { repositoryType
-      = MockUpgradeRepository }\n[INFO] GenerateDraft called | { count = 2 }\n[INFO]
-      Upgrade pool retrieved | { poolSize = 3 }\n[INFO] Draft selection | { round
-      = 0, selected = C, remainingPool = 3 }\n[INFO] Draft selection | { round =
-      1, selected = B, remainingPool = 2 }\n[INFO] Draft generated | { draftSize
-      = 2, selectedUpgrades = C,B }"
-    m_ResultStacktrace: 'at Tests.EditModeTests.DraftSystemTests.GenerateDraft_ReturnsCorrectNumberOfUpgrades
-      () [0x00080] in C:\Users\Edvin\Roguelike PvE auto-battler\Assets\Tests\EditModeTests\DraftSystemTests.cs:40
-
-'
+    m_ResultText: Apply_StatUpgrade_DispatchesToStatHandler (0,000s)
+    m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 37da3125
-      m_LastClickedID: 624024119
-      m_ExpandedIDs: 3754bf885efcf5a349f789a8bc1b99b0b7af61c184ec67c28a2709cf1ccccad097eff2fba1284a032f65ba134e9c49595fd495650f14b36fb1787b7effffff7f
+      m_SelectedIDs: a1903594
+      m_LastClickedID: -1808428895
+      m_ExpandedIDs: 3754bf885efcf5a3fbaa53a549f789a8bc1b99b0b7af61c184ec67c28a2709cf1ccccad097eff2fba1284a032f65ba134e9c495903480b5d5fd495650f14b36fb1787b7effffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
