@@ -74,12 +74,8 @@ jobs:
           build-target: ${{ matrix.build-target }}
           args: -quit -batchmode -executeMethod Buildalon.Editor.BuildPipeline.UnityPlayerBuildTools.StartCommandLineBuild${{ matrix.build-args }}
 
-      - name: Download Butler
-        shell: bash
-        run: |
-          curl -L -o butler.zip https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default
-          unzip butler.zip
-          chmod +x butler.exe
+      - name: Setup butler
+        uses: remarkablegames/setup-butler@v2
 
       - name: Upload build to itch.io
         if: success()
@@ -87,7 +83,7 @@ jobs:
           BUTLER_API_KEY: ${{ secrets.ITCHIO_API_KEY }}
         shell: bash
         run: |
-          ./butler.exe push \
+            butler push \
             "${{ env.UNITY_PROJECT_PATH }}/Builds/StandaloneWindows64" \
             username/game-name:windows \
             --userversion "${{ github.run_number }}"
