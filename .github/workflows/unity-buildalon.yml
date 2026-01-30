@@ -9,6 +9,7 @@ on:
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review]
     branches: ['**']
+
   workflow_dispatch:
     inputs:
       clean:
@@ -16,9 +17,11 @@ on:
         required: false
         default: false
         type: 'boolean'
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{(github.event_name == 'pull_request' || github.event.action == 'synchronize')}}
+
 jobs:
   build:
     name: (${{ matrix.os }}) ${{ matrix.build-target }}
@@ -35,35 +38,60 @@ jobs:
           - os: buildalon-windows
             build-target: StandaloneWindows64
             build-args: ''
+
     steps:
       - uses: actions/checkout@v6
         with:
           clean: ${{ github.event.inputs.clean == 'true' }}
+
       - uses: buildalon/unity-setup@v2
         with:
           build-targets: '${{ matrix.build-target }}'
+
       - uses: buildalon/activate-unity-license@v2
         with:
           license: 'Personal'
           username: '${{ secrets.UNITY_USERNAME }}'
           password: '${{ secrets.UNITY_PASSWORD }}'
+
       - name: Add Build Pipeline Package
         working-directory: ${{ env.UNITY_PROJECT_PATH }}
         run: |
           npm install -g openupm-cli
           openupm add com.virtualmaker.buildalon
+
       - uses: buildalon/unity-action@v3
         name: Project Validation
         with:
           log-name: project-validation
           build-target: ${{ matrix.build-target }}
           args: -quit -batchmode -executeMethod Buildalon.Editor.BuildPipeline.UnityPlayerBuildTools.ValidateProject
+
       - uses: buildalon/unity-action@v3
         name: ${{ matrix.build-target }}-Build
         with:
           log-name: ${{ matrix.build-target }}-Build
           build-target: ${{ matrix.build-target }}
           args: -quit -batchmode -executeMethod Buildalon.Editor.BuildPipeline.UnityPlayerBuildTools.StartCommandLineBuild${{ matrix.build-args }}
+
+      - name: Download Butler
+        shell: bash
+        run: |
+          curl -L -o butler.zip https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default
+          unzip butler.zip
+          chmod +x butler.exe
+
+      - name: Upload build to itch.io
+        if: success()
+        env:
+          BUTLER_API_KEY: ${{ secrets.ITCHIO_API_KEY }}
+        shell: bash
+        run: |
+          ./butler.exe push \
+            "${{ env.UNITY_PROJECT_PATH }}/Builds/StandaloneWindows64" \
+            username/game-name:windows \
+            --userversion "${{ github.run_number }}"
+
       - uses: actions/upload-artifact@v6
         id: upload-artifact
         name: Upload ${{ matrix.build-target }} Artifacts
@@ -79,6 +107,7 @@ jobs:
             ${{ env.UNITY_PROJECT_PATH }}/Builds/StandaloneWindows64/**/*.dll
             ${{ env.UNITY_PROJECT_PATH }}/Builds/StandaloneWindows64/**/*_Data
             ${{ env.UNITY_PROJECT_PATH }}/Builds/StandaloneWindows64/MonoBleedingEdge/
+
       - name: Clean Artifacts
         if: always()
         shell: bash
