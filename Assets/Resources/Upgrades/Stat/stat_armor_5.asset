@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b9b648812f1f44a8cc58b9556cc469, type: 3}
   m_Name: stat_armor_5
   m_EditorClassIdentifier: 
-  Id: stat_armor_5
-  DisplayName: +5 Armor
-  Description: Increase armor by 5.
-  Type: 0
-  Stat: 2
-  Amount: 5
-  AbilityId: 
-  RarityWeight: 100
+  id: 
+  displayName: +5 Armor
+  description: 
+  icon: {fileID: 21300000, guid: 0038c07c43785c04faa15ecb8093fe89, type: 3}
+  type: 0
+  stat: 2
+  amount: 5
+  abilityId: 
+  rarityWeight: 100

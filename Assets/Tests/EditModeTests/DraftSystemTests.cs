@@ -26,7 +26,7 @@ namespace Tests.EditModeTests
         private UpgradeDefinition CreateUpgrade(string name)
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade.DisplayName = name;
+            upgrade.EditorInit(name, name);
             return upgrade;
         }
         

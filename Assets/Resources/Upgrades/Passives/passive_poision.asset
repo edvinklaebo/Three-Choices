@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b9b648812f1f44a8cc58b9556cc469, type: 3}
   m_Name: passive_poision
   m_EditorClassIdentifier: 
-  Id: passive_poision
-  DisplayName: Poison
-  Description: Attacks apply poison damage over time.
-  Type: 2
-  Stat: 0
-  Amount: 0
-  AbilityId: Poison
-  RarityWeight: 100
+  id: 
+  displayName: Poision
+  description: 
+  icon: {fileID: 21300000, guid: 612b2674148a984449756d13283ae498, type: 3}
+  type: 2
+  stat: 0
+  amount: 0
+  abilityId: Poision
+  rarityWeight: 100

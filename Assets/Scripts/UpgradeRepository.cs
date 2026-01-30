@@ -20,6 +20,8 @@ public class UpgradePool : ScriptableObject, IUpgradeRepository
 
     public List<UpgradeDefinition> GetAll()
     {
-        return Upgrades;
+        var copyOfUpgrades = new List<UpgradeDefinition>(Upgrades);
+
+        return copyOfUpgrades;
     }
 }

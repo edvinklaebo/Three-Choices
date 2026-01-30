@@ -16,7 +16,7 @@ public class DraftUI : MonoBehaviour
             thisInstanceId = GetInstanceID(),
             onPickIsNull = onPick == null
         });
-        
+
         if (draft == null || draft.Count == 0)
         {
             Log.Error("DraftUI.Show called with empty or null draft", new { draftCount = draft?.Count });
@@ -28,13 +28,6 @@ public class DraftUI : MonoBehaviour
             Log.Error("DraftUI has no buttons assigned");
             return;
         }
-
-        Log.Info("Showing draft UI", new
-        {
-            draftCount = draft.Count,
-            upgrades = draft.ConvertAll(u => u?.DisplayName),
-            buttonCount = DraftButtons.Length
-        });
 
         _currentDraft = draft;
         _onPick = onPick;
@@ -51,81 +44,51 @@ public class DraftUI : MonoBehaviour
 
             if (i >= draft.Count)
             {
-                Log.Warn("Not enough draft entries for buttons, disabling extra button", new
-                {
-                    buttonIndex = i,
-                    draftCount = draft.Count
-                });
-
                 btn.gameObject.SetActive(false);
                 continue;
             }
 
             btn.gameObject.SetActive(true);
 
+            var upgrade = draft[i];
+
+            // --- Text ---
             var text = btn.GetComponentInChildren<Text>();
-            if (text == null)
-            {
-                Log.Warn("Draft button missing Text component", new { index = i });
-            }
+            if (text != null)
+                text.text = upgrade.DisplayName;
             else
+                Log.Warn("Draft button missing Text component", new { index = i });
+
+            // --- Icon (NEW) ---
+            var icon = btn.GetComponentInChildren<Image>(includeInactive: true);
+            if (icon != null && upgrade.Icon != null)
             {
-                text.text = draft[i].DisplayName;
+                icon.sprite = upgrade.Icon;
+                icon.enabled = true;
+            }
+            else if (icon != null)
+            {
+                icon.enabled = false; // avoids stale sprites
             }
 
             var index = i; // closure safety
             btn.onClick.RemoveAllListeners();
             btn.onClick.AddListener(() => Pick(index));
-
-            Log.Info("Draft button bound", new
-            {
-                index,
-                upgrade = draft[i].DisplayName
-            });
         }
     }
 
     private void Pick(int index)
     {
-        if (_currentDraft == null)
-        {
-            Log.Error("Pick called but _currentDraft is null");
+        if (_currentDraft == null || index < 0 || index >= _currentDraft.Count)
             return;
-        }
-
-        if (index < 0 || index >= _currentDraft.Count)
-        {
-            Log.Error("Pick called with out-of-range index", new
-            {
-                index,
-                draftCount = _currentDraft.Count
-            });
-            return;
-        }
 
         var picked = _currentDraft[index];
-
-        Log.Info("Upgrade picked from draft", new
-        {
-            index,
-            upgrade = picked?.DisplayName
-        });
-
-        if (_onPick == null)
-        {
-            Log.Warn("No _onPick callback set when picking upgrade");
-        }
-        else
-        {
-            _onPick.Invoke(picked);
-        }
+        _onPick?.Invoke(picked);
 
         foreach (var btn in DraftButtons)
         {
-            if (btn == null) continue;
+            if (btn != null)
                 btn.gameObject.SetActive(false);
         }
-
-        Log.Info("Draft UI hidden after pick");
     }
 }

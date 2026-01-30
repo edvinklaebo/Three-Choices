@@ -71,11 +71,11 @@ public static class UpgradeApplier
                 break;
             
             case "Lifesteal":
-                Debug.Log("Ability Applied: Lifesteal");
+                Debug.Log("Passive Applied: Lifesteal");
                 break;
 
             case "Poison":
-                Debug.Log("Ability Applied: Poison");
+                Debug.Log("Passive Applied: Poison");
                 break;
             
             default:

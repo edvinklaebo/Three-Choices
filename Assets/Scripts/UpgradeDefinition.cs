@@ -11,18 +11,62 @@ public enum StatType
 [CreateAssetMenu(menuName = "Upgrades/Upgrade")]
 public class UpgradeDefinition : ScriptableObject
 {
-    public string Id;
-    public string DisplayName;
-    [TextArea] public string Description;
+    [Header("Identity")]
+    [SerializeField] private string id;
+    [SerializeField] private string displayName;
+    [TextArea]
+    [SerializeField] private string description;
+    [SerializeField] private Sprite icon;
 
-    public UpgradeType Type;
+    [Header("Type")]
+    [SerializeField] private UpgradeType type;
 
-    // Stat upgrades
-    public StatType Stat;
-    public int Amount;
+    [Header("Stat Upgrade")]
+    [SerializeField] private StatType stat;
+    [SerializeField] private int amount;
 
-    // Ability / passive id (string for now, pragmatic)
-    public string AbilityId;
+    [Header("Ability Upgrade")]
+    [SerializeField] private string abilityId;
 
-    public int RarityWeight = 100;
+    [Header("Draft / Balance")]
+    [Min(1)]
+    [SerializeField] private int rarityWeight = 100;
+
+    // ---- Public read-only accessors ----
+    public string Id => id;
+    public string DisplayName => displayName;
+    public string Description => description;
+    public Sprite Icon => icon;
+
+    public UpgradeType Type => type;
+    public StatType Stat => stat;
+    public int Amount => amount;
+    public string AbilityId => abilityId;
+
+    public int RarityWeight => rarityWeight;
+    
+#if UNITY_EDITOR
+    public void EditorInit(string identifier, string soName, UpgradeType soType, StatType soStat, int soAmount)
+    {
+        this.id = identifier;
+        this.displayName = soName;
+        this.type = soType;
+        this.stat = soStat;
+        this.amount = soAmount;
+    }
+    
+    public void EditorInit(string identifier, string soName, UpgradeType soType, string soAbilityId)
+    {
+        this.id = identifier;
+        this.displayName = soName;
+        this.type = soType;
+        this.abilityId = soAbilityId;
+    }
+    
+    public void EditorInit(string identifier, string soName)
+    {
+        this.id = identifier;
+        this.displayName = soName;
+    }
+#endif
 }

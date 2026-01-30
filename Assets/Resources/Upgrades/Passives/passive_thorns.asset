@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b9b648812f1f44a8cc58b9556cc469, type: 3}
   m_Name: passive_thorns
   m_EditorClassIdentifier: 
-  Id: passive_thorns
-  DisplayName: Thorns
-  Description: Reflect damage back to attackers.
-  Type: 2
-  Stat: 0
-  Amount: 0
-  AbilityId: Thorns
-  RarityWeight: 100
+  id: 
+  displayName: Thorns
+  description: 
+  icon: {fileID: 21300000, guid: 490cf4ff636f2024b89863e434474ab8, type: 3}
+  type: 2
+  stat: 0
+  amount: 0
+  abilityId: Thorns
+  rarityWeight: 100

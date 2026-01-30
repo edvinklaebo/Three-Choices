@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b9b648812f1f44a8cc58b9556cc469, type: 3}
   m_Name: stat_hp_5
   m_EditorClassIdentifier: 
-  Id: stat_hp_5
-  DisplayName: +5 HP
-  Description: Increase maximum health by 5.
-  Type: 0
-  Stat: 0
-  Amount: 5
-  AbilityId: 
-  RarityWeight: 100
+  id: 
+  displayName: +5 HP
+  description: 
+  icon: {fileID: 21300000, guid: af72b21847e4cc745a9550417bf2dac1, type: 3}
+  type: 0
+  stat: 0
+  amount: 5
+  abilityId: 
+  rarityWeight: 100

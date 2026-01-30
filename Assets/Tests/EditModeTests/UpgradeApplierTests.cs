@@ -29,9 +29,7 @@ namespace Tests.EditModeTests
         public void Apply_StatUpgrade_DispatchesToStatHandler()
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade.Type = UpgradeType.Stat;
-            upgrade.Stat = StatType.AttackPower;
-            upgrade.Amount = 5;
+            upgrade.EditorInit("A", "A", UpgradeType.Stat, StatType.AttackPower, 5);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -42,8 +40,7 @@ namespace Tests.EditModeTests
         public void Apply_UnknownUpgradeType_Throws()
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-
-            upgrade.Type = (UpgradeType)999;
+            upgrade.EditorInit("A", "A", (UpgradeType)999, StatType.AttackPower, 999);
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 UpgradeApplier.Apply(upgrade, _unit));
@@ -56,9 +53,7 @@ namespace Tests.EditModeTests
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-            upgrade.Type = UpgradeType.Stat;
-            upgrade.Stat = StatType.MaxHP;
-            upgrade.Amount = 20;
+            upgrade.EditorInit("A", "A", UpgradeType.Stat, StatType.MaxHP, 20);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -70,10 +65,8 @@ namespace Tests.EditModeTests
         public void ApplyStat_AttackPower_IncreasesAttack()
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-
-            upgrade.Type = UpgradeType.Stat;
-            upgrade.Stat = StatType.AttackPower;
-            upgrade.Amount = 7;
+            
+            upgrade.EditorInit("A", "A", UpgradeType.Stat, StatType.AttackPower, 7);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -85,9 +78,7 @@ namespace Tests.EditModeTests
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-            upgrade.Type = UpgradeType.Stat;
-            upgrade.Stat = StatType.Armor;
-            upgrade.Amount = 4;
+            upgrade.EditorInit("A", "A", UpgradeType.Stat, StatType.Armor, 4);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -99,10 +90,8 @@ namespace Tests.EditModeTests
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-            upgrade.Type = UpgradeType.Stat;
-            upgrade.Stat = StatType.Speed;
-            upgrade.Amount = 2;
-
+            upgrade.EditorInit("A", "A", UpgradeType.Stat, StatType.Speed, 2);
+            
             UpgradeApplier.Apply(upgrade, _unit);
 
             Assert.AreEqual(5, _unit.Stats.Speed);
@@ -113,9 +102,7 @@ namespace Tests.EditModeTests
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-            upgrade.Type = UpgradeType.Stat;
-            upgrade.Stat = (StatType)999;
-            upgrade.Amount = 10;
+            upgrade.EditorInit("A", "A", UpgradeType.Stat, (StatType)999, 10);
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 UpgradeApplier.Apply(upgrade, _unit));
@@ -128,9 +115,8 @@ namespace Tests.EditModeTests
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-            upgrade.Type = UpgradeType.Ability;
-            upgrade.AbilityId = "Fireball";
-
+            upgrade.EditorInit("A", "A", UpgradeType.Ability, "Fireball");
+            
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 UpgradeApplier.Apply(upgrade, _unit));
         }
@@ -142,9 +128,8 @@ namespace Tests.EditModeTests
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-            upgrade.Type = UpgradeType.Passive;
-            upgrade.AbilityId = "Thorns";
-
+            upgrade.EditorInit("A", "A", UpgradeType.Passive, "Thorns");
+            
             LogAssert.Expect(LogType.Log, "Passive Applied: Thorns");
 
             UpgradeApplier.Apply(upgrade, _unit);
@@ -155,8 +140,7 @@ namespace Tests.EditModeTests
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-            upgrade.Type = UpgradeType.Passive;
-            upgrade.AbilityId = "Rage";
+            upgrade.EditorInit("A", "A", UpgradeType.Passive, "Rage");
 
             LogAssert.Expect(LogType.Log, "Passive Applied: Rage");
 
@@ -168,10 +152,9 @@ namespace Tests.EditModeTests
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-            upgrade.Type = UpgradeType.Passive;
-            upgrade.AbilityId = "Lifesteal";
+            upgrade.EditorInit("A", "A", UpgradeType.Passive, "Lifesteal");
 
-            LogAssert.Expect(LogType.Log, "Ability Applied: Lifesteal");
+            LogAssert.Expect(LogType.Log, "Passive Applied: Lifesteal");
 
             UpgradeApplier.Apply(upgrade, _unit);
         }
@@ -181,10 +164,9 @@ namespace Tests.EditModeTests
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-            upgrade.Type = UpgradeType.Passive;
-            upgrade.AbilityId = "Poison";
+            upgrade.EditorInit("A", "A", UpgradeType.Passive, "Poison");
 
-            LogAssert.Expect(LogType.Log, "Ability Applied: Poison");
+            LogAssert.Expect(LogType.Log, "Passive Applied: Poison");
 
             UpgradeApplier.Apply(upgrade, _unit);
         }
@@ -194,8 +176,7 @@ namespace Tests.EditModeTests
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-            upgrade.Type = UpgradeType.Passive;
-            upgrade.AbilityId = "GodMode";
+            upgrade.EditorInit("A", "A", UpgradeType.Ability, "GodMode");
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 UpgradeApplier.Apply(upgrade, _unit));
