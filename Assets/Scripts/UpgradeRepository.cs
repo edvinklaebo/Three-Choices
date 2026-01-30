@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 using UnityEngine;
 
 public interface IUpgradeRepository
@@ -8,15 +9,14 @@ public interface IUpgradeRepository
 
 public class UpgradePool : ScriptableObject, IUpgradeRepository
 {
-    private readonly List<UpgradeDefinition> Upgrades;
+    private List<UpgradeDefinition> Upgrades;
 
-    public UpgradePool()
+    private void OnEnable()
     {
         var upgrades = Resources.LoadAll<UpgradeDefinition>("Upgrades");
         
         Upgrades = new List<UpgradeDefinition>(upgrades);
     }
-
 
     public List<UpgradeDefinition> GetAll()
     {
