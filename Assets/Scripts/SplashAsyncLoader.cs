@@ -20,9 +20,9 @@ public class SplashAsyncLoader : MonoBehaviour
         // Fade logo in
         yield return Fade(logo, 0f, 1f, fadeInDuration);
 
-        float startTime = Time.time;
+        var startTime = Time.time;
 
-        AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
+        var op = SceneManager.LoadSceneAsync(nextScene);
         op.allowSceneActivation = false;
 
         while (op.progress < 0.9f)
@@ -37,9 +37,13 @@ public class SplashAsyncLoader : MonoBehaviour
         if (elapsed < minDisplayTime)
             yield return new WaitForSeconds(minDisplayTime - elapsed);
 
-        // Fade logo out
+        // Fade out
         yield return Fade(logo, 1f, 0f, fadeOutDuration);
 
+        // Destroy splash UI
+        Destroy(gameObject);
+
+        // Activate new scene
         op.allowSceneActivation = true;
     }
 

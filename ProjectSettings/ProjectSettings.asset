@@ -12,9 +12,9 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: Roguelike PvE auto-battler
-  defaultCursor: {fileID: 0}
+  companyName: Black Banner Games
+  productName: Three Choices
+  defaultCursor: {fileID: 2800000, guid: 1091f333038c1d6469aa77d6b04f474c, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_ShowUnitySplashScreen: 1
@@ -42,7 +42,7 @@ PlayerSettings:
   m_SplashScreenLogos:
   - logo: {fileID: 21300000, guid: e7d6eb3e7b1ed2d4198d87d5316bb3bc, type: 3}
     duration: 2
-  m_VirtualRealitySplashScreen: {fileID: 0}
+  m_VirtualRealitySplashScreen: {fileID: 2800000, guid: e7d6eb3e7b1ed2d4198d87d5316bb3bc, type: 3}
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 1920
   defaultScreenHeight: 1080
@@ -338,6 +338,13 @@ PlayerSettings:
       m_Icon: {fileID: 2800000, guid: e463834606b779e4b9405a89ea34e181, type: 3}
       m_Width: 16
       m_Height: 16
+      m_Kind: 0
+  - m_BuildTarget: 
+    m_Icons:
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: e7d6eb3e7b1ed2d4198d87d5316bb3bc, type: 3}
+      m_Width: 128
+      m_Height: 128
       m_Kind: 0
   m_BuildTargetPlatformIcons: []
   m_BuildTargetBatching: []

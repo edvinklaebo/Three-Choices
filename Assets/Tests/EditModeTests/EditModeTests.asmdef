@@ -4,8 +4,8 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Ropa",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "ropa"
     ],
     "includePlatforms": [
         "Editor"
