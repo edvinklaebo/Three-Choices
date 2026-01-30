@@ -2,7 +2,7 @@ using UnityEngine;
 
 using System;
 
-public class CombatSystem
+public static class CombatSystem
 {
     public static void RunFight(Unit attacker, Unit defender)
     {

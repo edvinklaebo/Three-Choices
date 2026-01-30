@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     private Unit _player;
     private Unit _enemy;
 
-    private CombatSystem _combat;
     private DraftSystem _draft;
     
     private int _fightIndex = 1;
@@ -31,7 +30,6 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        _combat = new CombatSystem();
         var upgradeRepo = ScriptableObject.CreateInstance<UpgradePool>();
         _draft = new DraftSystem(upgradeRepo);
 

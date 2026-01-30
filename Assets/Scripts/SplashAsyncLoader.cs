@@ -23,7 +23,7 @@ public class SplashAsyncLoader : MonoBehaviour
         var startTime = Time.time;
 
         var op = SceneManager.LoadSceneAsync(nextScene);
-        op.allowSceneActivation = false;
+        op!.allowSceneActivation = false;
 
         while (op.progress < 0.9f)
         {
