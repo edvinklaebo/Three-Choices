@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Inspector
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 766
+  controlID: 159
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 767
+  controlID: 160
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 652
+  controlID: 40
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 653
+  controlID: 41
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -272,7 +272,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 732
+  controlID: 123
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: TestRunnerWindow
+  m_Name: InspectorWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -345,14 +345,14 @@ MonoBehaviour:
     y: 0
     width: 483
     height: 947
-  m_MinSize: {x: 101, y: 121}
+  m_MinSize: {x: 276, y: 71}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 23}
+  m_ActualView: {fileID: 22}
   m_Panes:
   - {fileID: 22}
   - {fileID: 23}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -426,7 +426,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: dee3ffffc4edffff06eeffff48eeffff8aeeffffd2eeffff18efffff5aefffff9cefffffdeefffff20f0ffff62f0ffffa4f0ffffe6f0ffff28f1ffff6ef1ffffb6f1ffff88f2ffff4ef3ffff30f5ffff12f6ffffe6f6ffff18fbffff
+      m_ExpandedIDs: 92d4ffffcad4ffffaad6ffffb4d6ffffced6ffff18fbffff64640000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -470,10 +470,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 446
-    y: 81
-    width: 898
-    height: 532
+    x: 364
+    y: 73
+    width: 1071
+    height: 551
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -832,9 +832,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 412.28384, y: 259.32816, z: 2.6412623}
+    m_Target: {x: 478.71082, y: 297.81058, z: 1.9194574}
     speed: 2
-    m_Value: {x: 412.28384, y: 259.32816, z: 2.6412623}
+    m_Value: {x: 478.71082, y: 297.81058, z: 1.9194574}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -884,9 +884,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 238.80222
+    m_Target: 310.9826
     speed: 2
-    m_Value: 238.80222
+    m_Value: 310.9826
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1088,7 +1088,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/Art
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1096,30 +1096,30 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets
+  - Assets/Art
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\Edvin\Roguelike PvE auto-battler
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d2640000
-    m_LastClickedID: 25810
-    m_ExpandedIDs: 00000000d0640000d264000000ca9a3bffffff7f
+    m_SelectedIDs: b4640000
+    m_LastClickedID: 25780
+    m_ExpandedIDs: 00000000a8640000aa640000b464000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Icon
+      m_OriginalName: Icon
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 25928
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 12}
     m_SearchString: 
@@ -1133,7 +1133,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000d0640000d264000000ca9a3bffffff7f
+    m_ExpandedIDs: 00000000a8640000aa640000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1244,10 +1244,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1433
-    y: 81
-    width: 478
-    height: 910
+    x: 1437
+    y: 73
+    width: 482
+    height: 926
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1306,7 +1306,7 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 794
+    ID: 186
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -1395,7 +1395,7 @@ MonoBehaviour:
       name: Roguelike PvE auto-battler
       fullName: Roguelike PvE auto-battler
       resultStatus: 1
-      duration: 0.2138455
+      duration: 0.2175997
       messages: 
       output: 
       stacktrace: 
@@ -1411,7 +1411,7 @@ MonoBehaviour:
       name: EditModeTests.dll
       fullName: C:/Users/Edvin/Roguelike PvE auto-battler/Library/ScriptAssemblies/EditModeTests.dll
       resultStatus: 1
-      duration: 0.1815649
+      duration: 0.1955758
       messages: 
       output: 
       stacktrace: 
@@ -1427,7 +1427,7 @@ MonoBehaviour:
       name: Tests
       fullName: Tests
       resultStatus: 1
-      duration: 0.1810164
+      duration: 0.1952042
       messages: 
       output: 
       stacktrace: 
@@ -1443,7 +1443,7 @@ MonoBehaviour:
       name: EditModeTests
       fullName: Tests.EditModeTests
       resultStatus: 1
-      duration: 0.1798129
+      duration: 0.1949374
       messages: 
       output: 
       stacktrace: 
@@ -1459,7 +1459,7 @@ MonoBehaviour:
       name: CombatSystemTests
       fullName: Tests.EditModeTests.CombatSystemTests
       resultStatus: 1
-      duration: 0.1323904
+      duration: 0.1406571
       messages: 
       output: 
       stacktrace: 
@@ -1475,7 +1475,7 @@ MonoBehaviour:
       name: ArmorReducesDamage_Correctly
       fullName: Tests.EditModeTests.CombatSystemTests.ArmorReducesDamage_Correctly
       resultStatus: 1
-      duration: 0.0348039
+      duration: 0.0420637
       messages: 
       output: '[INFO] Combat started | { attacker = Attacker, defender = Tank, attackerHp
         = 100, defenderHp = 100, attackerAtk = 50, defenderAtk = 0, attackerArmor
@@ -1622,7 +1622,7 @@ MonoBehaviour:
       name: BothDealDamage_ExactlyOneSurvives
       fullName: Tests.EditModeTests.CombatSystemTests.BothDealDamage_ExactlyOneSurvives
       resultStatus: 1
-      duration: 0.0133867
+      duration: 0.0140248
       messages: 
       output: '[INFO] Combat started | { attacker = A, defender = B, attackerHp =
         40, defenderHp = 40, attackerAtk = 10, defenderAtk = 10, attackerArmor =
@@ -1765,7 +1765,7 @@ MonoBehaviour:
       name: EqualSpeed_AttackerStarts_AndWins
       fullName: Tests.EditModeTests.CombatSystemTests.EqualSpeed_AttackerStarts_AndWins
       resultStatus: 1
-      duration: 0.0099094
+      duration: 0.0101907
       messages: 
       output: '[INFO] Combat started | { attacker = Attacker, defender = Defender,
         attackerHp = 30, defenderHp = 30, attackerAtk = 10, defenderAtk = 10, attackerArmor
@@ -1878,7 +1878,7 @@ MonoBehaviour:
       name: FasterUnit_AttacksFirst_AndWins
       fullName: Tests.EditModeTests.CombatSystemTests.FasterUnit_AttacksFirst_AndWins
       resultStatus: 1
-      duration: 0.0361137
+      duration: 0.0338311
       messages: 
       output: '[INFO] Combat started | { attacker = Fast, defender = Slow, attackerHp
         = 100, defenderHp = 100, attackerAtk = 10, defenderAtk = 10, attackerArmor
@@ -2229,7 +2229,7 @@ MonoBehaviour:
       name: HighArmorStillTakesAtLeastOneDamage
       fullName: Tests.EditModeTests.CombatSystemTests.HighArmorStillTakesAtLeastOneDamage
       resultStatus: 1
-      duration: 0.0192507
+      duration: 0.0167969
       messages: 
       output: '[INFO] Combat started | { attacker = Needle, defender = Wall, attackerHp
         = 100, defenderHp = 5, attackerAtk = 1, defenderAtk = 0, attackerArmor =
@@ -2410,7 +2410,7 @@ MonoBehaviour:
       name: RunFight_CompletesWithWinner
       fullName: Tests.EditModeTests.CombatSystemTests.RunFight_CompletesWithWinner
       resultStatus: 1
-      duration: 0.0064618
+      duration: 0.0064568
       messages: 
       output: '[INFO] Combat started | { attacker = A, defender = B, attackerHp =
         10, defenderHp = 10, attackerAtk = 5, defenderAtk = 4, attackerArmor = 0,
@@ -2487,7 +2487,7 @@ MonoBehaviour:
       name: RunFight_DoesNotModifyUnitsWithZeroHP
       fullName: Tests.EditModeTests.CombatSystemTests.RunFight_DoesNotModifyUnitsWithZeroHP
       resultStatus: 1
-      duration: 0.0013627
+      duration: 0.0012509
       messages: 
       output: '[INFO] Combat started | { attacker = A, defender = B, attackerHp =
         0, defenderHp = 10, attackerAtk = 5, defenderAtk = 4, attackerArmor = 0,
@@ -2515,7 +2515,7 @@ MonoBehaviour:
       name: DraftSystemTests
       fullName: Tests.EditModeTests.DraftSystemTests
       resultStatus: 1
-      duration: 0.0162971
+      duration: 0.0183512
       messages: 
       output: 
       stacktrace: 
@@ -2531,7 +2531,7 @@ MonoBehaviour:
       name: GenerateDraft_DoesNotReturnMoreThanPool
       fullName: Tests.EditModeTests.DraftSystemTests.GenerateDraft_DoesNotReturnMoreThanPool
       resultStatus: 1
-      duration: 0.005716
+      duration: 0.0061049
       messages: 
       output: '[INFO] DraftSystem initialized | { repositoryType = MockUpgradeRepository
         }
@@ -2542,13 +2542,13 @@ MonoBehaviour:
         pool retrieved | { poolSize = 2 }
 
         [INFO] Draft selection | { round
-        = 0, selected = B, remainingPool = 2 }
+        = 0, selected = A, remainingPool = 2 }
 
         [INFO] Draft selection |
-        { round = 1, selected = A, remainingPool = 1 }
+        { round = 1, selected = B, remainingPool = 1 }
 
         [INFO] Draft generated
-        | { draftSize = 2, selectedUpgrades = B,A }
+        | { draftSize = 2, selectedUpgrades = A,B }
 
 '
       stacktrace: 
@@ -2565,7 +2565,7 @@ MonoBehaviour:
       name: GenerateDraft_ReturnsCorrectNumberOfUpgrades
       fullName: Tests.EditModeTests.DraftSystemTests.GenerateDraft_ReturnsCorrectNumberOfUpgrades
       resultStatus: 1
-      duration: 0.0028124
+      duration: 0.0033396
       messages: 
       output: '[INFO] DraftSystem initialized | { repositoryType = MockUpgradeRepository
         }
@@ -2599,7 +2599,7 @@ MonoBehaviour:
       name: EnemyFactoryTests
       fullName: Tests.EditModeTests.EnemyFactoryTests
       resultStatus: 1
-      duration: 0.0073662
+      duration: 0.0084931
       messages: 
       output: 
       stacktrace: 
@@ -2615,9 +2615,9 @@ MonoBehaviour:
       name: Create_ReturnsUnitWithCorrectStats
       fullName: Tests.EditModeTests.EnemyFactoryTests.Create_ReturnsUnitWithCorrectStats
       resultStatus: 1
-      duration: 0.0035324
+      duration: 0.0043094
       messages: 
-      output: '[INFO] Enemy created | { fightIndex = 3, unitName = Fenshade the Terrible,
+      output: '[INFO] Enemy created | { fightIndex = 3, unitName = Kriclaw the Terrible,
         maxHP = 30, attackPower = 6, armor = 3, speed = 6 }
 
 '
@@ -2635,7 +2635,7 @@ MonoBehaviour:
       name: MonsterNameTests
       fullName: Tests.EditModeTests.MonsterNameTests
       resultStatus: 1
-      duration: 0.0082184
+      duration: 0.0100442
       messages: 
       output: 
       stacktrace: 
@@ -2651,7 +2651,7 @@ MonoBehaviour:
       name: Random_AlwaysUsesValidPrefixAndSuffix
       fullName: Tests.EditModeTests.MonsterNameTests.Random_AlwaysUsesValidPrefixAndSuffix
       resultStatus: 1
-      duration: 0.0033544
+      duration: 0.0040624
       messages: 
       output: 
       stacktrace: 
@@ -2668,7 +2668,7 @@ MonoBehaviour:
       name: Random_ReturnsNonEmptyString
       fullName: Tests.EditModeTests.MonsterNameTests.Random_ReturnsNonEmptyString
       resultStatus: 1
-      duration: 0.0001444
+      duration: 0.0002539
       messages: 
       output: 
       stacktrace: 
@@ -2685,7 +2685,7 @@ MonoBehaviour:
       name: Random_SometimesHasTitle_AndSometimesNot
       fullName: Tests.EditModeTests.MonsterNameTests.Random_SometimesHasTitle_AndSometimesNot
       resultStatus: 1
-      duration: 0.0003695
+      duration: 0.0004162
       messages: 
       output: 
       stacktrace: 
@@ -2702,7 +2702,7 @@ MonoBehaviour:
       name: Random_TitleIfPresent_IsFromTitleList
       fullName: Tests.EditModeTests.MonsterNameTests.Random_TitleIfPresent_IsFromTitleList
       resultStatus: 1
-      duration: 0.0012556
+      duration: 0.0015275
       messages: 
       output: 
       stacktrace: 
@@ -2719,7 +2719,7 @@ MonoBehaviour:
       name: Random_WithFixedSeed_IsDeterministic
       fullName: Tests.EditModeTests.MonsterNameTests.Random_WithFixedSeed_IsDeterministic
       resultStatus: 1
-      duration: 0.0001491
+      duration: 0.0001958
       messages: 
       output: 
       stacktrace: 
@@ -2736,7 +2736,7 @@ MonoBehaviour:
       name: UpgradeApplierTests
       fullName: Tests.EditModeTests.UpgradeApplierTests
       resultStatus: 1
-      duration: 0.0106094
+      duration: 0.0115032
       messages: 
       output: 
       stacktrace: 
@@ -2752,7 +2752,7 @@ MonoBehaviour:
       name: Apply_StatUpgrade_DispatchesToStatHandler
       fullName: Tests.EditModeTests.UpgradeApplierTests.Apply_StatUpgrade_DispatchesToStatHandler
       resultStatus: 1
-      duration: 0.0004144
+      duration: 0.000554
       messages: 
       output: 
       stacktrace: 
@@ -2769,7 +2769,7 @@ MonoBehaviour:
       name: Apply_UnknownUpgradeType_Throws
       fullName: Tests.EditModeTests.UpgradeApplierTests.Apply_UnknownUpgradeType_Throws
       resultStatus: 1
-      duration: 0.0011761
+      duration: 0.0009528
       messages: 
       output: 
       stacktrace: 
@@ -2786,7 +2786,7 @@ MonoBehaviour:
       name: ApplyAbility_AlwaysThrows_ForUnknownAbility
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyAbility_AlwaysThrows_ForUnknownAbility
       resultStatus: 1
-      duration: 0.0002248
+      duration: 0.0003222
       messages: 
       output: 
       stacktrace: 
@@ -2803,7 +2803,7 @@ MonoBehaviour:
       name: ApplyPassive_Lifesteal_LogsCorrectly
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Lifesteal_LogsCorrectly
       resultStatus: 1
-      duration: 0.0013933
+      duration: 0.0016141
       messages: 
       output: 'Ability Applied: Lifesteal
 
@@ -2822,7 +2822,7 @@ MonoBehaviour:
       name: ApplyPassive_Poison_LogsCorrectly
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Poison_LogsCorrectly
       resultStatus: 1
-      duration: 0.0005189
+      duration: 0.0005643
       messages: 
       output: 'Ability Applied: Poison
 
@@ -2841,7 +2841,7 @@ MonoBehaviour:
       name: ApplyPassive_Rage_LogsCorrectly
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Rage_LogsCorrectly
       resultStatus: 1
-      duration: 0.0004817
+      duration: 0.0005542
       messages: 
       output: 'Passive Applied: Rage
 
@@ -2860,7 +2860,7 @@ MonoBehaviour:
       name: ApplyPassive_Thorns_LogsCorrectly
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Thorns_LogsCorrectly
       resultStatus: 1
-      duration: 0.0004817
+      duration: 0.0005425
       messages: 
       output: 'Passive Applied: Thorns
 
@@ -2879,7 +2879,7 @@ MonoBehaviour:
       name: ApplyPassive_UnknownPassive_Throws
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_UnknownPassive_Throws
       resultStatus: 1
-      duration: 0.0002238
+      duration: 0.0002789
       messages: 
       output: 
       stacktrace: 
@@ -2896,7 +2896,7 @@ MonoBehaviour:
       name: ApplyStat_Armor_IncreasesArmor
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_Armor_IncreasesArmor
       resultStatus: 1
-      duration: 0.0001495
+      duration: 0.000192
       messages: 
       output: 
       stacktrace: 
@@ -2913,7 +2913,7 @@ MonoBehaviour:
       name: ApplyStat_AttackPower_IncreasesAttack
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_AttackPower_IncreasesAttack
       resultStatus: 1
-      duration: 0.0001466
+      duration: 0.0002197
       messages: 
       output: 
       stacktrace: 
@@ -2930,7 +2930,7 @@ MonoBehaviour:
       name: ApplyStat_MaxHP_IncreasesMaxAndCurrentHP
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_MaxHP_IncreasesMaxAndCurrentHP
       resultStatus: 1
-      duration: 0.000157
+      duration: 0.0002135
       messages: 
       output: 
       stacktrace: 
@@ -2947,7 +2947,7 @@ MonoBehaviour:
       name: ApplyStat_Speed_IncreasesSpeed
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_Speed_IncreasesSpeed
       resultStatus: 1
-      duration: 0.0001419
+      duration: 0.0001851
       messages: 
       output: 
       stacktrace: 
@@ -2964,7 +2964,7 @@ MonoBehaviour:
       name: ApplyStat_UnknownStat_Throws
       fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_UnknownStat_Throws
       resultStatus: 1
-      duration: 0.0002081
+      duration: 0.0002624
       messages: 
       output: 
       stacktrace: 
@@ -2976,7 +2976,7 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1020
       parentUniqueId: EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]
-    m_ResultText: Apply_StatUpgrade_DispatchesToStatHandler (0,000s)
+    m_ResultText: Apply_StatUpgrade_DispatchesToStatHandler (0,001s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
