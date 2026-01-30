@@ -85,7 +85,7 @@ jobs:
         run: |
             butler push \
             "${{ env.UNITY_PROJECT_PATH }}/Builds/StandaloneWindows64" \
-            username/game-name:windows \
+            racksay/three-choices:windows \
             --userversion "${{ github.run_number }}"
 
       - uses: actions/upload-artifact@v6
