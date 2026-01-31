@@ -33,11 +33,18 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [buildalon-windows]
         include:
           - os: buildalon-windows
             build-target: StandaloneWindows64
-            build-args: ''
+            itch-channel: windows
+
+          - os: buildalon-linux
+            build-target: StandaloneLinux64
+            itch-channel: linux
+
+          - os: buildalon-macos
+            build-target: StandaloneOSX
+            itch-channel: mac
 
     steps:
       - uses: actions/checkout@v6
@@ -78,14 +85,14 @@ jobs:
         uses: remarkablegames/setup-butler@v2
 
       - name: Upload build to itch.io
-        if: success()
+        if: success() && github.ref == 'refs/heads/main'
         env:
-          BUTLER_API_KEY: ${{ secrets.ITCHIO_API_KEY }}
+          BUTLER_API_KEY: ${{ secrets.ITCH_API_KEY }}
         shell: bash
         run: |
-            butler push \
-            "${{ env.UNITY_PROJECT_PATH }}/Builds/StandaloneWindows64" \
-            racksay/three-choices:windows \
+          ./butler.exe push \
+            "${{ env.UNITY_PROJECT_PATH }}/Builds/${{ matrix.build-target }}" \
+            racksay/three-choices:${{ matrix.itch-channel }} \
             --userversion "${{ github.run_number }}"
 
       - uses: actions/upload-artifact@v6

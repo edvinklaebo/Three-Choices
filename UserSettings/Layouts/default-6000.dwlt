@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEditor.dll::UnityEditor.ContainerWindow
   m_PixelRect:
     serializedVersion: 2
-    x: 8
-    y: 51
-    width: 1904
-    height: 988
+    x: 0
+    y: 43
+    width: 1920
+    height: 997
   m_ShowMode: 4
   m_Title: Console
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
-  m_Maximized: 0
+  m_Maximized: 1
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -44,8 +44,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1904
-    height: 988
+    width: 1920
+    height: 997
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
@@ -69,7 +69,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1904
+    width: 1920
     height: 36
   m_MinSize: {x: 50, y: 50}
   m_MaxSize: {x: 4000, y: 4000}
@@ -90,8 +90,8 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 968
-    width: 1904
+    y: 977
+    width: 1920
     height: 20
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
@@ -113,12 +113,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 36
-    width: 1904
-    height: 932
+    width: 1920
+    height: 941
   m_MinSize: {x: 300, y: 112}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 1
-  controlID: 218
+  controlID: 36
   draggingID: 0
 --- !u!114 &6
 MonoBehaviour:
@@ -139,12 +139,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1904
-    height: 932
+    width: 1920
+    height: 941
   m_MinSize: {x: 300, y: 112}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 219
+  controlID: 37
   draggingID: 0
 --- !u!114 &7
 MonoBehaviour:
@@ -165,12 +165,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1425
-    height: 932
+    width: 1549
+    height: 941
   m_MinSize: {x: 200, y: 112}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 188
+  controlID: 38
   draggingID: 0
 --- !u!114 &8
 MonoBehaviour:
@@ -191,12 +191,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1425
-    height: 563
+    width: 1549
+    height: 539
   m_MinSize: {x: 200, y: 56}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 108
+  controlID: 39
   draggingID: 0
 --- !u!114 &9
 MonoBehaviour:
@@ -215,8 +215,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 361
-    height: 563
+    width: 328
+    height: 539
   m_MinSize: {x: 201, y: 226}
   m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 17}
@@ -239,10 +239,10 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 361
+    x: 328
     y: 0
-    width: 1064
-    height: 563
+    width: 1221
+    height: 539
   m_MinSize: {x: 102, y: 126}
   m_MaxSize: {x: 4002, y: 4026}
   m_ActualView: {fileID: 19}
@@ -270,13 +270,13 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 563
-    width: 1425
-    height: 369
+    y: 539
+    width: 1549
+    height: 402
   m_MinSize: {x: 200, y: 56}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 189
+  controlID: 116
   draggingID: 0
 --- !u!114 &12
 MonoBehaviour:
@@ -295,8 +295,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 436
-    height: 369
+    width: 711
+    height: 402
   m_MinSize: {x: 231, y: 276}
   m_MaxSize: {x: 10001, y: 10026}
   m_ActualView: {fileID: 21}
@@ -319,10 +319,10 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 436
+    x: 711
     y: 0
-    width: 989
-    height: 369
+    width: 838
+    height: 402
   m_MinSize: {x: 102, y: 126}
   m_MaxSize: {x: 4002, y: 4026}
   m_ActualView: {fileID: 16}
@@ -346,10 +346,10 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1425
+    x: 1549
     y: 0
-    width: 479
-    height: 932
+    width: 371
+    height: 941
   m_MinSize: {x: 276, y: 76}
   m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 23}
@@ -380,8 +380,8 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 0
-    width: 1904
+    y: 43
+    width: 1920
     height: 36
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -645,10 +645,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 437
-    y: 24
-    width: 987
-    height: 343
+    x: 711
+    y: 618
+    width: 836
+    height: 376
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -684,9 +684,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 24
-    width: 360
-    height: 537
+    y: 79
+    width: 327
+    height: 513
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -707,9 +707,81 @@ MonoBehaviour:
       m_LastClickedID:
         m_Data: 0
       m_ExpandedIDs:
-      - m_Data: -39254
-      - m_Data: -39050
-      - m_Data: -38374
+      - m_Data: -95392
+      - m_Data: -95346
+      - m_Data: -94828
+      - m_Data: -94792
+      - m_Data: -94752
+      - m_Data: -93262
+      - m_Data: -92134
+      - m_Data: -88824
+      - m_Data: -88778
+      - m_Data: -88256
+      - m_Data: -88216
+      - m_Data: -88174
+      - m_Data: -81816
+      - m_Data: -81770
+      - m_Data: -81252
+      - m_Data: -81216
+      - m_Data: -81178
+      - m_Data: -59000
+      - m_Data: -54726
+      - m_Data: -54306
+      - m_Data: -54068
+      - m_Data: -52996
+      - m_Data: -52758
+      - m_Data: -48864
+      - m_Data: -41260
+      - m_Data: -41198
+      - m_Data: -41140
+      - m_Data: -38332
+      - m_Data: -38282
+      - m_Data: -37900
+      - m_Data: -37748
+      - m_Data: -36190
+      - m_Data: -25504
+      - m_Data: -24546
+      - m_Data: -24498
+      - m_Data: -23976
+      - m_Data: -23934
+      - m_Data: -23892
+      - m_Data: -23770
+      - m_Data: -23714
+      - m_Data: -23650
+      - m_Data: -23594
+      - m_Data: -20808
+      - m_Data: -20556
+      - m_Data: -20492
+      - m_Data: -20436
+      - m_Data: -2490
+      - m_Data: -2428
+      - m_Data: -2376
+      - m_Data: -2298
+      - m_Data: -1378
+      - m_Data: 40858
+      - m_Data: 42012
+      - m_Data: 42068
+      - m_Data: 42294
+      - m_Data: 43808
+      - m_Data: 43818
+      - m_Data: 43836
+      - m_Data: 43872
+      - m_Data: 45512
+      - m_Data: 45598
+      - m_Data: 54238
+      - m_Data: 112570
+      - m_Data: 112580
+      - m_Data: 112598
+      - m_Data: 112634
+      - m_Data: 115310
+      - m_Data: 115320
+      - m_Data: 115362
+      - m_Data: 115398
+      - m_Data: 118672
+      - m_Data: 118722
+      - m_Data: 118728
+      - m_Data: 119276
+      - m_Data: 119362
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -756,10 +828,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 364
-    y: 73
-    width: 1071
-    height: 551
+    x: 301
+    y: 79
+    width: 1117
+    height: 586
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1344,9 +1416,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 531.5, y: 258.26724, z: 0}
+    m_Target: {x: 665.88525, y: 766.1574, z: -3.912027}
     speed: 2
-    m_Value: {x: 531.5, y: 258.26724, z: 0}
+    m_Value: {x: 665.88525, y: 766.1574, z: -3.912027}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1396,9 +1468,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 206.74808
+    m_Target: 464.4794
     speed: 2
-    m_Value: 206.74808
+    m_Value: 464.4794
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1453,10 +1525,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Game\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 362
-    y: 24
-    width: 1062
-    height: 537
+    x: 328
+    y: 79
+    width: 1219
+    height: 513
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1476,7 +1548,7 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1062, y: 516}
+  m_TargetSize: {x: 1920, y: 1080}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -1485,16 +1557,16 @@ MonoBehaviour:
   m_VSyncEnabled: 0
   m_Gizmos: 0
   m_Stats: 0
-  m_SelectedSizes: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_SelectedSizes: 03000000000000000000000000000000000000000000000000000000000000000000000000000000
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -531
-    m_HBaseRangeMax: 531
-    m_VBaseRangeMin: -258
-    m_VBaseRangeMax: 258
+    m_HBaseRangeMin: -960
+    m_HBaseRangeMax: 960
+    m_VBaseRangeMin: -540
+    m_VBaseRangeMax: 540
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -1512,23 +1584,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1062
-      height: 516
-    m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 531, y: 258}
+      width: 1219
+      height: 492
+    m_Scale: {x: 0.45555553, y: 0.45555556}
+    m_Translation: {x: 609.5, y: 246}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -531
-      y: -258
-      width: 1062
-      height: 516
+      x: -1337.9269
+      y: -540
+      width: 2675.8538
+      height: 1080
     m_MinimalGUI: 1
-  m_defaultScale: 1
-  m_LastWindowPixelSize: {x: 1062, y: 537}
+  m_defaultScale: 0.45555556
+  m_LastWindowPixelSize: {x: 1219, y: 513}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -1595,9 +1667,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 24
-    width: 435
-    height: 343
+    y: 618
+    width: 710
+    height: 376
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1622,7 +1694,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Assets/Scenes
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1632,25 +1704,32 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets
+  - Assets/Scenes
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\Edvin\Roguelike PvE auto-battler
   m_LockTracker:
     m_IsLocked: 0
   m_LastLocalAssetsSearchArea: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
+    scrollPos: {x: 0, y: 240}
     m_SelectedIDs:
-    - m_Data: 46708
+    - m_Data: 40508
     m_LastClickedID:
-      m_Data: 46708
+      m_Data: 40508
     m_ExpandedIDs:
     - m_Data: 0
     - m_Data: 40390
+    - m_Data: 40496
+    - m_Data: 40506
+    - m_Data: 40586
+    - m_Data: 40716
+    - m_Data: 47416
+    - m_Data: 1000000000
+    - m_Data: 2147483647
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Passives
+      m_OriginalName: Passives
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
@@ -1658,10 +1737,10 @@ MonoBehaviour:
         width: 0
         height: 0
       m_UserData:
-        m_Data: 0
+        m_Data: 45760
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_TrimLeadingAndTrailingWhitespace: 0
       m_ClientGUIView: {fileID: 12}
@@ -1674,12 +1753,16 @@ MonoBehaviour:
       m_ResourceFile: 
   m_AssetTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: []
+    m_SelectedIDs:
+    - m_Data: 40200
     m_LastClickedID:
-      m_Data: 0
+      m_Data: 40200
     m_ExpandedIDs:
     - m_Data: 0
     - m_Data: 40390
+    - m_Data: 40506
+    - m_Data: 40716
+    - m_Data: 45762
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1706,11 +1789,12 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs:
-    - m_Data: 50468
-    m_LastClickedInstanceID: 50468
+    m_SelectedInstanceIDs: []
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: []
+    m_ExpandedInstanceIDs:
+    - m_Data: 41302
+    - m_Data: 47602
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1761,10 +1845,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Unity Version Control\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 440
-    y: 645
-    width: 995
-    height: 354
+    x: 652
+    y: 612
+    width: 766
+    height: 382
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1800,10 +1884,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1426
-    y: 24
-    width: 478
-    height: 906
+    x: 1549
+    y: 79
+    width: 370
+    height: 915
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1852,10 +1936,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Test Runner\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1437
-    y: 73
-    width: 482
-    height: 926
+    x: 1420
+    y: 79
+    width: 499
+    height: 915
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -1870,22 +1954,22 @@ MonoBehaviour:
     m_OverlaysVisible: 1
     m_DynamicPanelBehavior: 0
   m_Spl:
-    ID: 186
-    splitterInitialOffset: 0
+    ID: 6906
+    splitterInitialOffset: 691
     currentActiveSplitter: -1
     realSizes:
-    - 642
-    - 214
+    - 649
+    - 196
     relativeSizes:
-    - 0.75
-    - 0.25
+    - 0.7679426
+    - 0.2320574
     minSizes:
     - 32
     - 32
     maxSizes:
     - 0
     - 0
-    lastTotalSize: 856
+    lastTotalSize: 845
     splitSize: 6
     xOffset: 0
     m_Version: 1
@@ -1893,11 +1977,11 @@ MonoBehaviour:
     oldMinSizes: 
     oldMaxSizes: 
     oldSplitSize: 0
-  m_TestTypeToolbarIndex: 1
+  m_TestTypeToolbarIndex: 0
   m_TestListGUIs:
-  - m_Window: {fileID: 0}
+  - m_Window: {fileID: 24}
     runProgress:
-      RunGuid: 
+      RunGuid: 4ef13b45-e4fb-4e28-a185-f0aeaae545ab
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -1907,9 +1991,14 @@ MonoBehaviour:
           groupNames: []
           categoryNames: []
           assemblyNames: []
-        filters: []
+        filters:
+        - testMode: 1
+          testNames: []
+          groupNames: []
+          categoryNames: []
+          assemblyNames: []
         runSynchronously: 0
-        playerHeartbeatTimeout: 0
+        playerHeartbeatTimeout: 600
         orderedTestNames: []
         ignoreTests: []
         featureFlags:
@@ -1918,18 +2007,1610 @@ MonoBehaviour:
           strictDomainReload: 0
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
-      HasFinished: 0
-      Progress: 0
-      CurrentStepName: 
+      HasFinished: 1
+      Progress: 1.0000002
+      CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
-    m_NewResultList: []
-    m_ResultText: 
+    m_NewResultList:
+    - id: 1000
+      uniqueId: '[Three Choices][suite]'
+      name: Three Choices
+      fullName: Three Choices
+      resultStatus: 1
+      duration: 0.1475276
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 
+      parentUniqueId: 
+    - id: 1034
+      uniqueId: '[EditModeTests.dll][suite]'
+      name: EditModeTests.dll
+      fullName: C:/Users/Edvin/Roguelike PvE auto-battler/Library/ScriptAssemblies/EditModeTests.dll
+      resultStatus: 1
+      duration: 0.1475276
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1041
+      parentUniqueId: '[Three Choices][suite]'
+    - id: 1035
+      uniqueId: 'EditModeTests.dll/[Tests][suite]'
+      name: Tests
+      fullName: Tests
+      resultStatus: 1
+      duration: 0.1475276
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1034
+      parentUniqueId: '[EditModeTests.dll][suite]'
+    - id: 1036
+      uniqueId: 'EditModeTests.dll/Tests/[EditModeTests][suite]'
+      name: EditModeTests
+      fullName: Tests.EditModeTests
+      resultStatus: 1
+      duration: 0.1475276
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1035
+      parentUniqueId: 'EditModeTests.dll/[Tests][suite]'
+    - id: 1001
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests][suite]'
+      name: CombatSystemTests
+      fullName: Tests.EditModeTests.CombatSystemTests
+      resultStatus: 1
+      duration: 0.1240699
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1036
+      parentUniqueId: 'EditModeTests.dll/Tests/[EditModeTests][suite]'
+    - id: 1010
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/CombatSystemTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests.ArmorReducesDamage_Correctly]'
+      name: ArmorReducesDamage_Correctly
+      fullName: Tests.EditModeTests.CombatSystemTests.ArmorReducesDamage_Correctly
+      resultStatus: 1
+      duration: 0.0344504
+      messages: 
+      output: '[INFO] Combat started | { attacker = Attacker, defender = Tank, attackerHp
+        = 100, defenderHp = 100, attackerAtk = 50, defenderAtk = 0, attackerArmor
+        = 0, defenderArmor = 100, attackerSpeed = 10, defenerSpeed = 1 }
+
+        [INFO]
+        Turn order decided | { first = Attacker, reason = speed, aSpeed = 10, bSpeed
+        = 1 }
+
+        [INFO] Combat round start | { round = 1, aHp = 100, bHp =
+        100, turn = Attacker }
+
+        [INFO] Attack start | { round = 1, attacker
+        = Attacker, defender = Tank, attackerHp = 100, defenderHp = 100 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 100, multiplier = 0,5 }
+
+        [INFO]
+        Damage calculated | { attacker = Attacker, defender = Tank, attackPower =
+        50, defenderArmor = 100, armorMultiplier = 0,5, damage = 25 }
+
+        [INFO]
+        Damage applied | { attacker = Attacker, defender = Tank, damage = 25, defenderHpAfter
+        = 75 }
+
+        [INFO] Combat round start | { round = 2, aHp = 100, bHp
+        = 75, turn = Tank }
+
+        [INFO] Attack start | { round = 2, attacker
+        = Tank, defender = Attacker, attackerHp = 75, defenderHp = 100 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Tank, defender = Attacker, attackPower =
+        0, defenderArmor = 0, armorMultiplier = 1, damage = 0 }
+
+        [INFO]
+        Damage applied | { attacker = Tank, defender = Attacker, damage = 0, defenderHpAfter
+        = 100 }
+
+        [INFO] Combat round start | { round = 3, aHp = 100, bHp
+        = 75, turn = Attacker }
+
+        [INFO] Attack start | { round = 3, attacker
+        = Attacker, defender = Tank, attackerHp = 100, defenderHp = 75 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 100, multiplier = 0,5 }
+
+        [INFO]
+        Damage calculated | { attacker = Attacker, defender = Tank, attackPower =
+        50, defenderArmor = 100, armorMultiplier = 0,5, damage = 25 }
+
+        [INFO]
+        Damage applied | { attacker = Attacker, defender = Tank, damage = 25, defenderHpAfter
+        = 50 }
+
+        [INFO] Combat round start | { round = 4, aHp = 100, bHp
+        = 50, turn = Tank }
+
+        [INFO] Attack start | { round = 4, attacker
+        = Tank, defender = Attacker, attackerHp = 50, defenderHp = 100 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Tank, defender = Attacker, attackPower =
+        0, defenderArmor = 0, armorMultiplier = 1, damage = 0 }
+
+        [INFO]
+        Damage applied | { attacker = Tank, defender = Attacker, damage = 0, defenderHpAfter
+        = 100 }
+
+        [INFO] Combat round start | { round = 5, aHp = 100, bHp
+        = 50, turn = Attacker }
+
+        [INFO] Attack start | { round = 5, attacker
+        = Attacker, defender = Tank, attackerHp = 100, defenderHp = 50 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 100, multiplier = 0,5 }
+
+        [INFO]
+        Damage calculated | { attacker = Attacker, defender = Tank, attackPower =
+        50, defenderArmor = 100, armorMultiplier = 0,5, damage = 25 }
+
+        [INFO]
+        Damage applied | { attacker = Attacker, defender = Tank, damage = 25, defenderHpAfter
+        = 25 }
+
+        [INFO] Combat round start | { round = 6, aHp = 100, bHp
+        = 25, turn = Tank }
+
+        [INFO] Attack start | { round = 6, attacker
+        = Tank, defender = Attacker, attackerHp = 25, defenderHp = 100 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Tank, defender = Attacker, attackPower =
+        0, defenderArmor = 0, armorMultiplier = 1, damage = 0 }
+
+        [INFO]
+        Damage applied | { attacker = Tank, defender = Attacker, damage = 0, defenderHpAfter
+        = 100 }
+
+        [INFO] Combat round start | { round = 7, aHp = 100, bHp
+        = 25, turn = Attacker }
+
+        [INFO] Attack start | { round = 7, attacker
+        = Attacker, defender = Tank, attackerHp = 100, defenderHp = 25 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 100, multiplier = 0,5 }
+
+        [INFO]
+        Damage calculated | { attacker = Attacker, defender = Tank, attackPower =
+        50, defenderArmor = 100, armorMultiplier = 0,5, damage = 25 }
+
+        [INFO]
+        Damage applied | { attacker = Attacker, defender = Tank, damage = 25, defenderHpAfter
+        = 0 }
+
+        [INFO] Combat finished | { winner = Attacker, rounds = 7,
+        finalAHp = 100, finalBHp = 0 }
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests][suite]'
+    - id: 1012
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/CombatSystemTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests.BothDealDamage_ExactlyOneSurvives]'
+      name: BothDealDamage_ExactlyOneSurvives
+      fullName: Tests.EditModeTests.CombatSystemTests.BothDealDamage_ExactlyOneSurvives
+      resultStatus: 1
+      duration: 0.0150157
+      messages: 
+      output: '[INFO] Combat started | { attacker = A, defender = B, attackerHp =
+        40, defenderHp = 40, attackerAtk = 10, defenderAtk = 10, attackerArmor =
+        0, defenderArmor = 0, attackerSpeed = 10, defenerSpeed = 5 }
+
+        [INFO]
+        Turn order decided | { first = A, reason = speed, aSpeed = 10, bSpeed = 5
+        }
+
+        [INFO] Combat round start | { round = 1, aHp = 40, bHp = 40,
+        turn = A }
+
+        [INFO] Attack start | { round = 1, attacker = A, defender
+        = B, attackerHp = 40, defenderHp = 40 }
+
+        [INFO] Armor multiplier
+        computed | { armor = 0, multiplier = 1 }
+
+        [INFO] Damage calculated
+        | { attacker = A, defender = B, attackPower = 10, defenderArmor = 0, armorMultiplier
+        = 1, damage = 10 }
+
+        [INFO] Damage applied | { attacker = A, defender
+        = B, damage = 10, defenderHpAfter = 30 }
+
+        [INFO] Combat round start
+        | { round = 2, aHp = 40, bHp = 30, turn = B }
+
+        [INFO] Attack start
+        | { round = 2, attacker = B, defender = A, attackerHp = 30, defenderHp =
+        40 }
+
+        [INFO] Armor multiplier computed | { armor = 0, multiplier
+        = 1 }
+
+        [INFO] Damage calculated | { attacker = B, defender = A,
+        attackPower = 10, defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO]
+        Damage applied | { attacker = B, defender = A, damage = 10, defenderHpAfter
+        = 30 }
+
+        [INFO] Combat round start | { round = 3, aHp = 30, bHp =
+        30, turn = A }
+
+        [INFO] Attack start | { round = 3, attacker = A,
+        defender = B, attackerHp = 30, defenderHp = 30 }
+
+        [INFO] Armor multiplier
+        computed | { armor = 0, multiplier = 1 }
+
+        [INFO] Damage calculated
+        | { attacker = A, defender = B, attackPower = 10, defenderArmor = 0, armorMultiplier
+        = 1, damage = 10 }
+
+        [INFO] Damage applied | { attacker = A, defender
+        = B, damage = 10, defenderHpAfter = 20 }
+
+        [INFO] Combat round start
+        | { round = 4, aHp = 30, bHp = 20, turn = B }
+
+        [INFO] Attack start
+        | { round = 4, attacker = B, defender = A, attackerHp = 20, defenderHp =
+        30 }
+
+        [INFO] Armor multiplier computed | { armor = 0, multiplier
+        = 1 }
+
+        [INFO] Damage calculated | { attacker = B, defender = A,
+        attackPower = 10, defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO]
+        Damage applied | { attacker = B, defender = A, damage = 10, defenderHpAfter
+        = 20 }
+
+        [INFO] Combat round start | { round = 5, aHp = 20, bHp =
+        20, turn = A }
+
+        [INFO] Attack start | { round = 5, attacker = A,
+        defender = B, attackerHp = 20, defenderHp = 20 }
+
+        [INFO] Armor multiplier
+        computed | { armor = 0, multiplier = 1 }
+
+        [INFO] Damage calculated
+        | { attacker = A, defender = B, attackPower = 10, defenderArmor = 0, armorMultiplier
+        = 1, damage = 10 }
+
+        [INFO] Damage applied | { attacker = A, defender
+        = B, damage = 10, defenderHpAfter = 10 }
+
+        [INFO] Combat round start
+        | { round = 6, aHp = 20, bHp = 10, turn = B }
+
+        [INFO] Attack start
+        | { round = 6, attacker = B, defender = A, attackerHp = 10, defenderHp =
+        20 }
+
+        [INFO] Armor multiplier computed | { armor = 0, multiplier
+        = 1 }
+
+        [INFO] Damage calculated | { attacker = B, defender = A,
+        attackPower = 10, defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO]
+        Damage applied | { attacker = B, defender = A, damage = 10, defenderHpAfter
+        = 10 }
+
+        [INFO] Combat round start | { round = 7, aHp = 10, bHp =
+        10, turn = A }
+
+        [INFO] Attack start | { round = 7, attacker = A,
+        defender = B, attackerHp = 10, defenderHp = 10 }
+
+        [INFO] Armor multiplier
+        computed | { armor = 0, multiplier = 1 }
+
+        [INFO] Damage calculated
+        | { attacker = A, defender = B, attackPower = 10, defenderArmor = 0, armorMultiplier
+        = 1, damage = 10 }
+
+        [INFO] Damage applied | { attacker = A, defender
+        = B, damage = 10, defenderHpAfter = 0 }
+
+        [INFO] Combat finished
+        | { winner = A, rounds = 7, finalAHp = 10, finalBHp = 0 }
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests][suite]'
+    - id: 1009
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/CombatSystemTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests.EqualSpeed_AttackerStarts_AndWins]'
+      name: EqualSpeed_AttackerStarts_AndWins
+      fullName: Tests.EditModeTests.CombatSystemTests.EqualSpeed_AttackerStarts_AndWins
+      resultStatus: 1
+      duration: 0.0110488
+      messages: 
+      output: '[INFO] Combat started | { attacker = Attacker, defender = Defender,
+        attackerHp = 30, defenderHp = 30, attackerAtk = 10, defenderAtk = 10, attackerArmor
+        = 0, defenderArmor = 0, attackerSpeed = 10, defenerSpeed = 10 }
+
+        [INFO]
+        Turn order decided | { first = Attacker, reason = speed, aSpeed = 10, bSpeed
+        = 10 }
+
+        [INFO] Combat round start | { round = 1, aHp = 30, bHp =
+        30, turn = Attacker }
+
+        [INFO] Attack start | { round = 1, attacker
+        = Attacker, defender = Defender, attackerHp = 30, defenderHp = 30 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Attacker, defender = Defender, attackPower
+        = 10, defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO]
+        Damage applied | { attacker = Attacker, defender = Defender, damage = 10,
+        defenderHpAfter = 20 }
+
+        [INFO] Combat round start | { round = 2,
+        aHp = 30, bHp = 20, turn = Defender }
+
+        [INFO] Attack start | { round
+        = 2, attacker = Defender, defender = Attacker, attackerHp = 20, defenderHp
+        = 30 }
+
+        [INFO] Armor multiplier computed | { armor = 0, multiplier
+        = 1 }
+
+        [INFO] Damage calculated | { attacker = Defender, defender
+        = Attacker, attackPower = 10, defenderArmor = 0, armorMultiplier = 1, damage
+        = 10 }
+
+        [INFO] Damage applied | { attacker = Defender, defender
+        = Attacker, damage = 10, defenderHpAfter = 20 }
+
+        [INFO] Combat round
+        start | { round = 3, aHp = 20, bHp = 20, turn = Attacker }
+
+        [INFO]
+        Attack start | { round = 3, attacker = Attacker, defender = Defender, attackerHp
+        = 20, defenderHp = 20 }
+
+        [INFO] Armor multiplier computed | { armor
+        = 0, multiplier = 1 }
+
+        [INFO] Damage calculated | { attacker = Attacker,
+        defender = Defender, attackPower = 10, defenderArmor = 0, armorMultiplier
+        = 1, damage = 10 }
+
+        [INFO] Damage applied | { attacker = Attacker,
+        defender = Defender, damage = 10, defenderHpAfter = 10 }
+
+        [INFO]
+        Combat round start | { round = 4, aHp = 20, bHp = 10, turn = Defender }
+
+        [INFO]
+        Attack start | { round = 4, attacker = Defender, defender = Attacker, attackerHp
+        = 10, defenderHp = 20 }
+
+        [INFO] Armor multiplier computed | { armor
+        = 0, multiplier = 1 }
+
+        [INFO] Damage calculated | { attacker = Defender,
+        defender = Attacker, attackPower = 10, defenderArmor = 0, armorMultiplier
+        = 1, damage = 10 }
+
+        [INFO] Damage applied | { attacker = Defender,
+        defender = Attacker, damage = 10, defenderHpAfter = 10 }
+
+        [INFO]
+        Combat round start | { round = 5, aHp = 10, bHp = 10, turn = Attacker }
+
+        [INFO]
+        Attack start | { round = 5, attacker = Attacker, defender = Defender, attackerHp
+        = 10, defenderHp = 10 }
+
+        [INFO] Armor multiplier computed | { armor
+        = 0, multiplier = 1 }
+
+        [INFO] Damage calculated | { attacker = Attacker,
+        defender = Defender, attackPower = 10, defenderArmor = 0, armorMultiplier
+        = 1, damage = 10 }
+
+        [INFO] Damage applied | { attacker = Attacker,
+        defender = Defender, damage = 10, defenderHpAfter = 0 }
+
+        [INFO]
+        Combat finished | { winner = Attacker, rounds = 5, finalAHp = 10, finalBHp
+        = 0 }
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests][suite]'
+    - id: 1008
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/CombatSystemTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests.FasterUnit_AttacksFirst_AndWins]'
+      name: FasterUnit_AttacksFirst_AndWins
+      fullName: Tests.EditModeTests.CombatSystemTests.FasterUnit_AttacksFirst_AndWins
+      resultStatus: 1
+      duration: 0.036976
+      messages: 
+      output: '[INFO] Combat started | { attacker = Fast, defender = Slow, attackerHp
+        = 100, defenderHp = 100, attackerAtk = 10, defenderAtk = 10, attackerArmor
+        = 0, defenderArmor = 0, attackerSpeed = 20, defenerSpeed = 5 }
+
+        [INFO]
+        Turn order decided | { first = Fast, reason = speed, aSpeed = 20, bSpeed
+        = 5 }
+
+        [INFO] Combat round start | { round = 1, aHp = 100, bHp =
+        100, turn = Fast }
+
+        [INFO] Attack start | { round = 1, attacker
+        = Fast, defender = Slow, attackerHp = 100, defenderHp = 100 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Fast, defender = Slow, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
+        = 90 }
+
+        [INFO] Combat round start | { round = 2, aHp = 100, bHp
+        = 90, turn = Slow }
+
+        [INFO] Attack start | { round = 2, attacker
+        = Slow, defender = Fast, attackerHp = 90, defenderHp = 100 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Slow, defender = Fast, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Slow, defender = Fast, damage = 10, defenderHpAfter
+        = 90 }
+
+        [INFO] Combat round start | { round = 3, aHp = 90, bHp =
+        90, turn = Fast }
+
+        [INFO] Attack start | { round = 3, attacker =
+        Fast, defender = Slow, attackerHp = 90, defenderHp = 90 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Fast, defender = Slow, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
+        = 80 }
+
+        [INFO] Combat round start | { round = 4, aHp = 90, bHp =
+        80, turn = Slow }
+
+        [INFO] Attack start | { round = 4, attacker =
+        Slow, defender = Fast, attackerHp = 80, defenderHp = 90 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Slow, defender = Fast, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Slow, defender = Fast, damage = 10, defenderHpAfter
+        = 80 }
+
+        [INFO] Combat round start | { round = 5, aHp = 80, bHp =
+        80, turn = Fast }
+
+        [INFO] Attack start | { round = 5, attacker =
+        Fast, defender = Slow, attackerHp = 80, defenderHp = 80 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Fast, defender = Slow, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
+        = 70 }
+
+        [INFO] Combat round start | { round = 6, aHp = 80, bHp =
+        70, turn = Slow }
+
+        [INFO] Attack start | { round = 6, attacker =
+        Slow, defender = Fast, attackerHp = 70, defenderHp = 80 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Slow, defender = Fast, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Slow, defender = Fast, damage = 10, defenderHpAfter
+        = 70 }
+
+        [INFO] Combat round start | { round = 7, aHp = 70, bHp =
+        70, turn = Fast }
+
+        [INFO] Attack start | { round = 7, attacker =
+        Fast, defender = Slow, attackerHp = 70, defenderHp = 70 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Fast, defender = Slow, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
+        = 60 }
+
+        [INFO] Combat round start | { round = 8, aHp = 70, bHp =
+        60, turn = Slow }
+
+        [INFO] Attack start | { round = 8, attacker =
+        Slow, defender = Fast, attackerHp = 60, defenderHp = 70 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Slow, defender = Fast, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Slow, defender = Fast, damage = 10, defenderHpAfter
+        = 60 }
+
+        [INFO] Combat round start | { round = 9, aHp = 60, bHp =
+        60, turn = Fast }
+
+        [INFO] Attack start | { round = 9, attacker =
+        Fast, defender = Slow, attackerHp = 60, defenderHp = 60 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Fast, defender = Slow, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
+        = 50 }
+
+        [INFO] Combat round start | { round = 10, aHp = 60, bHp
+        = 50, turn = Slow }
+
+        [INFO] Attack start | { round = 10, attacker
+        = Slow, defender = Fast, attackerHp = 50, defenderHp = 60 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Slow, defender = Fast, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Slow, defender = Fast, damage = 10, defenderHpAfter
+        = 50 }
+
+        [INFO] Combat round start | { round = 11, aHp = 50, bHp
+        = 50, turn = Fast }
+
+        [INFO] Attack start | { round = 11, attacker
+        = Fast, defender = Slow, attackerHp = 50, defenderHp = 50 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Fast, defender = Slow, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
+        = 40 }
+
+        [INFO] Combat round start | { round = 12, aHp = 50, bHp
+        = 40, turn = Slow }
+
+        [INFO] Attack start | { round = 12, attacker
+        = Slow, defender = Fast, attackerHp = 40, defenderHp = 50 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Slow, defender = Fast, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Slow, defender = Fast, damage = 10, defenderHpAfter
+        = 40 }
+
+        [INFO] Combat round start | { round = 13, aHp = 40, bHp
+        = 40, turn = Fast }
+
+        [INFO] Attack start | { round = 13, attacker
+        = Fast, defender = Slow, attackerHp = 40, defenderHp = 40 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Fast, defender = Slow, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
+        = 30 }
+
+        [INFO] Combat round start | { round = 14, aHp = 40, bHp
+        = 30, turn = Slow }
+
+        [INFO] Attack start | { round = 14, attacker
+        = Slow, defender = Fast, attackerHp = 30, defenderHp = 40 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Slow, defender = Fast, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Slow, defender = Fast, damage = 10, defenderHpAfter
+        = 30 }
+
+        [INFO] Combat round start | { round = 15, aHp = 30, bHp
+        = 30, turn = Fast }
+
+        [INFO] Attack start | { round = 15, attacker
+        = Fast, defender = Slow, attackerHp = 30, defenderHp = 30 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Fast, defender = Slow, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
+        = 20 }
+
+        [INFO] Combat round start | { round = 16, aHp = 30, bHp
+        = 20, turn = Slow }
+
+        [INFO] Attack start | { round = 16, attacker
+        = Slow, defender = Fast, attackerHp = 20, defenderHp = 30 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Slow, defender = Fast, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Slow, defender = Fast, damage = 10, defenderHpAfter
+        = 20 }
+
+        [INFO] Combat round start | { round = 17, aHp = 20, bHp
+        = 20, turn = Fast }
+
+        [INFO] Attack start | { round = 17, attacker
+        = Fast, defender = Slow, attackerHp = 20, defenderHp = 20 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Fast, defender = Slow, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
+        = 10 }
+
+        [INFO] Combat round start | { round = 18, aHp = 20, bHp
+        = 10, turn = Slow }
+
+        [INFO] Attack start | { round = 18, attacker
+        = Slow, defender = Fast, attackerHp = 10, defenderHp = 20 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Slow, defender = Fast, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Slow, defender = Fast, damage = 10, defenderHpAfter
+        = 10 }
+
+        [INFO] Combat round start | { round = 19, aHp = 10, bHp
+        = 10, turn = Fast }
+
+        [INFO] Attack start | { round = 19, attacker
+        = Fast, defender = Slow, attackerHp = 10, defenderHp = 10 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Fast, defender = Slow, attackPower = 10,
+        defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+
+        [INFO] Damage
+        applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
+        = 0 }
+
+        [INFO] Combat finished | { winner = Fast, rounds = 19, finalAHp
+        = 10, finalBHp = 0 }
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests][suite]'
+    - id: 1011
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/CombatSystemTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests.HighArmorStillTakesAtLeastOneDamage]'
+      name: HighArmorStillTakesAtLeastOneDamage
+      fullName: Tests.EditModeTests.CombatSystemTests.HighArmorStillTakesAtLeastOneDamage
+      resultStatus: 1
+      duration: 0.0183451
+      messages: 
+      output: '[INFO] Combat started | { attacker = Needle, defender = Wall, attackerHp
+        = 100, defenderHp = 5, attackerAtk = 1, defenderAtk = 0, attackerArmor =
+        0, defenderArmor = 10000, attackerSpeed = 10, defenerSpeed = 1 }
+
+        [INFO]
+        Turn order decided | { first = Needle, reason = speed, aSpeed = 10, bSpeed
+        = 1 }
+
+        [INFO] Combat round start | { round = 1, aHp = 100, bHp =
+        5, turn = Needle }
+
+        [INFO] Attack start | { round = 1, attacker
+        = Needle, defender = Wall, attackerHp = 100, defenderHp = 5 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 10000, multiplier = 0,00990099 }
+
+        [INFO]
+        Damage calculated | { attacker = Needle, defender = Wall, attackPower = 1,
+        defenderArmor = 10000, armorMultiplier = 0,00990099, damage = 1 }
+
+        [INFO]
+        Damage applied | { attacker = Needle, defender = Wall, damage = 1, defenderHpAfter
+        = 4 }
+
+        [INFO] Combat round start | { round = 2, aHp = 100, bHp =
+        4, turn = Wall }
+
+        [INFO] Attack start | { round = 2, attacker =
+        Wall, defender = Needle, attackerHp = 4, defenderHp = 100 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Wall, defender = Needle, attackPower = 0,
+        defenderArmor = 0, armorMultiplier = 1, damage = 0 }
+
+        [INFO] Damage
+        applied | { attacker = Wall, defender = Needle, damage = 0, defenderHpAfter
+        = 100 }
+
+        [INFO] Combat round start | { round = 3, aHp = 100, bHp
+        = 4, turn = Needle }
+
+        [INFO] Attack start | { round = 3, attacker
+        = Needle, defender = Wall, attackerHp = 100, defenderHp = 4 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 10000, multiplier = 0,00990099 }
+
+        [INFO]
+        Damage calculated | { attacker = Needle, defender = Wall, attackPower = 1,
+        defenderArmor = 10000, armorMultiplier = 0,00990099, damage = 1 }
+
+        [INFO]
+        Damage applied | { attacker = Needle, defender = Wall, damage = 1, defenderHpAfter
+        = 3 }
+
+        [INFO] Combat round start | { round = 4, aHp = 100, bHp =
+        3, turn = Wall }
+
+        [INFO] Attack start | { round = 4, attacker =
+        Wall, defender = Needle, attackerHp = 3, defenderHp = 100 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Wall, defender = Needle, attackPower = 0,
+        defenderArmor = 0, armorMultiplier = 1, damage = 0 }
+
+        [INFO] Damage
+        applied | { attacker = Wall, defender = Needle, damage = 0, defenderHpAfter
+        = 100 }
+
+        [INFO] Combat round start | { round = 5, aHp = 100, bHp
+        = 3, turn = Needle }
+
+        [INFO] Attack start | { round = 5, attacker
+        = Needle, defender = Wall, attackerHp = 100, defenderHp = 3 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 10000, multiplier = 0,00990099 }
+
+        [INFO]
+        Damage calculated | { attacker = Needle, defender = Wall, attackPower = 1,
+        defenderArmor = 10000, armorMultiplier = 0,00990099, damage = 1 }
+
+        [INFO]
+        Damage applied | { attacker = Needle, defender = Wall, damage = 1, defenderHpAfter
+        = 2 }
+
+        [INFO] Combat round start | { round = 6, aHp = 100, bHp =
+        2, turn = Wall }
+
+        [INFO] Attack start | { round = 6, attacker =
+        Wall, defender = Needle, attackerHp = 2, defenderHp = 100 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Wall, defender = Needle, attackPower = 0,
+        defenderArmor = 0, armorMultiplier = 1, damage = 0 }
+
+        [INFO] Damage
+        applied | { attacker = Wall, defender = Needle, damage = 0, defenderHpAfter
+        = 100 }
+
+        [INFO] Combat round start | { round = 7, aHp = 100, bHp
+        = 2, turn = Needle }
+
+        [INFO] Attack start | { round = 7, attacker
+        = Needle, defender = Wall, attackerHp = 100, defenderHp = 2 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 10000, multiplier = 0,00990099 }
+
+        [INFO]
+        Damage calculated | { attacker = Needle, defender = Wall, attackPower = 1,
+        defenderArmor = 10000, armorMultiplier = 0,00990099, damage = 1 }
+
+        [INFO]
+        Damage applied | { attacker = Needle, defender = Wall, damage = 1, defenderHpAfter
+        = 1 }
+
+        [INFO] Combat round start | { round = 8, aHp = 100, bHp =
+        1, turn = Wall }
+
+        [INFO] Attack start | { round = 8, attacker =
+        Wall, defender = Needle, attackerHp = 1, defenderHp = 100 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 0, multiplier = 1 }
+
+        [INFO]
+        Damage calculated | { attacker = Wall, defender = Needle, attackPower = 0,
+        defenderArmor = 0, armorMultiplier = 1, damage = 0 }
+
+        [INFO] Damage
+        applied | { attacker = Wall, defender = Needle, damage = 0, defenderHpAfter
+        = 100 }
+
+        [INFO] Combat round start | { round = 9, aHp = 100, bHp
+        = 1, turn = Needle }
+
+        [INFO] Attack start | { round = 9, attacker
+        = Needle, defender = Wall, attackerHp = 100, defenderHp = 1 }
+
+        [INFO]
+        Armor multiplier computed | { armor = 10000, multiplier = 0,00990099 }
+
+        [INFO]
+        Damage calculated | { attacker = Needle, defender = Wall, attackPower = 1,
+        defenderArmor = 10000, armorMultiplier = 0,00990099, damage = 1 }
+
+        [INFO]
+        Damage applied | { attacker = Needle, defender = Wall, damage = 1, defenderHpAfter
+        = 0 }
+
+        [INFO] Combat finished | { winner = Needle, rounds = 9, finalAHp
+        = 100, finalBHp = 0 }
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests][suite]'
+    - id: 1006
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/CombatSystemTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests.RunFight_CompletesWithWinner]'
+      name: RunFight_CompletesWithWinner
+      fullName: Tests.EditModeTests.CombatSystemTests.RunFight_CompletesWithWinner
+      resultStatus: 1
+      duration: 0.0069719
+      messages: 
+      output: '[INFO] Combat started | { attacker = A, defender = B, attackerHp =
+        10, defenderHp = 10, attackerAtk = 5, defenderAtk = 4, attackerArmor = 0,
+        defenderArmor = 0, attackerSpeed = 5, defenerSpeed = 4 }
+
+        [INFO]
+        Turn order decided | { first = A, reason = speed, aSpeed = 5, bSpeed = 4
+        }
+
+        [INFO] Combat round start | { round = 1, aHp = 10, bHp = 10,
+        turn = A }
+
+        [INFO] Attack start | { round = 1, attacker = A, defender
+        = B, attackerHp = 10, defenderHp = 10 }
+
+        [INFO] Armor multiplier
+        computed | { armor = 0, multiplier = 1 }
+
+        [INFO] Damage calculated
+        | { attacker = A, defender = B, attackPower = 5, defenderArmor = 0, armorMultiplier
+        = 1, damage = 5 }
+
+        [INFO] Damage applied | { attacker = A, defender
+        = B, damage = 5, defenderHpAfter = 5 }
+
+        [INFO] Combat round start
+        | { round = 2, aHp = 10, bHp = 5, turn = B }
+
+        [INFO] Attack start
+        | { round = 2, attacker = B, defender = A, attackerHp = 5, defenderHp = 10
+        }
+
+        [INFO] Armor multiplier computed | { armor = 0, multiplier =
+        1 }
+
+        [INFO] Damage calculated | { attacker = B, defender = A, attackPower
+        = 4, defenderArmor = 0, armorMultiplier = 1, damage = 4 }
+
+        [INFO]
+        Damage applied | { attacker = B, defender = A, damage = 4, defenderHpAfter
+        = 6 }
+
+        [INFO] Combat round start | { round = 3, aHp = 6, bHp = 5,
+        turn = A }
+
+        [INFO] Attack start | { round = 3, attacker = A, defender
+        = B, attackerHp = 6, defenderHp = 5 }
+
+        [INFO] Armor multiplier computed
+        | { armor = 0, multiplier = 1 }
+
+        [INFO] Damage calculated | { attacker
+        = A, defender = B, attackPower = 5, defenderArmor = 0, armorMultiplier =
+        1, damage = 5 }
+
+        [INFO] Damage applied | { attacker = A, defender
+        = B, damage = 5, defenderHpAfter = 0 }
+
+        [INFO] Combat finished |
+        { winner = A, rounds = 3, finalAHp = 6, finalBHp = 0 }
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests][suite]'
+    - id: 1007
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/CombatSystemTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests.RunFight_DoesNotModifyUnitsWithZeroHP]'
+      name: RunFight_DoesNotModifyUnitsWithZeroHP
+      fullName: Tests.EditModeTests.CombatSystemTests.RunFight_DoesNotModifyUnitsWithZeroHP
+      resultStatus: 1
+      duration: 0.001262
+      messages: 
+      output: '[INFO] Combat started | { attacker = A, defender = B, attackerHp =
+        0, defenderHp = 10, attackerAtk = 5, defenderAtk = 4, attackerArmor = 0,
+        defenderArmor = 0, attackerSpeed = 5, defenerSpeed = 4 }
+
+        [INFO]
+        Turn order decided | { first = A, reason = speed, aSpeed = 5, bSpeed = 4
+        }
+
+        [INFO] Combat finished | { winner = B, rounds = 0, finalAHp =
+        0, finalBHp = 10 }
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1005
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.CombatSystemTests][suite]'
+    - id: 1009
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.DraftSystemTests][suite]'
+      name: DraftSystemTests
+      fullName: Tests.EditModeTests.DraftSystemTests
+      resultStatus: 1
+      duration: 0.0084422
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1036
+      parentUniqueId: 'EditModeTests.dll/Tests/[EditModeTests][suite]'
+    - id: 1015
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/DraftSystemTests/[EditModeTests][Tests.EditModeTests.DraftSystemTests.GenerateDraft_DoesNotReturnMoreThanPool]'
+      name: GenerateDraft_DoesNotReturnMoreThanPool
+      fullName: Tests.EditModeTests.DraftSystemTests.GenerateDraft_DoesNotReturnMoreThanPool
+      resultStatus: 1
+      duration: 0.0055982
+      messages: 
+      output: '[INFO] DraftSystem initialized | { repositoryType = MockUpgradeRepository
+        }
+
+        [INFO] GenerateDraft called | { count = 5 }
+
+        [INFO]
+        Upgrade pool retrieved | { poolSize = 2 }
+
+        [INFO] Draft selection
+        | { round = 0, selected = B, remainingPool = 2 }
+
+        [INFO] Draft selection
+        | { round = 1, selected = A, remainingPool = 1 }
+
+        [INFO] Draft generated
+        | { draftSize = 2, selectedUpgrades = B,A }
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1013
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.DraftSystemTests][suite]'
+    - id: 1014
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/DraftSystemTests/[EditModeTests][Tests.EditModeTests.DraftSystemTests.GenerateDraft_ReturnsCorrectNumberOfUpgrades]'
+      name: GenerateDraft_ReturnsCorrectNumberOfUpgrades
+      fullName: Tests.EditModeTests.DraftSystemTests.GenerateDraft_ReturnsCorrectNumberOfUpgrades
+      resultStatus: 1
+      duration: 0.002844
+      messages: 
+      output: '[INFO] DraftSystem initialized | { repositoryType = MockUpgradeRepository
+        }
+
+        [INFO] GenerateDraft called | { count = 2 }
+
+        [INFO]
+        Upgrade pool retrieved | { poolSize = 3 }
+
+        [INFO] Draft selection
+        | { round = 0, selected = B, remainingPool = 3 }
+
+        [INFO] Draft selection
+        | { round = 1, selected = A, remainingPool = 2 }
+
+        [INFO] Draft generated
+        | { draftSize = 2, selectedUpgrades = B,A }
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1013
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.DraftSystemTests][suite]'
+    - id: 1012
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.EnemyFactoryTests][suite]'
+      name: EnemyFactoryTests
+      fullName: Tests.EditModeTests.EnemyFactoryTests
+      resultStatus: 1
+      duration: 0.0034907
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1036
+      parentUniqueId: 'EditModeTests.dll/Tests/[EditModeTests][suite]'
+    - id: 1017
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/EnemyFactoryTests/[EditModeTests][Tests.EditModeTests.EnemyFactoryTests.Create_ReturnsUnitWithCorrectStats]'
+      name: Create_ReturnsUnitWithCorrectStats
+      fullName: Tests.EditModeTests.EnemyFactoryTests.Create_ReturnsUnitWithCorrectStats
+      resultStatus: 1
+      duration: 0.0034907
+      messages: 
+      output: '[INFO] Enemy created | { fightIndex = 3, unitName = Fenmaw the Shadow,
+        maxHP = 30, attackPower = 6, armor = 3, speed = 6 }
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1016
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.EnemyFactoryTests][suite]'
+    - id: 1014
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.MonsterNameTests][suite]'
+      name: MonsterNameTests
+      fullName: Tests.EditModeTests.MonsterNameTests
+      resultStatus: 1
+      duration: 0.0057128
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1036
+      parentUniqueId: 'EditModeTests.dll/Tests/[EditModeTests][suite]'
+    - id: 1020
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/MonsterNameTests/[EditModeTests][Tests.EditModeTests.MonsterNameTests.Random_AlwaysUsesValidPrefixAndSuffix]'
+      name: Random_AlwaysUsesValidPrefixAndSuffix
+      fullName: Tests.EditModeTests.MonsterNameTests.Random_AlwaysUsesValidPrefixAndSuffix
+      resultStatus: 1
+      duration: 0.0038912
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1018
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.MonsterNameTests][suite]'
+    - id: 1019
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/MonsterNameTests/[EditModeTests][Tests.EditModeTests.MonsterNameTests.Random_ReturnsNonEmptyString]'
+      name: Random_ReturnsNonEmptyString
+      fullName: Tests.EditModeTests.MonsterNameTests.Random_ReturnsNonEmptyString
+      resultStatus: 1
+      duration: 0.0001036
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1018
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.MonsterNameTests][suite]'
+    - id: 1022
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/MonsterNameTests/[EditModeTests][Tests.EditModeTests.MonsterNameTests.Random_SometimesHasTitle_AndSometimesNot]'
+      name: Random_SometimesHasTitle_AndSometimesNot
+      fullName: Tests.EditModeTests.MonsterNameTests.Random_SometimesHasTitle_AndSometimesNot
+      resultStatus: 1
+      duration: 0.0003437
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1018
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.MonsterNameTests][suite]'
+    - id: 1021
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/MonsterNameTests/[EditModeTests][Tests.EditModeTests.MonsterNameTests.Random_TitleIfPresent_IsFromTitleList]'
+      name: Random_TitleIfPresent_IsFromTitleList
+      fullName: Tests.EditModeTests.MonsterNameTests.Random_TitleIfPresent_IsFromTitleList
+      resultStatus: 1
+      duration: 0.0012491
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1018
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.MonsterNameTests][suite]'
+    - id: 1023
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/MonsterNameTests/[EditModeTests][Tests.EditModeTests.MonsterNameTests.Random_WithFixedSeed_IsDeterministic]'
+      name: Random_WithFixedSeed_IsDeterministic
+      fullName: Tests.EditModeTests.MonsterNameTests.Random_WithFixedSeed_IsDeterministic
+      resultStatus: 1
+      duration: 0.0001252
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1018
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.MonsterNameTests][suite]'
+    - id: 1020
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]'
+      name: UpgradeApplierTests
+      fullName: Tests.EditModeTests.UpgradeApplierTests
+      resultStatus: 1
+      duration: 0.005812
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1036
+      parentUniqueId: 'EditModeTests.dll/Tests/[EditModeTests][suite]'
+    - id: 1025
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/UpgradeApplierTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests.Apply_StatUpgrade_DispatchesToStatHandler]'
+      name: Apply_StatUpgrade_DispatchesToStatHandler
+      fullName: Tests.EditModeTests.UpgradeApplierTests.Apply_StatUpgrade_DispatchesToStatHandler
+      resultStatus: 1
+      duration: 0.0004655
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1024
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]'
+    - id: 1026
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/UpgradeApplierTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests.Apply_UnknownUpgradeType_Throws]'
+      name: Apply_UnknownUpgradeType_Throws
+      fullName: Tests.EditModeTests.UpgradeApplierTests.Apply_UnknownUpgradeType_Throws
+      resultStatus: 1
+      duration: 0.0011061
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1024
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]'
+    - id: 1032
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/UpgradeApplierTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests.ApplyAbility_AlwaysThrows_ForUnknownAbility]'
+      name: ApplyAbility_AlwaysThrows_ForUnknownAbility
+      fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyAbility_AlwaysThrows_ForUnknownAbility
+      resultStatus: 1
+      duration: 0.0002489
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1024
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]'
+    - id: 1035
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/UpgradeApplierTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Lifesteal_LogsCorrectly]'
+      name: ApplyPassive_Lifesteal_LogsCorrectly
+      fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Lifesteal_LogsCorrectly
+      resultStatus: 1
+      duration: 0.0014021
+      messages: 
+      output: 'Passive Applied: Lifesteal
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1024
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]'
+    - id: 1036
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/UpgradeApplierTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Poison_LogsCorrectly]'
+      name: ApplyPassive_Poison_LogsCorrectly
+      fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Poison_LogsCorrectly
+      resultStatus: 1
+      duration: 0.0005537
+      messages: 
+      output: 'Passive Applied: Poison
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1024
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]'
+    - id: 1034
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/UpgradeApplierTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Rage_LogsCorrectly]'
+      name: ApplyPassive_Rage_LogsCorrectly
+      fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Rage_LogsCorrectly
+      resultStatus: 1
+      duration: 0.0005212
+      messages: 
+      output: 'Passive Applied: Rage
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1024
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]'
+    - id: 1033
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/UpgradeApplierTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Thorns_LogsCorrectly]'
+      name: ApplyPassive_Thorns_LogsCorrectly
+      fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_Thorns_LogsCorrectly
+      resultStatus: 1
+      duration: 0.0005148
+      messages: 
+      output: 'Passive Applied: Thorns
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1024
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]'
+    - id: 1037
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/UpgradeApplierTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_UnknownPassive_Throws]'
+      name: ApplyPassive_UnknownPassive_Throws
+      fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyPassive_UnknownPassive_Throws
+      resultStatus: 1
+      duration: 0.0002243
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1024
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]'
+    - id: 1029
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/UpgradeApplierTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests.ApplyStat_Armor_IncreasesArmor]'
+      name: ApplyStat_Armor_IncreasesArmor
+      fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_Armor_IncreasesArmor
+      resultStatus: 1
+      duration: 0.0001576
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1024
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]'
+    - id: 1028
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/UpgradeApplierTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests.ApplyStat_AttackPower_IncreasesAttack]'
+      name: ApplyStat_AttackPower_IncreasesAttack
+      fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_AttackPower_IncreasesAttack
+      resultStatus: 1
+      duration: 0.0001329
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1024
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]'
+    - id: 1027
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/UpgradeApplierTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests.ApplyStat_MaxHP_IncreasesMaxAndCurrentHP]'
+      name: ApplyStat_MaxHP_IncreasesMaxAndCurrentHP
+      fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_MaxHP_IncreasesMaxAndCurrentHP
+      resultStatus: 1
+      duration: 0.0001449
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1024
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]'
+    - id: 1030
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/UpgradeApplierTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests.ApplyStat_Speed_IncreasesSpeed]'
+      name: ApplyStat_Speed_IncreasesSpeed
+      fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_Speed_IncreasesSpeed
+      resultStatus: 1
+      duration: 0.0001296
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1024
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]'
+    - id: 1031
+      uniqueId: 'EditModeTests.dll/Tests/EditModeTests/UpgradeApplierTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests.ApplyStat_UnknownStat_Throws]'
+      name: ApplyStat_UnknownStat_Throws
+      fullName: Tests.EditModeTests.UpgradeApplierTests.ApplyStat_UnknownStat_Throws
+      resultStatus: 1
+      duration: 0.0002104
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1024
+      parentUniqueId: 'EditModeTests.dll/Tests/EditModeTests/[EditModeTests][Tests.EditModeTests.UpgradeApplierTests][suite]'
+    m_ResultText: 'ApplyPassive_Lifesteal_LogsCorrectly (0,001s)
+
+      ---
+
+      Passive
+      Applied: Lifesteal'
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 
+      m_SelectedIDs: 94f048c2
+      m_LastClickedID: -1035407212
+      m_ExpandedIDs: fbaa53a5bc1b99b084ec67c28a2709cf06f87edc97eff2fb4e9c495903480b5db1787b7effffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1954,11 +3635,12 @@ MonoBehaviour:
       NotRunHidden: 0
       m_SearchString: 
       selectedCategories: []
-      availableCategories: []
+      availableCategories:
+      - Uncategorized
     m_SelectedOption: 0
-  - m_Window: {fileID: 0}
+  - m_Window: {fileID: 24}
     runProgress:
-      RunGuid: 
+      RunGuid: 4ef13b45-e4fb-4e28-a185-f0aeaae545ab
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -1968,9 +3650,14 @@ MonoBehaviour:
           groupNames: []
           categoryNames: []
           assemblyNames: []
-        filters: []
+        filters:
+        - testMode: 1
+          testNames: []
+          groupNames: []
+          categoryNames: []
+          assemblyNames: []
         runSynchronously: 0
-        playerHeartbeatTimeout: 0
+        playerHeartbeatTimeout: 600
         orderedTestNames: []
         ignoreTests: []
         featureFlags:
@@ -1979,18 +3666,34 @@ MonoBehaviour:
           strictDomainReload: 0
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
-      HasFinished: 0
-      Progress: 0
-      CurrentStepName: 
+      HasFinished: 1
+      Progress: 1.0000002
+      CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
-    m_NewResultList: []
+    m_NewResultList:
+    - id: 1000
+      uniqueId: '[Three Choices][suite]'
+      name: Three Choices
+      fullName: Three Choices
+      resultStatus: 0
+      duration: 0
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 
+      parentUniqueId: 
     m_ResultText: 
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 
+      m_ExpandedIDs: 06f87edcffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -2015,11 +3718,12 @@ MonoBehaviour:
       NotRunHidden: 0
       m_SearchString: 
       selectedCategories: []
-      availableCategories: []
+      availableCategories:
+      - Uncategorized
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: 
+      RunGuid: 4ef13b45-e4fb-4e28-a185-f0aeaae545ab
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -2029,9 +3733,14 @@ MonoBehaviour:
           groupNames: []
           categoryNames: []
           assemblyNames: []
-        filters: []
+        filters:
+        - testMode: 1
+          testNames: []
+          groupNames: []
+          categoryNames: []
+          assemblyNames: []
         runSynchronously: 0
-        playerHeartbeatTimeout: 0
+        playerHeartbeatTimeout: 600
         orderedTestNames: []
         ignoreTests: []
         featureFlags:
@@ -2040,9 +3749,9 @@ MonoBehaviour:
           strictDomainReload: 0
           disableNestedEnumeratorBugfix: 0
         randomOrderSeed: 0
-      HasFinished: 0
-      Progress: 0
-      CurrentStepName: 
+      HasFinished: 1
+      Progress: 1.0000002
+      CurrentStepName: Unlock Reload Assemblies
       CurrentStageName: 
     m_NewResultList: []
     m_ResultText: 
