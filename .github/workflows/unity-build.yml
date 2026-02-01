@@ -45,3 +45,4 @@ jobs:
           butler push build/${{ matrix.target }} \
           racksay/three-choices:${{ matrix.channel }} \
           --userversion "${{ github.run_number }}"
+        shell: bash
