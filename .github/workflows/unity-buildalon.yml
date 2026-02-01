@@ -90,26 +90,10 @@ jobs:
           BUTLER_API_KEY: ${{ secrets.ITCH_API_KEY }}
         shell: bash
         run: |
-          ./butler.exe push \
+          butler push \
             "${{ env.UNITY_PROJECT_PATH }}/Builds/${{ matrix.build-target }}" \
             racksay/three-choices:${{ matrix.itch-channel }} \
             --userversion "${{ github.run_number }}"
-
-      - uses: actions/upload-artifact@v6
-        id: upload-artifact
-        name: Upload ${{ matrix.build-target }} Artifacts
-        if: success() || failure()
-        with:
-          compression-level: 0
-          retention-days: 1
-          name: ${{ github.run_number }}.${{ github.run_attempt }}-${{ matrix.os }}-${{ matrix.build-target }}-Artifacts
-          path: |
-            ${{ github.workspace }}/**/*.log
-            ${{ github.workspace }}/**/*.xml
-            ${{ env.UNITY_PROJECT_PATH }}/Builds/StandaloneWindows64/**/*.exe
-            ${{ env.UNITY_PROJECT_PATH }}/Builds/StandaloneWindows64/**/*.dll
-            ${{ env.UNITY_PROJECT_PATH }}/Builds/StandaloneWindows64/**/*_Data
-            ${{ env.UNITY_PROJECT_PATH }}/Builds/StandaloneWindows64/MonoBleedingEdge/
 
       - name: Clean Artifacts
         if: always()

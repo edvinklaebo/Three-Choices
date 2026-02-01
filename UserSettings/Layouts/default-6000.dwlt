@@ -380,7 +380,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 43
+    y: 0
     width: 1920
     height: 36
   m_SerializedDataModeController:
@@ -645,8 +645,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 711
-    y: 618
+    x: 712
+    y: 24
     width: 836
     height: 376
   m_SerializedDataModeController:
@@ -684,7 +684,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 79
+    y: 24
     width: 327
     height: 513
   m_SerializedDataModeController:
@@ -1525,8 +1525,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Game\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 328
-    y: 79
+    x: 329
+    y: 24
     width: 1219
     height: 513
   m_SerializedDataModeController:
@@ -1586,7 +1586,7 @@ MonoBehaviour:
       y: 21
       width: 1219
       height: 492
-    m_Scale: {x: 0.45555553, y: 0.45555556}
+    m_Scale: {x: 0.45555556, y: 0.45555556}
     m_Translation: {x: 609.5, y: 246}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -1667,7 +1667,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 618
+    y: 24
     width: 710
     height: 376
   m_SerializedDataModeController:
@@ -1718,18 +1718,11 @@ MonoBehaviour:
       m_Data: 40508
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 40390
-    - m_Data: 40496
-    - m_Data: 40506
-    - m_Data: 40586
-    - m_Data: 40716
-    - m_Data: 47416
-    - m_Data: 1000000000
-    - m_Data: 2147483647
+    - m_Data: 40578
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Passives
-      m_OriginalName: Passives
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
@@ -1737,10 +1730,10 @@ MonoBehaviour:
         width: 0
         height: 0
       m_UserData:
-        m_Data: 45760
+        m_Data: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_TrimLeadingAndTrailingWhitespace: 0
       m_ClientGUIView: {fileID: 12}
@@ -1759,10 +1752,7 @@ MonoBehaviour:
       m_Data: 40200
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 40390
-    - m_Data: 40506
-    - m_Data: 40716
-    - m_Data: 45762
+    - m_Data: 40578
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1884,8 +1874,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1549
-    y: 79
+    x: 1550
+    y: 24
     width: 370
     height: 915
   m_SerializedDataModeController:
@@ -2124,11 +2114,11 @@ MonoBehaviour:
         Damage applied | { attacker = Attacker, defender = Tank, damage = 25, defenderHpAfter
         = 75 }
 
-        [INFO] Combat round start | { round = 2, aHp = 100, bHp
-        = 75, turn = Tank }
+        [INFO] Combat round start | { round = 2, aHp = 100, bHp =
+        75, turn = Tank }
 
-        [INFO] Attack start | { round = 2, attacker
-        = Tank, defender = Attacker, attackerHp = 75, defenderHp = 100 }
+        [INFO] Attack start | { round = 2, attacker =
+        Tank, defender = Attacker, attackerHp = 75, defenderHp = 100 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2137,8 +2127,8 @@ MonoBehaviour:
         Damage calculated | { attacker = Tank, defender = Attacker, attackPower =
         0, defenderArmor = 0, armorMultiplier = 1, damage = 0 }
 
-        [INFO]
-        Damage applied | { attacker = Tank, defender = Attacker, damage = 0, defenderHpAfter
+        [INFO] Damage
+        applied | { attacker = Tank, defender = Attacker, damage = 0, defenderHpAfter
         = 100 }
 
         [INFO] Combat round start | { round = 3, aHp = 100, bHp
@@ -2158,11 +2148,11 @@ MonoBehaviour:
         Damage applied | { attacker = Attacker, defender = Tank, damage = 25, defenderHpAfter
         = 50 }
 
-        [INFO] Combat round start | { round = 4, aHp = 100, bHp
-        = 50, turn = Tank }
+        [INFO] Combat round start | { round = 4, aHp = 100, bHp =
+        50, turn = Tank }
 
-        [INFO] Attack start | { round = 4, attacker
-        = Tank, defender = Attacker, attackerHp = 50, defenderHp = 100 }
+        [INFO] Attack start | { round = 4, attacker =
+        Tank, defender = Attacker, attackerHp = 50, defenderHp = 100 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2171,8 +2161,8 @@ MonoBehaviour:
         Damage calculated | { attacker = Tank, defender = Attacker, attackPower =
         0, defenderArmor = 0, armorMultiplier = 1, damage = 0 }
 
-        [INFO]
-        Damage applied | { attacker = Tank, defender = Attacker, damage = 0, defenderHpAfter
+        [INFO] Damage
+        applied | { attacker = Tank, defender = Attacker, damage = 0, defenderHpAfter
         = 100 }
 
         [INFO] Combat round start | { round = 5, aHp = 100, bHp
@@ -2192,11 +2182,11 @@ MonoBehaviour:
         Damage applied | { attacker = Attacker, defender = Tank, damage = 25, defenderHpAfter
         = 25 }
 
-        [INFO] Combat round start | { round = 6, aHp = 100, bHp
-        = 25, turn = Tank }
+        [INFO] Combat round start | { round = 6, aHp = 100, bHp =
+        25, turn = Tank }
 
-        [INFO] Attack start | { round = 6, attacker
-        = Tank, defender = Attacker, attackerHp = 25, defenderHp = 100 }
+        [INFO] Attack start | { round = 6, attacker =
+        Tank, defender = Attacker, attackerHp = 25, defenderHp = 100 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2205,8 +2195,8 @@ MonoBehaviour:
         Damage calculated | { attacker = Tank, defender = Attacker, attackPower =
         0, defenderArmor = 0, armorMultiplier = 1, damage = 0 }
 
-        [INFO]
-        Damage applied | { attacker = Tank, defender = Attacker, damage = 0, defenderHpAfter
+        [INFO] Damage
+        applied | { attacker = Tank, defender = Attacker, damage = 0, defenderHpAfter
         = 100 }
 
         [INFO] Combat round start | { round = 7, aHp = 100, bHp
@@ -2254,8 +2244,8 @@ MonoBehaviour:
         Turn order decided | { first = A, reason = speed, aSpeed = 10, bSpeed = 5
         }
 
-        [INFO] Combat round start | { round = 1, aHp = 40, bHp = 40,
-        turn = A }
+        [INFO] Combat round start | { round = 1, aHp = 40, bHp = 40, turn
+        = A }
 
         [INFO] Attack start | { round = 1, attacker = A, defender
         = B, attackerHp = 40, defenderHp = 40 }
@@ -2280,8 +2270,8 @@ MonoBehaviour:
         [INFO] Armor multiplier computed | { armor = 0, multiplier
         = 1 }
 
-        [INFO] Damage calculated | { attacker = B, defender = A,
-        attackPower = 10, defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+        [INFO] Damage calculated | { attacker = B, defender = A, attackPower
+        = 10, defenderArmor = 0, armorMultiplier = 1, damage = 10 }
 
         [INFO]
         Damage applied | { attacker = B, defender = A, damage = 10, defenderHpAfter
@@ -2313,8 +2303,8 @@ MonoBehaviour:
         [INFO] Armor multiplier computed | { armor = 0, multiplier
         = 1 }
 
-        [INFO] Damage calculated | { attacker = B, defender = A,
-        attackPower = 10, defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+        [INFO] Damage calculated | { attacker = B, defender = A, attackPower
+        = 10, defenderArmor = 0, armorMultiplier = 1, damage = 10 }
 
         [INFO]
         Damage applied | { attacker = B, defender = A, damage = 10, defenderHpAfter
@@ -2346,8 +2336,8 @@ MonoBehaviour:
         [INFO] Armor multiplier computed | { armor = 0, multiplier
         = 1 }
 
-        [INFO] Damage calculated | { attacker = B, defender = A,
-        attackPower = 10, defenderArmor = 0, armorMultiplier = 1, damage = 10 }
+        [INFO] Damage calculated | { attacker = B, defender = A, attackPower
+        = 10, defenderArmor = 0, armorMultiplier = 1, damage = 10 }
 
         [INFO]
         Damage applied | { attacker = B, defender = A, damage = 10, defenderHpAfter
@@ -2369,8 +2359,8 @@ MonoBehaviour:
         [INFO] Damage applied | { attacker = A, defender
         = B, damage = 10, defenderHpAfter = 0 }
 
-        [INFO] Combat finished
-        | { winner = A, rounds = 7, finalAHp = 10, finalBHp = 0 }
+        [INFO] Combat finished |
+        { winner = A, rounds = 7, finalAHp = 10, finalBHp = 0 }
 
 '
       stacktrace: 
@@ -2428,8 +2418,8 @@ MonoBehaviour:
         = Attacker, attackPower = 10, defenderArmor = 0, armorMultiplier = 1, damage
         = 10 }
 
-        [INFO] Damage applied | { attacker = Defender, defender
-        = Attacker, damage = 10, defenderHpAfter = 20 }
+        [INFO] Damage applied | { attacker = Defender, defender =
+        Attacker, damage = 10, defenderHpAfter = 20 }
 
         [INFO] Combat round
         start | { round = 3, aHp = 20, bHp = 20, turn = Attacker }
@@ -2482,9 +2472,8 @@ MonoBehaviour:
         [INFO] Damage applied | { attacker = Attacker,
         defender = Defender, damage = 10, defenderHpAfter = 0 }
 
-        [INFO]
-        Combat finished | { winner = Attacker, rounds = 5, finalAHp = 10, finalBHp
-        = 0 }
+        [INFO] Combat
+        finished | { winner = Attacker, rounds = 5, finalAHp = 10, finalBHp = 0 }
 
 '
       stacktrace: 
@@ -2514,8 +2503,8 @@ MonoBehaviour:
         [INFO] Combat round start | { round = 1, aHp = 100, bHp =
         100, turn = Fast }
 
-        [INFO] Attack start | { round = 1, attacker
-        = Fast, defender = Slow, attackerHp = 100, defenderHp = 100 }
+        [INFO] Attack start | { round = 1, attacker =
+        Fast, defender = Slow, attackerHp = 100, defenderHp = 100 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2528,11 +2517,11 @@ MonoBehaviour:
         applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
         = 90 }
 
-        [INFO] Combat round start | { round = 2, aHp = 100, bHp
-        = 90, turn = Slow }
+        [INFO] Combat round start | { round = 2, aHp = 100, bHp =
+        90, turn = Slow }
 
-        [INFO] Attack start | { round = 2, attacker
-        = Slow, defender = Fast, attackerHp = 90, defenderHp = 100 }
+        [INFO] Attack start | { round = 2, attacker =
+        Slow, defender = Fast, attackerHp = 90, defenderHp = 100 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2664,11 +2653,11 @@ MonoBehaviour:
         applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
         = 50 }
 
-        [INFO] Combat round start | { round = 10, aHp = 60, bHp
-        = 50, turn = Slow }
+        [INFO] Combat round start | { round = 10, aHp = 60, bHp =
+        50, turn = Slow }
 
-        [INFO] Attack start | { round = 10, attacker
-        = Slow, defender = Fast, attackerHp = 50, defenderHp = 60 }
+        [INFO] Attack start | { round = 10, attacker =
+        Slow, defender = Fast, attackerHp = 50, defenderHp = 60 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2681,11 +2670,11 @@ MonoBehaviour:
         applied | { attacker = Slow, defender = Fast, damage = 10, defenderHpAfter
         = 50 }
 
-        [INFO] Combat round start | { round = 11, aHp = 50, bHp
-        = 50, turn = Fast }
+        [INFO] Combat round start | { round = 11, aHp = 50, bHp =
+        50, turn = Fast }
 
-        [INFO] Attack start | { round = 11, attacker
-        = Fast, defender = Slow, attackerHp = 50, defenderHp = 50 }
+        [INFO] Attack start | { round = 11, attacker =
+        Fast, defender = Slow, attackerHp = 50, defenderHp = 50 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2698,11 +2687,11 @@ MonoBehaviour:
         applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
         = 40 }
 
-        [INFO] Combat round start | { round = 12, aHp = 50, bHp
-        = 40, turn = Slow }
+        [INFO] Combat round start | { round = 12, aHp = 50, bHp =
+        40, turn = Slow }
 
-        [INFO] Attack start | { round = 12, attacker
-        = Slow, defender = Fast, attackerHp = 40, defenderHp = 50 }
+        [INFO] Attack start | { round = 12, attacker =
+        Slow, defender = Fast, attackerHp = 40, defenderHp = 50 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2715,11 +2704,11 @@ MonoBehaviour:
         applied | { attacker = Slow, defender = Fast, damage = 10, defenderHpAfter
         = 40 }
 
-        [INFO] Combat round start | { round = 13, aHp = 40, bHp
-        = 40, turn = Fast }
+        [INFO] Combat round start | { round = 13, aHp = 40, bHp =
+        40, turn = Fast }
 
-        [INFO] Attack start | { round = 13, attacker
-        = Fast, defender = Slow, attackerHp = 40, defenderHp = 40 }
+        [INFO] Attack start | { round = 13, attacker =
+        Fast, defender = Slow, attackerHp = 40, defenderHp = 40 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2732,11 +2721,11 @@ MonoBehaviour:
         applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
         = 30 }
 
-        [INFO] Combat round start | { round = 14, aHp = 40, bHp
-        = 30, turn = Slow }
+        [INFO] Combat round start | { round = 14, aHp = 40, bHp =
+        30, turn = Slow }
 
-        [INFO] Attack start | { round = 14, attacker
-        = Slow, defender = Fast, attackerHp = 30, defenderHp = 40 }
+        [INFO] Attack start | { round = 14, attacker =
+        Slow, defender = Fast, attackerHp = 30, defenderHp = 40 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2749,11 +2738,11 @@ MonoBehaviour:
         applied | { attacker = Slow, defender = Fast, damage = 10, defenderHpAfter
         = 30 }
 
-        [INFO] Combat round start | { round = 15, aHp = 30, bHp
-        = 30, turn = Fast }
+        [INFO] Combat round start | { round = 15, aHp = 30, bHp =
+        30, turn = Fast }
 
-        [INFO] Attack start | { round = 15, attacker
-        = Fast, defender = Slow, attackerHp = 30, defenderHp = 30 }
+        [INFO] Attack start | { round = 15, attacker =
+        Fast, defender = Slow, attackerHp = 30, defenderHp = 30 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2766,11 +2755,11 @@ MonoBehaviour:
         applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
         = 20 }
 
-        [INFO] Combat round start | { round = 16, aHp = 30, bHp
-        = 20, turn = Slow }
+        [INFO] Combat round start | { round = 16, aHp = 30, bHp =
+        20, turn = Slow }
 
-        [INFO] Attack start | { round = 16, attacker
-        = Slow, defender = Fast, attackerHp = 20, defenderHp = 30 }
+        [INFO] Attack start | { round = 16, attacker =
+        Slow, defender = Fast, attackerHp = 20, defenderHp = 30 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2783,11 +2772,11 @@ MonoBehaviour:
         applied | { attacker = Slow, defender = Fast, damage = 10, defenderHpAfter
         = 20 }
 
-        [INFO] Combat round start | { round = 17, aHp = 20, bHp
-        = 20, turn = Fast }
+        [INFO] Combat round start | { round = 17, aHp = 20, bHp =
+        20, turn = Fast }
 
-        [INFO] Attack start | { round = 17, attacker
-        = Fast, defender = Slow, attackerHp = 20, defenderHp = 20 }
+        [INFO] Attack start | { round = 17, attacker =
+        Fast, defender = Slow, attackerHp = 20, defenderHp = 20 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2800,11 +2789,11 @@ MonoBehaviour:
         applied | { attacker = Fast, defender = Slow, damage = 10, defenderHpAfter
         = 10 }
 
-        [INFO] Combat round start | { round = 18, aHp = 20, bHp
-        = 10, turn = Slow }
+        [INFO] Combat round start | { round = 18, aHp = 20, bHp =
+        10, turn = Slow }
 
-        [INFO] Attack start | { round = 18, attacker
-        = Slow, defender = Fast, attackerHp = 10, defenderHp = 20 }
+        [INFO] Attack start | { round = 18, attacker =
+        Slow, defender = Fast, attackerHp = 10, defenderHp = 20 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2817,11 +2806,11 @@ MonoBehaviour:
         applied | { attacker = Slow, defender = Fast, damage = 10, defenderHpAfter
         = 10 }
 
-        [INFO] Combat round start | { round = 19, aHp = 10, bHp
-        = 10, turn = Fast }
+        [INFO] Combat round start | { round = 19, aHp = 10, bHp =
+        10, turn = Fast }
 
-        [INFO] Attack start | { round = 19, attacker
-        = Fast, defender = Slow, attackerHp = 10, defenderHp = 10 }
+        [INFO] Attack start | { round = 19, attacker =
+        Fast, defender = Slow, attackerHp = 10, defenderHp = 10 }
 
         [INFO]
         Armor multiplier computed | { armor = 0, multiplier = 1 }
@@ -2865,8 +2854,8 @@ MonoBehaviour:
         [INFO] Combat round start | { round = 1, aHp = 100, bHp =
         5, turn = Needle }
 
-        [INFO] Attack start | { round = 1, attacker
-        = Needle, defender = Wall, attackerHp = 100, defenderHp = 5 }
+        [INFO] Attack start | { round = 1, attacker =
+        Needle, defender = Wall, attackerHp = 100, defenderHp = 5 }
 
         [INFO]
         Armor multiplier computed | { armor = 10000, multiplier = 0,00990099 }
@@ -2882,141 +2871,141 @@ MonoBehaviour:
         [INFO] Combat round start | { round = 2, aHp = 100, bHp =
         4, turn = Wall }
 
-        [INFO] Attack start | { round = 2, attacker =
-        Wall, defender = Needle, attackerHp = 4, defenderHp = 100 }
+        [INFO] Attack start | { round = 2, attacker = Wall,
+        defender = Needle, attackerHp = 4, defenderHp = 100 }
 
-        [INFO]
-        Armor multiplier computed | { armor = 0, multiplier = 1 }
-
-        [INFO]
-        Damage calculated | { attacker = Wall, defender = Needle, attackPower = 0,
-        defenderArmor = 0, armorMultiplier = 1, damage = 0 }
+        [INFO] Armor
+        multiplier computed | { armor = 0, multiplier = 1 }
 
         [INFO] Damage
-        applied | { attacker = Wall, defender = Needle, damage = 0, defenderHpAfter
-        = 100 }
+        calculated | { attacker = Wall, defender = Needle, attackPower = 0, defenderArmor
+        = 0, armorMultiplier = 1, damage = 0 }
 
-        [INFO] Combat round start | { round = 3, aHp = 100, bHp
-        = 4, turn = Needle }
-
-        [INFO] Attack start | { round = 3, attacker
-        = Needle, defender = Wall, attackerHp = 100, defenderHp = 4 }
+        [INFO] Damage applied | {
+        attacker = Wall, defender = Needle, damage = 0, defenderHpAfter = 100 }
 
         [INFO]
-        Armor multiplier computed | { armor = 10000, multiplier = 0,00990099 }
+        Combat round start | { round = 3, aHp = 100, bHp = 4, turn = Needle }
 
         [INFO]
-        Damage calculated | { attacker = Needle, defender = Wall, attackPower = 1,
-        defenderArmor = 10000, armorMultiplier = 0,00990099, damage = 1 }
+        Attack start | { round = 3, attacker = Needle, defender = Wall, attackerHp
+        = 100, defenderHp = 4 }
+
+        [INFO] Armor multiplier computed | { armor
+        = 10000, multiplier = 0,00990099 }
+
+        [INFO] Damage calculated | {
+        attacker = Needle, defender = Wall, attackPower = 1, defenderArmor = 10000,
+        armorMultiplier = 0,00990099, damage = 1 }
+
+        [INFO] Damage applied
+        | { attacker = Needle, defender = Wall, damage = 1, defenderHpAfter = 3 }
 
         [INFO]
-        Damage applied | { attacker = Needle, defender = Wall, damage = 1, defenderHpAfter
-        = 3 }
-
-        [INFO] Combat round start | { round = 4, aHp = 100, bHp =
-        3, turn = Wall }
-
-        [INFO] Attack start | { round = 4, attacker =
-        Wall, defender = Needle, attackerHp = 3, defenderHp = 100 }
+        Combat round start | { round = 4, aHp = 100, bHp = 3, turn = Wall }
 
         [INFO]
-        Armor multiplier computed | { armor = 0, multiplier = 1 }
+        Attack start | { round = 4, attacker = Wall, defender = Needle, attackerHp
+        = 3, defenderHp = 100 }
+
+        [INFO] Armor multiplier computed | { armor
+        = 0, multiplier = 1 }
+
+        [INFO] Damage calculated | { attacker = Wall,
+        defender = Needle, attackPower = 0, defenderArmor = 0, armorMultiplier =
+        1, damage = 0 }
+
+        [INFO] Damage applied | { attacker = Wall, defender
+        = Needle, damage = 0, defenderHpAfter = 100 }
+
+        [INFO] Combat round
+        start | { round = 5, aHp = 100, bHp = 3, turn = Needle }
 
         [INFO]
-        Damage calculated | { attacker = Wall, defender = Needle, attackPower = 0,
-        defenderArmor = 0, armorMultiplier = 1, damage = 0 }
+        Attack start | { round = 5, attacker = Needle, defender = Wall, attackerHp
+        = 100, defenderHp = 3 }
 
-        [INFO] Damage
-        applied | { attacker = Wall, defender = Needle, damage = 0, defenderHpAfter
-        = 100 }
+        [INFO] Armor multiplier computed | { armor
+        = 10000, multiplier = 0,00990099 }
 
-        [INFO] Combat round start | { round = 5, aHp = 100, bHp
-        = 3, turn = Needle }
+        [INFO] Damage calculated | {
+        attacker = Needle, defender = Wall, attackPower = 1, defenderArmor = 10000,
+        armorMultiplier = 0,00990099, damage = 1 }
 
-        [INFO] Attack start | { round = 5, attacker
-        = Needle, defender = Wall, attackerHp = 100, defenderHp = 3 }
-
-        [INFO]
-        Armor multiplier computed | { armor = 10000, multiplier = 0,00990099 }
+        [INFO] Damage applied
+        | { attacker = Needle, defender = Wall, damage = 1, defenderHpAfter = 2 }
 
         [INFO]
-        Damage calculated | { attacker = Needle, defender = Wall, attackPower = 1,
-        defenderArmor = 10000, armorMultiplier = 0,00990099, damage = 1 }
+        Combat round start | { round = 6, aHp = 100, bHp = 2, turn = Wall }
 
         [INFO]
-        Damage applied | { attacker = Needle, defender = Wall, damage = 1, defenderHpAfter
-        = 2 }
+        Attack start | { round = 6, attacker = Wall, defender = Needle, attackerHp
+        = 2, defenderHp = 100 }
 
-        [INFO] Combat round start | { round = 6, aHp = 100, bHp =
-        2, turn = Wall }
+        [INFO] Armor multiplier computed | { armor
+        = 0, multiplier = 1 }
 
-        [INFO] Attack start | { round = 6, attacker =
-        Wall, defender = Needle, attackerHp = 2, defenderHp = 100 }
+        [INFO] Damage calculated | { attacker = Wall,
+        defender = Needle, attackPower = 0, defenderArmor = 0, armorMultiplier =
+        1, damage = 0 }
 
-        [INFO]
-        Armor multiplier computed | { armor = 0, multiplier = 1 }
+        [INFO] Damage applied | { attacker = Wall, defender
+        = Needle, damage = 0, defenderHpAfter = 100 }
 
-        [INFO]
-        Damage calculated | { attacker = Wall, defender = Needle, attackPower = 0,
-        defenderArmor = 0, armorMultiplier = 1, damage = 0 }
-
-        [INFO] Damage
-        applied | { attacker = Wall, defender = Needle, damage = 0, defenderHpAfter
-        = 100 }
-
-        [INFO] Combat round start | { round = 7, aHp = 100, bHp
-        = 2, turn = Needle }
-
-        [INFO] Attack start | { round = 7, attacker
-        = Needle, defender = Wall, attackerHp = 100, defenderHp = 2 }
+        [INFO] Combat round
+        start | { round = 7, aHp = 100, bHp = 2, turn = Needle }
 
         [INFO]
-        Armor multiplier computed | { armor = 10000, multiplier = 0,00990099 }
+        Attack start | { round = 7, attacker = Needle, defender = Wall, attackerHp
+        = 100, defenderHp = 2 }
+
+        [INFO] Armor multiplier computed | { armor
+        = 10000, multiplier = 0,00990099 }
+
+        [INFO] Damage calculated | {
+        attacker = Needle, defender = Wall, attackPower = 1, defenderArmor = 10000,
+        armorMultiplier = 0,00990099, damage = 1 }
+
+        [INFO] Damage applied
+        | { attacker = Needle, defender = Wall, damage = 1, defenderHpAfter = 1 }
 
         [INFO]
-        Damage calculated | { attacker = Needle, defender = Wall, attackPower = 1,
-        defenderArmor = 10000, armorMultiplier = 0,00990099, damage = 1 }
+        Combat round start | { round = 8, aHp = 100, bHp = 1, turn = Wall }
 
         [INFO]
-        Damage applied | { attacker = Needle, defender = Wall, damage = 1, defenderHpAfter
-        = 1 }
+        Attack start | { round = 8, attacker = Wall, defender = Needle, attackerHp
+        = 1, defenderHp = 100 }
 
-        [INFO] Combat round start | { round = 8, aHp = 100, bHp =
-        1, turn = Wall }
+        [INFO] Armor multiplier computed | { armor
+        = 0, multiplier = 1 }
 
-        [INFO] Attack start | { round = 8, attacker =
-        Wall, defender = Needle, attackerHp = 1, defenderHp = 100 }
+        [INFO] Damage calculated | { attacker = Wall,
+        defender = Needle, attackPower = 0, defenderArmor = 0, armorMultiplier =
+        1, damage = 0 }
 
-        [INFO]
-        Armor multiplier computed | { armor = 0, multiplier = 1 }
+        [INFO] Damage applied | { attacker = Wall, defender
+        = Needle, damage = 0, defenderHpAfter = 100 }
 
-        [INFO]
-        Damage calculated | { attacker = Wall, defender = Needle, attackPower = 0,
-        defenderArmor = 0, armorMultiplier = 1, damage = 0 }
-
-        [INFO] Damage
-        applied | { attacker = Wall, defender = Needle, damage = 0, defenderHpAfter
-        = 100 }
-
-        [INFO] Combat round start | { round = 9, aHp = 100, bHp
-        = 1, turn = Needle }
-
-        [INFO] Attack start | { round = 9, attacker
-        = Needle, defender = Wall, attackerHp = 100, defenderHp = 1 }
+        [INFO] Combat round
+        start | { round = 9, aHp = 100, bHp = 1, turn = Needle }
 
         [INFO]
-        Armor multiplier computed | { armor = 10000, multiplier = 0,00990099 }
+        Attack start | { round = 9, attacker = Needle, defender = Wall, attackerHp
+        = 100, defenderHp = 1 }
+
+        [INFO] Armor multiplier computed | { armor
+        = 10000, multiplier = 0,00990099 }
+
+        [INFO] Damage calculated | {
+        attacker = Needle, defender = Wall, attackPower = 1, defenderArmor = 10000,
+        armorMultiplier = 0,00990099, damage = 1 }
+
+        [INFO] Damage applied
+        | { attacker = Needle, defender = Wall, damage = 1, defenderHpAfter = 0 }
 
         [INFO]
-        Damage calculated | { attacker = Needle, defender = Wall, attackPower = 1,
-        defenderArmor = 10000, armorMultiplier = 0,00990099, damage = 1 }
-
-        [INFO]
-        Damage applied | { attacker = Needle, defender = Wall, damage = 1, defenderHpAfter
+        Combat finished | { winner = Needle, rounds = 9, finalAHp = 100, finalBHp
         = 0 }
-
-        [INFO] Combat finished | { winner = Needle, rounds = 9, finalAHp
-        = 100, finalBHp = 0 }
 
 '
       stacktrace: 
@@ -3043,8 +3032,8 @@ MonoBehaviour:
         Turn order decided | { first = A, reason = speed, aSpeed = 5, bSpeed = 4
         }
 
-        [INFO] Combat round start | { round = 1, aHp = 10, bHp = 10,
-        turn = A }
+        [INFO] Combat round start | { round = 1, aHp = 10, bHp = 10, turn
+        = A }
 
         [INFO] Attack start | { round = 1, attacker = A, defender
         = B, attackerHp = 10, defenderHp = 10 }
@@ -3066,8 +3055,8 @@ MonoBehaviour:
         | { round = 2, attacker = B, defender = A, attackerHp = 5, defenderHp = 10
         }
 
-        [INFO] Armor multiplier computed | { armor = 0, multiplier =
-        1 }
+        [INFO] Armor multiplier computed | { armor = 0, multiplier = 1
+        }
 
         [INFO] Damage calculated | { attacker = B, defender = A, attackPower
         = 4, defenderArmor = 0, armorMultiplier = 1, damage = 4 }
@@ -3161,14 +3150,14 @@ MonoBehaviour:
 
         [INFO] GenerateDraft called | { count = 5 }
 
-        [INFO]
-        Upgrade pool retrieved | { poolSize = 2 }
+        [INFO] Upgrade
+        pool retrieved | { poolSize = 2 }
 
-        [INFO] Draft selection
-        | { round = 0, selected = B, remainingPool = 2 }
+        [INFO] Draft selection | { round
+        = 0, selected = B, remainingPool = 2 }
 
-        [INFO] Draft selection
-        | { round = 1, selected = A, remainingPool = 1 }
+        [INFO] Draft selection |
+        { round = 1, selected = A, remainingPool = 1 }
 
         [INFO] Draft generated
         | { draftSize = 2, selectedUpgrades = B,A }
@@ -3195,14 +3184,14 @@ MonoBehaviour:
 
         [INFO] GenerateDraft called | { count = 2 }
 
-        [INFO]
-        Upgrade pool retrieved | { poolSize = 3 }
+        [INFO] Upgrade
+        pool retrieved | { poolSize = 3 }
 
-        [INFO] Draft selection
-        | { round = 0, selected = B, remainingPool = 3 }
+        [INFO] Draft selection | { round
+        = 0, selected = B, remainingPool = 3 }
 
-        [INFO] Draft selection
-        | { round = 1, selected = A, remainingPool = 2 }
+        [INFO] Draft selection |
+        { round = 1, selected = A, remainingPool = 2 }
 
         [INFO] Draft generated
         | { draftSize = 2, selectedUpgrades = B,A }
