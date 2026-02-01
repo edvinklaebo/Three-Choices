@@ -30,7 +30,10 @@ jobs:
         with:
           targetPlatform: ${{ matrix.target }}
         env:
-          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+            UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+            UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+            UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}   # optional
+
 
       - name: Setup butler
         uses: remarkablegames/setup-butler@v2
