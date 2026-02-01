@@ -1,0 +1,44 @@
+name: Unity Build
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - target: StandaloneWindows64
+            os: windows-latest
+            channel: windows
+
+          - target: StandaloneLinux64
+            os: ubuntu-latest
+            channel: linux
+
+          - target: StandaloneOSX
+            os: macos-latest
+            channel: mac
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: game-ci/unity-builder@v4
+        with:
+          targetPlatform: ${{ matrix.target }}
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+      - name: Setup butler
+        uses: remarkablegames/setup-butler@v2
+
+      - name: Push to itch.io
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          butler push build/${{ matrix.target }} \
+          racksay/three-choices:${{ matrix.channel }} \
+          --userversion "${{ github.run_number }}"

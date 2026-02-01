@@ -38,13 +38,13 @@ jobs:
             build-target: StandaloneWindows64
             itch-channel: windows
 
-          - os: buildalon-linux
-            build-target: StandaloneLinux64
-            itch-channel: linux
+          # - os: buildalon-linux
+          #   build-target: StandaloneLinux64
+          #   itch-channel: linux
 
-          - os: buildalon-macos
-            build-target: StandaloneOSX
-            itch-channel: mac
+          # - os: buildalon-macos
+          #   build-target: StandaloneOSX
+          #   itch-channel: mac
 
     steps:
       - uses: actions/checkout@v6
