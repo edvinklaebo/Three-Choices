@@ -4,8 +4,24 @@ Today I want to make concrete progress on [ONE specific system or problem].
 
 Current state (short):
 – Tech: Unity + C#
-– What already exists: [brief bullet list]
-– What’s missing / painful: [brief]
+– What already exists:
+-- Main menu
+-- Splash Screen
+-- CombatSystem
+-- DraftSystem
+-- GameManager
+-- UpradeSystem
+-- CI/CD Integration (github actions and auto deploy to itch.io)
+-- Sentry Integration for errors and logging
+-- Testing Mainly EditMode Tests
+
+– What’s missing / painful:
+-- Continue Button
+-- SettingsMenu
+-- PauseMenu
+-- RestartButton
+-- Show Stats/Stats UI
+-- Death Screen/Game Over
 
 Give me:
 

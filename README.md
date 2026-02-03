@@ -1,6 +1,6 @@
 # Ropa — Roguelike PvE Auto‑Battler 🎯
 
-[![CI](https://github.com/<OWNER>/<REPO>/actions/workflows/unity-build.yml/badge.svg)](https://github.com/<OWNER>/<REPO>/actions/workflows/unity-build.yml)  
+[![CI](https://github.com/edvinklaebo/ropa/actions/workflows/unity-build.yml/badge.svg)](https://github.com/edvinklaebo/ropa/actions/workflows/unity-build.yml)  
 ![Unity](https://img.shields.io/badge/unity-6000.3.6f1-blue)
 
 ---
