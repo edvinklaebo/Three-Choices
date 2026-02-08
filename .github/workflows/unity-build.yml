@@ -46,3 +46,18 @@ jobs:
           racksay/three-choices:${{ matrix.channel }} \
           --userversion "${{ github.run_number }}"
         shell: bash
+        
+  announce:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Discord announcement
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -H "Content-Type: application/json" \
+          -d "{
+            \"content\": \"New Three Choices build is live.\nVersion: ${{ github.run_number }}\nDownload: https://racksay.itch.io/three-choices\"
+          }" \
+          $WEBHOOK
