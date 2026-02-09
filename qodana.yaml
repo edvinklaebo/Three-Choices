@@ -1,2 +1,4 @@
-linter: jetbrains/qodana-dotnet:latest
-baseProfile: qodana.recommended
+linter: qodana-dotnet # Specifying the linter
+withinDocker: false # Enabling native mode
+
+baseProfile: qodana.recommended # Specifying the profile
