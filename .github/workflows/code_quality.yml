@@ -25,6 +25,10 @@ jobs:
         with:
           unityVersion: 6000.3.6f1
           targetPlatform: StandaloneWindows64
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2025.3.1
