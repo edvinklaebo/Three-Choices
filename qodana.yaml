@@ -1,5 +1,5 @@
 version: "1.0"
-linter: jetbrains/qodana-dotnet-community:2025.3
+linter: jetbrains/qodana-cdnet:2025.3-eap
 
 dotnet:
   solution: Roguelike PvE auto-battler.sln
