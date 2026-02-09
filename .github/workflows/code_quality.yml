@@ -22,5 +22,7 @@ jobs:
 
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2025.3.1
+        with:
+          args: --solution=Roguelike PvE auto-battler.sln
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
