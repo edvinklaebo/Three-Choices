@@ -714,7 +714,7 @@ GameObject:
   - component: {fileID: 1163614260}
   - component: {fileID: 1163614261}
   m_Layer: 5
-  m_Name: Discord Button
+  m_Name: Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1424,7 +1424,7 @@ GameObject:
   - component: {fileID: 1527453303}
   - component: {fileID: 1527453302}
   m_Layer: 5
-  m_Name: Skull Icon
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2015,7 +2015,7 @@ GameObject:
   - component: {fileID: 2080592893}
   - component: {fileID: 2080592895}
   m_Layer: 5
-  m_Name: Main Menu Panel
+  m_Name: ButtonPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

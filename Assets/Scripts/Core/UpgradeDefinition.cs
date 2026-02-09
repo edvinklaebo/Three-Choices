@@ -11,26 +11,19 @@ public enum StatType
 [CreateAssetMenu(menuName = "Upgrades/Upgrade")]
 public class UpgradeDefinition : ScriptableObject
 {
-    [Header("Identity")]
-    [SerializeField] private string id;
+    [Header("Identity")] [SerializeField] private string id;
     [SerializeField] private string displayName;
-    [TextArea]
-    [SerializeField] private string description;
+    [TextArea] [SerializeField] private string description;
     [SerializeField] private Sprite icon;
 
-    [Header("Type")]
-    [SerializeField] private UpgradeType type;
+    [Header("Type")] [SerializeField] private UpgradeType type;
 
-    [Header("Stat Upgrade")]
-    [SerializeField] private StatType stat;
+    [Header("Stat Upgrade")] [SerializeField] private StatType stat;
     [SerializeField] private int amount;
 
-    [Header("Ability Upgrade")]
-    [SerializeField] private string abilityId;
+    [Header("Ability Upgrade")] [SerializeField] private string abilityId;
 
-    [Header("Draft / Balance")]
-    [Min(1)]
-    [SerializeField] private int rarityWeight = 100;
+    [Header("Draft / Balance")] [Min(1)] [SerializeField] private int rarityWeight = 100;
 
     // ---- Public read-only accessors ----
     public string Id => id;
@@ -48,25 +41,25 @@ public class UpgradeDefinition : ScriptableObject
 #if UNITY_EDITOR
     public void EditorInit(string identifier, string soName, UpgradeType soType, StatType soStat, int soAmount)
     {
-        this.id = identifier;
-        this.displayName = soName;
-        this.type = soType;
-        this.stat = soStat;
-        this.amount = soAmount;
+        id = identifier;
+        displayName = soName;
+        type = soType;
+        stat = soStat;
+        amount = soAmount;
     }
     
     public void EditorInit(string identifier, string soName, UpgradeType soType, string soAbilityId)
     {
-        this.id = identifier;
-        this.displayName = soName;
-        this.type = soType;
-        this.abilityId = soAbilityId;
+        id = identifier;
+        displayName = soName;
+        type = soType;
+        abilityId = soAbilityId;
     }
     
     public void EditorInit(string identifier, string soName)
     {
-        this.id = identifier;
-        this.displayName = soName;
+        id = identifier;
+        displayName = soName;
     }
 #endif
 }
