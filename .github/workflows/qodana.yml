@@ -1,0 +1,38 @@
+name: Qodana Scan
+
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  qodana:
+    name: Run Qodana
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Qodana scan
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/data/project:ro \
+            -v ${{ github.workspace }}/.qodana:/root/.qodana \
+            -v ${{ github.workspace }}/qodana-report:/data/results \
+            jetbrains/qodana-unity:latest \
+            --save-report \
+            --report-dir /data/results \
+            --format sarif
+          
+      - name: Upload Qodana SARIF
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: qodana-report/sarif/report.sarif
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: qodana-html
+          path: qodana-report/html
