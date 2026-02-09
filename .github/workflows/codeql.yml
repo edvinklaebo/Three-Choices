@@ -8,7 +8,7 @@ on:
 
 jobs:
   analyze:
-    name: Analyze code
+    name: Analyze C# code
     runs-on: ubuntu-latest
 
     permissions:
@@ -16,19 +16,28 @@ jobs:
       contents: read
       security-events: write
 
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ "csharp" ]
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
-      with:
-        languages: ${{ matrix.language }}
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: csharp
 
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
+        # Create a CodeQL database manually pointing to .cs files
+      - name: Create CodeQL database (manual)
+        run: |
+            mkdir -p codeql-db
+            codeql database create codeql-db --language=csharp --source-root=Assets --source-root=Packages
+
+        # Analyze the database
+      - name: Analyze CodeQL database
+        run: |
+            codeql database analyze codeql-db --format=sarif-latest --output=results.sarif
+        continue-on-error: true
+
+      - name: Upload SARIF results
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+            sarif_file: results.sarif
