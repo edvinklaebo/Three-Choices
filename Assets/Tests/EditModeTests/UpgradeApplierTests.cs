@@ -172,11 +172,22 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void ApplyPassive_UnknownPassive_Throws()
+        public void ApplyAbility_UnknownAbility_Throws()
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
             upgrade.EditorInit("A", "A", UpgradeType.Ability, "GodMode");
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                UpgradeApplier.Apply(upgrade, _unit));
+        }
+
+        [Test]
+        public void ApplyPassive_UnknownPassive_Throws()
+        {
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+
+            upgrade.EditorInit("A", "A", UpgradeType.Passive, "GodMode");
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 UpgradeApplier.Apply(upgrade, _unit));
