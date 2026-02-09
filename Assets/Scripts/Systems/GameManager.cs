@@ -1,6 +1,7 @@
 using System.Collections;
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +17,17 @@ public class GameManager : MonoBehaviour
     
     private int _fightIndex = 1;
 
+    private void OnEnable()
+    {
+        _player.Died += OnPlayerDied;
+    }
+
+    private void OnDisable()
+    {
+        _player.Died -= OnPlayerDied;
+    }
+
+    
     private void Awake()
     {
         Log.Info($"Awake called on {nameof(GameManager)}");
@@ -44,7 +56,7 @@ public class GameManager : MonoBehaviour
                 Speed = 10
             }
         };
-
+        
         Log.Info("Player initialized", new
         {
             player = _player
@@ -143,5 +155,10 @@ public class GameManager : MonoBehaviour
         });
 
         StartNextFight();
+    }
+
+    private void OnPlayerDied(Unit unit)
+    {
+        SceneManager.LoadScene("GameOver");
     }
 }

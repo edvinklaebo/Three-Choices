@@ -93,7 +93,11 @@ public static class CombatSystem
         });
 
         var armorMultiplier = GetDamageMultiplier(defender.Stats.Armor);
-        var damage = Mathf.CeilToInt(attacker.Stats.AttackPower * armorMultiplier);
+        var baseDamage = Mathf.CeilToInt(attacker.Stats.AttackPower * armorMultiplier);
+
+        var ctx = new DamageContext(attacker, defender, baseDamage);
+
+        DamagePipeline.Process(ctx);
 
         Log.Info("Damage calculated", new
         {
@@ -102,16 +106,16 @@ public static class CombatSystem
             attackPower = attacker.Stats.AttackPower,
             defenderArmor = defender.Stats.Armor,
             armorMultiplier,
-            damage
+            baseDamage
         });
 
-        defender.Stats.CurrentHP -= damage;
+        defender.ApplyDamage(ctx.FinalValue);
 
         Log.Info("Damage applied", new
         {
             attacker = attacker.Name,
             defender = defender.Name,
-            damage,
+            ctx.FinalValue,
             defenderHpAfter = defender.Stats.CurrentHP
         });
     }

@@ -1,7 +1,6 @@
 # Ropa — Roguelike PvE Auto‑Battler 🎯
 
-[![CI](https://github.com/edvinklaebo/ropa/actions/workflows/unity-build.yml/badge.svg)](https://github.com/edvinklaebo/ropa/actions/workflows/unity-build.yml)  
-![Unity](https://img.shields.io/badge/unity-6000.3.6f1-blue)
+[![CI](https://github.com/edvinklaebo/ropa/actions/workflows/unity-build.yml/badge.svg)](https://github.com/edvinklaebo/ropa/actions/workflows/unity-build.yml)![Unity](https://img.shields.io/badge/unity-6000.3.6f1-blue)
 
 ---
 
@@ -33,8 +32,8 @@ Key folders:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/<OWNER>/<REPO>.git
-   cd <REPO>
+   git clone https://github.com/edvinklaebo/ropa.git
+   cd ropa
    ```
 
 2. Open the project in the Unity Editor (Unity Hub recommended).
@@ -99,10 +98,3 @@ Please follow any coding conventions described in `CONTRIBUTING.md` if present �
 - `Assets/Prompt.txt` — short project description: "I’m building a roguelike PvE auto-battler in Unity with a single unit and a 1-of-3 draft upgrade system."
 
 ---
-
-If you want, I can also:
-- Add a `CONTRIBUTING.md` and `CODE_OF_CONDUCT.md` draft ✅
-- Add a LICENSE placeholder (choose from common licenses) ✅
-- Add a small `docs/` folder with development notes and architecture diagrams ✅
-
-Would you like me to add any of those files now?

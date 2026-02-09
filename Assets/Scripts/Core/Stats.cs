@@ -1,3 +1,6 @@
+using System;
+
+[Serializable]
 public class Stats
 {
     public int MaxHP;

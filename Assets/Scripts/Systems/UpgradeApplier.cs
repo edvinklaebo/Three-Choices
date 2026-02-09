@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 public static class UpgradeApplier
 {
@@ -35,15 +34,15 @@ public static class UpgradeApplier
             case StatType.AttackPower:
                 unit.Stats.AttackPower += upgrade.Amount;
                 break;
-            
+
             case StatType.Armor:
                 unit.Stats.Armor += upgrade.Amount;
                 break;
-            
+
             case StatType.Speed:
                 unit.Stats.Speed += upgrade.Amount;
                 break;
-            
+
             default:
                 throw new ArgumentOutOfRangeException(upgrade.Type.ToString());
         }
@@ -53,6 +52,8 @@ public static class UpgradeApplier
     {
         switch (upgrade.AbilityId)
         {
+            case "1":
+                throw new NotImplementedException();
             default:
                 throw new ArgumentOutOfRangeException(upgrade.AbilityId);
         }
@@ -63,21 +64,25 @@ public static class UpgradeApplier
         switch (upgrade.AbilityId)
         {
             case "Thorns":
-                Debug.Log("Passive Applied: Thorns");
+                Log.Info("Passive Applied: Thorns");
+                unit.Passives.Add(new Thorns(unit));
                 break;
 
             case "Rage":
-                Debug.Log("Passive Applied: Rage");
+                Log.Info("Passive Applied: Rage");
+                unit.Passives.Add(new Rage(unit));
                 break;
-            
+
             case "Lifesteal":
-                Debug.Log("Passive Applied: Lifesteal");
+                Log.Info("Passive Applied: Lifesteal");
+                unit.Passives.Add(new Lifesteal(unit, 0.2f));
                 break;
 
             case "Poison":
-                Debug.Log("Passive Applied: Poison");
+                Log.Info("Passive Applied: Poison");
+                unit.Passives.Add(new Poison(unit, 5, 3));
                 break;
-            
+
             default:
                 throw new ArgumentOutOfRangeException(upgrade.AbilityId);
         }
