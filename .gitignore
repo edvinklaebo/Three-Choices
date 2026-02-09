@@ -45,9 +45,7 @@ StreamingAssets/aa/*
 .vscode/
 .vsconfig
 
-*.csproj
 *.unityproj
-*.sln
 *.suo
 *.user
 *.userprefs
