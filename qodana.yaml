@@ -3,8 +3,7 @@
 ####################################################################################################################
 
 version: "1.0"
-linter: jetbrains/qodana-dotnet:2025.3
+linter: qodana-dotnet
+withinDocker: false
 profile:
   name: qodana.recommended
-include:
-  - name: CheckDependencyLicenses
