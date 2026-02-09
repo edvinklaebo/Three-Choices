@@ -1,4 +1,4 @@
-linter: qodana-dotnet # Specifying the linter
+linter: qodana-cdnet # Specifying the linter
 withinDocker: false # Enabling native mode
 
 baseProfile: qodana.recommended # Specifying the profile
