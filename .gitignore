@@ -43,6 +43,7 @@ StreamingAssets/aa/*
 .vs/
 .idea/
 .vscode/
+.vsconfig
 
 *.csproj
 *.unityproj
@@ -142,3 +143,6 @@ plastic.workspace
 *.tmp
 *.bak
 *.orig
+*.htm
+*.html
+*.pdf
