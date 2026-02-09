@@ -1,0 +1,2 @@
+linter: jetbrains/qodana-dotnet:latest
+baseProfile: qodana.recommended
