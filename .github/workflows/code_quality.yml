@@ -20,9 +20,15 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
           fetch-depth: 0  # a full history is required for pull request analysis
 
+      - name: Unity Build (compile scripts)
+        uses: game-ci/unity-builder@v4
+        with:
+          unityVersion: 6000.3.6f1
+          targetPlatform: StandaloneWindows64
+
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@v2025.3.1
         with:
-          args: --solution=RoguelikePvEauto-battler.sln --no-build
+          args: --solution=RoguelikePvEauto-battler.sln
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
