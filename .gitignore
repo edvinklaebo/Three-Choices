@@ -45,6 +45,8 @@ StreamingAssets/aa/*
 .idea/
 .vscode/
 .vsconfig
+.csproj
+.sln
 
 *.unityproj
 *.suo
