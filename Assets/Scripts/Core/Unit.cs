@@ -4,17 +4,17 @@ using System.Collections.Generic;
 [Serializable]
 public class Unit
 {
-    public readonly string Name;
+    public string Name;
     public Stats Stats;
 
     public List<IAbility> Abilities = new();
     public List<Passive> Passives = new();
 
     public event Action<Unit,int> Damaged;
-    public event Action<Unit,int,int> HealthChanged;
+    public event Action<Unit, int, int> HealthChanged;
     public event Action<Unit> Died;
-    
-    bool isDead;
+
+    public bool isDead;
     
     public Unit(string name)
     {

@@ -9,7 +9,13 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private Button playButton;
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button quitButton;
+    [SerializeField] private Button continueButton;
 
+    private void Start()
+    {
+        continueButton.gameObject.SetActive(SaveService.HasSave());
+    }
+    
     private void Awake()
     {
         playButton.onClick.AddListener(OnPlayClicked);
