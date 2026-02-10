@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\Utils\FadeOverlay.cs" />
     <Compile Include="Assets\Scripts\Core\Stats.cs" />
     <Compile Include="Assets\Scripts\Systems\CombatSystem.cs" />
+    <Compile Include="Assets\Scripts\QodanaTest.cs" />
     <Compile Include="Assets\Scripts\Utils\Log.cs" />
     <Compile Include="Assets\Scripts\Utils\MonsterName.cs" />
     <Compile Include="Assets\Scripts\Passives\Thorns.cs" />
