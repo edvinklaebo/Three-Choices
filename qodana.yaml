@@ -9,7 +9,9 @@ profile:
   name: qodana.recommended
 
 exclude:
-  - Library
-  - Temp
-  - Logs
-  - Build
+  - name: Exclude Unity junk
+    paths:
+      - Library
+      - Temp
+      - Logs
+      - Build
