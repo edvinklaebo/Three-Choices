@@ -79,8 +79,7 @@ public static class CombatSystem
             throw;
         }
     }
-
-    // ReSharper disable Unity.PerformanceAnalysis
+    
     private static void Attack(Unit attacker, Unit defender, int round)
     {
         Log.Info("Attack start", new
@@ -109,7 +108,7 @@ public static class CombatSystem
             baseDamage
         });
 
-        defender.ApplyDamage(ctx.FinalValue);
+        defender.ApplyDamage(attacker, ctx.FinalValue);
 
         Log.Info("Damage applied", new
         {

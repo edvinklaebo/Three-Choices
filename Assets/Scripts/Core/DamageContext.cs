@@ -1,6 +1,6 @@
 public class DamageContext
 {
-    public Unit Source;
+    public readonly Unit Source;
     public Unit Target;
 
     public int BaseValue;

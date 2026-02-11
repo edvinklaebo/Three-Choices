@@ -11,7 +11,7 @@ public static class UpgradeApplier
                 break;
 
             case UpgradeType.Ability:
-                ApplyAbility(upgrade, unit);
+                ApplyAbility(upgrade);
                 break;
 
             case UpgradeType.Passive:
@@ -48,7 +48,7 @@ public static class UpgradeApplier
         }
     }
 
-    private static void ApplyAbility(UpgradeDefinition upgrade, Unit unit)
+    private static void ApplyAbility(UpgradeDefinition upgrade)
     {
         switch (upgrade.AbilityId)
         {
@@ -80,7 +80,7 @@ public static class UpgradeApplier
 
             case "Poison":
                 Log.Info("Passive Applied: Poison");
-                unit.Passives.Add(new Poison(unit, 5, 3));
+                // unit.Passives.Add(new Poison(unit, unit, 5, 3));
                 break;
 
             default:

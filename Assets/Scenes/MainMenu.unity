@@ -167,6 +167,7 @@ MonoBehaviour:
   playButton: {fileID: 1573924195}
   settingsButton: {fileID: 1093429009}
   quitButton: {fileID: 1480659221}
+  continueButton: {fileID: 1547953907}
 --- !u!1 &514786250
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,6 +700,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1124804642}
   m_CullTransparentMesh: 1
+--- !u!1 &1141854227
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1141854229}
+  - component: {fileID: 1141854228}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1141854228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141854227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5629a803f6b3d1e4497962dae468b54c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ropa::GameManager
+  draftUI: {fileID: 0}
+  battleUI: {fileID: 0}
+--- !u!4 &1141854229
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141854227}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1163614255
 GameObject:
   m_ObjectHideFlags: 0
@@ -1569,7 +1616,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1547953908}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1141854228}
+        m_TargetAssemblyTypeName: GameManager, Ropa
+        m_MethodName: ContinueRun
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1547953908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1690,7 +1749,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1573924196}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1141854228}
+        m_TargetAssemblyTypeName: GameManager, Ropa
+        m_MethodName: StartNewGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1573924196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2116,3 +2187,4 @@ SceneRoots:
   - {fileID: 469077190}
   - {fileID: 1171537835}
   - {fileID: 2080542142}
+  - {fileID: 1141854229}
