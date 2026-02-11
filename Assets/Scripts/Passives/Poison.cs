@@ -1,12 +1,15 @@
 public class Poison : Passive
 {
     private Unit target;
+    private Unit source;
     private int damagePerTurn;
     private int turns;
 
-    public Poison(Unit target, int damage, int turns)
+    // TODO fix not self poisoning
+    public Poison(Unit target, Unit source, int damage, int turns)
     {
         this.target = target;
+        this.source = source;
         damagePerTurn = damage;
         this.turns = turns;
     }
@@ -15,7 +18,7 @@ public class Poison : Passive
     {
         if (turns <= 0) return;
 
-        target.ApplyDamage(damagePerTurn);
+        //target.ApplyDamage(this.source, damagePerTurn);
         turns--;
     }
 }

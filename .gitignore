@@ -25,6 +25,7 @@ Library/ShaderCache*
 *.pidb.meta
 *.pdb.meta
 *.mdb.meta
+*.dwlt
 
 # But keep ALL other .meta files
 !*.meta

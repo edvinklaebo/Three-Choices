@@ -1,9 +1,9 @@
+using System;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using System;
 
-namespace Tests.EditModeTests
+namespace Tests.EditModeTests.Tests.EditModeTests
 {
     public class UpgradeApplierTests
     {

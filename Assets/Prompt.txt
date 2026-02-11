@@ -33,4 +33,4 @@ One or two implementation steps I can finish today
 
 Pitfalls I should avoid
 
-Prefer pragmatic solutions over perfect architecture.
+Prefer pragmatic solutions, that have one responsibilty and avoid coupling.
