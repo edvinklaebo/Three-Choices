@@ -31,14 +31,14 @@ public class Unit
         Died?.Invoke(this);
     }
     
-    public void ApplyDamage(int damage)
+    public void ApplyDamage(Unit attacker, int damage)
     {
         if (isDead) 
             return;
 
         Stats.CurrentHP -= damage;
 
-        Damaged?.Invoke(this, damage);
+        Damaged?.Invoke(attacker, damage);
         HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
 
         if (Stats.CurrentHP <= 0)

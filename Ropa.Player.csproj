@@ -60,8 +60,8 @@
     <Compile Include="Assets\Scripts\Systems\UpgradeApplier.cs" />
     <Compile Include="Assets\Scripts\Passives\Lifesteal.cs" />
     <Compile Include="Assets\Scripts\Core\RunState.cs" />
+    <Compile Include="Assets\Scripts\UI\UiBinder.cs" />
     <Compile Include="Assets\Scripts\UI\DraftUI.cs" />
-    <Compile Include="Assets\Scripts\UiBinder.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDamageModifier.cs" />
     <Compile Include="Assets\Scripts\Core\Unit.cs" />
     <Compile Include="Assets\Scripts\Utils\TextBlink.cs" />

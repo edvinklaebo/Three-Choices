@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class Thorns : Passive
 {
     public Thorns(Unit owner)
@@ -15,6 +13,6 @@ public class Thorns : Passive
 
         var thornDamage = Owner.Stats.Armor / 4;
 
-        attacker.ApplyDamage(thornDamage);
+        attacker.ApplyDamage(Owner, thornDamage);
     }
 }
