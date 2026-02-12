@@ -10,6 +10,7 @@
 [Ll]ogs/
 [Mm]emoryCaptures/
 UserSettings/EditorUserSettings.asset
+UserSettings/Layouts/default-6000.dwlt
 
 # Asset import pipeline
 Library/ArtifactDB*
@@ -24,6 +25,7 @@ Library/ShaderCache*
 *.pidb.meta
 *.pdb.meta
 *.mdb.meta
+*.dwlt
 
 # But keep ALL other .meta files
 !*.meta
@@ -35,6 +37,7 @@ Library/ShaderCache*
 ServerData/
 StreamingAssets/aa.meta
 StreamingAssets/aa/*
+.tmp.driveupload/
 
 ######################################
 # Visual Studio / Rider / VSCode
@@ -44,6 +47,8 @@ StreamingAssets/aa/*
 .idea/
 .vscode/
 .vsconfig
+*.csproj
+*.sln
 
 *.unityproj
 *.suo

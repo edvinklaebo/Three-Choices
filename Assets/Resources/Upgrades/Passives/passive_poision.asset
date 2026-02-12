@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: passive_poision
   m_EditorClassIdentifier: 
   id: 
-  displayName: Poision
-  description: 
+  displayName: Poison
+  description: Deal 5 damage per round for 3 rounds, stacking.
   icon: {fileID: 21300000, guid: 612b2674148a984449756d13283ae498, type: 3}
   type: 2
   stat: 0
   amount: 0
-  abilityId: Poision
+  abilityId: Poison
   rarityWeight: 100

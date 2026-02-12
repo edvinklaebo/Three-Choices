@@ -4,7 +4,7 @@ public class Rage : Passive
 {
     public Rage(Unit owner)
     {
-        this.Owner = owner;
+        Owner = owner;
     }
 
     public void Modify(DamageContext ctx)

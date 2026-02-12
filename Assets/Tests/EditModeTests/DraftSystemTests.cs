@@ -3,7 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 
-namespace Tests.EditModeTests
+namespace Tests.EditModeTests.Tests.EditModeTests
 {
     public class MockUpgradeRepository : IUpgradeRepository
     {

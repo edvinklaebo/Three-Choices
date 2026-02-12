@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Tests.EditModeTests
+namespace Tests.EditModeTests.Tests.EditModeTests
 {
     public class EnemyFactoryTests
     {

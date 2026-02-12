@@ -5,10 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager Instance { get; set; }
+    public static GameManager Instance { get; set; }
 
-    [SerializeField] private DraftUI draftUI;
-    [SerializeField] private BattleUI battleUI;
+    public RunState CurrentRun { get; set; }
+    
+    [SerializeField] public DraftUI draftUI;
+    [SerializeField] public BattleUI battleUI;
     
     private Unit _player;
     private Unit _enemy;
@@ -16,16 +18,6 @@ public class GameManager : MonoBehaviour
     private DraftSystem _draft;
     
     private int _fightIndex = 1;
-
-    private void OnEnable()
-    {
-        _player.Died += OnPlayerDied;
-    }
-
-    private void OnDisable()
-    {
-        _player.Died -= OnPlayerDied;
-    }
 
     
     private void Awake()
@@ -44,7 +36,22 @@ public class GameManager : MonoBehaviour
 
         var upgradeRepo = ScriptableObject.CreateInstance<UpgradePool>();
         _draft = new DraftSystem(upgradeRepo);
+    }
 
+    public void StartNewGame()
+    {
+        SceneManager.LoadScene("DraftScene");
+        
+        StartCoroutine(StartNewGame(1f));
+    }
+
+    public IEnumerator StartNewGame(float  delay)
+    {
+        yield return new WaitForSeconds(delay);
+        
+        draftUI = FindFirstObjectByType<DraftUI>();
+        battleUI = FindFirstObjectByType<BattleUI>();
+        
         _player = new Unit("Edvin")
         {
             Stats = new Stats
@@ -57,12 +64,58 @@ public class GameManager : MonoBehaviour
             }
         };
         
+        _player.Died += OnPlayerDied;
+        
+        CurrentRun = new RunState
+        {
+            fightIndex = _fightIndex,
+            player = _player
+        };
+
+        SaveService.Save(CurrentRun);
+        
         Log.Info("Player initialized", new
         {
             player = _player
         });
 
         StartNextFight();
+    }
+
+    public IEnumerator SetupContinuedRun(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        
+        draftUI = FindFirstObjectByType<DraftUI>();
+        battleUI = FindFirstObjectByType<BattleUI>();
+        
+        CurrentRun = SaveService.Load();
+        RebuildFromState(CurrentRun);
+
+        _player.Died += OnPlayerDied;
+
+        StartNextFight();
+    }
+    
+    public void ContinueRun()
+    {
+        SceneManager.LoadScene("DraftScene");
+        
+        StartCoroutine(SetupContinuedRun(1f));
+    }
+
+    private void RebuildFromState(RunState state)
+    {
+        _fightIndex = state.fightIndex;
+        _player = state.player;
+    }
+    
+    private void SaveRun()
+    {
+        CurrentRun.fightIndex = _fightIndex;
+        CurrentRun.player = _player;
+        
+        SaveService.Save(CurrentRun);
     }
 
     private void StartNextFight()
@@ -92,6 +145,7 @@ public class GameManager : MonoBehaviour
         }
 
         ShowDraft();
+        SaveRun();
     }
 
     private void ShowDraft()
@@ -135,7 +189,9 @@ public class GameManager : MonoBehaviour
         });
 
         _fightIndex++;
-
+        
+        TooltipSystem.Hide();
+        
         StartCoroutine(StartNextFightDelayed(3f));
     }
 
@@ -159,6 +215,7 @@ public class GameManager : MonoBehaviour
 
     private void OnPlayerDied(Unit unit)
     {
+        SaveService.Delete();
         SceneManager.LoadScene("GameOver");
     }
 }

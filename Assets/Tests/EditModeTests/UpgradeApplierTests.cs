@@ -1,9 +1,9 @@
+using System;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using System;
 
-namespace Tests.EditModeTests
+namespace Tests.EditModeTests.Tests.EditModeTests
 {
     public class UpgradeApplierTests
     {
@@ -130,7 +130,7 @@ namespace Tests.EditModeTests
 
             upgrade.EditorInit("A", "A", UpgradeType.Passive, "Thorns");
             
-            LogAssert.Expect(LogType.Log, "Passive Applied: Thorns");
+            LogAssert.Expect(LogType.Log, "[INFO] Passive Applied: Thorns");
 
             UpgradeApplier.Apply(upgrade, _unit);
         }
@@ -142,7 +142,7 @@ namespace Tests.EditModeTests
 
             upgrade.EditorInit("A", "A", UpgradeType.Passive, "Rage");
 
-            LogAssert.Expect(LogType.Log, "Passive Applied: Rage");
+            LogAssert.Expect(LogType.Log, "[INFO] Passive Applied: Rage");
 
             UpgradeApplier.Apply(upgrade, _unit);
         }
@@ -154,7 +154,7 @@ namespace Tests.EditModeTests
 
             upgrade.EditorInit("A", "A", UpgradeType.Passive, "Lifesteal");
 
-            LogAssert.Expect(LogType.Log, "Passive Applied: Lifesteal");
+            LogAssert.Expect(LogType.Log, "[INFO] Passive Applied: Lifesteal");
 
             UpgradeApplier.Apply(upgrade, _unit);
         }
@@ -166,9 +166,20 @@ namespace Tests.EditModeTests
 
             upgrade.EditorInit("A", "A", UpgradeType.Passive, "Poison");
 
-            LogAssert.Expect(LogType.Log, "Passive Applied: Poison");
+            LogAssert.Expect(LogType.Log, "[INFO] Passive Applied: Poison");
 
             UpgradeApplier.Apply(upgrade, _unit);
+        }
+
+        [Test]
+        public void ApplyAbility_UnknownAbility_Throws()
+        {
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+
+            upgrade.EditorInit("A", "A", UpgradeType.Ability, "GodMode");
+
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                UpgradeApplier.Apply(upgrade, _unit));
         }
 
         [Test]
@@ -176,7 +187,7 @@ namespace Tests.EditModeTests
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-            upgrade.EditorInit("A", "A", UpgradeType.Ability, "GodMode");
+            upgrade.EditorInit("A", "A", UpgradeType.Passive, "GodMode");
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 UpgradeApplier.Apply(upgrade, _unit));
