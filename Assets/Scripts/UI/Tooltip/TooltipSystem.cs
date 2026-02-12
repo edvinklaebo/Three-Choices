@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TooltipSystem : MonoBehaviour
@@ -9,6 +10,11 @@ public class TooltipSystem : MonoBehaviour
     public void Awake()
     {
         instance = this;
+    }
+
+    public void OnDisable()
+    {
+        Hide();
     }
 
     public static void Show(string content, string label)

@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 public class MainMenuController : MonoBehaviour
 {
     [SerializeField] private GameObject mainMenuPanel;
-    [SerializeField] private Button playButton;
-    [SerializeField] private Button settingsButton;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button continueButton;
 
@@ -18,22 +16,10 @@ public class MainMenuController : MonoBehaviour
     
     private void Awake()
     {
-        playButton.onClick.AddListener(OnPlayClicked);
-        settingsButton.onClick.AddListener(OnSettingsClicked);
         quitButton.onClick.AddListener(OnQuitClicked);
     }
 
-    private void OnPlayClicked()
-    {
-        SceneManager.LoadScene("DraftScene"); // or your game scene
-    }
-
-    private void OnSettingsClicked()
-    {
-        // open settings panel
-    }
-
-    private void OnQuitClicked()
+    private static void OnQuitClicked()
     {
         Application.Quit();
     }

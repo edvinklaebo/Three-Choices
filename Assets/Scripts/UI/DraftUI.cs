@@ -4,10 +4,23 @@ using UnityEngine.UI;
 
 public class DraftUI : MonoBehaviour
 {
+    public static DraftUI Instance;
     public Button[] DraftButtons;
 
     private List<UpgradeDefinition> _currentDraft;
     private System.Action<UpgradeDefinition> _onPick;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Log.Warn($"Duplicate {nameof(DraftUI)} detected. Destroying this instance.");
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     public void Show(List<UpgradeDefinition> draft, System.Action<UpgradeDefinition> onPick)
     {
@@ -89,11 +102,5 @@ public class DraftUI : MonoBehaviour
 
         var picked = _currentDraft[index];
         _onPick?.Invoke(picked);
-
-        foreach (var btn in DraftButtons)
-        {
-            if (btn != null)
-                btn.gameObject.SetActive(false);
-        }
     }
 }
