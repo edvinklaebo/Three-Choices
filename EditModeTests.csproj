@@ -51,6 +51,7 @@
     <Compile Include="Assets\Tests\EditModeTests\CombatSystemTests.cs" />
     <Compile Include="Assets\Tests\EditModeTests\SaveServiceTests.cs" />
     <Compile Include="Assets\Tests\EditModeTests\EnemyFactoryTests.cs" />
+    <Compile Include="Assets\Tests\EditModeTests\TooltipTests.cs" />
     <Compile Include="Assets\Tests\EditModeTests\UpgradeApplierTests.cs" />
     <None Include="Assets\Tests\EditModeTests\EditModeTests.asmdef" />
     <Reference Include="UnityEngine">

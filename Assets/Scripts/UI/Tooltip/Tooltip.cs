@@ -16,7 +16,7 @@ public class Tooltip : MonoBehaviour
 
     private RectTransform canvasRect;
 
-    void Awake()
+    public void Awake()
     {
         canvasRect = canvas.GetComponent<RectTransform>();
 
