@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Core\UpgradeDefinition.cs" />
+    <Compile Include="Assets\Scripts\UI\Tooltip\TooltipSystem.cs" />
     <Compile Include="Assets\Scripts\Systems\GameManager.cs" />
     <Compile Include="Assets\Scripts\Systems\MainMenuController.cs" />
     <Compile Include="Assets\Scripts\UI\BattleUI.cs" />
@@ -54,10 +55,8 @@
     <Compile Include="Assets\Scripts\Core\UpgradeType.cs" />
     <Compile Include="Assets\Scripts\Systems\DraftSystem.cs" />
     <Compile Include="Assets\Scripts\Discord\DiscordLink.cs" />
-    <Compile Include="Assets\Scripts\UI\TooltipTrigger.cs" />
     <Compile Include="Assets\Scripts\Systems\SaveService.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IAbility.cs" />
-    <Compile Include="Assets\Scripts\UI\TooltipSystem.cs" />
     <Compile Include="Assets\Scripts\Passives\Rage.cs" />
     <Compile Include="Assets\Scripts\Systems\UpgradeApplier.cs" />
     <Compile Include="Assets\Scripts\Passives\Lifesteal.cs" />
@@ -66,6 +65,7 @@
     <Compile Include="Assets\Scripts\UI\DraftUI.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IDamageModifier.cs" />
     <Compile Include="Assets\Scripts\Core\Unit.cs" />
+    <Compile Include="Assets\Scripts\UI\Tooltip\TooltipTrigger.cs" />
     <Compile Include="Assets\Scripts\Utils\TextBlink.cs" />
     <Compile Include="Assets\Scripts\Utils\FadeOverlay.cs" />
     <Compile Include="Assets\Scripts\Core\Stats.cs" />
@@ -78,9 +78,9 @@
     <Compile Include="Assets\Scripts\Core\DamageContext.cs" />
     <Compile Include="Assets\Scripts\Core\DamagePipeline.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IPassive.cs" />
-    <Compile Include="Assets\Scripts\UI\Tooltip.cs" />
     <Compile Include="Assets\Scripts\Systems\EnemyFactory.cs" />
     <Compile Include="Assets\Scripts\Systems\UpgradeRepository.cs" />
+    <Compile Include="Assets\Scripts\UI\Tooltip\Tooltip.cs" />
     <Reference Include="UnityEngine">
       <HintPath>D:\Unity\6000.3.6f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\Variations\mono\Managed\UnityEngine.dll</HintPath>
     </Reference>

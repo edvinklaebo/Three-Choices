@@ -189,7 +189,9 @@ public class GameManager : MonoBehaviour
         });
 
         _fightIndex++;
-
+        
+        TooltipSystem.Hide();
+        
         StartCoroutine(StartNextFightDelayed(3f));
     }
 
