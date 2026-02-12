@@ -52,6 +52,11 @@ public class DraftUI : MonoBehaviour
 
             var upgrade = draft[i];
 
+            // --- Tooltip ---
+            var tooltip = btn.GetComponent<TooltipTrigger>();
+            tooltip.Content = _currentDraft[i].Description;
+            tooltip.Label = _currentDraft[i].DisplayName;
+            
             // --- Text ---
             var text = btn.GetComponentInChildren<Text>();
             if (text != null)

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 
   displayName: Lifesteal
-  description: 
+  description: 20% of damage dealt is healed as life.
   icon: {fileID: 21300000, guid: dd9553335d5e8ac4f8cd1bf7715b004f, type: 3}
   type: 2
   stat: 0
