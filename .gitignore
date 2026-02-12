@@ -37,6 +37,7 @@ Library/ShaderCache*
 ServerData/
 StreamingAssets/aa.meta
 StreamingAssets/aa/*
+.tmp.driveupload/
 
 ######################################
 # Visual Studio / Rider / VSCode
