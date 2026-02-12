@@ -17,7 +17,7 @@ public static class Log
     {
         Debug.LogWarning(Format("WARN", message, data));
         SentrySdk.AddBreadcrumb(message, category: "warn", data: ToDict(data));
-    }
+    }   
 
     public static void Error(string message, object data = null)
     {
