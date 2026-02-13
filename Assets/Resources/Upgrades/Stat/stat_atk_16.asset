@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 
   displayName: +16 Attack
   description: 
-  icon: {fileID: 21300000, guid: 57fddcef572254749ad949b7a07b3e07, type: 3}
+  icon: {fileID: 807068550116065343, guid: 42552d235824f7a4d81ebeec9e10a9b0, type: 3}
   type: 0
   stat: 1
   amount: 16

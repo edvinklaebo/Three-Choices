@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 
   displayName: +10 Armor
   description: 
-  icon: {fileID: 21300000, guid: 72a9f27299fd66646b205ecd69abd54b, type: 3}
+  icon: {fileID: 807068550116065343, guid: 04764c10dc98b114cab1de186525eea8, type: 3}
   type: 0
   stat: 2
   amount: 10
