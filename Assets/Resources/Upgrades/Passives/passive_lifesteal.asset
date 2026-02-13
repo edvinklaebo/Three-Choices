@@ -20,4 +20,4 @@ MonoBehaviour:
   stat: 0
   amount: 0
   abilityId: Lifesteal
-  rarityWeight: 100
+  rarityWeight: 25
