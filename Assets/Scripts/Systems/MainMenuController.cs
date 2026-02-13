@@ -8,18 +8,19 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button continueButton;
-    [SerializeField] private RunController runController;
+    
+    private RunController runController;
+
+    private void Awake()
+    {
+        runController = FindFirstObjectByType<RunController>();
+        quitButton.onClick.AddListener(OnQuitClicked);
+        continueButton.onClick.AddListener(OnContinueClicked);
+    }
 
     private void Start()
     {
-        runController = FindFirstObjectByType<RunController>();
         continueButton.gameObject.SetActive(SaveService.HasSave());
-    }
-    
-    private void Awake()
-    {
-        quitButton.onClick.AddListener(OnQuitClicked);
-        continueButton.onClick.AddListener(OnContinueClicked);
     }
 
     private static void OnQuitClicked()
