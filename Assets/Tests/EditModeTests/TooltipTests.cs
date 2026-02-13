@@ -8,6 +8,13 @@ namespace Tests.EditModeTests.Tests.EditModeTests
 {
     public class TooltipTests
     {
+        [TearDown]
+        public void TearDown()
+        {
+            // Clean up static instance to prevent test interference
+            TooltipSystem.instance = null;
+        }
+        
         private static Tooltip CreateTooltip()
         {
             var canvasGO = new GameObject("Canvas", typeof(Canvas), typeof(RectTransform));
