@@ -1,17 +1,25 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class DraftSystem
 {
     private readonly IUpgradeRepository _repository;
+    private readonly IRarityRoller _rarityRoller;
 
-    public DraftSystem(IUpgradeRepository repository)
+    public DraftSystem(IUpgradeRepository repository) : this(repository, new RarityRoller())
+    {
+    }
+
+    public DraftSystem(IUpgradeRepository repository, IRarityRoller rarityRoller)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _rarityRoller = rarityRoller ?? throw new ArgumentNullException(nameof(rarityRoller));
         
         Log.Info("DraftSystem initialized", new
         {
-            repositoryType = repository.GetType().Name
+            repositoryType = repository.GetType().Name,
+            rarityRollerType = rarityRoller.GetType().Name
         });
     }
 
@@ -21,25 +29,46 @@ public class DraftSystem
 
         try
         {
-            var pool = _repository.GetAll();
-            Log.Info("Upgrade pool retrieved", new { poolSize = pool.Count });
+            var allUpgrades = _repository.GetAll();
+            Log.Info("Upgrade pool retrieved", new { poolSize = allUpgrades.Count });
 
             var result = new List<UpgradeDefinition>();
 
-            for (var i = 0; i < count && pool.Count > 0; i++)
+            for (var i = 0; i < count; i++)
             {
-                var index = UnityEngine.Random.Range(0, pool.Count);
-                var selected = pool[index];
+                // Roll rarity first
+                var rolledRarity = _rarityRoller.RollRarity();
+                
+                // Filter available upgrades by rarity (exclude already drafted ones)
+                var availableUpgrades = allUpgrades
+                    .Where(u => !result.Contains(u))
+                    .ToList();
+                
+                if (availableUpgrades.Count == 0)
+                {
+                    Log.Warning("No more upgrades available", new { round = i });
+                    break;
+                }
+
+                // Try to get upgrade of rolled rarity, fallback to lower rarities if needed
+                var selected = SelectUpgradeByRarity(availableUpgrades, rolledRarity);
+                
+                if (selected == null)
+                {
+                    Log.Warning("No upgrade found for any rarity", new { round = i });
+                    break;
+                }
 
                 Log.Info("Draft selection", new
                 {
                     round = i,
-                    selected = selected?.DisplayName ?? "null",
-                    remainingPool = pool.Count
+                    selected = selected.DisplayName,
+                    rarity = selected.GetRarity(),
+                    rolledRarity,
+                    remainingPool = availableUpgrades.Count - 1
                 });
 
                 result.Add(selected);
-                pool.RemoveAt(index);
             }
 
             Log.Info("Draft generated", new
@@ -55,5 +84,39 @@ public class DraftSystem
             Log.Exception(ex, "GenerateDraft failed", new { count });
             throw;
         }
+    }
+
+    private UpgradeDefinition SelectUpgradeByRarity(List<UpgradeDefinition> availableUpgrades, Rarity targetRarity)
+    {
+        // Try target rarity first
+        var pool = availableUpgrades.Where(u => u.GetRarity() == targetRarity).ToList();
+        
+        if (pool.Count > 0)
+        {
+            return pool[UnityEngine.Random.Range(0, pool.Count)];
+        }
+        
+        // Fallback to next lower rarity
+        var fallbackRarity = GetNextLowerRarity(targetRarity);
+        if (fallbackRarity.HasValue)
+        {
+            Log.Info("Rarity fallback", new { from = targetRarity, to = fallbackRarity.Value });
+            return SelectUpgradeByRarity(availableUpgrades, fallbackRarity.Value);
+        }
+        
+        // If no rarity match found, return null
+        return null;
+    }
+
+    private Rarity? GetNextLowerRarity(Rarity rarity)
+    {
+        return rarity switch
+        {
+            Rarity.Epic => Rarity.Rare,
+            Rarity.Rare => Rarity.Uncommon,
+            Rarity.Uncommon => Rarity.Common,
+            Rarity.Common => null,
+            _ => null
+        };
     }
 }
