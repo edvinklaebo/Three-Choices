@@ -74,7 +74,7 @@ public static class UpgradeApplier
                 break;
 
             case "Lifesteal":
-                Log.Info("Passive Applied: Lifesteal", unit);
+                Log.Info("Passive Applied: Lifesteal");
                 unit.Passives.Add(new Lifesteal(unit, 0.2f));
                 break;
 
