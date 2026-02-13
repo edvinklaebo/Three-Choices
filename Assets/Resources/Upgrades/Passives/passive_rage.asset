@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 
   displayName: Rage
   description: Deal more damage the lower your health is to a maximum of 50%
-  icon: {fileID: 21300000, guid: 4dc752ce982341043aa3686b259ae528, type: 3}
+  icon: {fileID: 21300000, guid: bacbc37de937ce447bf14448dc133257, type: 3}
   type: 2
   stat: 0
   amount: 0

@@ -33,6 +33,7 @@ public class RunController : MonoBehaviour
 
     public void ContinueRun()
     {
+        SceneManager.LoadScene("DraftScene");
         CurrentRun = SaveService.Load();
         
         _fightIndex = CurrentRun.fightIndex;
