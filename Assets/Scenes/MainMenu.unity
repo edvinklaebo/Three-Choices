@@ -1820,9 +1820,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1342577205}
-        m_TargetAssemblyTypeName: RunController, Ropa
-        m_MethodName: ContinueRun
+      - m_Target: {fileID: 469077191}
+        m_TargetAssemblyTypeName: MainMenuController, Ropa
+        m_MethodName: OnContinueClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

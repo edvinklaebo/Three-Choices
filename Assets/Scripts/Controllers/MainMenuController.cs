@@ -28,7 +28,7 @@ public class MainMenuController : MonoBehaviour
         Application.Quit();
     }
 
-    private void OnContinueClicked()
+    public void OnContinueClicked()
     {
         if (runController != null)
         {
