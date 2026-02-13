@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 
   displayName: Poison
   description: Deal 5 damage per round for 3 rounds, stacking.
-  icon: {fileID: 21300000, guid: 06d740c005d92b148be88862de68034d, type: 3}
+  icon: {fileID: 21300000, guid: a25eae792d35bc545ae1c6aab852eca5, type: 3}
   type: 2
   stat: 0
   amount: 0
