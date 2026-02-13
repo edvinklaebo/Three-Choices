@@ -34,11 +34,11 @@ public class DraftSystem
 
             var result = new List<UpgradeDefinition>();
 
+            // Roll rarity first
+            var rolledRarity = _rarityRoller.RollRarity();
+            
             for (var i = 0; i < count; i++)
             {
-                // Roll rarity first
-                var rolledRarity = _rarityRoller.RollRarity();
-                
                 // Filter available upgrades by rarity (exclude already drafted ones)
                 var availableUpgrades = allUpgrades
                     .Where(u => !result.Contains(u))
@@ -115,7 +115,6 @@ public class DraftSystem
             Rarity.Epic => Rarity.Rare,
             Rarity.Rare => Rarity.Uncommon,
             Rarity.Uncommon => Rarity.Common,
-            Rarity.Common => null,
             _ => null
         };
     }

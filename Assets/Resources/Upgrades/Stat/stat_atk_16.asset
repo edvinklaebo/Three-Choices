@@ -20,4 +20,4 @@ MonoBehaviour:
   stat: 1
   amount: 16
   abilityId: 
-  rarityWeight: 25
+  rarityWeight: 10
