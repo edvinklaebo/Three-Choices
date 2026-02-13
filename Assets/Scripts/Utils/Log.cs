@@ -65,5 +65,4 @@ public static class Log
 
         return dict;
     }
-
 }
