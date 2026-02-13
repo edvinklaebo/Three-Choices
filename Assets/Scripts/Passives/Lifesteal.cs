@@ -6,7 +6,7 @@ public class Lifesteal : Passive
 
     public Lifesteal(Unit owner, float percent)
     {
-        this.Owner = owner;
+        Owner = owner;
         this.percent = percent;
 
         owner.Damaged += OnDamageDealt;
