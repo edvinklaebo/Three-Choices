@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Tests.EditModeTests.Tests.EditModeTests
+namespace Tests.EditModeTests
 {
     public static class TestUIFactory
     {

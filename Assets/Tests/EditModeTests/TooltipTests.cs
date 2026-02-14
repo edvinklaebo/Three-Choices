@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Tests.EditModeTests.Tests.EditModeTests
+namespace Tests.EditModeTests
 {
     public class TooltipTests
     {

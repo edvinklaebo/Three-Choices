@@ -192,20 +192,20 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void PoisonPassive_AppliesPoisonToAttackerOnHit()
+        public void PoisonPassive_AppliesPoisonToTargetOnHit()
         {
-            var defender = CreateUnit("Defender", 100, 0, 0, 5);
             var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
+            var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
-            // Apply poison passive to defender
-            defender.Passives.Add(new Poison(defender));
+            // Apply poison passive to attacker
+            attacker.Passives.Add(new Poison(attacker));
 
             // Attacker hits defender
             defender.ApplyDamage(attacker, 10);
 
-            // Verify attacker now has poison
-            Assert.AreEqual(1, attacker.StatusEffects.Count, "Attacker should have poison status effect");
-            var poison = attacker.StatusEffects[0];
+            // Verify defender now has poison
+            Assert.AreEqual(1, defender.StatusEffects.Count, "Defender should have poison status effect");
+            var poison = defender.StatusEffects[0];
             Assert.AreEqual("Poison", poison.Id);
             Assert.AreEqual(2, poison.Stacks, "Poison should have 2 stacks");
             Assert.AreEqual(3, poison.Duration, "Poison should have 3 turns duration");
@@ -214,39 +214,39 @@ namespace Tests.EditModeTests
         [Test]
         public void PoisonPassive_StacksOnMultipleHits()
         {
-            var defender = CreateUnit("Defender", 100, 0, 0, 5);
             var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
+            var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
-            defender.Passives.Add(new Poison(defender));
+            attacker.Passives.Add(new Poison(attacker));
 
             // First hit
             defender.ApplyDamage(attacker, 10);
-            Assert.AreEqual(2, attacker.StatusEffects[0].Stacks);
+            Assert.AreEqual(2, defender.StatusEffects[0].Stacks);
 
             // Second hit
             defender.ApplyDamage(attacker, 10);
-            Assert.AreEqual(4, attacker.StatusEffects[0].Stacks, "Poison stacks should accumulate to 4");
-            Assert.AreEqual(1, attacker.StatusEffects.Count, "Should still only have one poison effect");
+            Assert.AreEqual(4, defender.StatusEffects[0].Stacks, "Poison stacks should accumulate to 4");
+            Assert.AreEqual(1, defender.StatusEffects.Count, "Should still only have one poison effect");
         }
 
         [Test]
         public void PoisonPassive_WorksInCombat()
         {
-            var defender = CreateUnit("Defender", 20, 0, 0, 5);
             var attacker = CreateUnit("Attacker", 100, 5, 0, 10);
+            var defender = CreateUnit("Defender", 20, 0, 0, 5);
 
-            // Defender has poison passive
-            defender.Passives.Add(new Poison(defender, 3, 5));
+            // Attacker has poison passive
+            attacker.Passives.Add(new Poison(attacker, 3, 5));
 
             CombatSystem.RunFight(attacker, defender);
 
-            // Attacker should die because:
-            // 1. Attacker goes first (speed 10 vs 5), kills defender quickly
-            // 2. But poison was applied on each hit and ticks on attacker's turns
+            // Defender should die because:
+            // 1. Attacker goes first (speed 10 vs 5), applies poison on each hit
+            // 2. Defender takes poison damage each turn
             // 3. Defender has 0 attack so can't hurt attacker directly
             Assert.LessOrEqual(defender.Stats.CurrentHP, 0, "Defender should be dead");
-            Assert.Less(attacker.Stats.CurrentHP, 100,
-                "Attacker should have taken poison damage since defender has 0 attack");
+            Assert.AreEqual(100, attacker.Stats.CurrentHP,
+                "Attacker should take no damage since defender has 0 attack");
         }
 
         // Mock status effect for testing

@@ -20,6 +20,7 @@ public class Unit
     }
 
     public event Action<Unit, int> Damaged;
+    public event Action<Unit, int> OnHit;
     public event Action<Unit, int, int> HealthChanged;
     public event Action<Unit> Died;
 
@@ -41,6 +42,7 @@ public class Unit
         Stats.CurrentHP -= damage;
 
         Damaged?.Invoke(attacker, damage);
+        attacker?.OnHit?.Invoke(this, damage);
         HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
 
         if (Stats.CurrentHP <= 0)

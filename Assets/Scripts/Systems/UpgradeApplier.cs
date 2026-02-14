@@ -82,6 +82,11 @@ public static class UpgradeApplier
                 Log.Info("Passive Applied: Poison");
                 unit.Passives.Add(new Poison(unit));
                 break;
+            
+            case "Bleed":
+                Log.Info("Passive Applied: Bleed");
+                unit.Passives.Add(new Bleed(unit));
+                break;
 
             default:
                 throw new ArgumentOutOfRangeException(upgrade.AbilityId);

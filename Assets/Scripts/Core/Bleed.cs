@@ -1,34 +1,33 @@
-public class Poison : Passive, IStatusEffect
+public class Bleed : Passive, IStatusEffect
 {
     private readonly int passiveDuration;
 
     private readonly int passiveStacks;
 
     // Constructor for status effect usage
-    public Poison(int stacks, int duration)
+    public Bleed(int stacks, int duration)
     {
         Stacks = stacks;
         Duration = duration;
     }
 
     // Constructor for passive usage
-    public Poison(Unit owner, int stacks = 2, int duration = 3)
+    public Bleed(Unit owner, int stacks = 2, int duration = 3)
     {
         Owner = owner;
         passiveStacks = stacks;
         passiveDuration = duration;
 
-        owner.OnHit += ApplyPoison;
+        owner.OnHit += ApplyBleed;
     }
 
-    public string Id => "Poison";
+    public string Id => "Bleed";
     public int Stacks { get; private set; }
     public int Duration { get; private set; }
 
-    // IStatusEffect implementation
     public void OnApply(Unit target)
     {
-        Log.Info("Poison applied", new
+        Log.Info("Bleed applied", new
         {
             target = target.Name,
             stacks = Stacks,
@@ -38,7 +37,7 @@ public class Poison : Passive, IStatusEffect
 
     public void OnTurnStart(Unit target)
     {
-        Log.Info("Poison ticking", new
+        Log.Info("Bleed ticking", new
         {
             target = target.Name,
             damage = Stacks,
@@ -49,7 +48,7 @@ public class Poison : Passive, IStatusEffect
         target.ApplyDirectDamage(Stacks);
         Duration--;
 
-        Log.Info("Poison damage applied", new
+        Log.Info("Bleed damage applied", new
         {
             target = target.Name,
             hpAfter = target.Stats.CurrentHP,
@@ -64,7 +63,7 @@ public class Poison : Passive, IStatusEffect
 
     public void OnExpire(Unit target)
     {
-        Log.Info("Poison expired", new
+        Log.Info("Bleed expired", new
         {
             target = target.Name
         });
@@ -75,20 +74,20 @@ public class Poison : Passive, IStatusEffect
         Stacks += amount;
     }
 
-    // Passive behavior - applies poison when owner hits something
-    private void ApplyPoison(Unit target, int _)
+    // Passive behavior - applies bleed when owner hits something
+    private void ApplyBleed(Unit target, int _)
     {
         if (target == null)
             return;
 
-        Log.Info("Poison passive triggered", new
+        Log.Info("Bleed passive triggered", new
         {
             attacker = Owner.Name,
             target = target.Name,
-            poisonStacks = passiveStacks,
-            poisonDuration = passiveDuration
+            bleedStacks = passiveStacks,
+            bleedDuration = passiveDuration
         });
 
-        target.ApplyStatus(new Poison(passiveStacks, passiveDuration));
+        target.ApplyStatus(new Bleed(passiveStacks, passiveDuration));
     }
 }
