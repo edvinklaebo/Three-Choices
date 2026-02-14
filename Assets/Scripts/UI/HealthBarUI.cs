@@ -58,6 +58,7 @@ public class HealthBarUI : MonoBehaviour
         _unit = unit;
         _targetValue = GetNormalizedHealth();
         
+        // Set slider value immediately to avoid animating from 0 on first initialization
         if (_slider != null)
         {
             _slider.value = _targetValue;

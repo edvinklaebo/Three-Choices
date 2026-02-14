@@ -66,8 +66,11 @@ namespace Tests.EditModeTests
             // Damage the unit to 50 HP
             unit.ApplyDamage(null, 50);
 
-            // The target should be 0.5 (50/100)
+            // The unit should have 50 HP
             Assert.AreEqual(50, unit.Stats.CurrentHP, "Unit should have 50 HP");
+            
+            // Note: The slider won't update immediately due to lerping in Update()
+            // The target value is set to 0.5, but the actual slider.value lerps over time
 
             Object.DestroyImmediate(go);
         }
@@ -87,6 +90,9 @@ namespace Tests.EditModeTests
 
             Assert.IsTrue(unit.isDead, "Unit should be dead");
             Assert.LessOrEqual(unit.Stats.CurrentHP, 0, "HP should be 0 or negative");
+            
+            // Note: The slider won't update immediately due to lerping in Update()
+            // The target value is set to 0, but the actual slider.value lerps over time
 
             Object.DestroyImmediate(go);
         }
