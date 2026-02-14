@@ -42,6 +42,7 @@ public class Unit
         Stats.CurrentHP -= damage;
 
         Damaged?.Invoke(attacker, damage);
+        attacker?.OnHit?.Invoke(this, damage);
         HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
 
         if (Stats.CurrentHP <= 0)

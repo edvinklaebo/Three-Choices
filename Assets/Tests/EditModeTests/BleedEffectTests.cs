@@ -135,20 +135,20 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void BleedPassive_AppliesBleedToAttackerOnHit()
+        public void BleedPassive_AppliesBleedToTargetOnHit()
         {
-            var defender = CreateUnit("Defender", 100, 0, 0, 5);
             var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
+            var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
-            // Apply bleed passive to defender
-            defender.Passives.Add(new Bleed(defender));
+            // Apply bleed passive to attacker
+            attacker.Passives.Add(new Bleed(attacker));
 
             // Attacker hits defender
             defender.ApplyDamage(attacker, 10);
 
-            // Verify attacker now has bleed
-            Assert.AreEqual(1, attacker.StatusEffects.Count, "Attacker should have bleed status effect");
-            var bleed = attacker.StatusEffects[0];
+            // Verify defender now has bleed
+            Assert.AreEqual(1, defender.StatusEffects.Count, "Defender should have bleed status effect");
+            var bleed = defender.StatusEffects[0];
             Assert.AreEqual("Bleed", bleed.Id);
             Assert.AreEqual(2, bleed.Stacks, "Bleed should have 2 stacks");
             Assert.AreEqual(3, bleed.Duration, "Bleed should have 3 turns duration");
@@ -157,39 +157,39 @@ namespace Tests.EditModeTests
         [Test]
         public void BleedPassive_StacksOnMultipleHits()
         {
-            var defender = CreateUnit("Defender", 100, 0, 0, 5);
             var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
+            var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
-            defender.Passives.Add(new Bleed(defender));
+            attacker.Passives.Add(new Bleed(attacker));
 
             // First hit
             defender.ApplyDamage(attacker, 10);
-            Assert.AreEqual(2, attacker.StatusEffects[0].Stacks);
+            Assert.AreEqual(2, defender.StatusEffects[0].Stacks);
 
             // Second hit
             defender.ApplyDamage(attacker, 10);
-            Assert.AreEqual(4, attacker.StatusEffects[0].Stacks, "Bleed stacks should accumulate to 4");
-            Assert.AreEqual(1, attacker.StatusEffects.Count, "Should still only have one bleed effect");
+            Assert.AreEqual(4, defender.StatusEffects[0].Stacks, "Bleed stacks should accumulate to 4");
+            Assert.AreEqual(1, defender.StatusEffects.Count, "Should still only have one bleed effect");
         }
 
         [Test]
         public void BleedPassive_WorksInCombat()
         {
-            var defender = CreateUnit("Defender", 20, 0, 0, 5);
             var attacker = CreateUnit("Attacker", 100, 5, 0, 10);
+            var defender = CreateUnit("Defender", 20, 0, 0, 5);
 
-            // Defender has bleed passive
-            defender.Passives.Add(new Bleed(defender, 3, 5));
+            // Attacker has bleed passive
+            attacker.Passives.Add(new Bleed(attacker, 3, 5));
 
             CombatSystem.RunFight(attacker, defender);
 
-            // Attacker should die because:
-            // 1. Attacker goes first (speed 10 vs 5), kills defender quickly
-            // 2. But bleed was applied on each hit and ticks on attacker's turns
+            // Defender should die because:
+            // 1. Attacker goes first (speed 10 vs 5), applies bleed on each hit
+            // 2. Defender takes bleed damage each turn
             // 3. Defender has 0 attack so can't hurt attacker directly
             Assert.LessOrEqual(defender.Stats.CurrentHP, 0, "Defender should be dead");
-            Assert.Less(attacker.Stats.CurrentHP, 100,
-                "Attacker should have taken bleed damage since defender has 0 attack");
+            Assert.AreEqual(100, attacker.Stats.CurrentHP,
+                "Attacker should take no damage since defender has 0 attack");
         }
 
         [Test]

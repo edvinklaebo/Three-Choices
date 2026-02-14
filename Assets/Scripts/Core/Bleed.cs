@@ -74,19 +74,20 @@ public class Bleed : Passive, IStatusEffect
         Stacks += amount;
     }
 
-    private void ApplyBleed(Unit attacker, int damageTaken)
+    // Passive behavior - applies bleed when owner hits something
+    private void ApplyBleed(Unit target, int damageDealt)
     {
-        if (attacker == null)
+        if (target == null)
             return;
 
         Log.Info("Bleed passive triggered", new
         {
-            defender = Owner.Name,
-            attacker = attacker.Name,
+            attacker = Owner.Name,
+            target = target.Name,
             bleedStacks = passiveStacks,
             bleedDuration = passiveDuration
         });
 
-        attacker.ApplyStatus(new Bleed(passiveStacks, passiveDuration));
+        target.ApplyStatus(new Bleed(passiveStacks, passiveDuration));
     }
 }

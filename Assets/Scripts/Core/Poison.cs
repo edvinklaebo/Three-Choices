@@ -18,7 +18,7 @@ public class Poison : Passive, IStatusEffect
         passiveStacks = stacks;
         passiveDuration = duration;
 
-        owner.Damaged += OnDamaged;
+        owner.OnHit += ApplyPoison;
     }
 
     public string Id => "Poison";
@@ -75,20 +75,20 @@ public class Poison : Passive, IStatusEffect
         Stacks += amount;
     }
 
-    // Passive behavior - applies poison when owner takes damage
-    private void OnDamaged(Unit attacker, int damageTaken)
+    // Passive behavior - applies poison when owner hits something
+    private void ApplyPoison(Unit target, int damageDealt)
     {
-        if (attacker == null)
+        if (target == null)
             return;
 
         Log.Info("Poison passive triggered", new
         {
-            defender = Owner.Name,
-            attacker = attacker.Name,
+            attacker = Owner.Name,
+            target = target.Name,
             poisonStacks = passiveStacks,
             poisonDuration = passiveDuration
         });
 
-        attacker.ApplyStatus(new Poison(passiveStacks, passiveDuration));
+        target.ApplyStatus(new Poison(passiveStacks, passiveDuration));
     }
 }
