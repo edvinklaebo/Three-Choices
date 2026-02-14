@@ -158,7 +158,7 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void CombatSystem_RemainssDeterministic_WithActions()
+        public void CombatSystem_RemainsDeterministic_WithActions()
         {
             // Run the same combat twice and verify results are identical
             var unitA1 = CreateUnit("A", 30, 10, 0, 10);
