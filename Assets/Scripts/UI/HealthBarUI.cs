@@ -20,17 +20,10 @@ public class HealthBarUI : MonoBehaviour
 {
     [SerializeField] private Slider _slider;
     [SerializeField] private float _lerpSpeed = 5f;
-    [SerializeField] private RunController runController;
 
     private Unit _unit;
     private float _targetValue;
     private bool _sliderConfigured;
-
-    private void Start()
-    {
-        runController = FindFirstObjectByType<RunController>();
-        Initialize(runController.Player);
-    }
     
     private void Awake()
     {
