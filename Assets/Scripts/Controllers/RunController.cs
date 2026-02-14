@@ -5,7 +5,6 @@ public class RunController : MonoBehaviour
 {
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel playerDiedEvent;
-    [SerializeField] private VoidEventChannel onRunStartedEvent;
     
     public Unit Player;
 
@@ -43,7 +42,6 @@ public class RunController : MonoBehaviour
         Player.Died += _ => playerDiedEvent.Raise();
         SaveService.Save(CurrentRun);
         requestNextFight.Raise();
-        onRunStartedEvent.Raise();
     }
 
     public void StartNewRun(CharacterDefinition character)
@@ -67,7 +65,6 @@ public class RunController : MonoBehaviour
 
         SaveService.Save(CurrentRun);
         requestNextFight.Raise();
-        onRunStartedEvent.Raise();
     }
 
     private void HandleNextFight()
@@ -87,21 +84,6 @@ public class RunController : MonoBehaviour
     {
         SaveService.Delete();
         SceneManager.LoadScene("GameOver");
-    }
-
-    private static Unit CreatePlayer()
-    {
-        return new Unit("Aboba")
-        {
-            Stats = new Stats
-            {
-                Armor = 45,
-                AttackPower = 7,
-                CurrentHP = 100,
-                MaxHP = 100,
-                Speed = 10
-            }
-        };
     }
 
     private static Unit CreatePlayerFromCharacter(CharacterDefinition character)
