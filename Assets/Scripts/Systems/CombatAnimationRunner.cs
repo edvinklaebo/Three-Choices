@@ -136,18 +136,11 @@ public class CombatAnimationRunner : MonoBehaviour
 
             // Apply speed multiplier by scaling time
             var originalTimeScale = Time.timeScale;
-            Time.timeScale = _speedMultiplier;
-
+            
             try
             {
+                Time.timeScale = _speedMultiplier;
                 yield return action.Play(ctx);
-            }
-            catch (System.Exception ex)
-            {
-                Log.Exception(ex, "Error playing combat action", new
-                {
-                    actionType = action?.GetType().Name ?? "null"
-                });
             }
             finally
             {
