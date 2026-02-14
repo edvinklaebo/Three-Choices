@@ -137,7 +137,7 @@ namespace Tests.EditModeTests
         [Test]
         public void BleedPassive_AppliesBleedToTargetOnHit()
         {
-            var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
+            var attacker = CreateUnit("Attacker", 100, 1, 0, 5);
             var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
             // Apply bleed passive to attacker

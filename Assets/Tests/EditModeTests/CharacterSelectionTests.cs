@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
-namespace Tests.EditModeTests.Tests.EditModeTests
+namespace Tests.EditModeTests
 {
     public class CharacterSelectionTests
     {
