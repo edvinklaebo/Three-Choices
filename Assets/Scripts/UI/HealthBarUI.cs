@@ -26,19 +26,7 @@ public class HealthBarUI : MonoBehaviour
 
     private void Awake()
     {
-        // Auto-find slider if not assigned
-        if (_slider == null)
-        {
-            _slider = GetComponent<Slider>();
-        }
-
-        // Configure slider for health bar use
-        if (_slider != null)
-        {
-            _slider.minValue = 0f;
-            _slider.maxValue = 1f;
-            _slider.interactable = false;
-        }
+        EnsureSliderConfigured();
     }
 
     public void Initialize(Unit unit)
@@ -48,6 +36,9 @@ public class HealthBarUI : MonoBehaviour
             Debug.LogError("HealthBarUI: Cannot initialize with null unit");
             return;
         }
+
+        // Ensure slider is configured (in case Initialize is called before Awake)
+        EnsureSliderConfigured();
 
         // Unsubscribe from previous unit if any
         if (_unit != null)
@@ -66,6 +57,23 @@ public class HealthBarUI : MonoBehaviour
 
         // Subscribe to new unit's health changes
         _unit.HealthChanged += OnHealthChanged;
+    }
+
+    private void EnsureSliderConfigured()
+    {
+        // Auto-find slider if not assigned
+        if (_slider == null)
+        {
+            _slider = GetComponent<Slider>();
+        }
+
+        // Configure slider for health bar use
+        if (_slider != null)
+        {
+            _slider.minValue = 0f;
+            _slider.maxValue = 1f;
+            _slider.interactable = false;
+        }
     }
 
     private void OnDisable()
@@ -87,7 +95,7 @@ public class HealthBarUI : MonoBehaviour
         }
     }
 
-    public void OnHealthChanged(Unit unit, int currentHP, int maxHP)
+    private void OnHealthChanged(Unit unit, int currentHP, int maxHP)
     {
         _targetValue = maxHP <= 0 ? 0f : Mathf.Clamp01((float)currentHP / maxHP);
     }
