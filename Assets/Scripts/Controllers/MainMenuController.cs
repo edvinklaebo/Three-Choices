@@ -8,6 +8,7 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button continueButton;
+    [SerializeField] private Button newGameButton;
     
     private RunController runController;
 
@@ -16,6 +17,11 @@ public class MainMenuController : MonoBehaviour
         runController = FindFirstObjectByType<RunController>();
         quitButton.onClick.AddListener(OnQuitClicked);
         continueButton.onClick.AddListener(OnContinueClicked);
+        
+        if (newGameButton != null)
+        {
+            newGameButton.onClick.AddListener(OnNewGamePressed);
+        }
     }
 
     private void Start()
@@ -38,5 +44,12 @@ public class MainMenuController : MonoBehaviour
         {
             Log.Error("RunController not found when Continue was clicked");
         }
+    }
+
+    public void OnNewGamePressed()
+    {
+        Debug.Log("[MainMenu] New run requested.");
+        GameEvents.NewRunRequested_Event?.Invoke();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("CharacterSelectScene");
     }
 }
