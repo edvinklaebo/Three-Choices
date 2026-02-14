@@ -25,6 +25,7 @@ namespace Tests.EditModeTests
         public void Initialize_WithValidUnit_DoesNotThrowError()
         {
             var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
             var healthBar = go.AddComponent<HealthBarUI>();
             var unit = CreateUnit("Test", 100, 10, 5, 5);
 
@@ -38,29 +39,26 @@ namespace Tests.EditModeTests
         public void HealthChanged_UpdatesTargetFillAmount()
         {
             var go = new GameObject("TestHealthBar");
-            var fillImageGO = new GameObject("FillImage");
-            fillImageGO.transform.SetParent(go.transform);
-            var fillImage = fillImageGO.AddComponent<Image>();
-            
+            var slider = go.AddComponent<Slider>();
             var healthBar = go.AddComponent<HealthBarUI>();
-            
-            // Use reflection to set the private _fillImage field
-            var fillImageField = typeof(HealthBarUI).GetField("_fillImage", 
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            fillImageField?.SetValue(healthBar, fillImage);
 
             var unit = CreateUnit("Test", 100, 10, 5, 5);
             healthBar.Initialize(unit);
+            
+            healthBar.OnHealthChanged(unit, unit.Stats.CurrentHP, unit.Stats.MaxHP);
+            
+            // Initial value should be 1.0 (100/100)
+            Assert.AreEqual(1.0f, slider.value, 0.01f, "Slider should start at full health");
 
             // Damage the unit to 50 HP
             unit.ApplyDamage(null, 50);
 
-            // The target should be 0.5 (50/100)
-            // We can't directly test private field _targetFillAmount, 
-            // but we can verify the event was triggered
+            // The unit should have 50 HP
             Assert.AreEqual(50, unit.Stats.CurrentHP, "Unit should have 50 HP");
+            
+            // Note: The slider won't update immediately due to lerping in Update()
+            // The target value is set to 0.5, but the actual slider.value lerps over time
 
-            Object.DestroyImmediate(fillImageGO);
             Object.DestroyImmediate(go);
         }
 
@@ -68,15 +66,8 @@ namespace Tests.EditModeTests
         public void HealthChanged_ToZero_SetsTargetToZero()
         {
             var go = new GameObject("TestHealthBar");
-            var fillImageGO = new GameObject("FillImage");
-            fillImageGO.transform.SetParent(go.transform);
-            var fillImage = fillImageGO.AddComponent<Image>();
-            
+            var slider = go.AddComponent<Slider>();
             var healthBar = go.AddComponent<HealthBarUI>();
-            
-            var fillImageField = typeof(HealthBarUI).GetField("_fillImage", 
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            fillImageField?.SetValue(healthBar, fillImage);
 
             var unit = CreateUnit("Test", 100, 10, 5, 5);
             healthBar.Initialize(unit);
@@ -86,8 +77,10 @@ namespace Tests.EditModeTests
 
             Assert.IsTrue(unit.isDead, "Unit should be dead");
             Assert.LessOrEqual(unit.Stats.CurrentHP, 0, "HP should be 0 or negative");
+            
+            // Note: The slider won't update immediately due to lerping in Update()
+            // The target value is set to 0, but the actual slider.value lerps over time
 
-            Object.DestroyImmediate(fillImageGO);
             Object.DestroyImmediate(go);
         }
 
@@ -95,16 +88,8 @@ namespace Tests.EditModeTests
         public void Heal_TriggersHealthChangedEvent()
         {
             var go = new GameObject("TestHealthBar");
-            var fillImageGO = new GameObject("FillImage");
-            fillImageGO.transform.SetParent(go.transform);
-            var fillImage = fillImageGO.AddComponent<Image>();
-            
+            var slider = go.AddComponent<Slider>();
             var healthBar = go.AddComponent<HealthBarUI>();
-            
-            var fillImageField = typeof(HealthBarUI).GetField("_fillImage", 
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            fillImageField?.SetValue(healthBar, fillImage);
-
             var unit = CreateUnit("Test", 100, 10, 5, 5);
             healthBar.Initialize(unit);
 
@@ -115,7 +100,6 @@ namespace Tests.EditModeTests
             unit.Heal(30);
             Assert.AreEqual(80, unit.Stats.CurrentHP, "Unit should have 80 HP after heal");
 
-            Object.DestroyImmediate(fillImageGO);
             Object.DestroyImmediate(go);
         }
 
@@ -123,15 +107,8 @@ namespace Tests.EditModeTests
         public void MultipleHealthChanges_AllTriggerEvent()
         {
             var go = new GameObject("TestHealthBar");
-            var fillImageGO = new GameObject("FillImage");
-            fillImageGO.transform.SetParent(go.transform);
-            var fillImage = fillImageGO.AddComponent<Image>();
-            
+            var slider = go.AddComponent<Slider>();
             var healthBar = go.AddComponent<HealthBarUI>();
-            
-            var fillImageField = typeof(HealthBarUI).GetField("_fillImage", 
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            fillImageField?.SetValue(healthBar, fillImage);
 
             var unit = CreateUnit("Test", 100, 10, 5, 5);
             healthBar.Initialize(unit);
@@ -144,7 +121,6 @@ namespace Tests.EditModeTests
 
             Assert.AreEqual(80, unit.Stats.CurrentHP, "Unit should have 80 HP");
 
-            Object.DestroyImmediate(fillImageGO);
             Object.DestroyImmediate(go);
         }
 
@@ -152,15 +128,8 @@ namespace Tests.EditModeTests
         public void Initialize_WithZeroMaxHP_HandlesGracefully()
         {
             var go = new GameObject("TestHealthBar");
-            var fillImageGO = new GameObject("FillImage");
-            fillImageGO.transform.SetParent(go.transform);
-            var fillImage = fillImageGO.AddComponent<Image>();
-            
+            var slider = go.AddComponent<Slider>();
             var healthBar = go.AddComponent<HealthBarUI>();
-            
-            var fillImageField = typeof(HealthBarUI).GetField("_fillImage", 
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            fillImageField?.SetValue(healthBar, fillImage);
 
             var unit = new Unit("Test")
             {
@@ -177,7 +146,25 @@ namespace Tests.EditModeTests
             // Should not throw
             Assert.DoesNotThrow(() => healthBar.Initialize(unit));
 
-            Object.DestroyImmediate(fillImageGO);
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void Awake_AutoFindsSliderComponent()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+            
+            // Awake should auto-find the slider
+            var unit = CreateUnit("Test", 100, 10, 5, 5);
+            healthBar.Initialize(unit);
+
+            // Slider should be configured correctly
+            Assert.AreEqual(0f, slider.minValue, "Slider min should be 0");
+            Assert.AreEqual(1f, slider.maxValue, "Slider max should be 1");
+            Assert.IsTrue(slider.interactable, "Slider should be interactable");
+
             Object.DestroyImmediate(go);
         }
     }

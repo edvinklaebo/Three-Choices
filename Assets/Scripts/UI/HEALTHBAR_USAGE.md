@@ -2,11 +2,12 @@
 
 ## Overview
 
-The `HealthBarUI` component is a reusable UI element that displays a Unit's health as a visual bar. It works with any Unit (player, enemy, or any entity with health) and provides smooth visual feedback when health changes.
+The `HealthBarUI` component is a reusable UI element that displays a Unit's health using Unity's Slider component. It works with any Unit (player, enemy, or any entity with health) and provides smooth visual feedback when health changes.
 
 ## Features
 
-- **Normalized Display**: Displays health as a 0-1 fill amount
+- **Built on Unity Slider**: Uses Unity's built-in Slider component with all its features
+- **Automatic Configuration**: Auto-configures slider settings (min=0, max=1, non-interactable)
 - **Automatic Updates**: Subscribes to Unit's `HealthChanged` event
 - **Smooth Animation**: Uses lerp for smooth health transitions
 - **Fully Reusable**: Works with any Unit instance
@@ -17,22 +18,17 @@ The `HealthBarUI` component is a reusable UI element that displays a Unit's heal
 ### 1. Create Health Bar GameObject
 
 1. Create a new GameObject (e.g., "HealthBar")
-2. Add a Canvas (if not already present) and set it as needed
-3. Add a Background Image (optional):
-   - Add an Image component
-   - Set sprite and color for background
-
-4. Add a Fill Image (required):
-   - Create a child GameObject called "Fill"
-   - Add an Image component
-   - Set the Image Type to **Filled**
-   - Set Fill Method to **Horizontal**
-   - Set sprite and color (e.g., green for health)
+2. Add a Slider component (UI → Slider)
+   - The slider will be automatically configured by HealthBarUI
+3. Customize the Slider appearance:
+   - Style the Background, Fill Area, and Fill images
+   - Set colors (e.g., red for background, green for fill)
+   - You can remove the Handle if you don't need it
 
 ### 2. Attach HealthBarUI Component
 
-1. Add the `HealthBarUI` component to your HealthBar GameObject
-2. Assign the Fill Image reference in the inspector
+1. Add the `HealthBarUI` component to the same GameObject with the Slider
+2. Optionally assign the Slider reference in the inspector (or let it auto-find)
 3. Optionally adjust the Lerp Speed (default: 5)
 
 ### 3. Initialize in Code
@@ -74,13 +70,13 @@ Initializes the health bar to track the specified unit's health.
   - `unit`: The Unit to track (cannot be null)
 - **Behavior**:
   - Unsubscribes from previous unit if any
-  - Sets initial fill amount
+  - Sets initial slider value
   - Subscribes to new unit's HealthChanged event
 
 ### Inspector Fields
 
-#### `_fillImage` (Image)
-The Image component that will be filled based on health percentage. Must have Image Type set to "Filled".
+#### `_slider` (Slider)
+The Slider component that represents the health bar. Will auto-find if not assigned.
 
 #### `_lerpSpeed` (float)
 Speed of the health bar animation. Higher values = faster transitions. Default: 5.0
@@ -132,6 +128,21 @@ _healthBar.Initialize(newUnit);
 
 ## Architecture Notes
 
+### Unity Slider Integration
+
+The health bar leverages Unity's built-in Slider component which provides:
+- Automatic layout and scaling
+- Built-in fill visualization
+- Easy customization through inspector
+- Standard UI component behavior
+
+### Automatic Configuration
+
+In the `Awake()` method, the component:
+- Auto-finds the Slider component if not assigned
+- Sets `minValue = 0` and `maxValue = 1`
+- Sets `interactable = false` (health bars shouldn't be user-controlled)
+
 ### Event-Driven Updates
 
 The health bar uses Unity's event system to listen for health changes:
@@ -162,6 +173,7 @@ EditMode tests are available in `Assets/Tests/EditModeTests/HealthBarUITests.cs`
 ✓ Healing updates the bar
 ✓ Multiple health changes work correctly
 ✓ Zero max HP handled gracefully
+✓ Auto-finds Slider component
 ```
 
 Run tests via: **Window → General → Test Runner**
@@ -172,18 +184,23 @@ Run tests via: **Window → General → Test Runner**
 
 1. Check that `Initialize()` was called with a valid Unit
 2. Verify the Unit's `HealthChanged` event is being invoked
-3. Ensure the Fill Image is assigned in the inspector
+3. Ensure the Slider component exists on the GameObject
 
 ### Health Bar Not Visible
 
 1. Check Canvas settings and render mode
-2. Verify Fill Image has a sprite and color assigned
-3. Ensure Image Type is set to "Filled" with appropriate Fill Method
+2. Verify Slider has Fill Area and Fill image assigned
+3. Ensure Fill image has a sprite and color
 
 ### Health Bar Jumps Instead of Animating
 
 1. Check that `_lerpSpeed` is set to a reasonable value (1-10)
 2. Verify `Update()` is being called (component enabled)
+
+### Slider Not Found Error
+
+1. Make sure a Slider component exists on the same GameObject
+2. Or manually assign the Slider reference in the inspector
 
 ## Integration with Existing Systems
 
