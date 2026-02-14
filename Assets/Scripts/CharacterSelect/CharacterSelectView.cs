@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class CharacterSelectView : MonoBehaviour
 {
     [SerializeField] private Image _portraitImage;
     [SerializeField] private TextMeshProUGUI _nameText;
-    [SerializeField] private TextMeshProUGUI _statsText;
+    [SerializeField] private StatsPanelUI _statsPanel;
     [SerializeField] private Transform _portraitTransform;
     [SerializeField] private float _animationTime = 0.2f;
     [SerializeField] private float _scaleAmount = 0.1f;
@@ -36,9 +37,16 @@ public class CharacterSelectView : MonoBehaviour
             _nameText.text = character.DisplayName;
         }
 
-        if (_statsText != null)
+        if (_statsPanel != null)
         {
-            _statsText.text = $"HP: {character.MaxHp}\nAttack: {character.Attack}\nArmor: {character.Armor}\nSpeed: {character.Speed}";
+            var stats = new List<StatViewData>
+            {
+                new StatViewData("HP", character.MaxHp),
+                new StatViewData("Attack", character.Attack),
+                new StatViewData("Armor", character.Armor),
+                new StatViewData("Speed", character.Speed)
+            };
+            _statsPanel.Show(stats);
         }
 
         PlaySelectionAnimation();

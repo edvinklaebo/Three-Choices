@@ -70,7 +70,7 @@ For each character (Bob, Garry, Steve):
 3. Add the following UI elements:
    - **Character Portrait**: Image component for character sprite
    - **Character Name**: TextMeshPro - Text for displaying name
-   - **Stats Text**: TextMeshPro - Text for displaying stats
+   - **Stats Panel**: Create a StatsPanelUI (requires StatRowUI prefab and container)
    - **Previous Button**: Button with "←" or "Previous"
    - **Next Button**: Button with "→" or "Next"
    - **Confirm Button**: Button with "Select" or "Confirm"
@@ -88,7 +88,8 @@ For each character (Bob, Garry, Steve):
 7. Configure CharacterSelectView:
    - Assign Portrait Image
    - Assign Name Text
-   - Assign Stats Text
+   - Assign Stats Panel (StatsPanelUI component)
+   - Assign Portrait Transform (for animation)
    - Assign Portrait Transform (for animation)
 
 8. Configure CharacterSelectInput:
