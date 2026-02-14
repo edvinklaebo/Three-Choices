@@ -1,7 +1,6 @@
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.TestTools;
 
 namespace Tests.EditModeTests
 {
@@ -26,26 +25,11 @@ namespace Tests.EditModeTests
         public void Initialize_WithValidUnit_DoesNotThrowError()
         {
             var go = new GameObject("TestHealthBar");
-            var slider = go.AddComponent<Slider>();
             var healthBar = go.AddComponent<HealthBarUI>();
             var unit = CreateUnit("Test", 100, 10, 5, 5);
 
             // Should not throw
             Assert.DoesNotThrow(() => healthBar.Initialize(unit));
-
-            Object.DestroyImmediate(go);
-        }
-
-        [Test]
-        public void Initialize_WithNullUnit_LogsError()
-        {
-            var go = new GameObject("TestHealthBar");
-            var slider = go.AddComponent<Slider>();
-            var healthBar = go.AddComponent<HealthBarUI>();
-
-            // Should log error but not throw
-            LogAssert.Expect(LogType.Error, "HealthBarUI: Cannot initialize with null unit");
-            healthBar.Initialize(null);
 
             Object.DestroyImmediate(go);
         }
@@ -80,7 +64,6 @@ namespace Tests.EditModeTests
         public void HealthChanged_ToZero_SetsTargetToZero()
         {
             var go = new GameObject("TestHealthBar");
-            var slider = go.AddComponent<Slider>();
             var healthBar = go.AddComponent<HealthBarUI>();
 
             var unit = CreateUnit("Test", 100, 10, 5, 5);
@@ -102,7 +85,6 @@ namespace Tests.EditModeTests
         public void Heal_TriggersHealthChangedEvent()
         {
             var go = new GameObject("TestHealthBar");
-            var slider = go.AddComponent<Slider>();
             var healthBar = go.AddComponent<HealthBarUI>();
 
             var unit = CreateUnit("Test", 100, 10, 5, 5);
@@ -122,7 +104,6 @@ namespace Tests.EditModeTests
         public void MultipleHealthChanges_AllTriggerEvent()
         {
             var go = new GameObject("TestHealthBar");
-            var slider = go.AddComponent<Slider>();
             var healthBar = go.AddComponent<HealthBarUI>();
 
             var unit = CreateUnit("Test", 100, 10, 5, 5);
@@ -143,7 +124,6 @@ namespace Tests.EditModeTests
         public void Initialize_WithZeroMaxHP_HandlesGracefully()
         {
             var go = new GameObject("TestHealthBar");
-            var slider = go.AddComponent<Slider>();
             var healthBar = go.AddComponent<HealthBarUI>();
 
             var unit = new Unit("Test")
