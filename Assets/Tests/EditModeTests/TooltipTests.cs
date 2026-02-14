@@ -8,6 +8,13 @@ namespace Tests.EditModeTests.Tests.EditModeTests
 {
     public class TooltipTests
     {
+        [TearDown]
+        public void TearDown()
+        {
+            // Clean up static instance to prevent test interference
+            TooltipSystem.instance = null;
+        }
+        
         private static Tooltip CreateTooltip()
         {
             var canvasGO = new GameObject("Canvas", typeof(Canvas), typeof(RectTransform));
@@ -143,6 +150,52 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             TooltipSystem.Hide();
 
             Assert.IsFalse(tooltip.gameObject.activeSelf);
+        }
+        
+        [Test]
+        public void TooltipSystem_Hide_DoesNotThrow_WhenTooltipDestroyed()
+        {
+            var tooltip = CreateTooltip();
+
+            var sysGO = new GameObject("TooltipSystem");
+            var system = sysGO.AddComponent<TooltipSystem>();
+            system.tooltip = tooltip;
+
+            system.Awake();
+            
+            // Destroy the tooltip to simulate scene transition
+            Object.DestroyImmediate(tooltip.gameObject);
+
+            // This should not throw an exception
+            Assert.DoesNotThrow(() => TooltipSystem.Hide());
+        }
+        
+        [Test]
+        public void TooltipSystem_Show_DoesNotThrow_WhenTooltipDestroyed()
+        {
+            var tooltip = CreateTooltip();
+
+            var sysGO = new GameObject("TooltipSystem");
+            var system = sysGO.AddComponent<TooltipSystem>();
+            system.tooltip = tooltip;
+
+            system.Awake();
+            
+            // Destroy the tooltip to simulate scene transition
+            Object.DestroyImmediate(tooltip.gameObject);
+
+            // This should not throw an exception
+            Assert.DoesNotThrow(() => TooltipSystem.Show("test", "label"));
+        }
+        
+        [Test]
+        public void TooltipSystem_Hide_DoesNotThrow_WhenInstanceNull()
+        {
+            // Clear the instance to simulate it being destroyed
+            TooltipSystem.instance = null;
+
+            // This should not throw an exception
+            Assert.DoesNotThrow(() => TooltipSystem.Hide());
         }
     }
 }
