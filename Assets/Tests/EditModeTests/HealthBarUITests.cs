@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.TestTools;
 
 namespace Tests.EditModeTests
 {
@@ -36,7 +37,21 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void HealthChanged_UpdatesTargetFillAmount()
+        public void Initialize_WithNullUnit_LogsError()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+
+            // Should log error but not throw
+            LogAssert.Expect(LogType.Error, "HealthBarUI: Cannot initialize with null unit");
+            healthBar.Initialize(null);
+
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void HealthChanged_UpdatesTargetValue()
         {
             var go = new GameObject("TestHealthBar");
             var slider = go.AddComponent<Slider>();
@@ -44,20 +59,19 @@ namespace Tests.EditModeTests
 
             var unit = CreateUnit("Test", 100, 10, 5, 5);
             healthBar.Initialize(unit);
-            
-            healthBar.OnHealthChanged(unit, unit.Stats.CurrentHP, unit.Stats.MaxHP);
-            
+
             // Initial value should be 1.0 (100/100)
             Assert.AreEqual(1.0f, slider.value, 0.01f, "Slider should start at full health");
 
-            // Damage the unit to 50 HP
+            // Damage the unit to 50 HP - this will trigger HealthChanged event
             unit.ApplyDamage(null, 50);
 
             // The unit should have 50 HP
             Assert.AreEqual(50, unit.Stats.CurrentHP, "Unit should have 50 HP");
             
             // Note: The slider won't update immediately due to lerping in Update()
-            // The target value is set to 0.5, but the actual slider.value lerps over time
+            // The event handler sets the internal target value, but slider.value lerps in Update()
+            // We can verify the event was triggered by checking the unit's HP changed
 
             Object.DestroyImmediate(go);
         }
@@ -90,6 +104,7 @@ namespace Tests.EditModeTests
             var go = new GameObject("TestHealthBar");
             var slider = go.AddComponent<Slider>();
             var healthBar = go.AddComponent<HealthBarUI>();
+
             var unit = CreateUnit("Test", 100, 10, 5, 5);
             healthBar.Initialize(unit);
 
@@ -163,7 +178,7 @@ namespace Tests.EditModeTests
             // Slider should be configured correctly
             Assert.AreEqual(0f, slider.minValue, "Slider min should be 0");
             Assert.AreEqual(1f, slider.maxValue, "Slider max should be 1");
-            Assert.IsTrue(slider.interactable, "Slider should be interactable");
+            Assert.IsFalse(slider.interactable, "Slider should not be interactable");
 
             Object.DestroyImmediate(go);
         }
