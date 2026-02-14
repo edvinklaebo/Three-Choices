@@ -22,24 +22,23 @@ public class PoisonEffect : IStatusEffect
 
     public void OnTurnStart(Unit target)
     {
-        Log.Info("Poison damage dealt", new
+        Log.Info("Poison ticking", new
         {
             target = target.Name,
             damage = Stacks,
-            remainingDuration = Duration,
+            duration = Duration,
             hpBefore = target.Stats.CurrentHP
         });
 
         target.ApplyDirectDamage(Stacks);
+        Duration--;
 
         Log.Info("Poison damage applied", new
         {
             target = target.Name,
             hpAfter = target.Stats.CurrentHP,
-            remainingDuration = Duration - 1
+            remainingDuration = Duration
         });
-
-        Duration--;
     }
 
     public void OnTurnEnd(Unit target)
