@@ -1,16 +1,16 @@
 using System.Collections;
 using NUnit.Framework;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
-using TMPro;
 
 namespace Tests.PlayModeTests
 {
     /// <summary>
-    /// End-to-end regression tests for the main game flow from startup to first draft.
-    /// Tests the complete player journey: Splash → Menu → Character Select → Draft
+    ///     End-to-end regression tests for the main game flow from startup to first draft.
+    ///     Tests the complete player journey: Splash → Menu → Character Select → Draft
     /// </summary>
     public class GameFlowPlayModeTests
     {
@@ -22,11 +22,11 @@ namespace Tests.PlayModeTests
         {
             // Clean up any saved state before each test
             SaveService.Delete();
-            
+
             // Clear any event subscriptions
             GameEvents.CharacterSelected_Event = null;
             GameEvents.NewRunRequested_Event = null;
-            
+
             yield return null;
         }
 
@@ -47,7 +47,7 @@ namespace Tests.PlayModeTests
             yield return SceneManager.LoadSceneAsync("SplashScreen");
             yield return new WaitForSeconds(0.5f);
 
-            Assert.AreEqual("SplashScreen", SceneManager.GetActiveScene().name, 
+            Assert.AreEqual("SplashScreen", SceneManager.GetActiveScene().name,
                 "Game should start with SplashScreen");
 
             // Verify splash loader exists
@@ -61,14 +61,14 @@ namespace Tests.PlayModeTests
             Debug.Log("[Test] Splash screen verified, waiting for main menu transition...");
 
             // === PHASE 2: Loading screen transitions to main menu ===
-            float waitTime = 0f;
+            var waitTime = 0f;
             while (SceneManager.GetActiveScene().name != "MainMenu" && waitTime < MaxWaitTime)
             {
                 yield return new WaitForSeconds(FrameWait);
                 waitTime += FrameWait;
             }
 
-            Assert.AreEqual("MainMenu", SceneManager.GetActiveScene().name, 
+            Assert.AreEqual("MainMenu", SceneManager.GetActiveScene().name,
                 "Scene should automatically transition to MainMenu");
 
             Debug.Log("[Test] Main menu loaded");
@@ -82,9 +82,9 @@ namespace Tests.PlayModeTests
             // Verify new game button exists
             var newGameButton = FindButtonByName("New Game");
             Assert.IsNotNull(newGameButton, "New Game button should exist");
-            Assert.IsTrue(newGameButton.gameObject.activeInHierarchy, 
+            Assert.IsTrue(newGameButton.gameObject.activeInHierarchy,
                 "New Game button should be visible");
-            Assert.IsTrue(newGameButton.interactable, 
+            Assert.IsTrue(newGameButton.interactable,
                 "New Game button should be interactable");
 
             Debug.Log("[Test] Menu buttons verified");
@@ -101,7 +101,7 @@ namespace Tests.PlayModeTests
                 waitTime += FrameWait;
             }
 
-            Assert.AreEqual("CharacterSelectScene", SceneManager.GetActiveScene().name, 
+            Assert.AreEqual("CharacterSelectScene", SceneManager.GetActiveScene().name,
                 "Pressing New Game should load CharacterSelectScene");
 
             Debug.Log("[Test] Character select scene loaded");
@@ -110,7 +110,7 @@ namespace Tests.PlayModeTests
             yield return new WaitForSeconds(0.5f);
 
             var characterSelectController = Object.FindFirstObjectByType<CharacterSelectController>();
-            Assert.IsNotNull(characterSelectController, 
+            Assert.IsNotNull(characterSelectController,
                 "CharacterSelectController should exist in CharacterSelectScene");
 
             // Find character navigation buttons
@@ -123,21 +123,21 @@ namespace Tests.PlayModeTests
             Assert.IsNotNull(selectButton, "Select/Confirm button should exist");
 
             // Test character navigation
-            int initialIndex = characterSelectController.CurrentIndex;
+            var initialIndex = characterSelectController.CurrentIndex;
             nextButton.onClick.Invoke();
             yield return new WaitForSeconds(0.2f);
-            
-            Assert.AreNotEqual(initialIndex, characterSelectController.CurrentIndex, 
+
+            Assert.AreNotEqual(initialIndex, characterSelectController.CurrentIndex,
                 "Next button should change selected character");
 
             prevButton.onClick.Invoke();
             yield return new WaitForSeconds(0.2f);
-            
-            Assert.AreEqual(initialIndex, characterSelectController.CurrentIndex, 
+
+            Assert.AreEqual(initialIndex, characterSelectController.CurrentIndex,
                 "Previous button should return to initial character");
 
             // Verify select button is clickable
-            Assert.IsTrue(selectButton.interactable, 
+            Assert.IsTrue(selectButton.interactable,
                 "Select button should be clickable");
 
             Debug.Log("[Test] Character select buttons verified");
@@ -154,7 +154,7 @@ namespace Tests.PlayModeTests
                 waitTime += FrameWait;
             }
 
-            Assert.AreEqual("DraftScene", SceneManager.GetActiveScene().name, 
+            Assert.AreEqual("DraftScene", SceneManager.GetActiveScene().name,
                 "Confirming character selection should load DraftScene");
 
             Debug.Log("[Test] Draft scene loaded");
@@ -165,7 +165,7 @@ namespace Tests.PlayModeTests
             var draftUI = Object.FindFirstObjectByType<DraftUI>();
             Assert.IsNotNull(draftUI, "DraftUI should exist in DraftScene");
             Assert.IsNotNull(draftUI.DraftButtons, "DraftUI should have draft buttons configured");
-            Assert.GreaterOrEqual(draftUI.DraftButtons.Length, 3, 
+            Assert.GreaterOrEqual(draftUI.DraftButtons.Length, 3,
                 "DraftUI should have at least 3 button slots configured");
 
             var draftController = Object.FindFirstObjectByType<DraftController>();
@@ -177,12 +177,13 @@ namespace Tests.PlayModeTests
             Assert.IsNotNull(runController.Player, "Player should be initialized");
             Assert.IsNotNull(runController.CurrentRun, "CurrentRun should be initialized");
 
-            Debug.Log($"[Test] All phases completed successfully! Game flow verified from start to draft scene.");
-            Debug.Log($"[Test] Player: {runController.Player.Name}, HP: {runController.Player.Stats.CurrentHP}/{runController.Player.Stats.MaxHP}");
+            Debug.Log("[Test] All phases completed successfully! Game flow verified from start to draft scene.");
+            Debug.Log(
+                $"[Test] Player: {runController.Player.Name}, HP: {runController.Player.Stats.CurrentHP}/{runController.Player.Stats.MaxHP}");
         }
 
         /// <summary>
-        /// Helper method to find a button by its text or GameObject name
+        ///     Helper method to find a button by its text or GameObject name
         /// </summary>
         private Button FindButtonByName(string name)
         {
@@ -203,6 +204,7 @@ namespace Tests.PlayModeTests
                 if (tmpText != null && tmpText.text.Contains(name))
                     return button;
             }
+
             return null;
         }
     }

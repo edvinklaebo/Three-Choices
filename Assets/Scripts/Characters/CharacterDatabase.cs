@@ -10,7 +10,7 @@ public class CharacterDatabase : ScriptableObject
     {
         if (Characters == null || Characters.Count == 0)
             return null;
-            
+
         return Characters[Mathf.Clamp(index, 0, Characters.Count - 1)];
     }
 }

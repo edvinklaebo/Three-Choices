@@ -12,7 +12,7 @@ public class Tooltip : MonoBehaviour
     [SerializeField] private Canvas canvas;
 
     public int characterWrapLimit = 80;
-    public Vector2 mouseOffset = new Vector2(20, -20);
+    public Vector2 mouseOffset = new(20, -20);
 
     private RectTransform canvasRect;
 
@@ -22,6 +22,22 @@ public class Tooltip : MonoBehaviour
 
         // Top-left pivot is ideal for tooltips
         tooltipRect.pivot = new Vector2(0, 1);
+    }
+
+    private void Update()
+    {
+        Vector2 mouse = Input.mousePosition;
+
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvasRect,
+            mouse,
+            canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera,
+            out var localPoint
+        );
+
+        localPoint += mouseOffset;
+
+        SetClampedPosition(localPoint);
     }
 
     public void SetText(string text, string label = "")
@@ -36,42 +52,26 @@ public class Tooltip : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipRect);
     }
 
-    void Update()
-    {
-        Vector2 mouse = Input.mousePosition;
-
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            canvasRect,
-            mouse,
-            canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera,
-            out Vector2 localPoint
-        );
-
-        localPoint += mouseOffset;
-
-        SetClampedPosition(localPoint);
-    }
-
     private void SetClampedPosition(Vector2 pos)
     {
-        float width = tooltipRect.rect.width;
-        float height = tooltipRect.rect.height;
+        var width = tooltipRect.rect.width;
+        var height = tooltipRect.rect.height;
 
-        Vector2 pivot = tooltipRect.pivot;
+        var pivot = tooltipRect.pivot;
 
-        float leftLimit   = -canvasRect.rect.width * 0.5f;
-        float rightLimit  =  canvasRect.rect.width * 0.5f;
-        float bottomLimit = -canvasRect.rect.height * 0.5f;
-        float topLimit    =  canvasRect.rect.height * 0.5f;
+        var leftLimit = -canvasRect.rect.width * 0.5f;
+        var rightLimit = canvasRect.rect.width * 0.5f;
+        var bottomLimit = -canvasRect.rect.height * 0.5f;
+        var topLimit = canvasRect.rect.height * 0.5f;
 
-        float minX = leftLimit + width * pivot.x;
-        float maxX = rightLimit - width * (1 - pivot.x);
+        var minX = leftLimit + width * pivot.x;
+        var maxX = rightLimit - width * (1 - pivot.x);
 
-        float minY = bottomLimit + height * pivot.y;
-        float maxY = topLimit - height * (1 - pivot.y);
+        var minY = bottomLimit + height * pivot.y;
+        var maxY = topLimit - height * (1 - pivot.y);
 
-        float x = Mathf.Clamp(pos.x, minX, maxX);
-        float y = Mathf.Clamp(pos.y, minY, maxY);
+        var x = Mathf.Clamp(pos.x, minX, maxX);
+        var y = Mathf.Clamp(pos.y, minY, maxY);
 
         tooltipRect.localPosition = new Vector2(x, y);
     }

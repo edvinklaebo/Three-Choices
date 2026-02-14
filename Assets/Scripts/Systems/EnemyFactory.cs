@@ -1,3 +1,5 @@
+using System;
+
 public static class EnemyFactory
 {
     public static Unit Create(int fightIndex)
@@ -34,7 +36,7 @@ public static class EnemyFactory
 
             return unit;
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Log.Exception(ex, "EnemyFactory.Create failed", new { fightIndex });
             throw;

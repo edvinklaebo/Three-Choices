@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,12 +5,12 @@ public class RunController : MonoBehaviour
 {
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel playerDiedEvent;
+    public Unit Player;
+
+    private int _fightIndex = 1;
 
     public RunState CurrentRun { get; private set; }
     public RunController Instance { get; private set; }
-
-    private int _fightIndex = 1;
-    public Unit Player;
 
     public void Awake()
     {
@@ -35,15 +34,15 @@ public class RunController : MonoBehaviour
     {
         SceneManager.LoadScene("DraftScene");
         CurrentRun = SaveService.Load();
-        
+
         _fightIndex = CurrentRun.fightIndex;
         Player = CurrentRun.player;
-        
-        Player.Died  += _ => playerDiedEvent.Raise();
+
+        Player.Died += _ => playerDiedEvent.Raise();
         SaveService.Save(CurrentRun);
         requestNextFight.Raise();
     }
-    
+
     public void StartNewRun()
     {
         SceneManager.LoadScene("DraftScene");

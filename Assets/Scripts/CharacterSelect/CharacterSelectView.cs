@@ -1,7 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System.Collections.Generic;
 
 public class CharacterSelectView : MonoBehaviour
 {
@@ -16,10 +17,7 @@ public class CharacterSelectView : MonoBehaviour
 
     private void Awake()
     {
-        if (_portraitTransform != null)
-        {
-            _originalScale = _portraitTransform.localScale;
-        }
+        if (_portraitTransform != null) _originalScale = _portraitTransform.localScale;
     }
 
     public void DisplayCharacter(CharacterDefinition character)
@@ -27,24 +25,18 @@ public class CharacterSelectView : MonoBehaviour
         if (character == null)
             return;
 
-        if (_portraitImage != null && character.Portrait != null)
-        {
-            _portraitImage.sprite = character.Portrait;
-        }
+        if (_portraitImage != null && character.Portrait != null) _portraitImage.sprite = character.Portrait;
 
-        if (_nameText != null)
-        {
-            _nameText.text = character.DisplayName;
-        }
+        if (_nameText != null) _nameText.text = character.DisplayName;
 
         if (_statsPanel != null)
         {
             var stats = new List<StatViewData>
             {
-                new StatViewData("HP", character.MaxHp),
-                new StatViewData("Attack", character.Attack),
-                new StatViewData("Armor", character.Armor),
-                new StatViewData("Speed", character.Speed)
+                new("HP", character.MaxHp),
+                new("Attack", character.Attack),
+                new("Armor", character.Armor),
+                new("Speed", character.Speed)
             };
             _statsPanel.Show(stats);
         }
@@ -62,15 +54,15 @@ public class CharacterSelectView : MonoBehaviour
         }
     }
 
-    private System.Collections.IEnumerator AnimateScale()
+    private IEnumerator AnimateScale()
     {
-        float elapsed = 0f;
-        Vector3 startScale = _portraitTransform.localScale;
+        var elapsed = 0f;
+        var startScale = _portraitTransform.localScale;
 
         while (elapsed < _animationTime)
         {
             elapsed += Time.deltaTime;
-            float t = elapsed / _animationTime;
+            var t = elapsed / _animationTime;
             _portraitTransform.localScale = Vector3.Lerp(startScale, _originalScale, t);
             yield return null;
         }

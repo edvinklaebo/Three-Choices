@@ -1,11 +1,8 @@
-public class Poison : Passive, IStatusEffect, IPassive
+public class Poison : Passive, IStatusEffect
 {
-    public string Id => "Poison";
-    public int Stacks { get; private set; }
-    public int Duration { get; private set; }
+    private readonly int passiveDuration;
 
     private readonly int passiveStacks;
-    private readonly int passiveDuration;
 
     // Constructor for status effect usage
     public Poison(int stacks, int duration)
@@ -18,11 +15,15 @@ public class Poison : Passive, IStatusEffect, IPassive
     public Poison(Unit owner, int stacks = 2, int duration = 3)
     {
         Owner = owner;
-        this.passiveStacks = stacks;
-        this.passiveDuration = duration;
+        passiveStacks = stacks;
+        passiveDuration = duration;
 
         owner.Damaged += OnDamaged;
     }
+
+    public string Id => "Poison";
+    public int Stacks { get; private set; }
+    public int Duration { get; private set; }
 
     // IStatusEffect implementation
     public void OnApply(Unit target)
@@ -74,16 +75,10 @@ public class Poison : Passive, IStatusEffect, IPassive
         Stacks += amount;
     }
 
-    // IPassive implementation - not used by Poison but required by interface
-    public void OnTurnStart(Unit self, Unit enemy)
-    {
-        // Poison uses event-based triggering (OnDamaged) rather than turn-based hooks
-    }
-
     // Passive behavior - applies poison when owner takes damage
     private void OnDamaged(Unit attacker, int damageTaken)
     {
-        if (attacker == null) 
+        if (attacker == null)
             return;
 
         Log.Info("Poison passive triggered", new

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class DraftUI : MonoBehaviour
     public Button[] DraftButtons;
 
     private List<UpgradeDefinition> _currentDraft;
-    private System.Action<UpgradeDefinition> _onPick;
+    private Action<UpgradeDefinition> _onPick;
 
     private void Awake()
     {
@@ -22,7 +23,7 @@ public class DraftUI : MonoBehaviour
         Instance = this;
     }
 
-    public void Show(List<UpgradeDefinition> draft, System.Action<UpgradeDefinition> onPick)
+    public void Show(List<UpgradeDefinition> draft, Action<UpgradeDefinition> onPick)
     {
         Log.Info("DraftUI.Show invoked", new
         {
@@ -69,7 +70,7 @@ public class DraftUI : MonoBehaviour
             var tooltip = btn.GetComponent<TooltipTrigger>();
             tooltip.Content = _currentDraft[i].Description;
             tooltip.Label = _currentDraft[i].DisplayName;
-            
+
             // --- Text ---
             var text = btn.GetComponentInChildren<Text>();
             if (text != null)
@@ -78,7 +79,7 @@ public class DraftUI : MonoBehaviour
                 Log.Warning("Draft button missing Text component", new { index = i });
 
             // --- Icon (NEW) ---
-            var icon = btn.GetComponentInChildren<Image>(includeInactive: true);
+            var icon = btn.GetComponentInChildren<Image>(true);
             if (icon != null && upgrade.Icon != null)
             {
                 icon.sprite = upgrade.Icon;

@@ -1,17 +1,18 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Collections;
 
 public class SplashAsyncLoader : MonoBehaviour
 {
-    [Header("Scene Loading")]
-    [SerializeField] private string nextScene = "MainMenu";
+    [Header("Scene Loading")] [SerializeField]
+    private string nextScene = "MainMenu";
+
     [SerializeField] private Slider progressBar;
     [SerializeField] private float minDisplayTime = 1.5f;
 
-    [Header("Logo Fade")]
-    [SerializeField] private Image logo;
+    [Header("Logo Fade")] [SerializeField] private Image logo;
+
     [SerializeField] private float fadeInDuration = 0.5f;
     [SerializeField] private float fadeOutDuration = 0.4f;
 
@@ -33,7 +34,7 @@ public class SplashAsyncLoader : MonoBehaviour
 
         progressBar.value = 1f;
 
-        float elapsed = Time.time - startTime;
+        var elapsed = Time.time - startTime;
         if (elapsed < minDisplayTime)
             yield return new WaitForSeconds(minDisplayTime - elapsed);
 
@@ -49,8 +50,8 @@ public class SplashAsyncLoader : MonoBehaviour
 
     private IEnumerator Fade(Image img, float from, float to, float duration)
     {
-        float t = 0f;
-        Color c = img.color;
+        var t = 0f;
+        var c = img.color;
 
         while (t < duration)
         {

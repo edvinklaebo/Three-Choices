@@ -9,15 +9,15 @@ namespace Tests.EditModeTests
         public void RollRarity_ReturnsValidRarity()
         {
             var roller = new RarityRoller();
-            
+
             var rarity = roller.RollRarity();
-            
-            Assert.IsTrue(rarity == Rarity.Common || 
-                          rarity == Rarity.Uncommon || 
-                          rarity == Rarity.Rare || 
+
+            Assert.IsTrue(rarity == Rarity.Common ||
+                          rarity == Rarity.Uncommon ||
+                          rarity == Rarity.Rare ||
                           rarity == Rarity.Epic);
         }
-        
+
         [Test]
         public void RollRarity_DistributionFavorsCommon()
         {
@@ -29,14 +29,14 @@ namespace Tests.EditModeTests
                 { Rarity.Rare, 0 },
                 { Rarity.Epic, 0 }
             };
-            
+
             // Roll 1000 times to test distribution
-            for (int i = 0; i < 1000; i++)
+            for (var i = 0; i < 1000; i++)
             {
                 var rarity = roller.RollRarity();
                 counts[rarity]++;
             }
-            
+
             // Common should be most frequent
             Assert.Greater(counts[Rarity.Common], counts[Rarity.Uncommon]);
             Assert.Greater(counts[Rarity.Uncommon], counts[Rarity.Rare]);

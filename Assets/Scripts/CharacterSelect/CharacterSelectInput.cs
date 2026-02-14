@@ -9,20 +9,11 @@ public class CharacterSelectInput : MonoBehaviour
         if (_controller == null)
             return;
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            _controller.Next();
-        }
+        if (Input.GetKeyDown(KeyCode.RightArrow)) _controller.Next();
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            _controller.Previous();
-        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) _controller.Previous();
 
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-            _controller.Confirm();
-        }
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) _controller.Confirm();
     }
 
     // Button click handlers for UI

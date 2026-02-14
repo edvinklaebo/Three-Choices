@@ -1,6 +1,5 @@
-using UnityEngine;
-
 using System;
+using UnityEngine;
 
 public static class CombatSystem
 {
@@ -88,7 +87,7 @@ public static class CombatSystem
             throw;
         }
     }
-    
+
     private static void Attack(Unit attacker, Unit defender, int round)
     {
         Log.Info("Attack start", new

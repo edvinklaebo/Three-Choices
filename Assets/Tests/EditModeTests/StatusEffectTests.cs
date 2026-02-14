@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using System.Linq;
 
 namespace Tests.EditModeTests
 {
@@ -39,12 +38,12 @@ namespace Tests.EditModeTests
             var poison = new Poison(5, 3);
 
             unit.ApplyStatus(poison);
-            
+
             Assert.AreEqual(3, poison.Duration, "Initial duration should be 3");
-            
+
             unit.TickStatusesTurnStart();
             Assert.AreEqual(2, poison.Duration, "Duration should decrease to 2");
-            
+
             unit.TickStatusesTurnStart();
             Assert.AreEqual(1, poison.Duration, "Duration should decrease to 1");
         }
@@ -56,12 +55,12 @@ namespace Tests.EditModeTests
             var poison = new Poison(5, 2);
 
             unit.ApplyStatus(poison);
-            
+
             Assert.AreEqual(1, unit.StatusEffects.Count, "Should have 1 status effect");
-            
+
             unit.TickStatusesTurnStart();
             unit.TickStatusesTurnStart();
-            
+
             Assert.AreEqual(0, unit.StatusEffects.Count, "Poison should expire after duration reaches 0");
         }
 
@@ -131,7 +130,8 @@ namespace Tests.EditModeTests
             CombatSystem.RunFight(poisoned, enemy);
 
             Assert.IsTrue(poisoned.isDead, "Poisoned unit should die from poison");
-            Assert.AreEqual(10, enemy.Stats.CurrentHP, "Enemy should take no damage because poisoned unit died before attacking");
+            Assert.AreEqual(10, enemy.Stats.CurrentHP,
+                "Enemy should take no damage because poisoned unit died before attacking");
         }
 
         [Test]
@@ -191,28 +191,6 @@ namespace Tests.EditModeTests
             Assert.IsTrue(mockEffect.TurnEndCalled, "OnTurnEnd should be called");
         }
 
-        // Mock status effect for testing
-        private class MockStatusEffect : IStatusEffect
-        {
-            public string Id { get; }
-            public int Stacks { get; private set; }
-            public int Duration { get; private set; }
-            public bool TurnEndCalled { get; private set; }
-
-            public MockStatusEffect(string id, int stacks, int duration)
-            {
-                Id = id;
-                Stacks = stacks;
-                Duration = duration;
-            }
-
-            public void OnApply(Unit target) { }
-            public void OnTurnStart(Unit target) { Duration--; }
-            public void OnTurnEnd(Unit target) { TurnEndCalled = true; }
-            public void OnExpire(Unit target) { }
-            public void AddStacks(int amount) { Stacks += amount; }
-        }
-
         [Test]
         public void PoisonPassive_AppliesPoisonToAttackerOnHit()
         {
@@ -220,7 +198,7 @@ namespace Tests.EditModeTests
             var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
 
             // Apply poison passive to defender
-            defender.Passives.Add(new Poison(defender, 2, 3));
+            defender.Passives.Add(new Poison(defender));
 
             // Attacker hits defender
             defender.ApplyDamage(attacker, 10);
@@ -239,7 +217,7 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Defender", 100, 0, 0, 5);
             var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
 
-            defender.Passives.Add(new Poison(defender, 2, 3));
+            defender.Passives.Add(new Poison(defender));
 
             // First hit
             defender.ApplyDamage(attacker, 10);
@@ -267,7 +245,47 @@ namespace Tests.EditModeTests
             // 2. But poison was applied on each hit and ticks on attacker's turns
             // 3. Defender has 0 attack so can't hurt attacker directly
             Assert.LessOrEqual(defender.Stats.CurrentHP, 0, "Defender should be dead");
-            Assert.Less(attacker.Stats.CurrentHP, 100, "Attacker should have taken poison damage since defender has 0 attack");
+            Assert.Less(attacker.Stats.CurrentHP, 100,
+                "Attacker should have taken poison damage since defender has 0 attack");
+        }
+
+        // Mock status effect for testing
+        private class MockStatusEffect : IStatusEffect
+        {
+            public MockStatusEffect(string id, int stacks, int duration)
+            {
+                Id = id;
+                Stacks = stacks;
+                Duration = duration;
+            }
+
+            public bool TurnEndCalled { get; private set; }
+            public string Id { get; }
+            public int Stacks { get; private set; }
+            public int Duration { get; private set; }
+
+            public void OnApply(Unit target)
+            {
+            }
+
+            public void OnTurnStart(Unit target)
+            {
+                Duration--;
+            }
+
+            public void OnTurnEnd(Unit target)
+            {
+                TurnEndCalled = true;
+            }
+
+            public void OnExpire(Unit target)
+            {
+            }
+
+            public void AddStacks(int amount)
+            {
+                Stacks += amount;
+            }
         }
     }
 }
