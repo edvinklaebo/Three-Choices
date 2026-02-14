@@ -18,14 +18,13 @@ public class Bleed : Passive, IStatusEffect
         passiveStacks = stacks;
         passiveDuration = duration;
 
-        owner.Damaged += OnDamaged;
+        owner.OnHit += ApplyBleed;
     }
 
     public string Id => "Bleed";
     public int Stacks { get; private set; }
     public int Duration { get; private set; }
 
-    // IStatusEffect implementation
     public void OnApply(Unit target)
     {
         Log.Info("Bleed applied", new
@@ -75,8 +74,7 @@ public class Bleed : Passive, IStatusEffect
         Stacks += amount;
     }
 
-    // Passive behavior - applies bleed when owner takes damage
-    private void OnDamaged(Unit attacker, int damageTaken)
+    private void ApplyBleed(Unit attacker, int damageTaken)
     {
         if (attacker == null)
             return;

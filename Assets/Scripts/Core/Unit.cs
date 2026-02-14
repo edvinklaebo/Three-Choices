@@ -20,6 +20,7 @@ public class Unit
     }
 
     public event Action<Unit, int> Damaged;
+    public event Action<Unit, int> OnHit;
     public event Action<Unit, int, int> HealthChanged;
     public event Action<Unit> Died;
 
