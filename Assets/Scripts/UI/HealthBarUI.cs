@@ -1,6 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Reusable health bar UI component that displays a Unit's current HP as a normalized fill bar.
+/// 
+/// Features:
+/// - Displays health as a normalized value (0-1) using Image.fillAmount
+/// - Listens to Unit's HealthChanged event for automatic updates
+/// - Smooth lerp animation for health transitions
+/// - Works with any Unit (player, enemy, etc.)
+/// 
+/// Usage:
+/// 1. Attach to a GameObject with a child Image component (set fillType to Filled)
+/// 2. Assign the fill Image in the inspector
+/// 3. Call Initialize(unit) with the Unit to track
+/// 4. Health bar will automatically update when unit health changes
+/// </summary>
 public class HealthBarUI : MonoBehaviour
 {
     [SerializeField] private Image _fillImage;
@@ -18,6 +33,12 @@ public class HealthBarUI : MonoBehaviour
             return;
         }
 
+        // Unsubscribe from previous unit if any
+        if (_unit != null)
+        {
+            _unit.HealthChanged -= OnHealthChanged;
+        }
+
         _unit = unit;
         _targetFillAmount = GetNormalizedHealth();
         _currentFillAmount = _targetFillAmount;
@@ -26,14 +47,9 @@ public class HealthBarUI : MonoBehaviour
         {
             _fillImage.fillAmount = _currentFillAmount;
         }
-    }
 
-    private void OnEnable()
-    {
-        if (_unit != null)
-        {
-            _unit.HealthChanged += OnHealthChanged;
-        }
+        // Subscribe to new unit's health changes
+        _unit.HealthChanged += OnHealthChanged;
     }
 
     private void OnDisable()
