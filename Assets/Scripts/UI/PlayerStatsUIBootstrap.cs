@@ -33,6 +33,12 @@ public class PlayerStatsUIBootstrap : MonoBehaviour
 
     private void InitHealthBar()
     {
+        if (runController?.Player == null)
+        {
+            Debug.LogWarning("PlayerStatsUIBootstrap: Cannot initialize health bar, player is not available yet");
+            return;
+        }
+        
         _healthBar.Initialize(runController.Player);
     }
 }
