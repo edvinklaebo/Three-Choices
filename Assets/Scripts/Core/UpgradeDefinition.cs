@@ -38,6 +38,19 @@ public class UpgradeDefinition : ScriptableObject
 
     public int RarityWeight => rarityWeight;
     
+    public Rarity GetRarity()
+    {
+        // Map rarityWeight values to Rarity enum
+        // Values are mapped based on the Rarity enum values
+        if (rarityWeight >= (int)Rarity.Common)
+            return Rarity.Common;
+        if (rarityWeight >= (int)Rarity.Uncommon)
+            return Rarity.Uncommon;
+        if (rarityWeight >= (int)Rarity.Rare)
+            return Rarity.Rare;
+        return Rarity.Epic;
+    }
+    
 #if UNITY_EDITOR
     public void EditorInit(string identifier, string soName, UpgradeType soType, StatType soStat, int soAmount)
     {

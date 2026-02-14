@@ -14,7 +14,7 @@ public class DraftUI : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            Log.Warn($"Duplicate {nameof(DraftUI)} detected. Destroying this instance.");
+            Log.Warning($"Duplicate {nameof(DraftUI)} detected. Destroying this instance.");
             Destroy(gameObject);
             return;
         }
@@ -51,7 +51,7 @@ public class DraftUI : MonoBehaviour
 
             if (btn == null)
             {
-                Log.Warn("Null button reference in DraftButtons array", new { index = i });
+                Log.Warning("Null button reference in DraftButtons array", new { index = i });
                 continue;
             }
 
@@ -75,7 +75,7 @@ public class DraftUI : MonoBehaviour
             if (text != null)
                 text.text = upgrade.DisplayName;
             else
-                Log.Warn("Draft button missing Text component", new { index = i });
+                Log.Warning("Draft button missing Text component", new { index = i });
 
             // --- Icon (NEW) ---
             var icon = btn.GetComponentInChildren<Image>(includeInactive: true);

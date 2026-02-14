@@ -13,7 +13,7 @@ public static class Log
         SentrySdk.AddBreadcrumb(message, category: "info", data: ToDict(data));
     }
 
-    public static void Warn(string message, object data = null)
+    public static void Warning(string message, object data = null)
     {
         Debug.LogWarning(Format("WARN", message, data));
         SentrySdk.AddBreadcrumb(message, category: "warn", data: ToDict(data));
