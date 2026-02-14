@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb02c78d0678055048f1416ae0d64c3, type: 3}
   m_Name: steve
   m_EditorClassIdentifier: Ropa::CharacterDefinition
-  Id: 0
+  Id: 3
   DisplayName: Steve
   MaxHp: 400
   Attack: 6

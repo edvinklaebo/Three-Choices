@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cfb02c78d0678055048f1416ae0d64c3, type: 3}
-  m_Name: garry
+  m_Name: kyle
   m_EditorClassIdentifier: Ropa::CharacterDefinition
-  Id: 2
-  DisplayName: Garry
-  MaxHp: 56
-  Attack: 64
-  Armor: 67
-  Speed: 23
-  Portrait: {fileID: 21300000, guid: a17e53d0bda9c5a239406d30d7c29af2, type: 3}
+  Id: 4
+  DisplayName: Kyle
+  MaxHp: 33
+  Attack: 33
+  Armor: 33
+  Speed: 33
+  Portrait: {fileID: 21300000, guid: 85f1393cf2c063b45983bd0d40858400, type: 3}
