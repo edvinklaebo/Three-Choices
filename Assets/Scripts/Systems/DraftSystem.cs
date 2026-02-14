@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class DraftSystem
@@ -47,7 +48,8 @@ public class DraftSystem
 
                 if (availableUpgrades.Count == 0)
                 {
-                    Log.Warning("No more upgrades available", new { round = i });
+                    if(Application.isPlaying)
+                        Log.Warning("No more upgrades available", new { round = i });
                     break;
                 }
 

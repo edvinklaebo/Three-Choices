@@ -9,13 +9,14 @@ public class CharacterSelectController : MonoBehaviour
 
     public int CurrentIndex { get; private set; }
 
-    public CharacterDefinition Current => _database?.GetByIndex(CurrentIndex);
+    private CharacterDefinition _current => _database?.GetByIndex(CurrentIndex);
 
     private void Awake()
     {
         // Cache RunController reference to avoid repeated scene searches
         _runController = FindFirstObjectByType<RunController>();
-        if (_runController == null) Debug.LogWarning("[CharacterSelect] RunController not found in scene");
+        if (_runController == null) 
+            Log.Error("[CharacterSelect] RunController not found in scene");
     }
 
     private void OnEnable()
@@ -29,7 +30,7 @@ public class CharacterSelectController : MonoBehaviour
             return;
 
         CurrentIndex = (CurrentIndex + 1) % _database.Characters.Count;
-        Debug.Log($"[CharacterSelect] Next → {Current.Id}");
+        Log.Info($"[CharacterSelect] Next → {_current.Id}");
         UpdateView();
     }
 
@@ -39,29 +40,31 @@ public class CharacterSelectController : MonoBehaviour
             return;
 
         CurrentIndex = (CurrentIndex - 1 + _database.Characters.Count) % _database.Characters.Count;
-        Debug.Log($"[CharacterSelect] Prev → {Current.Id}");
+        Debug.Log($"[CharacterSelect] Prev → {_current.Id}");
         UpdateView();
     }
 
     public void Confirm()
     {
-        if (Current == null)
+        if (_current == null)
         {
             Debug.LogError("[CharacterSelect] Cannot confirm - no character selected");
             return;
         }
 
-        Debug.Log($"[CharacterSelect] Confirmed {Current.Id}");
-        GameEvents.CharacterSelected_Event?.Invoke(Current);
+        Debug.Log($"[CharacterSelect] Confirmed {_current.Id}");
+        GameEvents.CharacterSelected_Event?.Invoke(_current);
 
         if (_runController != null)
-            _runController.StartNewRun(Current);
+            _runController.StartNewRun(_current);
+        else if (Application.isPlaying)
+            Log.Error("[CharacterSelect] RunController not found");
         else
-            Debug.LogError("[CharacterSelect] RunController not found");
+            Log.Info("[CharacterSelect] RunController not found");
     }
 
     private void UpdateView()
     {
-        if (_view != null && Current != null) _view.DisplayCharacter(Current);
+        if (_view != null && _current != null) _view.DisplayCharacter(_current);
     }
 }

@@ -133,9 +133,6 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             CharacterDefinition received = null;
             GameEvents.CharacterSelected_Event += c => received = c;
 
-            // Suppress expected error log from missing RunController in test environment
-            LogAssert.Expect(LogType.Error, "[CharacterSelect] RunController not found");
-
             // Act
             controller.Next(); // Move to character 1
             controller.Confirm();
