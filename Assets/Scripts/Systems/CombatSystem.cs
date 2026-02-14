@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class CombatSystem
 {
-    public static void RunFight(Unit attacker, Unit defender)
+    public static List<ICombatAction> RunFight(Unit attacker, Unit defender)
     {
+        var actions = new List<ICombatAction>();
+
         Log.Info("Combat started", new
         {
             attacker = attacker.Name,
@@ -47,17 +50,22 @@ public static class CombatSystem
 
                 var acting = attackerTurn ? attacker : defender;
 
-                acting.TickStatusesTurnStart();
+                var statusActions = TickStatusesTurnStart(acting);
+                actions.AddRange(statusActions);
 
                 if (acting.isDead)
                     break;
 
+                List<ICombatAction> attackActions;
                 if (attackerTurn)
-                    Attack(attacker, defender, round);
+                    attackActions = Attack(attacker, defender, round);
                 else
-                    Attack(defender, attacker, round);
+                    attackActions = Attack(defender, attacker, round);
 
-                acting.TickStatusesTurnEnd();
+                actions.AddRange(attackActions);
+
+                var endStatusActions = TickStatusesTurnEnd(acting);
+                actions.AddRange(endStatusActions);
 
                 attackerTurn = !attackerTurn;
             }
@@ -86,10 +94,14 @@ public static class CombatSystem
 
             throw;
         }
+
+        return actions;
     }
 
-    private static void Attack(Unit attacker, Unit defender, int round)
+    private static List<ICombatAction> Attack(Unit attacker, Unit defender, int round)
     {
+        var actions = new List<ICombatAction>();
+
         Log.Info("Attack start", new
         {
             round,
@@ -116,6 +128,7 @@ public static class CombatSystem
             baseDamage
         });
 
+        // Apply damage to unit state
         defender.ApplyDamage(attacker, ctx.FinalValue);
 
         Log.Info("Damage applied", new
@@ -125,6 +138,93 @@ public static class CombatSystem
             ctx.FinalValue,
             defenderHpAfter = defender.Stats.CurrentHP
         });
+
+        // Create damage action for animation
+        actions.Add(new DamageAction(attacker, defender, ctx.FinalValue));
+
+        // Add death action if defender died
+        if (defender.isDead)
+        {
+            actions.Add(new DeathAction(defender));
+        }
+
+        return actions;
+    }
+
+    private static List<ICombatAction> TickStatusesTurnStart(Unit unit)
+    {
+        var actions = new List<ICombatAction>();
+
+        for (var i = unit.StatusEffects.Count - 1; i >= 0; i--)
+        {
+            var effect = unit.StatusEffects[i];
+            
+            // Track HP before status tick
+            var hpBefore = unit.Stats.CurrentHP;
+            
+            effect.OnTurnStart(unit);
+
+            // If damage was dealt, create an action
+            var hpAfter = unit.Stats.CurrentHP;
+            if (hpAfter < hpBefore)
+            {
+                var damage = hpBefore - hpAfter;
+                actions.Add(new StatusEffectAction(unit, effect.Id, damage));
+            }
+
+            // Check for death after status effect
+            if (unit.isDead)
+            {
+                actions.Add(new DeathAction(unit));
+            }
+
+            // Remove expired effects
+            if (effect.Duration <= 0)
+            {
+                effect.OnExpire(unit);
+                unit.StatusEffects.RemoveAt(i);
+            }
+        }
+
+        return actions;
+    }
+
+    private static List<ICombatAction> TickStatusesTurnEnd(Unit unit)
+    {
+        var actions = new List<ICombatAction>();
+
+        for (var i = unit.StatusEffects.Count - 1; i >= 0; i--)
+        {
+            var effect = unit.StatusEffects[i];
+            
+            // Track HP before status tick
+            var hpBefore = unit.Stats.CurrentHP;
+            
+            effect.OnTurnEnd(unit);
+
+            // If damage was dealt, create an action
+            var hpAfter = unit.Stats.CurrentHP;
+            if (hpAfter < hpBefore)
+            {
+                var damage = hpBefore - hpAfter;
+                actions.Add(new StatusEffectAction(unit, effect.Id, damage));
+            }
+
+            // Check for death after status effect
+            if (unit.isDead)
+            {
+                actions.Add(new DeathAction(unit));
+            }
+
+            // Remove expired effects
+            if (effect.Duration <= 0)
+            {
+                effect.OnExpire(unit);
+                unit.StatusEffects.RemoveAt(i);
+            }
+        }
+
+        return actions;
     }
 
     private static float GetDamageMultiplier(int armor)
