@@ -12,12 +12,33 @@ public class PoisonEffect : IStatusEffect
 
     public void OnApply(Unit target)
     {
-        // No special behavior on apply
+        Log.Info("Poison applied", new
+        {
+            target = target.Name,
+            stacks = Stacks,
+            duration = Duration
+        });
     }
 
     public void OnTurnStart(Unit target)
     {
+        Log.Info("Poison damage dealt", new
+        {
+            target = target.Name,
+            damage = Stacks,
+            remainingDuration = Duration,
+            hpBefore = target.Stats.CurrentHP
+        });
+
         target.ApplyDirectDamage(Stacks);
+
+        Log.Info("Poison damage applied", new
+        {
+            target = target.Name,
+            hpAfter = target.Stats.CurrentHP,
+            remainingDuration = Duration - 1
+        });
+
         Duration--;
     }
 
@@ -28,7 +49,10 @@ public class PoisonEffect : IStatusEffect
 
     public void OnExpire(Unit target)
     {
-        // No special behavior on expiration
+        Log.Info("Poison expired", new
+        {
+            target = target.Name
+        });
     }
 
     public void AddStacks(int amount)

@@ -17,6 +17,14 @@ public class Poison : Passive
         if (attacker == null) 
             return;
 
+        Log.Info("Poison passive triggered", new
+        {
+            defender = Owner.Name,
+            attacker = attacker.Name,
+            poisonStacks = stacks,
+            poisonDuration = duration
+        });
+
         attacker.ApplyStatus(new PoisonEffect(stacks, duration));
     }
 }

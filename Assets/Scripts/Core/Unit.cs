@@ -72,6 +72,15 @@ public class Unit
         
         if (existing != null)
         {
+            Log.Info("Status effect stacked", new
+            {
+                target = Name,
+                effectId = effect.Id,
+                oldStacks = existing.Stacks,
+                addedStacks = effect.Stacks,
+                newStacks = existing.Stacks + effect.Stacks
+            });
+
             existing.AddStacks(effect.Stacks);
             return;
         }
