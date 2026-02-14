@@ -46,10 +46,19 @@ public static class CombatSystem
                     turn = attackerTurn ? attacker.Name : defender.Name
                 });
 
+                var acting = attackerTurn ? attacker : defender;
+
+                acting.TickStatusesTurnStart();
+
+                if (acting.Stats.CurrentHP <= 0)
+                    break;
+
                 if (attackerTurn)
                     Attack(attacker, defender, round);
                 else
                     Attack(defender, attacker, round);
+
+                acting.TickStatusesTurnEnd();
 
                 attackerTurn = !attackerTurn;
             }
