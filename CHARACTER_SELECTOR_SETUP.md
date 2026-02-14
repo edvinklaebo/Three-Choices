@@ -90,7 +90,6 @@ For each character (Bob, Garry, Steve):
    - Assign Name Text
    - Assign Stats Panel (StatsPanelUI component)
    - Assign Portrait Transform (for animation)
-   - Assign Portrait Transform (for animation)
 
 8. Configure CharacterSelectInput:
    - Assign the CharacterSelectController component
