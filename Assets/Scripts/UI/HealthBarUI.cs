@@ -2,28 +2,44 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Reusable health bar UI component that displays a Unit's current HP as a normalized fill bar.
+/// Reusable health bar UI component that displays a Unit's current HP as a normalized slider.
 /// 
 /// Features:
-/// - Displays health as a normalized value (0-1) using Image.fillAmount
+/// - Displays health as a normalized value (0-1) using Unity's Slider component
 /// - Listens to Unit's HealthChanged event for automatic updates
 /// - Smooth lerp animation for health transitions
 /// - Works with any Unit (player, enemy, etc.)
 /// 
 /// Usage:
-/// 1. Attach to a GameObject with a child Image component (set fillType to Filled)
-/// 2. Assign the fill Image in the inspector
+/// 1. Attach to a GameObject with a Slider component
+/// 2. Assign the Slider in the inspector (or it will auto-find on the same GameObject)
 /// 3. Call Initialize(unit) with the Unit to track
 /// 4. Health bar will automatically update when unit health changes
 /// </summary>
 public class HealthBarUI : MonoBehaviour
 {
-    [SerializeField] private Image _fillImage;
+    [SerializeField] private Slider _slider;
     [SerializeField] private float _lerpSpeed = 5f;
 
     private Unit _unit;
-    private float _targetFillAmount;
-    private float _currentFillAmount;
+    private float _targetValue;
+
+    private void Awake()
+    {
+        // Auto-find slider if not assigned
+        if (_slider == null)
+        {
+            _slider = GetComponent<Slider>();
+        }
+
+        // Configure slider for health bar use
+        if (_slider != null)
+        {
+            _slider.minValue = 0f;
+            _slider.maxValue = 1f;
+            _slider.interactable = false;
+        }
+    }
 
     public void Initialize(Unit unit)
     {
@@ -40,12 +56,11 @@ public class HealthBarUI : MonoBehaviour
         }
 
         _unit = unit;
-        _targetFillAmount = GetNormalizedHealth();
-        _currentFillAmount = _targetFillAmount;
+        _targetValue = GetNormalizedHealth();
         
-        if (_fillImage != null)
+        if (_slider != null)
         {
-            _fillImage.fillAmount = _currentFillAmount;
+            _slider.value = _targetValue;
         }
 
         // Subscribe to new unit's health changes
@@ -62,19 +77,18 @@ public class HealthBarUI : MonoBehaviour
 
     private void Update()
     {
-        if (_fillImage == null)
+        if (_slider == null)
             return;
 
-        if (Mathf.Abs(_currentFillAmount - _targetFillAmount) > 0.001f)
+        if (Mathf.Abs(_slider.value - _targetValue) > 0.001f)
         {
-            _currentFillAmount = Mathf.Lerp(_currentFillAmount, _targetFillAmount, Time.deltaTime * _lerpSpeed);
-            _fillImage.fillAmount = _currentFillAmount;
+            _slider.value = Mathf.Lerp(_slider.value, _targetValue, Time.deltaTime * _lerpSpeed);
         }
     }
 
     private void OnHealthChanged(Unit unit, int currentHP, int maxHP)
     {
-        _targetFillAmount = maxHP <= 0 ? 0f : Mathf.Clamp01((float)currentHP / maxHP);
+        _targetValue = maxHP <= 0 ? 0f : Mathf.Clamp01((float)currentHP / maxHP);
     }
 
     private float GetNormalizedHealth()
