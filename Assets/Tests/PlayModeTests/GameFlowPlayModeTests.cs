@@ -169,8 +169,9 @@ namespace Tests.PlayModeTests
             Assert.IsNotNull(draftController, "DraftController should exist in DraftScene");
 
             // In a real game, fightEnded event would be raised after combat
-            // For this test, we need to manually trigger the draft display
-            // by finding and invoking the fightEnded event
+            // For this test, we manually trigger the draft display via reflection
+            // Note: Using reflection is acceptable for PlayMode tests to avoid adding
+            // production code solely for test purposes
             var fightEndedField = typeof(DraftController).GetField("fightEnded", 
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             var fightEndedEvent = fightEndedField?.GetValue(draftController) as VoidEventChannel;
@@ -183,6 +184,9 @@ namespace Tests.PlayModeTests
             }
 
             // Count active draft buttons
+            // Note: We use flexible assertions (1-3) because the upgrade pool
+            // may not have enough unique upgrades to fill all 3 slots, especially
+            // in test environments or early game states
             int activeButtons = 0;
             foreach (var button in draftUI.DraftButtons)
             {
