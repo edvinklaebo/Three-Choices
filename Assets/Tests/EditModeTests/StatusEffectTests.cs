@@ -254,17 +254,20 @@ namespace Tests.EditModeTests
         [Test]
         public void PoisonPassive_WorksInCombat()
         {
-            var defender = CreateUnit("Defender", 50, 5, 0, 5);
-            var attacker = CreateUnit("Attacker", 100, 10, 0, 10);
+            var defender = CreateUnit("Defender", 20, 0, 0, 5);
+            var attacker = CreateUnit("Attacker", 100, 5, 0, 10);
 
             // Defender has poison passive
             defender.Passives.Add(new Poison(defender, 3, 5));
 
             CombatSystem.RunFight(attacker, defender);
 
-            // Attacker should have taken poison damage (may or may not have survived)
-            // Just verify poison was applied and ticked
-            Assert.IsTrue(attacker.Stats.CurrentHP < 100, "Attacker should have taken some damage (from poison or defender attacks)");
+            // Attacker should die because:
+            // 1. Attacker goes first (speed 10 vs 5), kills defender quickly
+            // 2. But poison was applied on each hit and ticks on attacker's turns
+            // 3. Defender has 0 attack so can't hurt attacker directly
+            Assert.LessOrEqual(defender.Stats.CurrentHP, 0, "Defender should be dead");
+            Assert.Less(attacker.Stats.CurrentHP, 100, "Attacker should have taken poison damage since defender has 0 attack");
         }
     }
 }
