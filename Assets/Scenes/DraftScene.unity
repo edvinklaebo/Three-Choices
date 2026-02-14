@@ -750,7 +750,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::HealthBarUI
   _slider: {fileID: 1148397662}
   _lerpSpeed: 5
-  runController: {fileID: 0}
 --- !u!1 &426173977
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,7 +1027,7 @@ MonoBehaviour:
   panel: {fileID: 1018811895}
   runController: {fileID: 0}
   upgradePicked: {fileID: 11400000, guid: 5ea338fefd7e28e40a34d9cc9e153e2a, type: 2}
-  onRunStarted: {fileID: 11400000, guid: 3c52a3773aef1ab4b91672f14258a40f, type: 2}
+  requestNextFight: {fileID: 11400000, guid: 18d1e828aba52d34c9d0ce104cc75a6f, type: 2}
   _healthBar: {fileID: 377509771}
 --- !u!4 &538174025
 Transform:

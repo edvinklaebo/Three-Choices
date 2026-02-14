@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +25,7 @@ public class HealthBarUI : MonoBehaviour
     private Unit _unit;
     private float _targetValue;
     private bool _sliderConfigured;
+    public bool IsInitialized;
     
     private void Awake()
     {
@@ -58,6 +60,7 @@ public class HealthBarUI : MonoBehaviour
 
         // Subscribe to new unit's health changes
         _unit.HealthChanged += OnHealthChanged;
+        IsInitialized = true;
     }
 
     private void EnsureSliderConfigured()

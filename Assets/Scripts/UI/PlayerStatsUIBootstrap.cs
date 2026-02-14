@@ -4,29 +4,28 @@ public class PlayerStatsUIBootstrap : MonoBehaviour
 {
     [SerializeField] private StatsPanelUI panel;
     [SerializeField] private RunController runController;
-    [SerializeField] private UpgradeEventChannel upgradePicked;
-    [SerializeField] private VoidEventChannel onRunStarted;
+    [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private HealthBarUI _healthBar;
 
 
-    public void Start()
+    public void Awake()
     {
         runController = FindFirstObjectByType<RunController>();
     }
 
     private void OnEnable()
     {
-        upgradePicked.OnRaised += ShowStats;
-        onRunStarted.OnRaised += InitHealthBar;
+        requestNextFight.OnRaised += ShowStats;
+        requestNextFight.OnRaised += InitHealthBar;
     }
 
     private void OnDisable()
     {
-        upgradePicked.OnRaised -= ShowStats;
-        onRunStarted.OnRaised -= InitHealthBar;
+        requestNextFight.OnRaised -= ShowStats;
+        requestNextFight.OnRaised -= InitHealthBar;
     }
 
-    private void ShowStats(UpgradeDefinition obj)
+    private void ShowStats()
     {
         panel.Show(runController.Player.Stats.ToViewData());
     }
@@ -38,7 +37,7 @@ public class PlayerStatsUIBootstrap : MonoBehaviour
             Debug.LogWarning("PlayerStatsUIBootstrap: Cannot initialize health bar, player is not available yet");
             return;
         }
-        
-        _healthBar.Initialize(runController.Player);
+        if(!_healthBar.IsInitialized)
+            _healthBar.Initialize(runController.Player);
     }
 }
