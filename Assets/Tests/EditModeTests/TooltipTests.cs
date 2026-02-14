@@ -4,10 +4,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Tests.EditModeTests.Tests.EditModeTests
+namespace Tests.EditModeTests
 {
     public class TooltipTests
     {
+        [TearDown]
+        public void TearDown()
+        {
+            // Clean up static instance to prevent test interference
+            TooltipSystem.instance = null;
+        }
+
         private static Tooltip CreateTooltip()
         {
             var canvasGO = new GameObject("Canvas", typeof(Canvas), typeof(RectTransform));
@@ -69,7 +76,7 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             Assert.IsTrue(tooltip.header.gameObject.activeSelf);
             Assert.AreEqual("Title", tooltip.header.text);
         }
-        
+
         [Test]
         public void SetText_EnablesLayout_WhenTextTooLong()
         {
@@ -91,7 +98,7 @@ namespace Tests.EditModeTests.Tests.EditModeTests
 
             Assert.IsFalse(tooltip.layout.enabled);
         }
-        
+
         [Test]
         public void SetClampedPosition_ClampsInsideCanvas()
         {
@@ -111,7 +118,7 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             Assert.LessOrEqual(Mathf.Abs(pos.x), 5000);
             Assert.LessOrEqual(Mathf.Abs(pos.y), 5000);
         }
-        
+
         [Test]
         public void TooltipSystem_Show_ActivatesTooltip()
         {
@@ -143,6 +150,52 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             TooltipSystem.Hide();
 
             Assert.IsFalse(tooltip.gameObject.activeSelf);
+        }
+
+        [Test]
+        public void TooltipSystem_Hide_DoesNotThrow_WhenTooltipDestroyed()
+        {
+            var tooltip = CreateTooltip();
+
+            var sysGO = new GameObject("TooltipSystem");
+            var system = sysGO.AddComponent<TooltipSystem>();
+            system.tooltip = tooltip;
+
+            system.Awake();
+
+            // Destroy the tooltip to simulate scene transition
+            Object.DestroyImmediate(tooltip.gameObject);
+
+            // This should not throw an exception
+            Assert.DoesNotThrow(() => TooltipSystem.Hide());
+        }
+
+        [Test]
+        public void TooltipSystem_Show_DoesNotThrow_WhenTooltipDestroyed()
+        {
+            var tooltip = CreateTooltip();
+
+            var sysGO = new GameObject("TooltipSystem");
+            var system = sysGO.AddComponent<TooltipSystem>();
+            system.tooltip = tooltip;
+
+            system.Awake();
+
+            // Destroy the tooltip to simulate scene transition
+            Object.DestroyImmediate(tooltip.gameObject);
+
+            // This should not throw an exception
+            Assert.DoesNotThrow(() => TooltipSystem.Show("test", "label"));
+        }
+
+        [Test]
+        public void TooltipSystem_Hide_DoesNotThrow_WhenInstanceNull()
+        {
+            // Clear the instance to simulate it being destroyed
+            TooltipSystem.instance = null;
+
+            // This should not throw an exception
+            Assert.DoesNotThrow(() => TooltipSystem.Hide());
         }
     }
 }

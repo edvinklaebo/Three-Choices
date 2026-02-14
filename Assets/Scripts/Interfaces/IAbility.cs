@@ -2,4 +2,3 @@
 {
     void OnAttack(Unit self, Unit target);
 }
-

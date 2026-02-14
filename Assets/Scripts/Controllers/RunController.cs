@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,12 +5,13 @@ public class RunController : MonoBehaviour
 {
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel playerDiedEvent;
+    
+    public Unit Player;
+
+    private int _fightIndex = 1;
 
     public RunState CurrentRun { get; private set; }
     public RunController Instance { get; private set; }
-
-    private int _fightIndex = 1;
-    public Unit Player;
 
     public void Awake()
     {
@@ -33,20 +33,28 @@ public class RunController : MonoBehaviour
 
     public void ContinueRun()
     {
+        SceneManager.LoadScene("DraftScene");
         CurrentRun = SaveService.Load();
-        
+
         _fightIndex = CurrentRun.fightIndex;
         Player = CurrentRun.player;
-        
-        Player.Died  += _ => playerDiedEvent.Raise();
+
+        Player.Died += _ => playerDiedEvent.Raise();
         SaveService.Save(CurrentRun);
         requestNextFight.Raise();
     }
-    
-    public void StartNewRun()
+
+    public void StartNewRun(CharacterDefinition character)
     {
+        if (character == null)
+        {
+            Debug.LogError("[Run] Cannot start run with null character");
+            return;
+        }
+
+        Debug.Log($"[Run] Starting run with {character.DisplayName}");
         SceneManager.LoadScene("DraftScene");
-        Player = CreatePlayer();
+        Player = CreatePlayerFromCharacter(character);
         Player.Died += _ => playerDiedEvent.Raise();
 
         CurrentRun = new RunState
@@ -78,17 +86,17 @@ public class RunController : MonoBehaviour
         SceneManager.LoadScene("GameOver");
     }
 
-    private static Unit CreatePlayer()
+    private static Unit CreatePlayerFromCharacter(CharacterDefinition character)
     {
-        return new Unit("Aboba")
+        return new Unit(character.DisplayName)
         {
             Stats = new Stats
             {
-                Armor = 45,
-                AttackPower = 7,
-                CurrentHP = 100,
-                MaxHP = 100,
-                Speed = 10
+                Armor = character.Armor,
+                AttackPower = character.Attack,
+                CurrentHP = character.MaxHp,
+                MaxHP = character.MaxHp,
+                Speed = character.Speed
             }
         };
     }

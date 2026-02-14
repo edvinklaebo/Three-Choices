@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 
   displayName: +5 HP
   description: 
-  icon: {fileID: 807068550116065343, guid: 0f8de24b7b5e4804faa1964f56caa372, type: 3}
+  icon: {fileID: 8263355666138428608, guid: 5510ba46d75610c4eb59d1668a037abb, type: 3}
   type: 0
   stat: 0
   amount: 5

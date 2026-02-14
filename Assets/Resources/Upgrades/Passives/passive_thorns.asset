@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b9b648812f1f44a8cc58b9556cc469, type: 3}
   m_Name: passive_thorns
   m_EditorClassIdentifier: 
-  id: 
+  id: passive_thorns
   displayName: Thorns
   description: Deal damage equal to half your armour to attackers.
-  icon: {fileID: 21300000, guid: 490cf4ff636f2024b89863e434474ab8, type: 3}
+  icon: {fileID: 21300000, guid: ddce68fcc19b56b45a3b04d6b2cb999a, type: 3}
   type: 2
   stat: 0
   amount: 0
   abilityId: Thorns
-  rarityWeight: 100
+  rarityWeight: 25

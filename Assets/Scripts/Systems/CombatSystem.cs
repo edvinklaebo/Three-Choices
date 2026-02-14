@@ -1,6 +1,5 @@
-using UnityEngine;
-
 using System;
+using UnityEngine;
 
 public static class CombatSystem
 {
@@ -46,10 +45,19 @@ public static class CombatSystem
                     turn = attackerTurn ? attacker.Name : defender.Name
                 });
 
+                var acting = attackerTurn ? attacker : defender;
+
+                acting.TickStatusesTurnStart();
+
+                if (acting.isDead)
+                    break;
+
                 if (attackerTurn)
                     Attack(attacker, defender, round);
                 else
                     Attack(defender, attacker, round);
+
+                acting.TickStatusesTurnEnd();
 
                 attackerTurn = !attackerTurn;
             }
@@ -79,7 +87,7 @@ public static class CombatSystem
             throw;
         }
     }
-    
+
     private static void Attack(Unit attacker, Unit defender, int round)
     {
         Log.Info("Attack start", new

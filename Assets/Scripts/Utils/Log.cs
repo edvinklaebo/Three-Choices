@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Sentry.Unity;
 using System.Reflection;
-
+using Sentry.Unity;
 using UnityEngine;
 
 public static class Log
@@ -10,32 +9,32 @@ public static class Log
     public static void Info(string message, object data = null)
     {
         Debug.Log(Format("INFO", message, data));
-        SentrySdk.AddBreadcrumb(message, category: "info", data: ToDict(data));
+        SentrySdk.AddBreadcrumb(message, "info", data: ToDict(data));
     }
 
-    public static void Warn(string message, object data = null)
+    public static void Warning(string message, object data = null)
     {
         Debug.LogWarning(Format("WARN", message, data));
-        SentrySdk.AddBreadcrumb(message, category: "warn", data: ToDict(data));
-    }   
+        SentrySdk.AddBreadcrumb(message, "warn", data: ToDict(data));
+    }
 
     public static void Error(string message, object data = null)
     {
         Debug.LogError(Format("ERROR", message, data));
-        SentrySdk.AddBreadcrumb(message, category: "error", data: ToDict(data));
+        SentrySdk.AddBreadcrumb(message, "error", data: ToDict(data));
     }
 
     public static void Exception(Exception ex, string context, object data)
     {
         if (!string.IsNullOrEmpty(context))
-            SentrySdk.AddBreadcrumb(context, category: "exception", data: ToDict(data));
+            SentrySdk.AddBreadcrumb(context, "exception", data: ToDict(data));
 
         SentrySdk.CaptureException(ex);
     }
 
     private static string Format(string level, string message, object data)
     {
-        return data == null ? $"[{level}] {message}" : $"[{level}] {message} | { data }";
+        return data == null ? $"[{level}] {message}" : $"[{level}] {message} | {data}";
     }
 
     private static IDictionary<string, string> ToDict(object data)

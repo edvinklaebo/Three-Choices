@@ -1,7 +1,6 @@
 using NUnit.Framework;
-using UnityEngine;
 
-namespace Tests.EditModeTests.Tests.EditModeTests
+namespace Tests.EditModeTests
 {
     public class SaveServiceTests
     {

@@ -3,7 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace Tests.EditModeTests.Tests.EditModeTests
+namespace Tests.EditModeTests
 {
     public class UpgradeApplierTests
     {
@@ -65,7 +65,7 @@ namespace Tests.EditModeTests.Tests.EditModeTests
         public void ApplyStat_AttackPower_IncreasesAttack()
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            
+
             upgrade.EditorInit("A", "A", UpgradeType.Stat, StatType.AttackPower, 7);
 
             UpgradeApplier.Apply(upgrade, _unit);
@@ -91,7 +91,7 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
             upgrade.EditorInit("A", "A", UpgradeType.Stat, StatType.Speed, 2);
-            
+
             UpgradeApplier.Apply(upgrade, _unit);
 
             Assert.AreEqual(5, _unit.Stats.Speed);
@@ -116,7 +116,7 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
             upgrade.EditorInit("A", "A", UpgradeType.Ability, "Fireball");
-            
+
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 UpgradeApplier.Apply(upgrade, _unit));
         }
@@ -129,7 +129,7 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
             upgrade.EditorInit("A", "A", UpgradeType.Passive, "Thorns");
-            
+
             LogAssert.Expect(LogType.Log, "[INFO] Passive Applied: Thorns");
 
             UpgradeApplier.Apply(upgrade, _unit);

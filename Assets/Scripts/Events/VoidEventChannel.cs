@@ -6,5 +6,8 @@ public class VoidEventChannel : ScriptableObject
 {
     public event Action OnRaised;
 
-    public void Raise() => OnRaised?.Invoke();
+    public void Raise()
+    {
+        OnRaised?.Invoke();
+    }
 }

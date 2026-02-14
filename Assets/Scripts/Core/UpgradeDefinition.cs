@@ -18,12 +18,16 @@ public class UpgradeDefinition : ScriptableObject
 
     [Header("Type")] [SerializeField] private UpgradeType type;
 
-    [Header("Stat Upgrade")] [SerializeField] private StatType stat;
+    [Header("Stat Upgrade")] [SerializeField]
+    private StatType stat;
+
     [SerializeField] private int amount;
 
-    [Header("Ability Upgrade")] [SerializeField] private string abilityId;
+    [Header("Ability Upgrade")] [SerializeField]
+    private string abilityId;
 
-    [Header("Draft / Balance")] [Min(1)] [SerializeField] private int rarityWeight = 100;
+    [Header("Draft / Balance")] [Min(1)] [SerializeField]
+    private int rarityWeight = 100;
 
     // ---- Public read-only accessors ----
     public string Id => id;
@@ -37,7 +41,20 @@ public class UpgradeDefinition : ScriptableObject
     public string AbilityId => abilityId;
 
     public int RarityWeight => rarityWeight;
-    
+
+    public Rarity GetRarity()
+    {
+        // Map rarityWeight values to Rarity enum
+        // Values are mapped based on the Rarity enum values
+        if (rarityWeight >= (int)Rarity.Common)
+            return Rarity.Common;
+        if (rarityWeight >= (int)Rarity.Uncommon)
+            return Rarity.Uncommon;
+        if (rarityWeight >= (int)Rarity.Rare)
+            return Rarity.Rare;
+        return Rarity.Epic;
+    }
+
 #if UNITY_EDITOR
     public void EditorInit(string identifier, string soName, UpgradeType soType, StatType soStat, int soAmount)
     {
@@ -47,7 +64,7 @@ public class UpgradeDefinition : ScriptableObject
         stat = soStat;
         amount = soAmount;
     }
-    
+
     public void EditorInit(string identifier, string soName, UpgradeType soType, string soAbilityId)
     {
         id = identifier;
@@ -55,7 +72,7 @@ public class UpgradeDefinition : ScriptableObject
         type = soType;
         abilityId = soAbilityId;
     }
-    
+
     public void EditorInit(string identifier, string soName)
     {
         id = identifier;

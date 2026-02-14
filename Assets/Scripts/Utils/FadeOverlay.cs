@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 [RequireComponent(typeof(CanvasGroup))]
 public class FadeOverlay : MonoBehaviour
@@ -12,7 +12,7 @@ public class FadeOverlay : MonoBehaviour
     }
 
     /// <summary>
-    /// Fade the overlay from current alpha to target alpha over duration.
+    ///     Fade the overlay from current alpha to target alpha over duration.
     /// </summary>
     public void FadeTo(float targetAlpha, float duration)
     {
@@ -21,7 +21,7 @@ public class FadeOverlay : MonoBehaviour
     }
 
     /// <summary>
-    /// Fade in (from black to transparent)
+    ///     Fade in (from black to transparent)
     /// </summary>
     public void FadeIn(float duration = 0.5f)
     {
@@ -29,7 +29,7 @@ public class FadeOverlay : MonoBehaviour
     }
 
     /// <summary>
-    /// Fade out (from transparent to black)
+    ///     Fade out (from transparent to black)
     /// </summary>
     public void FadeOut(float duration = 0.5f)
     {
@@ -38,8 +38,8 @@ public class FadeOverlay : MonoBehaviour
 
     private IEnumerator FadeCoroutine(float targetAlpha, float duration)
     {
-        float startAlpha = canvasGroup.alpha;
-        float elapsed = 0f;
+        var startAlpha = canvasGroup.alpha;
+        var elapsed = 0f;
 
         while (elapsed < duration)
         {

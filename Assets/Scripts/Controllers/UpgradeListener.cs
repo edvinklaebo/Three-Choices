@@ -10,7 +10,7 @@ public class UpgradeListener : MonoBehaviour
     {
         runController = FindFirstObjectByType<RunController>();
     }
-    
+
     private void OnEnable()
     {
         upgradePicked.OnRaised += Apply;
@@ -24,9 +24,9 @@ public class UpgradeListener : MonoBehaviour
     private void Apply(UpgradeDefinition upgrade)
     {
         Log.Info("Applying upgrade ", upgrade);
-        
+
         UpgradeApplier.Apply(upgrade, runController.Player);
-        
+
         requestNextFight.Raise();
     }
 }

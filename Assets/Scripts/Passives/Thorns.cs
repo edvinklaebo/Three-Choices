@@ -8,7 +8,7 @@ public class Thorns : Passive
 
     private void OnDamaged(Unit attacker, int damageTaken)
     {
-        if (attacker == null) 
+        if (attacker == null)
             return;
 
         var thornDamage = Owner.Stats.Armor / 4;

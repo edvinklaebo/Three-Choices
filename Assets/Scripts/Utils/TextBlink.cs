@@ -1,11 +1,11 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class TextBlink : MonoBehaviour
 {
     private static readonly int FaceDilate = Shader.PropertyToID("_FaceDilate");
     [SerializeField] private TMP_Text text;
-    [SerializeField] private float speed = 3f;   // How fast it pulses
+    [SerializeField] private float speed = 3f; // How fast it pulses
     [SerializeField] private float minDilate;
     [SerializeField] private float maxDilate = 0.5f;
 
@@ -17,7 +17,7 @@ public class TextBlink : MonoBehaviour
 
     private void Update()
     {
-        if (text == null) 
+        if (text == null)
             return;
 
         // Pulse the dilate property with a sine wave
