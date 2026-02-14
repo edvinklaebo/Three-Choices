@@ -60,6 +60,29 @@ public class RunController : MonoBehaviour
         requestNextFight.Raise();
     }
 
+    public void StartNewRun(CharacterDefinition character)
+    {
+        if (character == null)
+        {
+            Debug.LogError("[Run] Cannot start run with null character");
+            return;
+        }
+
+        Debug.Log($"[Run] Starting run with {character.DisplayName}");
+        SceneManager.LoadScene("DraftScene");
+        Player = CreatePlayerFromCharacter(character);
+        Player.Died += _ => playerDiedEvent.Raise();
+
+        CurrentRun = new RunState
+        {
+            fightIndex = _fightIndex,
+            player = Player
+        };
+
+        SaveService.Save(CurrentRun);
+        requestNextFight.Raise();
+    }
+
     private void HandleNextFight()
     {
         _fightIndex++;
@@ -90,6 +113,21 @@ public class RunController : MonoBehaviour
                 CurrentHP = 100,
                 MaxHP = 100,
                 Speed = 10
+            }
+        };
+    }
+
+    private static Unit CreatePlayerFromCharacter(CharacterDefinition character)
+    {
+        return new Unit(character.DisplayName)
+        {
+            Stats = new Stats
+            {
+                Armor = character.Armor,
+                AttackPower = character.Attack,
+                CurrentHP = character.MaxHp,
+                MaxHP = character.MaxHp,
+                Speed = character.Speed
             }
         };
     }
