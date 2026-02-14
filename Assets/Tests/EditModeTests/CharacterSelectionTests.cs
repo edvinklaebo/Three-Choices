@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 namespace Tests.EditModeTests.Tests.EditModeTests
 {
@@ -11,7 +14,7 @@ namespace Tests.EditModeTests.Tests.EditModeTests
         public void Setup()
         {
             _testDatabase = ScriptableObject.CreateInstance<CharacterDatabase>();
-            _testDatabase.Characters = new System.Collections.Generic.List<CharacterDefinition>();
+            _testDatabase.Characters = new List<CharacterDefinition>();
 
             // Create 3 test characters
             for (var i = 0; i < 3; i++)
@@ -30,10 +33,7 @@ namespace Tests.EditModeTests.Tests.EditModeTests
         [TearDown]
         public void Cleanup()
         {
-            if (_testDatabase != null)
-            {
-                Object.DestroyImmediate(_testDatabase);
-            }
+            if (_testDatabase != null) Object.DestroyImmediate(_testDatabase);
         }
 
         [Test]
@@ -82,10 +82,10 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             // Arrange
             var go = new GameObject();
             var controller = go.AddComponent<CharacterSelectController>();
-            
+
             // Use reflection to set the private _database field
-            var databaseField = typeof(CharacterSelectController).GetField("_database", 
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var databaseField = typeof(CharacterSelectController).GetField("_database",
+                BindingFlags.NonPublic | BindingFlags.Instance);
             databaseField?.SetValue(controller, _testDatabase);
 
             // Act
@@ -95,7 +95,7 @@ namespace Tests.EditModeTests.Tests.EditModeTests
 
             // Assert
             Assert.AreEqual(0, controller.CurrentIndex);
-            
+
             Object.DestroyImmediate(go);
         }
 
@@ -105,9 +105,9 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             // Arrange
             var go = new GameObject();
             var controller = go.AddComponent<CharacterSelectController>();
-            
-            var databaseField = typeof(CharacterSelectController).GetField("_database", 
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            var databaseField = typeof(CharacterSelectController).GetField("_database",
+                BindingFlags.NonPublic | BindingFlags.Instance);
             databaseField?.SetValue(controller, _testDatabase);
 
             // Act - Previous from index 0 should wrap to last
@@ -115,7 +115,7 @@ namespace Tests.EditModeTests.Tests.EditModeTests
 
             // Assert
             Assert.AreEqual(2, controller.CurrentIndex);
-            
+
             Object.DestroyImmediate(go);
         }
 
@@ -125,16 +125,16 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             // Arrange
             var go = new GameObject();
             var controller = go.AddComponent<CharacterSelectController>();
-            
-            var databaseField = typeof(CharacterSelectController).GetField("_database", 
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+            var databaseField = typeof(CharacterSelectController).GetField("_database",
+                BindingFlags.NonPublic | BindingFlags.Instance);
             databaseField?.SetValue(controller, _testDatabase);
 
             CharacterDefinition received = null;
             GameEvents.CharacterSelected_Event += c => received = c;
 
             // Suppress expected error log from missing RunController in test environment
-            UnityEngine.TestTools.LogAssert.Expect(UnityEngine.LogType.Error, "[CharacterSelect] RunController not found");
+            LogAssert.Expect(LogType.Error, "[CharacterSelect] RunController not found");
 
             // Act
             controller.Next(); // Move to character 1

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public interface IRarityRoller
 {
@@ -20,9 +21,9 @@ public class RarityRoller : IRarityRoller
             { Rarity.Rare, (int)Rarity.Rare },
             { Rarity.Epic, (int)Rarity.Epic }
         };
-        
+
         _totalWeight = _rarityWeights.Values.Sum();
-        
+
         Log.Info("RarityRoller initialized", new
         {
             weights = string.Join(", ", _rarityWeights.Select(kvp => $"{kvp.Key}={kvp.Value}")),
@@ -32,8 +33,8 @@ public class RarityRoller : IRarityRoller
 
     public Rarity RollRarity()
     {
-        var roll = UnityEngine.Random.Range(0, _totalWeight);
-        
+        var roll = Random.Range(0, _totalWeight);
+
         var cumulative = 0;
         foreach (var kvp in _rarityWeights.OrderByDescending(x => x.Value))
         {
@@ -44,7 +45,7 @@ public class RarityRoller : IRarityRoller
                 return kvp.Key;
             }
         }
-        
+
         // Fallback (shouldn't reach here)
         Log.Warning("Rarity roll fallback to Common", new { roll, totalWeight = _totalWeight });
         return Rarity.Common;

@@ -42,13 +42,13 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             Assert.AreEqual(0, unitA.Stats.CurrentHP);
             Assert.LessOrEqual(unitB.Stats.CurrentHP, 10);
         }
-        
+
         [Test]
         public void FasterUnit_AttacksFirst_AndWins()
         {
             var fast = CreateUnit("Fast", 100, 10, 0, 20);
             var slow = CreateUnit("Slow", 100, 10, 0, 5);
-            
+
             CombatSystem.RunFight(fast, slow);
 
             Assert.Greater(fast.Stats.CurrentHP, 0, "Fast unit should survive");
@@ -60,20 +60,20 @@ namespace Tests.EditModeTests.Tests.EditModeTests
         {
             var attacker = CreateUnit("Attacker", 30, 10, 0, 10);
             var defender = CreateUnit("Defender", 30, 10, 0, 10);
-            
+
             CombatSystem.RunFight(attacker, defender);
 
             // Because >= is used, attacker always starts on tie and should win
             Assert.Greater(attacker.Stats.CurrentHP, 0);
             Assert.LessOrEqual(defender.Stats.CurrentHP, 0);
         }
-        
+
         [Test]
         public void ArmorReducesDamage_Correctly()
         {
             var attacker = CreateUnit("Attacker", 100, 50, 0, 10);
             var defender = CreateUnit("Tank", 100, 0, 100, 1);
-            
+
             CombatSystem.RunFight(attacker, defender);
 
             // Multiplier = 100 / (100 + 100) = 0.5
@@ -82,7 +82,7 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             Assert.AreEqual(0, defender.Stats.CurrentHP);
             Assert.Greater(attacker.Stats.CurrentHP, 0);
         }
-        
+
         [Test]
         public void HighArmorStillTakesAtLeastOneDamage()
         {
@@ -94,7 +94,7 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             // Formula never reaches zero, so defender must eventually die
             Assert.LessOrEqual(defender.Stats.CurrentHP, 0);
         }
-        
+
         [Test]
         public void BothDealDamage_ExactlyOneSurvives()
         {

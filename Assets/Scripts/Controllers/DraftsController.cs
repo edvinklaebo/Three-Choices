@@ -10,7 +10,7 @@ public class DraftController : MonoBehaviour
     private void Awake()
     {
         Log.Info($"Awake called on {nameof(DraftController)}");
-        
+
         _draft = new DraftSystem(
             ScriptableObject.CreateInstance<UpgradePool>());
     }

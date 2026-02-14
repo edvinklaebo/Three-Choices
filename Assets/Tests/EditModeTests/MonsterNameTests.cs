@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using NUnit.Framework;
 
@@ -9,7 +10,7 @@ namespace Tests.EditModeTests.Tests.EditModeTests
         public void Setup()
         {
             // Make tests deterministic
-            MonsterName.random = new System.Random(0);
+            MonsterName.random = new Random(0);
         }
 
         [Test]
@@ -77,12 +78,12 @@ namespace Tests.EditModeTests.Tests.EditModeTests
         [Test]
         public void Random_WithFixedSeed_IsDeterministic()
         {
-            MonsterName.random = new System.Random(42);
+            MonsterName.random = new Random(42);
 
             var first = MonsterName.Random();
             var second = MonsterName.Random();
 
-            MonsterName.random = new System.Random(42);
+            MonsterName.random = new Random(42);
 
             var firstAgain = MonsterName.Random();
             var secondAgain = MonsterName.Random();

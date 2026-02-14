@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Reflection;
+using TMPro;
 using UnityEngine;
 
 namespace Tests.EditModeTests.Tests.EditModeTests
@@ -20,11 +21,11 @@ namespace Tests.EditModeTests.Tests.EditModeTests
             var row = go.AddComponent<StatRowUI>();
 
             row.GetType()
-                .GetField("nameText", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                .GetField("nameText", BindingFlags.NonPublic | BindingFlags.Instance)
                 ?.SetValue(row, label);
 
             row.GetType()
-                .GetField("valueText", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                .GetField("valueText", BindingFlags.NonPublic | BindingFlags.Instance)
                 ?.SetValue(row, value);
 
             return row;

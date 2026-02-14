@@ -23,14 +23,11 @@ public class StatsPanelUI : MonoBehaviour
     private void Clear()
     {
         foreach (var r in rows)
-        {
             if (Application.isPlaying)
                 Destroy(r.gameObject);
             else
                 DestroyImmediate(r.gameObject);
-        }
 
         rows.Clear();
     }
-
 }

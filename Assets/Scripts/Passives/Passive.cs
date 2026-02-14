@@ -14,6 +14,11 @@ public abstract class Passive
         Owner = null;
     }
 
-    protected virtual void OnAttach() {}
-    protected virtual void OnDetach() {}
+    protected virtual void OnAttach()
+    {
+    }
+
+    protected virtual void OnDetach()
+    {
+    }
 }

@@ -1,8 +1,8 @@
 using System;
 
 /// <summary>
-/// Static events for character selection flow.
-/// NOTE: Subscribers must clean up in OnDisable/OnDestroy to prevent memory leaks.
+///     Static events for character selection flow.
+///     NOTE: Subscribers must clean up in OnDisable/OnDestroy to prevent memory leaks.
 /// </summary>
 public static class GameEvents
 {
@@ -10,7 +10,7 @@ public static class GameEvents
     public static Action<CharacterDefinition> CharacterSelected_Event;
 
     /// <summary>
-    /// Clear all event subscribers. Call during scene cleanup if needed.
+    ///     Clear all event subscribers. Call during scene cleanup if needed.
     /// </summary>
     public static void ClearAll()
     {

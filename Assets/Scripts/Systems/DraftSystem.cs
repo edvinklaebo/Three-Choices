@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 public class DraftSystem
 {
-    private readonly IUpgradeRepository _repository;
     private readonly IRarityRoller _rarityRoller;
+    private readonly IUpgradeRepository _repository;
 
     public DraftSystem(IUpgradeRepository repository) : this(repository, new RarityRoller())
     {
@@ -15,7 +16,7 @@ public class DraftSystem
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         _rarityRoller = rarityRoller ?? throw new ArgumentNullException(nameof(rarityRoller));
-        
+
         Log.Info("DraftSystem initialized", new
         {
             repositoryType = repository.GetType().Name,
@@ -36,14 +37,14 @@ public class DraftSystem
 
             // Roll rarity first
             var rolledRarity = _rarityRoller.RollRarity();
-            
+
             for (var i = 0; i < count; i++)
             {
                 // Filter available upgrades by rarity (exclude already drafted ones)
                 var availableUpgrades = allUpgrades
                     .Where(u => !result.Contains(u))
                     .ToList();
-                
+
                 if (availableUpgrades.Count == 0)
                 {
                     Log.Warning("No more upgrades available", new { round = i });
@@ -52,7 +53,7 @@ public class DraftSystem
 
                 // Try to get upgrade of rolled rarity, fallback to lower rarities if needed
                 var selected = SelectUpgradeByRarity(availableUpgrades, rolledRarity);
-                
+
                 if (selected == null)
                 {
                     Log.Warning("No upgrade found for any rarity", new { round = i });
@@ -90,12 +91,9 @@ public class DraftSystem
     {
         // Try target rarity first
         var pool = availableUpgrades.Where(u => u.GetRarity() == targetRarity).ToList();
-        
-        if (pool.Count > 0)
-        {
-            return pool[UnityEngine.Random.Range(0, pool.Count)];
-        }
-        
+
+        if (pool.Count > 0) return pool[Random.Range(0, pool.Count)];
+
         // Fallback to next lower rarity
         var fallbackRarity = GetNextLowerRarity(targetRarity);
         if (fallbackRarity.HasValue)
@@ -103,7 +101,7 @@ public class DraftSystem
             Log.Info("Rarity fallback", new { from = targetRarity, to = fallbackRarity.Value });
             return SelectUpgradeByRarity(availableUpgrades, fallbackRarity.Value);
         }
-        
+
         // If no rarity match found, return null
         return null;
     }

@@ -14,7 +14,7 @@ public class CombatController : MonoBehaviour
             Log.Error("No RunController found! Did you forget to start new run?");
             return;
         }
-        
+
         requestNextFight.Raise();
     }
 

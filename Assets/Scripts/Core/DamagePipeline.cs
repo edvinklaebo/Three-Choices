@@ -2,13 +2,17 @@ using System.Collections.Generic;
 
 public static class DamagePipeline
 {
-    static readonly List<IDamageModifier> modifiers = new();
+    private static readonly List<IDamageModifier> modifiers = new();
 
     public static void Register(IDamageModifier mod)
-        => modifiers.Add(mod);
+    {
+        modifiers.Add(mod);
+    }
 
     public static void Unregister(IDamageModifier mod)
-        => modifiers.Remove(mod);
+    {
+        modifiers.Remove(mod);
+    }
 
     public static void Process(DamageContext ctx)
     {
