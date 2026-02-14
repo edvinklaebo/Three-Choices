@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎮 ROPA
+# 🎮 Three Choices
 ### *Roguelike PvE Auto-Battler*
 
 **Every choice matters. Every battle counts.**
