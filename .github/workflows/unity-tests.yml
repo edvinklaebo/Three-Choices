@@ -1,4 +1,4 @@
-name: Unity EditMode Tests
+name: Unity Tests
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [develop]
 
 jobs:
-  test:
+  editmode-tests:
     name: Run EditMode Tests
     runs-on: ubuntu-latest
 
@@ -32,11 +32,45 @@ jobs:
         with:
           testMode: editmode
           projectPath: .
-          artifactsPath: test-results
+          artifactsPath: editmode-results
 
-      - name: Upload results
+      - name: Upload EditMode results
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: editmode-test-results
-          path: test-results
+          path: editmode-results
+
+  playmode-tests:
+    name: Run PlayMode Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+
+      - name: Run PlayMode tests
+        uses: game-ci/unity-test-runner@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          testMode: playmode
+          projectPath: .
+          artifactsPath: playmode-results
+
+      - name: Upload PlayMode results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playmode-test-results
+          path: playmode-results
