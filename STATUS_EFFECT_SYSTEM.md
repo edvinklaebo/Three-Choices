@@ -46,9 +46,11 @@ The combat loop now:
 5. Ticks status effects at turn end (new)
 6. Switches turns
 
-## Poison Effect
+## Poison
 
-The first implemented status effect.
+The first implemented status effect and passive. The Poison class implements both `IStatusEffect` and `IPassive`, allowing it to function as:
+1. **A status effect** that can be applied to units for damage over time
+2. **A passive** that applies poison to attackers when the owner takes damage
 
 ### Characteristics
 - **Stackable**: Multiple applications add stacks
@@ -61,17 +63,17 @@ The first implemented status effect.
 
 ```csharp
 // Apply poison from a weapon
-target.ApplyStatus(new PoisonEffect(2, 3));  // 2 stacks, 3 turns
+target.ApplyStatus(new Poison(2, 3));  // 2 stacks, 3 turns
 
 // Apply poison from a passive (on receiving damage)
 // When player has Poison passive, attackers get poisoned
 unit.Passives.Add(new Poison(unit, 2, 3));  // 2 stacks, 3 turns
 
 // Apply poison from an artifact
-target.ApplyStatus(new PoisonEffect(1, 2));  // 1 stack, 2 turns
+target.ApplyStatus(new Poison(1, 2));  // 1 stack, 2 turns
 
 // Apply strong poison from a skill
-target.ApplyStatus(new PoisonEffect(5, 4));  // 5 stacks, 4 turns
+target.ApplyStatus(new Poison(5, 4));  // 5 stacks, 4 turns
 
 // Check if unit has poison
 bool hasPois = unit.StatusEffects.Exists(e => e.Id == "Poison");

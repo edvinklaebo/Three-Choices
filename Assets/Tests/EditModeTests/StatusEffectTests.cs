@@ -21,10 +21,10 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void PoisonEffect_DealsDamageAtTurnStart()
+        public void Poison_DealsDamageAtTurnStart()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var poison = new PoisonEffect(5, 3);
+            var poison = new Poison(5, 3);
 
             unit.ApplyStatus(poison);
             unit.TickStatusesTurnStart();
@@ -33,10 +33,10 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void PoisonEffect_ReducesDurationEachTick()
+        public void Poison_ReducesDurationEachTick()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var poison = new PoisonEffect(5, 3);
+            var poison = new Poison(5, 3);
 
             unit.ApplyStatus(poison);
             
@@ -50,10 +50,10 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void PoisonEffect_ExpiresWhenDurationReachesZero()
+        public void Poison_ExpiresWhenDurationReachesZero()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var poison = new PoisonEffect(5, 2);
+            var poison = new Poison(5, 2);
 
             unit.ApplyStatus(poison);
             
@@ -69,8 +69,8 @@ namespace Tests.EditModeTests
         public void ApplyStatus_StacksExistingPoison()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var poison1 = new PoisonEffect(3, 2);
-            var poison2 = new PoisonEffect(2, 2);
+            var poison1 = new Poison(3, 2);
+            var poison2 = new Poison(2, 2);
 
             unit.ApplyStatus(poison1);
             unit.ApplyStatus(poison2);
@@ -80,10 +80,10 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void PoisonEffect_CanKillUnit()
+        public void Poison_CanKillUnit()
         {
             var unit = CreateUnit("Test", 10, 0, 0, 5);
-            var poison = new PoisonEffect(15, 3);
+            var poison = new Poison(15, 3);
 
             unit.ApplyStatus(poison);
             unit.TickStatusesTurnStart();
@@ -93,10 +93,10 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void PoisonEffect_BypassesArmor()
+        public void Poison_BypassesArmor()
         {
             var unit = CreateUnit("Tank", 100, 0, 1000, 5);
-            var poison = new PoisonEffect(10, 3);
+            var poison = new Poison(10, 3);
 
             unit.ApplyStatus(poison);
             unit.TickStatusesTurnStart();
@@ -110,7 +110,7 @@ namespace Tests.EditModeTests
             var poisoned = CreateUnit("Poisoned", 50, 10, 0, 10);
             var enemy = CreateUnit("Enemy", 100, 5, 0, 5);
 
-            poisoned.ApplyStatus(new PoisonEffect(5, 10));
+            poisoned.ApplyStatus(new Poison(5, 10));
 
             CombatSystem.RunFight(poisoned, enemy);
 
@@ -121,12 +121,12 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void PoisonEffect_KillsBeforeAttack()
+        public void Poison_KillsBeforeAttack()
         {
             var poisoned = CreateUnit("Poisoned", 5, 100, 0, 10);
             var enemy = CreateUnit("Enemy", 10, 0, 0, 5);
 
-            poisoned.ApplyStatus(new PoisonEffect(10, 3));
+            poisoned.ApplyStatus(new Poison(10, 3));
 
             CombatSystem.RunFight(poisoned, enemy);
 
@@ -170,7 +170,7 @@ namespace Tests.EditModeTests
         public void MultipleStatusEffects_CanCoexist()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var poison = new PoisonEffect(5, 3);
+            var poison = new Poison(5, 3);
             var mockEffect = new MockStatusEffect("Burn", 2, 2);
 
             unit.ApplyStatus(poison);
