@@ -50,7 +50,7 @@ public static class CombatSystem
 
                 acting.TickStatusesTurnStart();
 
-                if (acting.Stats.CurrentHP <= 0)
+                if (acting.isDead)
                     break;
 
                 if (attackerTurn)
