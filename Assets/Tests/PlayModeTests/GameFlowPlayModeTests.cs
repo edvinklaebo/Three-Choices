@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Tests.PlayModeTests
 {
@@ -115,7 +116,7 @@ namespace Tests.PlayModeTests
             // Find character navigation buttons
             var prevButton = FindButtonByName("Previous");
             var nextButton = FindButtonByName("Next");
-            var selectButton = FindButtonByName("Select") ?? FindButtonByName("Confirm");
+            var selectButton = FindButtonByName("Select");
 
             Assert.IsNotNull(prevButton, "Previous button should exist");
             Assert.IsNotNull(nextButton, "Next button should exist");
@@ -198,7 +199,7 @@ namespace Tests.PlayModeTests
                     return button;
 
                 // Check TextMeshPro
-                var tmpText = button.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+                var tmpText = button.GetComponentInChildren<TextMeshProUGUI>();
                 if (tmpText != null && tmpText.text.Contains(name))
                     return button;
             }
