@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 // Controls the main menu UI
 public class MainMenuController : MonoBehaviour
 {
+    private const string CharacterSelectSceneName = "CharacterSelectScene";
+    
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button continueButton;
@@ -50,6 +52,6 @@ public class MainMenuController : MonoBehaviour
     {
         Debug.Log("[MainMenu] New run requested.");
         GameEvents.NewRunRequested_Event?.Invoke();
-        UnityEngine.SceneManagement.SceneManager.LoadScene("CharacterSelectScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene(CharacterSelectSceneName);
     }
 }

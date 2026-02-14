@@ -8,10 +8,10 @@ public class CharacterSelectView : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI _statsText;
     [SerializeField] private Transform _portraitTransform;
+    [SerializeField] private float _animationTime = 0.2f;
+    [SerializeField] private float _scaleAmount = 0.1f;
 
     private Vector3 _originalScale = Vector3.one;
-    private float _animationTime = 0.2f;
-    private float _scaleAmount = 0.1f;
 
     private void Awake()
     {
