@@ -76,7 +76,7 @@ public class Poison : Passive, IStatusEffect
     }
 
     // Passive behavior - applies poison when owner hits something
-    private void ApplyPoison(Unit target, int damageDealt)
+    private void ApplyPoison(Unit target, int _)
     {
         if (target == null)
             return;

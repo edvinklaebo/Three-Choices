@@ -75,7 +75,7 @@ public class Bleed : Passive, IStatusEffect
     }
 
     // Passive behavior - applies bleed when owner hits something
-    private void ApplyBleed(Unit target, int damageDealt)
+    private void ApplyBleed(Unit target, int _)
     {
         if (target == null)
             return;
