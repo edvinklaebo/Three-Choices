@@ -74,7 +74,7 @@ public class HealthBarUI : MonoBehaviour
 
     private void OnHealthChanged(Unit unit, int currentHP, int maxHP)
     {
-        _targetFillAmount = GetNormalizedHealth();
+        _targetFillAmount = maxHP <= 0 ? 0f : Mathf.Clamp01((float)currentHP / maxHP);
     }
 
     private float GetNormalizedHealth()
