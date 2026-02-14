@@ -63,6 +63,10 @@ The first implemented status effect.
 // Apply poison from a weapon
 target.ApplyStatus(new PoisonEffect(2, 3));  // 2 stacks, 3 turns
 
+// Apply poison from a passive (on receiving damage)
+// When player has Poison passive, attackers get poisoned
+unit.Passives.Add(new Poison(unit, 2, 3));  // 2 stacks, 3 turns
+
 // Apply poison from an artifact
 target.ApplyStatus(new PoisonEffect(1, 2));  // 1 stack, 2 turns
 

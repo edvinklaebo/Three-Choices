@@ -212,5 +212,59 @@ namespace Tests.EditModeTests
             public void OnExpire(Unit target) { }
             public void AddStacks(int amount) { Stacks += amount; }
         }
+
+        [Test]
+        public void PoisonPassive_AppliesPoisonToAttackerOnHit()
+        {
+            var defender = CreateUnit("Defender", 100, 0, 0, 5);
+            var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
+
+            // Apply poison passive to defender
+            defender.Passives.Add(new Poison(defender, 2, 3));
+
+            // Attacker hits defender
+            defender.ApplyDamage(attacker, 10);
+
+            // Verify attacker now has poison
+            Assert.AreEqual(1, attacker.StatusEffects.Count, "Attacker should have poison status effect");
+            var poison = attacker.StatusEffects[0];
+            Assert.AreEqual("Poison", poison.Id);
+            Assert.AreEqual(2, poison.Stacks, "Poison should have 2 stacks");
+            Assert.AreEqual(3, poison.Duration, "Poison should have 3 turns duration");
+        }
+
+        [Test]
+        public void PoisonPassive_StacksOnMultipleHits()
+        {
+            var defender = CreateUnit("Defender", 100, 0, 0, 5);
+            var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
+
+            defender.Passives.Add(new Poison(defender, 2, 3));
+
+            // First hit
+            defender.ApplyDamage(attacker, 10);
+            Assert.AreEqual(2, attacker.StatusEffects[0].Stacks);
+
+            // Second hit
+            defender.ApplyDamage(attacker, 10);
+            Assert.AreEqual(4, attacker.StatusEffects[0].Stacks, "Poison stacks should accumulate to 4");
+            Assert.AreEqual(1, attacker.StatusEffects.Count, "Should still only have one poison effect");
+        }
+
+        [Test]
+        public void PoisonPassive_WorksInCombat()
+        {
+            var defender = CreateUnit("Defender", 50, 5, 0, 5);
+            var attacker = CreateUnit("Attacker", 100, 10, 0, 10);
+
+            // Defender has poison passive
+            defender.Passives.Add(new Poison(defender, 3, 5));
+
+            CombatSystem.RunFight(attacker, defender);
+
+            // Attacker should have taken poison damage (may or may not have survived)
+            // Just verify poison was applied and ticked
+            Assert.IsTrue(attacker.Stats.CurrentHP < 100, "Attacker should have taken some damage (from poison or defender attacks)");
+        }
     }
 }

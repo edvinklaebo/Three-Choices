@@ -1,24 +1,22 @@
 public class Poison : Passive
 {
-    private Unit target;
-    private Unit source;
-    private int damagePerTurn;
-    private int turns;
+    private readonly int stacks;
+    private readonly int duration;
 
-    // TODO fix not self poisoning
-    public Poison(Unit target, Unit source, int damage, int turns)
+    public Poison(Unit owner, int stacks = 2, int duration = 3)
     {
-        this.target = target;
-        this.source = source;
-        damagePerTurn = damage;
-        this.turns = turns;
+        Owner = owner;
+        this.stacks = stacks;
+        this.duration = duration;
+
+        owner.Damaged += OnDamaged;
     }
 
-    public void OnTurnStart()
+    private void OnDamaged(Unit attacker, int damageTaken)
     {
-        if (turns <= 0) return;
+        if (attacker == null) 
+            return;
 
-        //target.ApplyDamage(this.source, damagePerTurn);
-        turns--;
+        attacker.ApplyStatus(new PoisonEffect(stacks, duration));
     }
 }

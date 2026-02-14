@@ -14,7 +14,19 @@ public static class StatusEffectExamples
     }
 
     /// <summary>
-    /// Example 2: Apply poison from an artifact effect (on damage dealt)
+    /// Example 2: Apply poison from a passive (on receiving damage)
+    /// This is implemented in the Poison passive class
+    /// </summary>
+    public static void ApplyPoisonFromPassive(Unit defender)
+    {
+        // When player has Poison passive, attackers get poisoned
+        // See Assets/Scripts/Passives/Poison.cs
+        defender.Passives.Add(new Poison(defender, 2, 3));
+        // Now whenever defender is hit, attacker receives 2 stacks for 3 turns
+    }
+
+    /// <summary>
+    /// Example 3: Apply poison from an artifact effect (on damage dealt)
     /// </summary>
     public static void ApplyPoisonFromArtifact(Unit attacker, Unit target)
     {
@@ -23,7 +35,7 @@ public static class StatusEffectExamples
     }
 
     /// <summary>
-    /// Example 3: Apply strong poison as a skill/ability
+    /// Example 4: Apply strong poison as a skill/ability
     /// </summary>
     public static void ApplyPoisonFromSkill(Unit caster, Unit target)
     {
@@ -32,7 +44,7 @@ public static class StatusEffectExamples
     }
 
     /// <summary>
-    /// Example 4: Check if a unit has poison
+    /// Example 5: Check if a unit has poison
     /// </summary>
     public static bool HasPoison(Unit unit)
     {
@@ -40,7 +52,7 @@ public static class StatusEffectExamples
     }
 
     /// <summary>
-    /// Example 5: Get total poison stacks on a unit
+    /// Example 6: Get total poison stacks on a unit
     /// </summary>
     public static int GetPoisonStacks(Unit unit)
     {
