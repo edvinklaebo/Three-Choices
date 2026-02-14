@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
-namespace Tests.EditModeTests
+namespace Tests.EditModeTests.Tests.EditModeTests
 {
     public class CharacterSelectionTests
     {
@@ -14,7 +14,7 @@ namespace Tests.EditModeTests
             _testDatabase.Characters = new System.Collections.Generic.List<CharacterDefinition>();
 
             // Create 3 test characters
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var character = ScriptableObject.CreateInstance<CharacterDefinition>();
                 character.Id = $"char_{i}";
@@ -86,7 +86,7 @@ namespace Tests.EditModeTests
             // Use reflection to set the private _database field
             var databaseField = typeof(CharacterSelectController).GetField("_database", 
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            databaseField.SetValue(controller, _testDatabase);
+            databaseField?.SetValue(controller, _testDatabase);
 
             // Act
             controller.Next(); // Index 1
@@ -108,7 +108,7 @@ namespace Tests.EditModeTests
             
             var databaseField = typeof(CharacterSelectController).GetField("_database", 
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            databaseField.SetValue(controller, _testDatabase);
+            databaseField?.SetValue(controller, _testDatabase);
 
             // Act - Previous from index 0 should wrap to last
             controller.Previous();
@@ -128,7 +128,7 @@ namespace Tests.EditModeTests
             
             var databaseField = typeof(CharacterSelectController).GetField("_database", 
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            databaseField.SetValue(controller, _testDatabase);
+            databaseField?.SetValue(controller, _testDatabase);
 
             CharacterDefinition received = null;
             GameEvents.CharacterSelected_Event += c => received = c;

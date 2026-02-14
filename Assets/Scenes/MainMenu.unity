@@ -340,6 +340,7 @@ MonoBehaviour:
   mainMenuPanel: {fileID: 1171537831}
   quitButton: {fileID: 1480659221}
   continueButton: {fileID: 1547953907}
+  newGameButton: {fileID: 1573924195}
 --- !u!1 &514786250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1376,17 +1377,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1223547178}
   m_CullTransparentMesh: 1
---- !u!114 &1342577205 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5933365456025743668, guid: 070a7ff31b4edcb48acf97319b3496b9, type: 3}
-  m_PrefabInstance: {fileID: 646272412}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59d5b4982f9c2ee449726067b8f9d1fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
 --- !u!1 &1480659219
 GameObject:
   m_ObjectHideFlags: 0
@@ -1953,9 +1943,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1342577205}
-        m_TargetAssemblyTypeName: RunController, Ropa
-        m_MethodName: StartNewRun
+      - m_Target: {fileID: 469077191}
+        m_TargetAssemblyTypeName: MainMenuController, Ropa
+        m_MethodName: OnNewGamePressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
