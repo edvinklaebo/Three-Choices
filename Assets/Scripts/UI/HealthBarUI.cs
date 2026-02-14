@@ -38,7 +38,9 @@ public class HealthBarUI : MonoBehaviour
         {
             _unit.HealthChanged -= OnHealthChanged;
         }
-
+        
+        Log.Warning("HealthBarUI: Initializing HealthBarUI");
+        
         _unit = unit;
         _targetFillAmount = GetNormalizedHealth();
         _currentFillAmount = _targetFillAmount;
