@@ -63,14 +63,15 @@ namespace Tests.EditModeTests
             // Initial value should be 1.0 (100/100)
             Assert.AreEqual(1.0f, slider.value, 0.01f, "Slider should start at full health");
 
-            // Damage the unit to 50 HP
+            // Damage the unit to 50 HP - this will trigger HealthChanged event
             unit.ApplyDamage(null, 50);
 
             // The unit should have 50 HP
             Assert.AreEqual(50, unit.Stats.CurrentHP, "Unit should have 50 HP");
             
             // Note: The slider won't update immediately due to lerping in Update()
-            // The target value is set to 0.5, but the actual slider.value lerps over time
+            // The event handler sets the internal target value, but slider.value lerps in Update()
+            // We can verify the event was triggered by checking the unit's HP changed
 
             Object.DestroyImmediate(go);
         }

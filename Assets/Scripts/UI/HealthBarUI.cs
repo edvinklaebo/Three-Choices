@@ -23,6 +23,7 @@ public class HealthBarUI : MonoBehaviour
 
     private Unit _unit;
     private float _targetValue;
+    private bool _sliderConfigured;
 
     private void Awake()
     {
@@ -61,6 +62,9 @@ public class HealthBarUI : MonoBehaviour
 
     private void EnsureSliderConfigured()
     {
+        if (_sliderConfigured)
+            return;
+
         // Auto-find slider if not assigned
         if (_slider == null)
         {
@@ -73,6 +77,7 @@ public class HealthBarUI : MonoBehaviour
             _slider.minValue = 0f;
             _slider.maxValue = 1f;
             _slider.interactable = false;
+            _sliderConfigured = true;
         }
     }
 
