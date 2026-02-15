@@ -49,4 +49,27 @@ public class CombatHUD : MonoBehaviour
             enemy = enemy.Name
         });
     }
+
+    /// <summary>
+    /// Get the health bar for a specific unit.
+    /// </summary>
+    public HealthBarUI GetHealthBar(Unit unit)
+    {
+        if (unit == null)
+            return null;
+
+        // Check player HUD
+        if (_playerHUD != null && _playerHUD.GetUnit() == unit)
+        {
+            return _playerHUD.GetHealthBar();
+        }
+
+        // Check enemy HUD
+        if (_enemyHUD != null && _enemyHUD.GetUnit() == unit)
+        {
+            return _enemyHUD.GetHealthBar();
+        }
+
+        return null;
+    }
 }

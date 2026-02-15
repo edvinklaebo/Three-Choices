@@ -22,6 +22,9 @@ public class UIService
         {
             FloatingTextPool.Instance.Spawn(amount, damageType, worldPosition.Value);
         }
+
+        // Animate health bar to current health value
+        AnimateHealthBar(target);
     }
 
     public void ShowHealing(Unit target, int amount)
@@ -33,6 +36,9 @@ public class UIService
         {
             FloatingTextPool.Instance.Spawn(amount, DamageType.Heal, worldPosition.Value);
         }
+
+        // Animate health bar to current health value
+        AnimateHealthBar(target);
     }
 
     public void ShowStatusEffect(Unit target, string effectName)
@@ -40,6 +46,22 @@ public class UIService
         Log.Info("Showing status effect UI", new { target = target.Name, effect = effectName });
         // Status effects are displayed via StatusEffectPanel
         // This method is kept for compatibility with existing ICombatAction implementations
+    }
+
+    /// <summary>
+    /// Animates the health bar for a unit to its current health value.
+    /// This ensures health bar animations are driven by presentation events, not raw state changes.
+    /// </summary>
+    public void AnimateHealthBar(Unit target)
+    {
+        if (target == null)
+            return;
+
+        var healthBar = GetHealthBar(target);
+        if (healthBar != null)
+        {
+            healthBar.AnimateToCurrentHealth();
+        }
     }
 
     /// <summary>
@@ -69,5 +91,20 @@ public class UIService
             return null;
 
         return _combatView.GetUnitView(target);
+    }
+
+    /// <summary>
+    /// Get the HealthBarUI for a given Unit.
+    /// </summary>
+    private HealthBarUI GetHealthBar(Unit target)
+    {
+        if (_combatView == null || target == null)
+            return null;
+
+        var combatHUD = _combatView.GetComponentInChildren<CombatHUD>();
+        if (combatHUD == null)
+            return null;
+
+        return combatHUD.GetHealthBar(target);
     }
 }

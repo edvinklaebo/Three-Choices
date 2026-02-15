@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// 
 /// Features:
 /// - Displays health as a normalized value (0-1) using Unity's Slider component
-/// - Listens to Unit's HealthChanged event for automatic updates
+/// - Animates in response to combat presentation events (damage/heal actions)
 /// - Smooth lerp animation for health transitions
 /// - Works with any Unit (player, enemy, etc.)
 /// 
@@ -15,7 +15,7 @@ using UnityEngine.UI;
 /// 1. Attach to a GameObject with a Slider component
 /// 2. Assign the Slider in the inspector (or it will auto-find on the same GameObject)
 /// 3. Call Initialize(unit) with the Unit to track
-/// 4. Health bar will automatically update when unit health changes
+/// 4. Health bar will animate when AnimateToCurrentHealth() is called during combat presentation
 /// </summary>
 public class HealthBarUI : MonoBehaviour
 {
@@ -58,7 +58,8 @@ public class HealthBarUI : MonoBehaviour
             _slider.value = _targetValue;
         }
 
-        // Subscribe to new unit's health changes
+        // Subscribe to health changes as a fallback for non-combat scenarios
+        // During combat, AnimateToCurrentHealth() should be called from presentation events
         _unit.HealthChanged += OnHealthChanged;
         IsInitialized = true;
     }
@@ -103,8 +104,23 @@ public class HealthBarUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Animates the health bar to the unit's current health value.
+    /// This should be called from combat presentation events (DamageAction, HealAction, etc.)
+    /// to ensure the health bar animates in sync with visual feedback.
+    /// </summary>
+    public void AnimateToCurrentHealth()
+    {
+        if (_unit == null)
+            return;
+
+        _targetValue = GetNormalizedHealth();
+    }
+
     private void OnHealthChanged(Unit unit, int currentHP, int maxHP)
     {
+        // Fallback for non-combat health changes
+        // During combat, AnimateToCurrentHealth() will be called from presentation events
         _targetValue = maxHP <= 0 ? 0f : Mathf.Clamp01((float)currentHP / maxHP);
     }
 

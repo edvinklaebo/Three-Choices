@@ -64,6 +64,22 @@ public class UnitHUDPanel : MonoBehaviour
         });
     }
 
+    /// <summary>
+    /// Get the health bar component for this HUD panel.
+    /// </summary>
+    public HealthBarUI GetHealthBar()
+    {
+        return _healthBar;
+    }
+
+    /// <summary>
+    /// Get the unit this panel is tracking.
+    /// </summary>
+    public Unit GetUnit()
+    {
+        return _unit;
+    }
+
     private void OnDisable()
     {
         if (_unit != null)

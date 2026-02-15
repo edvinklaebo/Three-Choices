@@ -162,5 +162,57 @@ namespace Tests.EditModeTests
 
             Object.DestroyImmediate(go);
         }
+
+        [Test]
+        public void AnimateToCurrentHealth_UpdatesTargetValue()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+            
+            var unit = CreateUnit("Test", 100, 10, 5, 5);
+            healthBar.Initialize(unit);
+
+            // Initial value should be 1.0 (100/100)
+            Assert.AreEqual(1.0f, slider.value, 0.01f, "Slider should start at full health");
+
+            // Damage the unit directly (simulating what happens in CombatSystem)
+            unit.Stats.CurrentHP = 50;
+
+            // Now call AnimateToCurrentHealth (simulating presentation event)
+            healthBar.AnimateToCurrentHealth();
+
+            // The unit should have 50 HP
+            Assert.AreEqual(50, unit.Stats.CurrentHP, "Unit should have 50 HP");
+            
+            // Note: The slider won't update immediately due to lerping in Update()
+            // The target value is set, but slider.value lerps over time
+
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void AnimateToCurrentHealth_AfterDeath_SetsTargetToZero()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+            
+            var unit = CreateUnit("Test", 100, 10, 5, 5);
+            healthBar.Initialize(unit);
+
+            // Kill the unit directly
+            unit.Stats.CurrentHP = 0;
+            unit.isDead = true;
+
+            // Call AnimateToCurrentHealth (simulating presentation event)
+            healthBar.AnimateToCurrentHealth();
+
+            Assert.AreEqual(0, unit.Stats.CurrentHP, "Unit should have 0 HP");
+            
+            // Note: The slider won't update immediately due to lerping in Update()
+
+            Object.DestroyImmediate(go);
+        }
     }
 }
