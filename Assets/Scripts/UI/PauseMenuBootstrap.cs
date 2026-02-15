@@ -22,10 +22,10 @@ public class PauseMenuBootstrap : MonoBehaviour
     private void CreatePauseMenuUI()
     {
         // Find or create Canvas
-        Canvas canvas = FindFirstObjectByType<Canvas>();
+        var canvas = FindFirstObjectByType<Canvas>();
         if (canvas == null)
         {
-            GameObject canvasObj = new GameObject("Canvas");
+            var canvasObj = new GameObject("Canvas");
             canvas = canvasObj.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvasObj.AddComponent<CanvasScaler>();
@@ -33,46 +33,46 @@ public class PauseMenuBootstrap : MonoBehaviour
         }
 
         // Create PauseMenuUI root
-        GameObject pauseMenuRoot = new GameObject("PauseMenuUI");
+        var pauseMenuRoot = new GameObject("PauseMenuUI");
         pauseMenuRoot.transform.SetParent(canvas.transform, false);
-        RectTransform rootRect = pauseMenuRoot.AddComponent<RectTransform>();
+        var rootRect = pauseMenuRoot.AddComponent<RectTransform>();
         rootRect.anchorMin = Vector2.zero;
         rootRect.anchorMax = Vector2.one;
         rootRect.sizeDelta = Vector2.zero;
 
         // Add PauseMenuUI component
-        PauseMenuUI pauseMenuUI = pauseMenuRoot.AddComponent<PauseMenuUI>();
+        var pauseMenuUI = pauseMenuRoot.AddComponent<PauseMenuUI>();
 
         // Create Pause Menu Panel
-        GameObject pausePanel = CreatePanel(pauseMenuRoot.transform, "PauseMenuPanel");
+        var pausePanel = CreatePanel(pauseMenuRoot.transform, "PauseMenuPanel");
         AddDarkBackground(pausePanel.transform);
         
-        GameObject menuContent = CreateVerticalLayout(pausePanel.transform, "MenuContent");
+        var menuContent = CreateVerticalLayout(pausePanel.transform, "MenuContent");
         AddTitle(menuContent.transform, "PAUSED");
         
-        Button resumeBtn = CreateButton(menuContent.transform, "Resume", pauseMenuUI.OnResumeClicked);
-        Button settingsBtn = CreateButton(menuContent.transform, "Settings", pauseMenuUI.OnSettingsClicked);
-        Button restartBtn = CreateButton(menuContent.transform, "Restart", pauseMenuUI.OnRestartClicked);
-        Button quitBtn = CreateButton(menuContent.transform, "Main Menu", pauseMenuUI.OnQuitClicked);
+        var resumeBtn = CreateButton(menuContent.transform, "Resume", pauseMenuUI.OnResumeClicked);
+        var settingsBtn = CreateButton(menuContent.transform, "Settings", pauseMenuUI.OnSettingsClicked);
+        var restartBtn = CreateButton(menuContent.transform, "Restart", pauseMenuUI.OnRestartClicked);
+        var quitBtn = CreateButton(menuContent.transform, "Main Menu", pauseMenuUI.OnQuitClicked);
 
         // Create Settings Panel
-        GameObject settingsPanel = CreatePanel(pauseMenuRoot.transform, "SettingsPanel");
+        var settingsPanel = CreatePanel(pauseMenuRoot.transform, "SettingsPanel");
         AddDarkBackground(settingsPanel.transform);
         
-        GameObject settingsContent = CreateVerticalLayout(settingsPanel.transform, "SettingsContent");
+        var settingsContent = CreateVerticalLayout(settingsPanel.transform, "SettingsContent");
         AddTitle(settingsContent.transform, "SETTINGS");
 
         // Add volume slider
-        GameObject volumeRow = CreateSliderRow(settingsContent.transform, "Master Volume", out Slider volumeSlider);
+        var volumeRow = CreateSliderRow(settingsContent.transform, "Master Volume", out var volumeSlider);
         
         // Add fullscreen toggle
-        GameObject fullscreenRow = CreateToggleRow(settingsContent.transform, "Fullscreen", out Toggle fullscreenToggle);
+        var fullscreenRow = CreateToggleRow(settingsContent.transform, "Fullscreen", out var fullscreenToggle);
         
         // Add back button
-        Button backBtn = CreateButton(settingsContent.transform, "Back", pauseMenuUI.OnBackFromSettings);
+        var backBtn = CreateButton(settingsContent.transform, "Back", pauseMenuUI.OnBackFromSettings);
 
         // Add SettingsPanel component
-        SettingsPanel settingsPanelComponent = settingsPanel.AddComponent<SettingsPanel>();
+        var settingsPanelComponent = settingsPanel.AddComponent<SettingsPanel>();
         settingsPanelComponent.Initialize(volumeSlider, fullscreenToggle);
 
         // Wire up PauseMenuUI references
@@ -210,7 +210,8 @@ public class PauseMenuBootstrap : MonoBehaviour
         GameObject sliderObj = new GameObject("Slider");
         sliderObj.transform.SetParent(row.transform, false);
         LayoutElement sliderLayout = sliderObj.AddComponent<LayoutElement>();
-        sliderLayout.preferredWidth = 200;
+        sliderLayout.preferredWidth = 300;
+        sliderLayout.preferredHeight = 20;
         
         slider = sliderObj.AddComponent<Slider>();
         slider.minValue = 0f;
