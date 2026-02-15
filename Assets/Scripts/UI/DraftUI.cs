@@ -15,7 +15,7 @@ public class DraftUI : MonoBehaviour
     private Action<UpgradeDefinition> _onPick;
     private CanvasGroup _canvasGroup;
 
-    private void Awake()
+    public void Awake()
     {
         if (Instance != null && Instance != this)
         {

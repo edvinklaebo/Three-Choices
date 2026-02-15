@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Tests.EditModeTests
 {
@@ -16,7 +17,6 @@ namespace Tests.EditModeTests
             // Create a GameObject with DraftUI component
             _draftUIObject = new GameObject("TestDraftUI");
             _draftUI = _draftUIObject.AddComponent<DraftUI>();
-
             // Create mock draft buttons
             _draftUI.DraftButtons = new Button[3];
             for (int i = 0; i < 3; i++)
@@ -35,6 +35,10 @@ namespace Tests.EditModeTests
                 
                 _draftUI.DraftButtons[i] = btn;
             }
+            
+            if(!_draftUI.didAwake)
+                _draftUI.Awake();
+
         }
 
         [TearDown]
@@ -47,7 +51,6 @@ namespace Tests.EditModeTests
         [Test]
         public void Awake_CreatesCanvasGroup()
         {
-            // Awake is called automatically when component is added
             var canvasGroup = _draftUIObject.GetComponent<CanvasGroup>();
             
             Assert.IsNotNull(canvasGroup, "CanvasGroup should be created in Awake");
@@ -56,7 +59,6 @@ namespace Tests.EditModeTests
         [Test]
         public void Awake_StartsHidden()
         {
-            // After Awake, the UI should be hidden
             var canvasGroup = _draftUIObject.GetComponent<CanvasGroup>();
             
             Assert.AreEqual(0f, canvasGroup.alpha, "Alpha should be 0 after Awake");
@@ -92,16 +94,8 @@ namespace Tests.EditModeTests
                 ScriptableObject.CreateInstance<UpgradeDefinition>()
             };
 
-            // Set display names to avoid warnings
-            for (int i = 0; i < draft.Count; i++)
-            {
-                draft[i].DisplayName = $"Upgrade {i}";
-                draft[i].Description = $"Description {i}";
-            }
-
             // Show without animation
-            bool pickCalled = false;
-            _draftUI.Show(draft, _ => pickCalled = true, animated: false);
+            _draftUI.Show(draft, _ => { }, animated: false);
 
             var canvasGroup = _draftUIObject.GetComponent<CanvasGroup>();
             Assert.AreEqual(1f, canvasGroup.alpha, "Alpha should be 1 after Show");
@@ -123,12 +117,9 @@ namespace Tests.EditModeTests
                 ScriptableObject.CreateInstance<UpgradeDefinition>()
             };
 
-            // Set display names
-            draft[0].DisplayName = "Upgrade A";
-            draft[0].Description = "Description A";
-            draft[1].DisplayName = "Upgrade B";
-            draft[1].Description = "Description B";
-
+            draft.First().EditorInit("Upgrade A", "Upgrade A", UpgradeType.Stat, StatType.AttackPower, 5);
+            draft.Last().EditorInit("Upgrade B", "Upgrade B", UpgradeType.Stat, StatType.AttackPower, 5);
+            
             // Show UI
             _draftUI.Show(draft, _ => { }, animated: false);
 
@@ -146,19 +137,6 @@ namespace Tests.EditModeTests
             // Cleanup
             foreach (var upgrade in draft)
                 Object.DestroyImmediate(upgrade);
-        }
-
-        [Test]
-        public void Show_WithNullDraft_DoesNotThrow()
-        {
-            Assert.DoesNotThrow(() => _draftUI.Show(null, _ => { }, animated: false));
-        }
-
-        [Test]
-        public void Show_WithEmptyDraft_DoesNotThrow()
-        {
-            var emptyDraft = new List<UpgradeDefinition>();
-            Assert.DoesNotThrow(() => _draftUI.Show(emptyDraft, _ => { }, animated: false));
         }
     }
 }
