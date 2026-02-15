@@ -76,7 +76,8 @@ public class CombatView : MonoBehaviour
     /// <summary>
     /// Show turn indicator for active unit.
     /// NOTE: Currently not called - turn events not wired in combat flow.
-    /// Set _turnIndicator to null in inspector if not using this feature.
+    /// This is a placeholder for future turn-by-turn combat visualization.
+    /// Leave _turnIndicator unassigned (null) in inspector if not implementing turn events.
     /// </summary>
     public void ShowTurnIndicator(Unit activeUnit)
     {
@@ -89,7 +90,8 @@ public class CombatView : MonoBehaviour
     /// <summary>
     /// Hide turn indicator.
     /// NOTE: Currently not called - turn events not wired in combat flow.
-    /// Set _turnIndicator to null in inspector if not using this feature.
+    /// This is a placeholder for future turn-by-turn combat visualization.
+    /// Leave _turnIndicator unassigned (null) in inspector if not implementing turn events.
     /// </summary>
     public void HideTurnIndicator()
     {
