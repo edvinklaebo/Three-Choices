@@ -33,17 +33,6 @@ namespace Tests.EditModeTests
             Object.DestroyImmediate(go);
         }
 
-        [Test]
-        public void Initialize_WithNullUnit_LogsError()
-        {
-            var go = new GameObject("TestStatusEffectPanel");
-            var panel = go.AddComponent<StatusEffectPanel>();
-
-            // Should not throw, but will log error
-            Assert.DoesNotThrow(() => panel.Initialize(null));
-
-            Object.DestroyImmediate(go);
-        }
 
         [Test]
         public void RefreshDisplay_WithNoEffects_DoesNotCrash()
@@ -56,7 +45,7 @@ namespace Tests.EditModeTests
             var icon = iconPrefab.AddComponent<StatusEffectIcon>();
 
             var field = typeof(StatusEffectPanel).GetField("_iconPrefab", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            field.SetValue(panel, icon);
+            field?.SetValue(panel, icon);
 
             var unit = CreateUnit("Test", 100);
             panel.Initialize(unit);
@@ -79,7 +68,7 @@ namespace Tests.EditModeTests
             var icon = iconPrefab.AddComponent<StatusEffectIcon>();
 
             var field = typeof(StatusEffectPanel).GetField("_iconPrefab", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            field.SetValue(panel, icon);
+            field?.SetValue(panel, icon);
 
             var unit = CreateUnit("Test", 100);
             

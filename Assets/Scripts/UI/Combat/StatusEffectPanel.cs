@@ -38,7 +38,7 @@ public class StatusEffectPanel : MonoBehaviour
     {
         if (unit == null)
         {
-            Debug.LogError("StatusEffectPanel: Cannot initialize with null unit");
+            Log.Error("StatusEffectPanel: Cannot initialize with null unit");
             return;
         }
 
