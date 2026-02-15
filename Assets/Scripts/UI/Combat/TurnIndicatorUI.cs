@@ -10,7 +10,6 @@ public class TurnIndicatorUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _turnText;
     [SerializeField] private CanvasGroup _canvasGroup;
-    [SerializeField] private float _fadeDuration = 0.3f;
 
     private void Awake()
     {
