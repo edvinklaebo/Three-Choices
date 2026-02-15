@@ -52,7 +52,6 @@ public class PauseMenuBootstrap : MonoBehaviour
         
         Button resumeBtn = CreateButton(menuContent.transform, "Resume", pauseMenuUI.OnResumeClicked);
         Button settingsBtn = CreateButton(menuContent.transform, "Settings", pauseMenuUI.OnSettingsClicked);
-        Button restartBtn = CreateButton(menuContent.transform, "Restart", pauseMenuUI.OnRestartClicked);
         Button quitBtn = CreateButton(menuContent.transform, "Main Menu", pauseMenuUI.OnQuitClicked);
 
         // Create Settings Panel
@@ -187,7 +186,7 @@ public class PauseMenuBootstrap : MonoBehaviour
         row.transform.SetParent(parent, false);
         
         RectTransform rect = row.AddComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(0, 60);
+        rect.sizeDelta = new Vector2(0, 40);
         
         HorizontalLayoutGroup hlg = row.AddComponent<HorizontalLayoutGroup>();
         hlg.spacing = 10;
@@ -217,13 +216,13 @@ public class PauseMenuBootstrap : MonoBehaviour
         slider.maxValue = 1f;
         slider.value = 1f;
         
-        // Background
+        // Background (thin bar)
         GameObject bg = new GameObject("Background");
         bg.transform.SetParent(sliderObj.transform, false);
         RectTransform bgRect = bg.AddComponent<RectTransform>();
-        bgRect.anchorMin = Vector2.zero;
-        bgRect.anchorMax = Vector2.one;
-        bgRect.sizeDelta = Vector2.zero;
+        bgRect.anchorMin = new Vector2(0f, 0.5f);
+        bgRect.anchorMax = new Vector2(1f, 0.5f);
+        bgRect.sizeDelta = new Vector2(0, 8); // Thin bar - 8 pixels tall
         Image bgImage = bg.AddComponent<Image>();
         bgImage.color = new Color(0.2f, 0.2f, 0.2f, 1f);
         
@@ -231,9 +230,9 @@ public class PauseMenuBootstrap : MonoBehaviour
         GameObject fillArea = new GameObject("Fill Area");
         fillArea.transform.SetParent(sliderObj.transform, false);
         RectTransform fillAreaRect = fillArea.AddComponent<RectTransform>();
-        fillAreaRect.anchorMin = Vector2.zero;
-        fillAreaRect.anchorMax = Vector2.one;
-        fillAreaRect.sizeDelta = new Vector2(-10, -10);
+        fillAreaRect.anchorMin = new Vector2(0f, 0.5f);
+        fillAreaRect.anchorMax = new Vector2(1f, 0.5f);
+        fillAreaRect.sizeDelta = new Vector2(-5, 8); // Match background height
         
         GameObject fill = new GameObject("Fill");
         fill.transform.SetParent(fillArea.transform, false);
@@ -244,14 +243,14 @@ public class PauseMenuBootstrap : MonoBehaviour
         GameObject handleArea = new GameObject("Handle Slide Area");
         handleArea.transform.SetParent(sliderObj.transform, false);
         RectTransform handleAreaRect = handleArea.AddComponent<RectTransform>();
-        handleAreaRect.anchorMin = Vector2.zero;
-        handleAreaRect.anchorMax = Vector2.one;
+        handleAreaRect.anchorMin = new Vector2(0f, 0.5f);
+        handleAreaRect.anchorMax = new Vector2(1f, 0.5f);
         handleAreaRect.sizeDelta = new Vector2(-10, 0);
         
         GameObject handle = new GameObject("Handle");
         handle.transform.SetParent(handleArea.transform, false);
         RectTransform handleRect = handle.AddComponent<RectTransform>();
-        handleRect.sizeDelta = new Vector2(20, 20);
+        handleRect.sizeDelta = new Vector2(16, 16); // Smaller handle
         Image handleImage = handle.AddComponent<Image>();
         handleImage.color = Color.white;
         

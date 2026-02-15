@@ -26,7 +26,6 @@ For a production-ready setup, create proper UI prefabs instead of using the boot
    - Title Text: "PAUSED"
    - Resume Button
    - Settings Button
-   - Restart Button
    - Quit Button (goes to Main Menu)
 
 ### Settings Panel
@@ -54,7 +53,6 @@ Wire up button onClick events in the Inspector:
 - Resume Button → `PauseMenuUI.OnResumeClicked`
 - Settings Button → `PauseMenuUI.OnSettingsClicked`
 - Back Button → `PauseMenuUI.OnBackFromSettings`
-- Restart Button → `PauseMenuUI.OnRestartClicked`
 - Quit Button → `PauseMenuUI.OnQuitClicked`
 
 ## Testing

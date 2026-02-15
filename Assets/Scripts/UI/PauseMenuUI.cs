@@ -66,13 +66,6 @@ public class PauseMenuUI : MonoBehaviour
             _pauseMenuPanel.SetActive(true);
     }
 
-    public void OnRestartClicked()
-    {
-        PauseManager.Resume();
-        // Reload current scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
     public void OnQuitClicked()
     {
         PauseManager.Resume();

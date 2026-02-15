@@ -7,7 +7,6 @@ A complete, production-ready pause system with:
 - ✅ Time freeze (Time.timeScale = 0)
 - ✅ Cursor management
 - ✅ Settings menu (volume + fullscreen)
-- ✅ Restart functionality
 - ✅ Return to main menu
 - ✅ Full test coverage (11 tests)
 - ✅ Clean architecture (logic separated from UI)
@@ -59,7 +58,6 @@ See `PAUSE_MENU_SETUP.md` for detailed instructions on creating proper UI prefab
 ### Pause Menu
 - **Resume** - Continue playing
 - **Settings** - Open settings menu
-- **Restart** - Reload current scene
 - **Main Menu** - Return to main menu
 
 ### Settings Menu
