@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Rage : Passive
+public class Rage : Passive, IDamageModifier
 {
     public Rage(Unit owner)
     {
