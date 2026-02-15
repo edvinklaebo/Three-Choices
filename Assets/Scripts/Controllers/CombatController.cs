@@ -7,6 +7,7 @@ public class CombatController : MonoBehaviour
     [SerializeField] private VoidEventChannel fightEnded;
     [SerializeField] private RunController runController;
     [SerializeField] private CombatAnimationRunner animationRunner;
+    [SerializeField] private CombatView combatView;
 
     private AnimationContext _animationContext;
 
@@ -30,10 +31,30 @@ public class CombatController : MonoBehaviour
             }
         }
 
+        // Find combat view
+        if (combatView == null)
+        {
+            combatView = FindFirstObjectByType<CombatView>();
+            if (combatView == null)
+            {
+                Log.Warning("CombatController: CombatView not found in scene. Animations and UI may not work correctly.");
+            }
+        }
+
         // Initialize animation context with service placeholders
+        var animService = new AnimationService();
+        var uiService = new UIService();
+
+        // Wire services to combat view
+        if (combatView != null)
+        {
+            animService.SetCombatView(combatView);
+            uiService.SetCombatView(combatView);
+        }
+
         _animationContext = new AnimationContext(
-            new AnimationService(),
-            new UIService(),
+            animService,
+            uiService,
             new VFXService(),
             new SFXService()
         );
@@ -66,6 +87,12 @@ public class CombatController : MonoBehaviour
 
         var enemy = EnemyFactory.Create(fightIndex);
 
+        // Initialize combat view with combatants
+        if (combatView != null)
+        {
+            combatView.Initialize(player, enemy);
+        }
+
         // Run combat logic (pure, deterministic)
         var actions = CombatSystem.RunFight(player, enemy);
 
@@ -75,6 +102,12 @@ public class CombatController : MonoBehaviour
 
         // Wait for animations to complete
         yield return new WaitUntil(() => !animationRunner.IsRunning);
+
+        // Hide combat view before showing draft UI
+        if (combatView != null)
+        {
+            combatView.Hide();
+        }
 
         // Continue game flow
         if (player.Stats.CurrentHP <= 0)
