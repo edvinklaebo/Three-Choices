@@ -5,6 +5,7 @@ public class CombatController : MonoBehaviour
 {
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel fightEnded;
+    [SerializeField] private VoidEventChannel combatEndedWithPlayerDeath;
     [SerializeField] private RunController runController;
     [SerializeField] private CombatAnimationRunner animationRunner;
     [SerializeField] private CombatView combatView;
@@ -111,7 +112,18 @@ public class CombatController : MonoBehaviour
 
         // Continue game flow
         if (player.Stats.CurrentHP <= 0)
+        {
+            // Raise event after death animation completes
+            if (combatEndedWithPlayerDeath != null)
+            {
+                combatEndedWithPlayerDeath.Raise();
+            }
+            else
+            {
+                Log.Warning("CombatController - combatEndedWithPlayerDeath event channel not assigned");
+            }
             yield break;
+        }
 
         fightEnded.Raise();
     }

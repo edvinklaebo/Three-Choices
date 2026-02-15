@@ -5,6 +5,7 @@ public class RunController : MonoBehaviour
 {
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel playerDiedEvent;
+    [SerializeField] private VoidEventChannel combatEndedWithPlayerDeath;
     
     public Unit Player;
 
@@ -21,12 +22,22 @@ public class RunController : MonoBehaviour
     {
         requestNextFight.OnRaised += HandleNextFight;
         playerDiedEvent.OnRaised += OnPlayerDied;
+        
+        if (combatEndedWithPlayerDeath != null)
+        {
+            combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
+        }
     }
 
     private void OnDisable()
     {
         requestNextFight.OnRaised -= HandleNextFight;
         playerDiedEvent.OnRaised -= OnPlayerDied;
+        
+        if (combatEndedWithPlayerDeath != null)
+        {
+            combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
+        }
     }
 
     public void ContinueRun()
@@ -81,6 +92,15 @@ public class RunController : MonoBehaviour
 
     private static void OnPlayerDied()
     {
+        // Player died event - for immediate notifications
+        // Game over logic is now handled by OnCombatEndedWithPlayerDeath
+        // to allow death animation to complete
+        Log.Info("Player died - waiting for death animation to complete");
+    }
+
+    private static void OnCombatEndedWithPlayerDeath()
+    {
+        Log.Info("Combat ended with player death - loading game over scene");
         SaveService.Delete();
         SceneManager.LoadScene("GameOver");
     }
