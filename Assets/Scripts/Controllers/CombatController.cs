@@ -58,6 +58,12 @@ public class CombatController : MonoBehaviour
 
     private IEnumerator StartFightCoroutine(Unit player, int fightIndex)
     {
+        // Hide draft UI before combat animations start
+        if (DraftUI.Instance != null)
+        {
+            DraftUI.Instance.Hide(animated: false);
+        }
+
         var enemy = EnemyFactory.Create(fightIndex);
 
         // Run combat logic (pure, deterministic)
