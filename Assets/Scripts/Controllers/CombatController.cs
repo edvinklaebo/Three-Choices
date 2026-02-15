@@ -120,7 +120,7 @@ public class CombatController : MonoBehaviour
             }
             else
             {
-                Log.Warning("CombatController: combatEndedWithPlayerDeath event channel not assigned");
+                Log.Warning("CombatController - combatEndedWithPlayerDeath event channel not assigned");
             }
             yield break;
         }
