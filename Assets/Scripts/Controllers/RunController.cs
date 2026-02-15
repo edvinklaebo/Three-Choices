@@ -8,7 +8,7 @@ public class RunController : MonoBehaviour
     
     public Unit Player;
 
-    private int _fightIndex = 1;
+    public int _fightIndex = 1;
 
     public RunState CurrentRun { get; private set; }
 
@@ -32,7 +32,10 @@ public class RunController : MonoBehaviour
     public void ContinueRun()
     {
         CurrentRun = SaveService.Load();
-        Player = CurrentRun.player;
+        Player = new Unit(CurrentRun.player.Name)
+        {
+            Stats = CurrentRun.player.Stats
+        };
         _fightIndex = CurrentRun.fightIndex;
 
         Player.Died += _ => playerDiedEvent.Raise();

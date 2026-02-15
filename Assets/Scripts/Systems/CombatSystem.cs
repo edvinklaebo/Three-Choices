@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class CombatSystem
@@ -155,6 +156,9 @@ public static class CombatSystem
     {
         var actions = new List<ICombatAction>();
 
+        if (!unit.StatusEffects.Any())
+            return actions;
+        
         for (var i = unit.StatusEffects.Count - 1; i >= 0; i--)
         {
             var effect = unit.StatusEffects[i];
