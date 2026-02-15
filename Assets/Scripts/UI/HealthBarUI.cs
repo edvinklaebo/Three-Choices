@@ -25,6 +25,8 @@ public class HealthBarUI : MonoBehaviour
     private Unit _unit;
     private float _targetValue;
     private bool _sliderConfigured;
+    private bool _ignoringStateEvents;
+    
     public bool IsInitialized;
     
     private void Awake()
@@ -117,10 +119,33 @@ public class HealthBarUI : MonoBehaviour
         _targetValue = GetNormalizedHealth();
     }
 
+    /// <summary>
+    /// Enable presentation-driven mode where health bar only updates from AnimateToCurrentHealth() calls.
+    /// This prevents the health bar from updating in response to raw state changes.
+    /// Call this when entering combat to ensure animations sync with presentation events.
+    /// </summary>
+    public void EnablePresentationMode()
+    {
+        _ignoringStateEvents = true;
+    }
+
+    /// <summary>
+    /// Disable presentation-driven mode, allowing health bar to respond to state changes again.
+    /// Call this when exiting combat.
+    /// </summary>
+    public void DisablePresentationMode()
+    {
+        _ignoringStateEvents = false;
+    }
+
     private void OnHealthChanged(Unit unit, int currentHP, int maxHP)
     {
+        // If in presentation mode, ignore state change events
+        // Health bar will only update via AnimateToCurrentHealth() calls
+        if (_ignoringStateEvents)
+            return;
+
         // Fallback for non-combat health changes
-        // During combat, AnimateToCurrentHealth() will be called from presentation events
         _targetValue = maxHP <= 0 ? 0f : Mathf.Clamp01((float)currentHP / maxHP);
     }
 
