@@ -74,57 +74,32 @@ public class CombatController : MonoBehaviour
 
     private void HandleStartFight()
     {
-        Log.Info("Starting new fight...", new
-        {
-            runner = runController.Player.Name,
-        });
         StartCoroutine(StartFightCoroutine(runController.Player, runController._fightIndex));
     }
 
     private IEnumerator StartFightCoroutine(Unit player, int fightIndex)
     {
-        Log.Info("Starting new fight... 1 ", new
-        {
-            runner = runController.Player.Name,
-        });
         // Hide draft UI before combat animations start
         if (DraftUI.Instance != null)
         {
             DraftUI.Instance.Hide(animated: false);
         }
-        Log.Info("Starting new fight... 2", new
-        {
-            runner = runController.Player.Name,
-        });
+
         var enemy = EnemyFactory.Create(fightIndex);
 
-        Log.Info("Starting new fight... 3", new
+        // Initialize combat view with combatants
+        if (combatView != null)
         {
-            runner = runController.Player.Name,
-        });
-        
-        combatView.Initialize(player, enemy);
+            combatView.Initialize(player, enemy);
+        }
 
-        Log.Info("Starting new fight... 4", new
-        {
-            runner = runController.Player.Name,
-        });
-        
+        // Run combat logic (pure, deterministic)
         var actions = CombatSystem.RunFight(player, enemy);
 
-        Log.Info("Starting new fight... 5", new
-        {
-            runner = runController.Player.Name,
-        });
-        
         // Queue actions for animation
         animationRunner.EnqueueRange(actions);
         animationRunner.PlayAll(_animationContext);
 
-        Log.Info("Starting new fight... 6", new
-        {
-            runner = runController.Player.Name,
-        });
         // Wait for animations to complete
         yield return new WaitUntil(() => !animationRunner.IsRunning);
 
@@ -134,11 +109,6 @@ public class CombatController : MonoBehaviour
             combatView.Hide();
         }
 
-        Log.Info("Starting new fight... 7", new
-        {
-            runner = runController.Player.Name,
-        });
-        
         // Continue game flow
         if (player.Stats.CurrentHP <= 0)
             yield break;
