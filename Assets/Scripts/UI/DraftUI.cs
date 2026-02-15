@@ -31,8 +31,8 @@ public class DraftUI : MonoBehaviour
             _canvasGroup = gameObject.AddComponent<CanvasGroup>();
         }
 
-        // Start hidden
-        Hide();
+        // Start hidden (no animation in Awake)
+        Hide(animated: false);
     }
 
     public void Show(List<UpgradeDefinition> draft, Action<UpgradeDefinition> onPick, bool animated = true)
