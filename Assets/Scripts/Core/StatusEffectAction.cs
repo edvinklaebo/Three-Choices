@@ -9,12 +9,18 @@ public class StatusEffectAction : ICombatAction
     public Unit Target { get; set; }
     public string EffectName { get; set; }
     public int Amount { get; set; }
+    public int TargetHPBefore { get; set; }
+    public int TargetHPAfter { get; set; }
+    public int TargetMaxHP { get; set; }
 
-    public StatusEffectAction(Unit target, string effectName, int amount = 0)
+    public StatusEffectAction(Unit target, string effectName, int amount = 0, int targetHPBefore = 0, int targetHPAfter = 0, int targetMaxHP = 0)
     {
         Target = target;
         EffectName = effectName;
         Amount = amount;
+        TargetHPBefore = targetHPBefore;
+        TargetHPAfter = targetHPAfter;
+        TargetMaxHP = targetMaxHP;
     }
 
     public IEnumerator Play(AnimationContext ctx)
@@ -23,7 +29,9 @@ public class StatusEffectAction : ICombatAction
         {
             target = Target?.Name ?? "null",
             effect = EffectName,
-            amount = Amount
+            amount = Amount,
+            hpBefore = TargetHPBefore,
+            hpAfter = TargetHPAfter
         });
 
         // Play status VFX
@@ -39,7 +47,16 @@ public class StatusEffectAction : ICombatAction
         if (Amount > 0)
         {
             var damageType = GetDamageTypeForEffect(EffectName);
-            ctx.UI.ShowDamage(Target, Amount, damageType);
+            // Use the overload with explicit HP values if available
+            if (TargetMaxHP > 0)
+            {
+                ctx.UI.ShowDamage(Target, Amount, TargetHPBefore, TargetHPAfter, TargetMaxHP, damageType);
+            }
+            else
+            {
+                // Fallback to simple version
+                ctx.UI.ShowDamage(Target, Amount, damageType);
+            }
         }
     }
 

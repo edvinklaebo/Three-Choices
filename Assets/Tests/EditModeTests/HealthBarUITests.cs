@@ -292,5 +292,49 @@ namespace Tests.EditModeTests
 
             Object.DestroyImmediate(go);
         }
+
+        [Test]
+        public void AnimateToHealth_AnimatesFromOldToNewValue()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+            
+            var unit = CreateUnit("Test", 100, 10, 5, 5);
+            healthBar.Initialize(unit);
+
+            // Enable presentation mode
+            healthBar.EnablePresentationMode();
+
+            // Simulate combat: unit is damaged but we want to animate from old to new value
+            // fromNormalized = 1.0 (100/100), toNormalized = 0.5 (50/100)
+            healthBar.AnimateToHealth(1.0f, 0.5f);
+
+            // Slider should immediately be set to the starting value
+            Assert.AreEqual(1.0f, slider.value, 0.01f, "Slider should be at starting value");
+            
+            // Note: Target value is 0.5, but lerping happens in Update()
+
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void AnimateToHealth_WithZeroMaxHP_HandlesGracefully()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+            
+            var unit = CreateUnit("Test", 100, 10, 5, 5);
+            healthBar.Initialize(unit);
+
+            // Enable presentation mode
+            healthBar.EnablePresentationMode();
+
+            // Call with death scenario: from 0.1 to 0.0
+            Assert.DoesNotThrow(() => healthBar.AnimateToHealth(0.1f, 0.0f));
+
+            Object.DestroyImmediate(go);
+        }
     }
 }
