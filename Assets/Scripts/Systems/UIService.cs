@@ -2,25 +2,86 @@ using UnityEngine;
 
 /// <summary>
 /// Service for UI presentation during combat.
-/// Placeholder implementation for combat animation system.
+/// Handles damage numbers, healing effects, and status indicators.
 /// </summary>
 public class UIService
 {
+    private CombatView _combatView;
+
+    public void SetCombatView(CombatView combatView)
+    {
+        _combatView = combatView;
+    }
+
     public void ShowDamage(Unit target, int amount)
     {
         Log.Info("Showing damage UI", new { target = target.Name, damage = amount });
-        // Placeholder: Show floating damage text
+
+        var worldPosition = GetUnitWorldPosition(target);
+        if (worldPosition.HasValue && FloatingTextPool.Instance != null)
+        {
+            FloatingTextPool.Instance.Spawn(amount, DamageType.Physical, worldPosition.Value);
+        }
+    }
+
+    public void ShowPoisonDamage(Unit target, int amount)
+    {
+        Log.Info("Showing poison damage UI", new { target = target.Name, damage = amount });
+
+        var worldPosition = GetUnitWorldPosition(target);
+        if (worldPosition.HasValue && FloatingTextPool.Instance != null)
+        {
+            FloatingTextPool.Instance.Spawn(amount, DamageType.Poison, worldPosition.Value);
+        }
     }
 
     public void ShowHealing(Unit target, int amount)
     {
         Log.Info("Showing healing UI", new { target = target.Name, healing = amount });
-        // Placeholder: Show healing effect
+
+        var worldPosition = GetUnitWorldPosition(target);
+        if (worldPosition.HasValue && FloatingTextPool.Instance != null)
+        {
+            FloatingTextPool.Instance.Spawn(amount, DamageType.Heal, worldPosition.Value);
+        }
     }
 
     public void ShowStatusEffect(Unit target, string effectName)
     {
         Log.Info("Showing status effect UI", new { target = target.Name, effect = effectName });
-        // Placeholder: Show status icon
+        // Status effects are displayed via StatusEffectPanel
+        // This method is kept for compatibility with existing ICombatAction implementations
+    }
+
+    /// <summary>
+    /// Get the world position of a unit for UI spawn location.
+    /// </summary>
+    private Vector3? GetUnitWorldPosition(Unit target)
+    {
+        if (_combatView == null)
+            return null;
+
+        var unitView = GetUnitView(target);
+        if (unitView != null)
+        {
+            // Spawn above unit's center
+            return unitView.transform.position + Vector3.up * 0.5f;
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Get the UnitView for a given Unit.
+    /// </summary>
+    private UnitView GetUnitView(Unit target)
+    {
+        if (_combatView.PlayerView?.Unit == target)
+            return _combatView.PlayerView;
+
+        if (_combatView.EnemyView?.Unit == target)
+            return _combatView.EnemyView;
+
+        return null;
     }
 }
