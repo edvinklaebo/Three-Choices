@@ -31,14 +31,20 @@ public class RunController : MonoBehaviour
 
     public void ContinueRun()
     {
-        SceneManager.LoadScene("DraftScene");
         CurrentRun = SaveService.Load();
-
-        _fightIndex = CurrentRun.fightIndex;
+    
+        CurrentRun = new RunState
+        {
+            fightIndex = CurrentRun.fightIndex,
+            player = CurrentRun.player
+        };
+        
         Player = CurrentRun.player;
+        _fightIndex = CurrentRun.fightIndex;
 
         Player.Died += _ => playerDiedEvent.Raise();
         SaveService.Save(CurrentRun);
+        SceneManager.LoadScene("DraftScene");
         requestNextFight.Raise();
     }
 
