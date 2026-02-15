@@ -1599,6 +1599,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c4aafdc060e22b04783f8511dd5af925, type: 2}
     - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
+      propertyPath: combatEndedWithPlayerDeath
+      value: 
+      objectReference: {fileID: 11400000, guid: 1044acb858714ffbb28024209733b59a, type: 2}
+    - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
       propertyPath: runController
       value: 
       objectReference: {fileID: 0}
