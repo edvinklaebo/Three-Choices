@@ -74,6 +74,12 @@ public class UnitView : MonoBehaviour
     /// </summary>
     private void SetFacingDirection(bool isPlayer)
     {
+        // Ensure sprite renderer is found if not already assigned
+        if (_spriteRenderer == null)
+        {
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+
         if (_spriteRenderer != null)
         {
             // Player faces right (positive X), enemy faces left (negative X)

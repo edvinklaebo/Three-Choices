@@ -35,6 +35,10 @@ public class CombatController : MonoBehaviour
         if (combatView == null)
         {
             combatView = FindFirstObjectByType<CombatView>();
+            if (combatView == null)
+            {
+                Log.Warning("CombatController: CombatView not found in scene. Animations and UI may not work correctly.");
+            }
         }
 
         // Initialize animation context with service placeholders

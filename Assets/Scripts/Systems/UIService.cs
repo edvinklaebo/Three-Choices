@@ -76,12 +76,9 @@ public class UIService
     /// </summary>
     private UnitView GetUnitView(Unit target)
     {
-        if (_combatView.PlayerView?.Unit == target)
-            return _combatView.PlayerView;
+        if (_combatView == null)
+            return null;
 
-        if (_combatView.EnemyView?.Unit == target)
-            return _combatView.EnemyView;
-
-        return null;
+        return _combatView.GetUnitView(target);
     }
 }

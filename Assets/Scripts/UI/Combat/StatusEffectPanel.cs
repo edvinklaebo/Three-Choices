@@ -16,6 +16,7 @@ public class StatusEffectPanel : MonoBehaviour
     private Unit _unit;
     private readonly List<StatusEffectIcon> _activeIcons = new List<StatusEffectIcon>();
     private readonly Stack<StatusEffectIcon> _iconPool = new Stack<StatusEffectIcon>();
+    private int _lastEffectCount = -1;
 
     private void Awake()
     {
@@ -56,9 +57,14 @@ public class StatusEffectPanel : MonoBehaviour
     {
         // Poll for status effect changes
         // In a production environment, this would be event-driven
-        if (_unit != null)
+        if (_unit != null && _unit.StatusEffects != null)
         {
-            RefreshDisplay();
+            // Only refresh if the count changed to avoid recreating icons every frame
+            if (_unit.StatusEffects.Count != _lastEffectCount)
+            {
+                RefreshDisplay();
+                _lastEffectCount = _unit.StatusEffects.Count;
+            }
         }
     }
 

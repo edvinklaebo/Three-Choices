@@ -81,6 +81,7 @@ namespace Tests.EditModeTests
 
             Assert.AreEqual(new Vector3(5, 0, 0), unitView.transform.position);
 
+            // Cleanup: idlePointGo is a child of go and will be destroyed with parent
             Object.DestroyImmediate(go);
         }
 
@@ -98,6 +99,7 @@ namespace Tests.EditModeTests
 
             Assert.AreEqual(idlePointGo.transform, unitView.IdlePoint);
 
+            // Cleanup: idlePointGo is a child of go and will be destroyed with parent
             Object.DestroyImmediate(go);
         }
 

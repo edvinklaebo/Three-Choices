@@ -91,8 +91,9 @@ namespace Tests.EditModeTests
 
             Assert.AreEqual(2, unit.StatusEffects.Count);
 
-            Object.DestroyImmediate(iconPrefab);
+            // Cleanup: Destroy go first to clean up instantiated icons, then prefab
             Object.DestroyImmediate(go);
+            Object.DestroyImmediate(iconPrefab);
         }
     }
 }

@@ -105,12 +105,6 @@ public class AnimationService
         if (_combatView == null)
             return null;
 
-        if (_combatView.PlayerView?.Unit == unit)
-            return _combatView.PlayerView;
-
-        if (_combatView.EnemyView?.Unit == unit)
-            return _combatView.EnemyView;
-
-        return null;
+        return _combatView.GetUnitView(unit);
     }
 }

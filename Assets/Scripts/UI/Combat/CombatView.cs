@@ -80,4 +80,22 @@ public class CombatView : MonoBehaviour
             _turnIndicator.Hide();
         }
     }
+
+    /// <summary>
+    /// Get the UnitView for a given Unit.
+    /// Used by AnimationService and UIService for unit lookups.
+    /// </summary>
+    public UnitView GetUnitView(Unit unit)
+    {
+        if (unit == null)
+            return null;
+
+        if (_playerView?.Unit == unit)
+            return _playerView;
+
+        if (_enemyView?.Unit == unit)
+            return _enemyView;
+
+        return null;
+    }
 }
