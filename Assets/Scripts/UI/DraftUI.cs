@@ -9,6 +9,8 @@ public class DraftUI : MonoBehaviour
     public static DraftUI Instance;
     public Button[] DraftButtons;
 
+    private const float FadeDuration = 0.3f;
+
     private List<UpgradeDefinition> _currentDraft;
     private Action<UpgradeDefinition> _onPick;
     private CanvasGroup _canvasGroup;
@@ -154,12 +156,11 @@ public class DraftUI : MonoBehaviour
         _canvasGroup.blocksRaycasts = false;
 
         float elapsed = 0f;
-        float duration = 0.3f;
 
-        while (elapsed < duration)
+        while (elapsed < FadeDuration)
         {
             elapsed += Time.deltaTime;
-            _canvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsed / duration);
+            _canvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsed / FadeDuration);
             yield return null;
         }
 
@@ -174,12 +175,11 @@ public class DraftUI : MonoBehaviour
         _canvasGroup.blocksRaycasts = false;
 
         float elapsed = 0f;
-        float duration = 0.3f;
 
-        while (elapsed < duration)
+        while (elapsed < FadeDuration)
         {
             elapsed += Time.deltaTime;
-            _canvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
+            _canvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / FadeDuration);
             yield return null;
         }
 
