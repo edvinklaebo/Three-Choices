@@ -70,7 +70,7 @@ public static class UpgradeApplier
 
             case "Rage":
                 Log.Info("Passive Applied: Rage");
-                unit.Passives.Add(new Rage(unit));
+                DamagePipeline.Register(new Rage(unit));
                 break;
 
             case "Lifesteal":

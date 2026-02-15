@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,10 +9,13 @@ public class DraftUI : MonoBehaviour
     public static DraftUI Instance;
     public Button[] DraftButtons;
 
+    private const float FadeDuration = 0.3f;
+
     private List<UpgradeDefinition> _currentDraft;
     private Action<UpgradeDefinition> _onPick;
+    private CanvasGroup _canvasGroup;
 
-    private void Awake()
+    public void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -21,9 +25,19 @@ public class DraftUI : MonoBehaviour
         }
 
         Instance = this;
+
+        // Get or add CanvasGroup for fade animation
+        _canvasGroup = GetComponent<CanvasGroup>();
+        if (_canvasGroup == null)
+        {
+            _canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
+
+        // Start hidden (no animation in Awake)
+        Hide(animated: false);
     }
 
-    public void Show(List<UpgradeDefinition> draft, Action<UpgradeDefinition> onPick)
+    public void Show(List<UpgradeDefinition> draft, Action<UpgradeDefinition> onPick, bool animated = true)
     {
         Log.Info("DraftUI.Show invoked", new
         {
@@ -45,6 +59,20 @@ public class DraftUI : MonoBehaviour
 
         _currentDraft = draft;
         _onPick = onPick;
+
+        // Make UI visible
+        gameObject.SetActive(true);
+        
+        if (animated)
+        {
+            StartCoroutine(FadeIn());
+        }
+        else
+        {
+            _canvasGroup.alpha = 1f;
+            _canvasGroup.interactable = true;
+            _canvasGroup.blocksRaycasts = true;
+        }
 
         for (var i = 0; i < DraftButtons.Length; i++)
         {
@@ -103,5 +131,58 @@ public class DraftUI : MonoBehaviour
 
         var picked = _currentDraft[index];
         _onPick?.Invoke(picked);
+    }
+
+    public void Hide(bool animated = true)
+    {
+        Log.Info("DraftUI.Hide invoked", new { animated });
+
+        if (animated)
+        {
+            StartCoroutine(FadeOut());
+        }
+        else
+        {
+            _canvasGroup.alpha = 0f;
+            _canvasGroup.interactable = false;
+            _canvasGroup.blocksRaycasts = false;
+        }
+    }
+
+    private IEnumerator FadeIn()
+    {
+        _canvasGroup.alpha = 0f;
+        _canvasGroup.interactable = false;
+        _canvasGroup.blocksRaycasts = false;
+
+        float elapsed = 0f;
+
+        while (elapsed < FadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            _canvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsed / FadeDuration);
+            yield return null;
+        }
+
+        _canvasGroup.alpha = 1f;
+        _canvasGroup.interactable = true;
+        _canvasGroup.blocksRaycasts = true;
+    }
+
+    private IEnumerator FadeOut()
+    {
+        _canvasGroup.interactable = false;
+        _canvasGroup.blocksRaycasts = false;
+
+        float elapsed = 0f;
+
+        while (elapsed < FadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            _canvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / FadeDuration);
+            yield return null;
+        }
+
+        _canvasGroup.alpha = 0f;
     }
 }

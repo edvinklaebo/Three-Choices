@@ -11,12 +11,10 @@ public class RunController : MonoBehaviour
     private int _fightIndex = 1;
 
     public RunState CurrentRun { get; private set; }
-    public RunController Instance { get; private set; }
 
     public void Awake()
     {
         DontDestroyOnLoad(this);
-        Instance = this;
     }
 
     private void OnEnable()
