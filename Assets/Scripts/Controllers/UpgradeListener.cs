@@ -25,6 +25,12 @@ public class UpgradeListener : MonoBehaviour
     {
         Log.Info("Applying upgrade ", upgrade);
 
+        // Hide draft UI immediately when upgrade is picked
+        if (DraftUI.Instance != null)
+        {
+            DraftUI.Instance.Hide(animated: true);
+        }
+
         UpgradeApplier.Apply(upgrade, runController.Player);
 
         requestNextFight.Raise();
