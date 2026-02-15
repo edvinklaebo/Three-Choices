@@ -15,6 +15,8 @@ public class CombatView : MonoBehaviour
     public UnitView PlayerView => _playerView;
     public UnitView EnemyView => _enemyView;
 
+    private CanvasGroup _canvasGroup;
+
     private void Awake()
     {
         if (_playerView == null)
@@ -31,6 +33,16 @@ public class CombatView : MonoBehaviour
         {
             Debug.LogError("CombatView: CombatHUD not assigned");
         }
+
+        // Get or add CanvasGroup for show/hide functionality
+        _canvasGroup = GetComponent<CanvasGroup>();
+        if (_canvasGroup == null)
+        {
+            _canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
+
+        // Start hidden
+        Hide();
     }
 
     /// <summary>
@@ -51,6 +63,9 @@ public class CombatView : MonoBehaviour
         // Initialize HUD
         _combatHUD.Initialize(player, enemy);
 
+        // Show combat view when initialized
+        Show();
+
         Log.Info("CombatView initialized", new
         {
             player = player.Name,
@@ -60,7 +75,8 @@ public class CombatView : MonoBehaviour
 
     /// <summary>
     /// Show turn indicator for active unit.
-    /// Called from combat events.
+    /// NOTE: Currently not called - turn events not wired in combat flow.
+    /// Set _turnIndicator to null in inspector if not using this feature.
     /// </summary>
     public void ShowTurnIndicator(Unit activeUnit)
     {
@@ -72,6 +88,8 @@ public class CombatView : MonoBehaviour
 
     /// <summary>
     /// Hide turn indicator.
+    /// NOTE: Currently not called - turn events not wired in combat flow.
+    /// Set _turnIndicator to null in inspector if not using this feature.
     /// </summary>
     public void HideTurnIndicator()
     {
@@ -97,5 +115,33 @@ public class CombatView : MonoBehaviour
             return _enemyView;
 
         return null;
+    }
+
+    /// <summary>
+    /// Show the combat view.
+    /// Called when combat starts.
+    /// </summary>
+    public void Show()
+    {
+        if (_canvasGroup != null)
+        {
+            _canvasGroup.alpha = 1f;
+            _canvasGroup.interactable = true;
+            _canvasGroup.blocksRaycasts = true;
+        }
+    }
+
+    /// <summary>
+    /// Hide the combat view.
+    /// Called when draft UI is shown after battle.
+    /// </summary>
+    public void Hide()
+    {
+        if (_canvasGroup != null)
+        {
+            _canvasGroup.alpha = 0f;
+            _canvasGroup.interactable = false;
+            _canvasGroup.blocksRaycasts = false;
+        }
     }
 }
