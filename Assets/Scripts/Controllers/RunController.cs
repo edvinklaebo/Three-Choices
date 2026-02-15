@@ -40,7 +40,7 @@ public class RunController : MonoBehaviour
 
         Player.Died += _ => playerDiedEvent.Raise();
         SceneManager.LoadScene("DraftScene");
-        requestNextFight.Raise();
+        // Note: requestNextFight will be raised by CombatController.Start() when DraftScene loads
     }
 
     public void StartNewRun(CharacterDefinition character)
@@ -63,7 +63,7 @@ public class RunController : MonoBehaviour
         };
 
         SaveService.Save(CurrentRun);
-        requestNextFight.Raise();
+        // Note: requestNextFight will be raised by CombatController.Start() when DraftScene loads
     }
 
     private void HandleNextFight()
