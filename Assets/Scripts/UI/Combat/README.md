@@ -45,20 +45,24 @@ Create a root `CombatView` GameObject with the `CombatView` component.
 1. Create a child GameObject named "PlayerView"
 2. Add `UnitView` component
 3. Create child GameObjects:
-   - **IdlePoint**: Position where player rests (e.g., `x: -3, y: 0`)
-   - **LungePoint**: Position where player lunges to attack (e.g., `x: -1, y: 0`)
-4. Add a child GameObject with `SpriteRenderer` for the player sprite
-5. **Facing**: Player should face RIGHT (positive X direction)
+   - **IdlePoint**: Empty GameObject at local position (0, 0, 0) - marks rest position
+   - **LungePoint**: Empty GameObject at local position (e.g., 2, 0, 0) - marks attack position
+   - **SpriteRenderer**: Child GameObject with SpriteRenderer for the player sprite at local (0, 0, 0)
+4. Position the PlayerView GameObject in world space (e.g., x: -3, y: 0)
+5. **Important**: The sprite will animate in local space relative to PlayerView, so PlayerView stays at its world position
+6. **Facing**: Player should face RIGHT (positive X direction)
 
 ### 3. EnemyView Setup
 
 1. Create a child GameObject named "EnemyView"
 2. Add `UnitView` component
 3. Create child GameObjects:
-   - **IdlePoint**: Position where enemy rests (e.g., `x: 3, y: 0`)
-   - **LungePoint**: Position where enemy lunges to attack (e.g., `x: 1, y: 0`)
-4. Add a child GameObject with `SpriteRenderer` for the enemy sprite
-5. **Facing**: Enemy should face LEFT (negative X direction)
+   - **IdlePoint**: Empty GameObject at local position (0, 0, 0) - marks rest position
+   - **LungePoint**: Empty GameObject at local position (e.g., -2, 0, 0) - marks attack position (negative because enemy lunges left)
+   - **SpriteRenderer**: Child GameObject with SpriteRenderer for the enemy sprite at local (0, 0, 0)
+4. Position the EnemyView GameObject in world space (e.g., x: 3, y: 0)
+5. **Important**: The sprite will animate in local space relative to EnemyView, so EnemyView stays at its world position
+6. **Facing**: Enemy should face LEFT (negative X direction)
 
 ### 4. CombatHUD Setup (Canvas)
 
@@ -158,6 +162,16 @@ Default timings (can be adjusted in AnimationService):
 - **Lunge Return**: 0.2 seconds
 - **Hit React**: 0.15 seconds
 - **Death**: 0.5 seconds
+
+### Animation Approach
+
+**Important**: The lunge animation moves the **sprite child** in local space, NOT the entire UnitView GameObject.
+
+- **UnitView** (parent): Stays at its world position (e.g., -3,0 for player, 3,0 for enemy)
+- **Sprite** (child): Animates in local space between IdlePoint (0,0,0) and LungePoint (e.g., 2,0,0)
+- **IdlePoint & LungePoint**: Define local offsets for the sprite animation
+
+This ensures child objects remain at their expected local positions (0,0) even when working with Unity's transform hierarchy.
 
 ## Events & Updates
 

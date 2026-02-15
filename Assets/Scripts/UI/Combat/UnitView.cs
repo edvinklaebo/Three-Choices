@@ -16,11 +16,13 @@ public class UnitView : MonoBehaviour
     
     private Unit _unit;
     private bool _isPlayer;
+    private Vector3 _spriteOriginalLocalPosition;
 
     public Transform IdlePoint => _idlePoint;
     public Transform LungePoint => _lungePoint;
     public Unit Unit => _unit;
     public bool IsPlayer => _isPlayer;
+    public Transform SpriteTransform => _spriteRenderer?.transform;
 
     private void Awake()
     {
@@ -47,6 +49,12 @@ public class UnitView : MonoBehaviour
             transform.position = _idlePoint.position;
         }
 
+        // Store sprite's original local position
+        if (_spriteRenderer != null)
+        {
+            _spriteOriginalLocalPosition = _spriteRenderer.transform.localPosition;
+        }
+
         // Set facing direction
         SetFacingDirection(isPlayer);
 
@@ -65,6 +73,17 @@ public class UnitView : MonoBehaviour
         if (_spriteRenderer != null)
         {
             _spriteRenderer.sprite = sprite;
+        }
+    }
+
+    /// <summary>
+    /// Reset sprite to its original local position (e.g., after lunge animation).
+    /// </summary>
+    public void ResetSpritePosition()
+    {
+        if (_spriteRenderer != null)
+        {
+            _spriteRenderer.transform.localPosition = _spriteOriginalLocalPosition;
         }
     }
 

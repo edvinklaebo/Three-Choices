@@ -25,16 +25,21 @@ public class AnimationService
         Log.Info("Playing attack animation", new { source = source.Name });
 
         var unitView = GetUnitView(source);
-        if (unitView != null && unitView.LungePoint != null)
+        if (unitView != null && unitView.SpriteTransform != null && unitView.LungePoint != null && unitView.IdlePoint != null)
         {
-            // Lunge forward
-            yield return LungeToPoint(unitView.transform, unitView.LungePoint.position, LUNGE_DURATION);
+            // Calculate lunge offset in local space (relative to parent UnitView)
+            var idleWorldPos = unitView.IdlePoint.position;
+            var lungeWorldPos = unitView.LungePoint.position;
+            var lungeOffset = lungeWorldPos - idleWorldPos;
+
+            // Lunge forward - animate sprite in local space
+            yield return LungeSprite(unitView.SpriteTransform, lungeOffset, LUNGE_DURATION);
 
             // Brief pause at lunge point
             yield return new WaitForSeconds(0.05f);
 
-            // Return to idle
-            yield return LungeToPoint(unitView.transform, unitView.IdlePoint.position, RETURN_DURATION);
+            // Return to idle - reset sprite position
+            yield return LungeSprite(unitView.SpriteTransform, Vector3.zero, RETURN_DURATION);
         }
         else
         {
@@ -95,6 +100,28 @@ public class AnimationService
         }
 
         transform.position = targetPosition;
+    }
+
+    /// <summary>
+    /// Move sprite to target local offset over duration.
+    /// Animates in local space, so parent UnitView stays at (0,0).
+    /// </summary>
+    private IEnumerator LungeSprite(Transform spriteTransform, Vector3 targetLocalOffset, float duration)
+    {
+        var startLocalPos = spriteTransform.localPosition;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            spriteTransform.localPosition = Vector3.Lerp(startLocalPos, targetLocalOffset, t);
+
+            yield return null;
+        }
+
+        spriteTransform.localPosition = targetLocalOffset;
     }
 
     /// <summary>

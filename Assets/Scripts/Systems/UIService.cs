@@ -13,25 +13,14 @@ public class UIService
         _combatView = combatView;
     }
 
-    public void ShowDamage(Unit target, int amount)
+    public void ShowDamage(Unit target, int amount, DamageType damageType = DamageType.Physical)
     {
-        Log.Info("Showing damage UI", new { target = target.Name, damage = amount });
+        Log.Info("Showing damage UI", new { target = target.Name, damage = amount, type = damageType });
 
         var worldPosition = GetUnitWorldPosition(target);
         if (worldPosition.HasValue && FloatingTextPool.Instance != null)
         {
-            FloatingTextPool.Instance.Spawn(amount, DamageType.Physical, worldPosition.Value);
-        }
-    }
-
-    public void ShowPoisonDamage(Unit target, int amount)
-    {
-        Log.Info("Showing poison damage UI", new { target = target.Name, damage = amount });
-
-        var worldPosition = GetUnitWorldPosition(target);
-        if (worldPosition.HasValue && FloatingTextPool.Instance != null)
-        {
-            FloatingTextPool.Instance.Spawn(amount, DamageType.Poison, worldPosition.Value);
+            FloatingTextPool.Instance.Spawn(amount, damageType, worldPosition.Value);
         }
     }
 
