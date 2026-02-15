@@ -103,6 +103,12 @@ public class CombatController : MonoBehaviour
         // Wait for animations to complete
         yield return new WaitUntil(() => !animationRunner.IsRunning);
 
+        // Hide combat view before showing draft UI
+        if (combatView != null)
+        {
+            combatView.Hide();
+        }
+
         // Continue game flow
         if (player.Stats.CurrentHP <= 0)
             yield break;
