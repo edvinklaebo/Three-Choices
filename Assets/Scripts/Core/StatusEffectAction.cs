@@ -13,7 +13,7 @@ public class StatusEffectAction : ICombatAction
     public int TargetHPAfter { get; set; }
     public int TargetMaxHP { get; set; }
 
-    public StatusEffectAction(Unit target, string effectName, int amount = 0, int targetHPBefore = 0, int targetHPAfter = 0, int targetMaxHP = 0)
+    public StatusEffectAction(Unit target, string effectName, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP)
     {
         Target = target;
         EffectName = effectName;
@@ -44,19 +44,10 @@ public class StatusEffectAction : ICombatAction
         ctx.SFX.PlayStatusSound(EffectName);
 
         // Show damage if applicable (e.g., poison tick, bleed, burn)
-        if (Amount > 0)
+        if (Amount > 0 && TargetMaxHP > 0)
         {
             var damageType = GetDamageTypeForEffect(EffectName);
-            // Use the overload with explicit HP values if available
-            if (TargetMaxHP > 0)
-            {
-                ctx.UI.ShowDamage(Target, Amount, TargetHPBefore, TargetHPAfter, TargetMaxHP, damageType);
-            }
-            else
-            {
-                // Fallback to simple version
-                ctx.UI.ShowDamage(Target, Amount, damageType);
-            }
+            ctx.UI.ShowDamage(Target, Amount, TargetHPBefore, TargetHPAfter, TargetMaxHP, damageType);
         }
     }
 
