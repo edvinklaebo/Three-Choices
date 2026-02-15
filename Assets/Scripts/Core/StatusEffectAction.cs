@@ -35,10 +35,25 @@ public class StatusEffectAction : ICombatAction
         // Play status sound
         ctx.SFX.PlayStatusSound(EffectName);
 
-        // Show damage if applicable (e.g., poison tick)
+        // Show damage if applicable (e.g., poison tick, bleed, burn)
         if (Amount > 0)
         {
-            ctx.UI.ShowDamage(Target, Amount);
+            var damageType = GetDamageTypeForEffect(EffectName);
+            ctx.UI.ShowDamage(Target, Amount, damageType);
         }
+    }
+
+    /// <summary>
+    /// Map effect name to appropriate damage type for visual feedback.
+    /// </summary>
+    private DamageType GetDamageTypeForEffect(string effectName)
+    {
+        return effectName?.ToLower() switch
+        {
+            "poison" => DamageType.Poison,
+            "bleed" => DamageType.Bleed,
+            "burn" => DamageType.Burn,
+            _ => DamageType.Physical
+        };
     }
 }
