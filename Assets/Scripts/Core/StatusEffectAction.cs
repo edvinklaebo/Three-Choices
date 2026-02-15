@@ -38,7 +38,7 @@ public class StatusEffectAction : ICombatAction
         // Show damage if applicable (e.g., poison tick)
         if (Amount > 0)
         {
-            ctx.UI.ShowDamage(Target, Amount);
+            ctx.UI.ShowPoisonDamage(Target, Amount);
         }
     }
 }
