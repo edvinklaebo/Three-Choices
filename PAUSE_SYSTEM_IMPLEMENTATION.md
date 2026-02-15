@@ -19,7 +19,7 @@ This PR implements a complete MVP pause system for the Unity game with clean arc
 ### UI (UI/)
 3. **PauseMenuUI.cs** - Pause menu controller:
    - Shows/hides pause menu panel based on pause state
-   - Handles button clicks (Resume, Settings, Restart, Quit)
+   - Handles button clicks (Resume, Settings, Quit)
    - Public Initialize() method for programmatic setup
 
 4. **SettingsPanel.cs** - Settings controller:
@@ -70,7 +70,7 @@ This PR implements a complete MVP pause system for the Unity game with clean arc
 - [x] Stop gameplay time while paused (Time.timeScale = 0)
 - [x] Settings submenu with master volume slider
 - [x] Settings submenu with fullscreen toggle
-- [x] Restart button (reloads current scene)
+- [x] Quit button (returns to main menu)
 - [x] Clean separation between UI and game logic
 
 ### ✅ Additional Features
@@ -122,9 +122,8 @@ All 11 tests pass:
 7. Adjust volume → Audio volume changes
 8. Toggle fullscreen → Screen mode changes
 9. Click Back → Returns to pause menu
-10. Click Restart → Scene reloads
-11. Press Esc → Pause menu appears
-12. Click Main Menu → Returns to main menu
+10. Press Esc → Pause menu appears
+11. Click Main Menu → Returns to main menu
 
 ## Code Review Status
 ✅ All review feedback addressed:

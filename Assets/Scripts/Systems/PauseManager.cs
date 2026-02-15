@@ -17,7 +17,6 @@ public static class PauseManager
 
         IsPaused = true;
         Time.timeScale = 0f;
-        SetCursorState(visible: true, locked: false);
         OnPauseStateChanged?.Invoke(true);
     }
 
@@ -27,7 +26,6 @@ public static class PauseManager
 
         IsPaused = false;
         Time.timeScale = 1f;
-        SetCursorState(visible: false, locked: true);
         OnPauseStateChanged?.Invoke(false);
     }
 
@@ -37,11 +35,5 @@ public static class PauseManager
             Resume();
         else
             Pause();
-    }
-
-    private static void SetCursorState(bool visible, bool locked)
-    {
-        Cursor.visible = visible;
-        Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
     }
 }
