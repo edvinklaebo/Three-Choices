@@ -170,8 +170,8 @@ namespace Tests.PlayModeTests
             Assert.AreEqual(12, runController.Player.Stats.Speed,
                 "Player Speed should match saved state");
 
-            Assert.AreEqual(8, runController.CurrentRun.fightIndex,
-                "Fight index should match saved state"); // TODO it doesnt for some reason
+            Assert.AreEqual(6, runController.CurrentRun.fightIndex,
+                "Fight index should be incremented once by CombatController.Start() raising requestNextFight");
 
             Debug.Log("[Test] Continue game loaded player state correctly");
             Debug.Log($"[Test] Player: {runController.Player.Name}, " +
