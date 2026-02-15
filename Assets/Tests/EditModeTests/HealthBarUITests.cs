@@ -176,7 +176,9 @@ namespace Tests.EditModeTests
             // Initial value should be 1.0 (100/100)
             Assert.AreEqual(1.0f, slider.value, 0.01f, "Slider should start at full health");
 
-            // Damage the unit directly (simulating what happens in CombatSystem)
+            // Simulate combat: damage the unit directly (state changes in CombatSystem)
+            // We modify Stats.CurrentHP directly to simulate what CombatSystem does internally
+            // before the DamageAction.Play() is called
             unit.Stats.CurrentHP = 50;
 
             // Now call AnimateToCurrentHealth (simulating presentation event)
@@ -201,7 +203,9 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Test", 100, 10, 5, 5);
             healthBar.Initialize(unit);
 
-            // Kill the unit directly
+            // Simulate combat: kill the unit directly (state changes in CombatSystem)
+            // We modify Stats.CurrentHP and isDead directly to simulate what happens
+            // in CombatSystem before DeathAction.Play() is called
             unit.Stats.CurrentHP = 0;
             unit.isDead = true;
 
@@ -252,7 +256,8 @@ namespace Tests.EditModeTests
             // Enable presentation mode
             healthBar.EnablePresentationMode();
 
-            // Change unit health via state change
+            // Simulate combat: change unit health via state change
+            // We modify Stats.CurrentHP directly to simulate CombatSystem's internal state changes
             unit.Stats.CurrentHP = 50;
             
             // Now trigger presentation update

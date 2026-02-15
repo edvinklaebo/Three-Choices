@@ -25,7 +25,7 @@ public class HealthBarUI : MonoBehaviour
     private Unit _unit;
     private float _targetValue;
     private bool _sliderConfigured;
-    private bool _ignoringStateEvents;
+    private bool _presentationMode;
     
     public bool IsInitialized;
     
@@ -126,7 +126,7 @@ public class HealthBarUI : MonoBehaviour
     /// </summary>
     public void EnablePresentationMode()
     {
-        _ignoringStateEvents = true;
+        _presentationMode = true;
     }
 
     /// <summary>
@@ -135,14 +135,14 @@ public class HealthBarUI : MonoBehaviour
     /// </summary>
     public void DisablePresentationMode()
     {
-        _ignoringStateEvents = false;
+        _presentationMode = false;
     }
 
     private void OnHealthChanged(Unit unit, int currentHP, int maxHP)
     {
         // If in presentation mode, ignore state change events
         // Health bar will only update via AnimateToCurrentHealth() calls
-        if (_ignoringStateEvents)
+        if (_presentationMode)
             return;
 
         // Fallback for non-combat health changes
