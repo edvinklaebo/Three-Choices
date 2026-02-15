@@ -171,7 +171,7 @@ Default timings (can be adjusted in AnimationService):
 - **Sprite** (child): Animates in local space between IdlePoint (0,0,0) and LungePoint (e.g., 2,0,0)
 - **IdlePoint & LungePoint**: Define local offsets for the sprite animation
 
-This ensures child objects remain at their expected local positions (0,0) even when working with Unity's transform hierarchy.
+This ensures child objects remain at their expected local positions (0,0,0) even when working with Unity's transform hierarchy.
 
 ## Events & Updates
 

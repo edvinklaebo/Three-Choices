@@ -104,7 +104,7 @@ public class AnimationService
 
     /// <summary>
     /// Move sprite to target local offset over duration.
-    /// Animates in local space, so parent UnitView stays at (0,0).
+    /// Animates in local space, so parent UnitView stays at its world position.
     /// </summary>
     private IEnumerator LungeSprite(Transform spriteTransform, Vector3 targetLocalOffset, float duration)
     {
