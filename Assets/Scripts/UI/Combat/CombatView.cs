@@ -11,7 +11,8 @@ public class CombatView : MonoBehaviour
     [SerializeField] private UnitView _enemyView;
     [SerializeField] private CombatHUD _combatHUD;
     [SerializeField] private TurnIndicatorUI _turnIndicator;
-
+    [SerializeField] private FloatingTextPool _floatingTextPool;
+    
     public UnitView PlayerView => _playerView;
     public UnitView EnemyView => _enemyView;
 

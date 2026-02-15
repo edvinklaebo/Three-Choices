@@ -38,9 +38,9 @@ public class FloatingText : MonoBehaviour
     /// <summary>
     /// Display damage number at world position.
     /// </summary>
-    public void Show(int amount, DamageType damageType, Vector3 worldPosition, Camera camera)
+    public void Show(int amount, DamageType damageType, Vector3 worldPosition, Camera uCamera)
     {
-        if (_text == null)
+        if (!_text)
             return;
 
         // Set text and color
@@ -48,7 +48,7 @@ public class FloatingText : MonoBehaviour
         _text.color = GetColorForDamageType(damageType);
 
         // Position in screen space
-        var screenPos = camera.WorldToScreenPoint(worldPosition);
+        var screenPos = uCamera.WorldToScreenPoint(worldPosition);
         _rectTransform.position = screenPos;
         _startPosition = _rectTransform.anchoredPosition;
 
@@ -58,12 +58,12 @@ public class FloatingText : MonoBehaviour
 
     private IEnumerator AnimateRoutine()
     {
-        float elapsed = 0f;
+        var elapsed = 0f;
 
         while (elapsed < _floatDuration)
         {
             elapsed += Time.deltaTime;
-            float t = elapsed / _floatDuration;
+            var t = elapsed / _floatDuration;
 
             // Float up
             var offset = _floatCurve.Evaluate(t) * _floatDistance;

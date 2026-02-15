@@ -181,6 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 36311921}
   - component: {fileID: 36311922}
+  - component: {fileID: 36311923}
   m_Layer: 0
   m_Name: CombatView
   m_TagString: Untagged
@@ -221,7 +222,21 @@ MonoBehaviour:
   _playerView: {fileID: 1629936599}
   _enemyView: {fileID: 730500563}
   _combatHUD: {fileID: 28699697}
-  _turnIndicator: {fileID: 0}
+  _turnIndicator: {fileID: 1913143618}
+  _floatingTextPool: {fileID: 1096353802}
+--- !u!114 &36311923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 36311920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a5e16a9f1b465a4baec1514b902ad57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ropa::CombatViewDiagnostics
+  _runOnStart: 1
 --- !u!1 &152873978
 GameObject:
   m_ObjectHideFlags: 0
@@ -2526,6 +2541,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 28699696}
+  - {fileID: 1096353801}
   - {fileID: 1913143617}
   m_Father: {fileID: 36311921}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2881,6 +2897,59 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ee38493f2930b34388a77cd9c6aa287, type: 3}
+--- !u!1 &1096353800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1096353801}
+  - component: {fileID: 1096353802}
+  m_Layer: 0
+  m_Name: Floating Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1096353801
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096353800}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1211731229}
+  m_Father: {fileID: 926342977}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 800, y: 600}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1096353802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1096353800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b4927479eaf2541887f43c56a5269f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ropa::FloatingTextPool
+  _floatingTextPrefab: {fileID: 9210740722223703085, guid: f416f97d4991b3040bec24b930392515, type: 3}
+  _container: {fileID: 1096353801}
+  _initialPoolSize: 10
+  _camera: {fileID: 1882336198}
 --- !u!1 &1104595334
 GameObject:
   m_ObjectHideFlags: 0
@@ -3362,7 +3431,7 @@ GameObject:
   - component: {fileID: 1211731231}
   - component: {fileID: 1211731230}
   m_Layer: 5
-  m_Name: Floating text
+  m_Name: Floating Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3375,16 +3444,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1211731228}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1913143617}
+  m_Father: {fileID: 1096353801}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 21, y: 112}
+  m_AnchoredPosition: {x: 41, y: 112}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1211731230
@@ -4268,6 +4337,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88274a85551c02545a06f330332098f4, type: 3}
+--- !u!20 &1882336198 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 3522797659827086633, guid: 88274a85551c02545a06f330332098f4, type: 3}
+  m_PrefabInstance: {fileID: 1882336197}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1882725330
 GameObject:
   m_ObjectHideFlags: 0
@@ -4371,7 +4445,6 @@ GameObject:
   - component: {fileID: 1913143620}
   - component: {fileID: 1913143619}
   - component: {fileID: 1913143618}
-  - component: {fileID: 1913143622}
   m_Layer: 5
   m_Name: Turn Text
   m_TagString: Untagged
@@ -4392,7 +4465,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 788850044}
-  - {fileID: 1211731229}
   m_Father: {fileID: 926342977}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4465,46 +4537,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1913143616}
   m_CullTransparentMesh: 1
---- !u!114 &1913143622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1913143616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f9818a6971a1ee4696d517ae7ea726e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Ropa::FloatingText
-  _text: {fileID: 1211731230}
-  _canvasGroup: {fileID: 1913143619}
-  _floatDuration: 1
-  _floatDistance: 50
-  _floatCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &1925510561
 GameObject:
   m_ObjectHideFlags: 0
