@@ -74,7 +74,7 @@ public class CombatController : MonoBehaviour
 
     private void HandleStartFight()
     {
-        StartCoroutine(StartFightCoroutine(runController.Player, runController.CurrentRun.fightIndex));
+        StartCoroutine(StartFightCoroutine(runController.Player, runController._fightIndex));
     }
 
     private IEnumerator StartFightCoroutine(Unit player, int fightIndex)

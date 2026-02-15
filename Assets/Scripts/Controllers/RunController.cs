@@ -8,7 +8,7 @@ public class RunController : MonoBehaviour
     
     public Unit Player;
 
-    private int _fightIndex = 1;
+    public int _fightIndex = 1;
 
     public RunState CurrentRun { get; private set; }
 
@@ -32,20 +32,15 @@ public class RunController : MonoBehaviour
     public void ContinueRun()
     {
         CurrentRun = SaveService.Load();
-    
-        CurrentRun = new RunState
+        Player = new Unit(CurrentRun.player.Name)
         {
-            fightIndex = CurrentRun.fightIndex,
-            player = CurrentRun.player
+            Stats = CurrentRun.player.Stats
         };
-        
-        Player = CurrentRun.player;
         _fightIndex = CurrentRun.fightIndex;
 
         Player.Died += _ => playerDiedEvent.Raise();
-        SaveService.Save(CurrentRun);
         SceneManager.LoadScene("DraftScene");
-        requestNextFight.Raise();
+        // Note: requestNextFight will be raised by CombatController.Start() when DraftScene loads
     }
 
     public void StartNewRun(CharacterDefinition character)
@@ -68,7 +63,7 @@ public class RunController : MonoBehaviour
         };
 
         SaveService.Save(CurrentRun);
-        requestNextFight.Raise();
+        // Note: requestNextFight will be raised by CombatController.Start() when DraftScene loads
     }
 
     private void HandleNextFight()
