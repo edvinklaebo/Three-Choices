@@ -82,4 +82,18 @@ public class SettingsPanel : MonoBehaviour
     {
         Screen.fullScreen = fullscreen;
     }
+
+    /// <summary>
+    /// Initialize the settings panel with references.
+    /// Allows programmatic setup without reflection.
+    /// </summary>
+    public void Initialize(Slider volumeSlider, Toggle fullscreenToggle)
+    {
+        _volumeSlider = volumeSlider;
+        _fullscreenToggle = fullscreenToggle;
+        
+        // Reload settings with new references
+        LoadSettings();
+        SetupListeners();
+    }
 }

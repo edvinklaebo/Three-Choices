@@ -9,6 +9,7 @@ public class PauseMenuUI : MonoBehaviour
 {
     [SerializeField] private GameObject _pauseMenuPanel;
     [SerializeField] private GameObject _settingsPanel;
+    [SerializeField] private string _mainMenuSceneName = "MainMenu";
 
     private void OnEnable()
     {
@@ -75,6 +76,16 @@ public class PauseMenuUI : MonoBehaviour
     public void OnQuitClicked()
     {
         PauseManager.Resume();
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene(_mainMenuSceneName);
+    }
+
+    /// <summary>
+    /// Initialize the pause menu UI with references.
+    /// Allows programmatic setup without reflection.
+    /// </summary>
+    public void Initialize(GameObject pauseMenuPanel, GameObject settingsPanel)
+    {
+        _pauseMenuPanel = pauseMenuPanel;
+        _settingsPanel = settingsPanel;
     }
 }

@@ -73,24 +73,10 @@ public class PauseMenuBootstrap : MonoBehaviour
 
         // Add SettingsPanel component
         SettingsPanel settingsPanelComponent = settingsPanel.AddComponent<SettingsPanel>();
-        
-        // Use reflection to set private fields
-        var volumeField = typeof(SettingsPanel).GetField("_volumeSlider", 
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        var fullscreenField = typeof(SettingsPanel).GetField("_fullscreenToggle", 
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        
-        volumeField?.SetValue(settingsPanelComponent, volumeSlider);
-        fullscreenField?.SetValue(settingsPanelComponent, fullscreenToggle);
+        settingsPanelComponent.Initialize(volumeSlider, fullscreenToggle);
 
         // Wire up PauseMenuUI references
-        var pausePanelField = typeof(PauseMenuUI).GetField("_pauseMenuPanel", 
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        var settingsPanelField = typeof(PauseMenuUI).GetField("_settingsPanel", 
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        
-        pausePanelField?.SetValue(pauseMenuUI, pausePanel);
-        settingsPanelField?.SetValue(pauseMenuUI, settingsPanel);
+        pauseMenuUI.Initialize(pausePanel, settingsPanel);
 
         // Add PauseInput to canvas
         canvas.gameObject.AddComponent<PauseInput>();
