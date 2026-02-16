@@ -57,7 +57,7 @@ public class UnitHUDPanel : MonoBehaviour
 
         // Subscribe to health changes for numeric display
         _unit.HealthChanged += OnHealthChanged;
-        UpdateHealthText();
+        UpdateHealthTextFromUnit();
 
         Log.Info("UnitHUDPanel initialized", new
         {
@@ -130,7 +130,7 @@ public class UnitHUDPanel : MonoBehaviour
         UpdateHealthText(currentHP, maxHP);
     }
 
-    private void UpdateHealthText()
+    private void UpdateHealthTextFromUnit()
     {
         if (_hpText != null && _unit != null)
         {
