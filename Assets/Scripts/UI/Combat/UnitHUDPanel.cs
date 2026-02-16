@@ -14,6 +14,7 @@ public class UnitHUDPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _hpText;
 
     private Unit _unit;
+    private bool _presentationMode;
 
     private void Awake()
     {
@@ -80,6 +81,37 @@ public class UnitHUDPanel : MonoBehaviour
         return _unit;
     }
 
+    /// <summary>
+    /// Enable presentation-driven mode where HP text only updates from explicit calls.
+    /// This prevents the text from updating in response to raw state changes.
+    /// </summary>
+    public void EnablePresentationMode()
+    {
+        _presentationMode = true;
+    }
+
+    /// <summary>
+    /// Disable presentation-driven mode, allowing HP text to respond to state changes again.
+    /// </summary>
+    public void DisablePresentationMode()
+    {
+        _presentationMode = false;
+    }
+
+    /// <summary>
+    /// Update HP text with explicit values for presentation-driven display.
+    /// Clamps currentHP to 0 to avoid showing negative numbers.
+    /// </summary>
+    public void UpdateHealthText(int currentHP, int maxHP)
+    {
+        if (_hpText != null)
+        {
+            // Clamp currentHP to 0 minimum to avoid showing negative numbers
+            int displayHP = Mathf.Max(0, currentHP);
+            _hpText.text = $"{displayHP} / {maxHP}";
+        }
+    }
+
     private void OnDisable()
     {
         if (_unit != null)
@@ -90,14 +122,19 @@ public class UnitHUDPanel : MonoBehaviour
 
     private void OnHealthChanged(Unit unit, int currentHP, int maxHP)
     {
-        UpdateHealthText();
+        // If in presentation mode, ignore state change events
+        // HP text will only update via explicit UpdateHealthText() calls
+        if (_presentationMode)
+            return;
+
+        UpdateHealthText(currentHP, maxHP);
     }
 
     private void UpdateHealthText()
     {
         if (_hpText != null && _unit != null)
         {
-            _hpText.text = $"{_unit.Stats.CurrentHP} / {_unit.Stats.MaxHP}";
+            UpdateHealthText(_unit.Stats.CurrentHP, _unit.Stats.MaxHP);
         }
     }
 }

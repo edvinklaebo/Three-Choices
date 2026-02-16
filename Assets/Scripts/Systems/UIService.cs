@@ -51,6 +51,9 @@ public class UIService
 
         // Animate health bar with explicit HP values
         AnimateHealthBarToValue(target, hpBefore, hpAfter, maxHP);
+        
+        // Update HP text with explicit values
+        UpdateHealthText(target, hpAfter, maxHP);
     }
 
     public void ShowHealing(Unit target, int amount)
@@ -109,6 +112,22 @@ public class UIService
     }
 
     /// <summary>
+    /// Updates the HP text for a unit with explicit values.
+    /// This ensures HP text is synchronized with presentation events, not raw state changes.
+    /// </summary>
+    public void UpdateHealthText(Unit target, int currentHP, int maxHP)
+    {
+        if (target == null)
+            return;
+
+        var hudPanel = GetHUDPanel(target);
+        if (hudPanel != null)
+        {
+            hudPanel.UpdateHealthText(currentHP, maxHP);
+        }
+    }
+
+    /// <summary>
     /// Get the world position of a unit for UI spawn location.
     /// </summary>
     private Vector3? GetUnitWorldPosition(Unit target)
@@ -150,5 +169,20 @@ public class UIService
             return null;
 
         return combatHUD.GetHealthBar(target);
+    }
+
+    /// <summary>
+    /// Get the UnitHUDPanel for a given Unit.
+    /// </summary>
+    private UnitHUDPanel GetHUDPanel(Unit target)
+    {
+        if (_combatView == null || target == null)
+            return null;
+
+        var combatHUD = _combatView.GetComponentInChildren<CombatHUD>();
+        if (combatHUD == null)
+            return null;
+
+        return combatHUD.GetHUDPanel(target);
     }
 }

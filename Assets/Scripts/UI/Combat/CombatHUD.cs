@@ -66,6 +66,7 @@ public class CombatHUD : MonoBehaviour
             {
                 healthBar.EnablePresentationMode();
             }
+            _playerHUD.EnablePresentationMode();
         }
 
         if (_enemyHUD != null)
@@ -75,6 +76,7 @@ public class CombatHUD : MonoBehaviour
             {
                 healthBar.EnablePresentationMode();
             }
+            _enemyHUD.EnablePresentationMode();
         }
 
         Log.Info("CombatHUD: Presentation mode enabled");
@@ -93,6 +95,7 @@ public class CombatHUD : MonoBehaviour
             {
                 healthBar.DisablePresentationMode();
             }
+            _playerHUD.DisablePresentationMode();
         }
 
         if (_enemyHUD != null)
@@ -102,6 +105,7 @@ public class CombatHUD : MonoBehaviour
             {
                 healthBar.DisablePresentationMode();
             }
+            _enemyHUD.DisablePresentationMode();
         }
 
         Log.Info("CombatHUD: Presentation mode disabled");
@@ -125,6 +129,29 @@ public class CombatHUD : MonoBehaviour
         if (_enemyHUD != null && _enemyHUD.GetUnit() == unit)
         {
             return _enemyHUD.GetHealthBar();
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Get the HUD panel for a specific unit.
+    /// </summary>
+    public UnitHUDPanel GetHUDPanel(Unit unit)
+    {
+        if (unit == null)
+            return null;
+
+        // Check player HUD
+        if (_playerHUD != null && _playerHUD.GetUnit() == unit)
+        {
+            return _playerHUD;
+        }
+
+        // Check enemy HUD
+        if (_enemyHUD != null && _enemyHUD.GetUnit() == unit)
+        {
+            return _enemyHUD;
         }
 
         return null;
