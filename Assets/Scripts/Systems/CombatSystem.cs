@@ -129,19 +129,27 @@ public static class CombatSystem
             baseDamage
         });
 
+        // Capture HP before applying damage
+        var hpBefore = defender.Stats.CurrentHP;
+        var maxHP = defender.Stats.MaxHP;
+
         // Apply damage to unit state
         defender.ApplyDamage(attacker, ctx.FinalValue);
+
+        // Capture HP after applying damage
+        var hpAfter = defender.Stats.CurrentHP;
 
         Log.Info("Damage applied", new
         {
             attacker = attacker.Name,
             defender = defender.Name,
             ctx.FinalValue,
-            defenderHpAfter = defender.Stats.CurrentHP
+            hpBefore,
+            hpAfter
         });
 
-        // Create damage action for animation
-        actions.Add(new DamageAction(attacker, defender, ctx.FinalValue));
+        // Create damage action for animation with HP values
+        actions.Add(new DamageAction(attacker, defender, ctx.FinalValue, hpBefore, hpAfter, maxHP));
 
         // Add death action if defender died
         if (defender.isDead)
@@ -165,6 +173,7 @@ public static class CombatSystem
             
             // Track HP before status tick
             var hpBefore = unit.Stats.CurrentHP;
+            var maxHP = unit.Stats.MaxHP;
             
             effect.OnTurnStart(unit);
 
@@ -173,7 +182,7 @@ public static class CombatSystem
             if (hpAfter < hpBefore)
             {
                 var damage = hpBefore - hpAfter;
-                actions.Add(new StatusEffectAction(unit, effect.Id, damage));
+                actions.Add(new StatusEffectAction(unit, effect.Id, damage, hpBefore, hpAfter, maxHP));
             }
 
             // Check for death after status effect
@@ -203,6 +212,7 @@ public static class CombatSystem
             
             // Track HP before status tick
             var hpBefore = unit.Stats.CurrentHP;
+            var maxHP = unit.Stats.MaxHP;
             
             effect.OnTurnEnd(unit);
 
@@ -211,7 +221,7 @@ public static class CombatSystem
             if (hpAfter < hpBefore)
             {
                 var damage = hpBefore - hpAfter;
-                actions.Add(new StatusEffectAction(unit, effect.Id, damage));
+                actions.Add(new StatusEffectAction(unit, effect.Id, damage, hpBefore, hpAfter, maxHP));
             }
 
             // Check for death after status effect

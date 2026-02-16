@@ -140,6 +140,12 @@ public class CombatView : MonoBehaviour
     /// </summary>
     public void Hide()
     {
+        // Disable presentation mode when combat ends
+        if (_combatHUD != null)
+        {
+            _combatHUD.DisablePresentationMode();
+        }
+
         if (_canvasGroup != null)
         {
             _canvasGroup.alpha = 0f;
