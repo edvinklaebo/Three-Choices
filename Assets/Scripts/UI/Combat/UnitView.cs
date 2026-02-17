@@ -36,7 +36,7 @@ public class UnitView : MonoBehaviour
     {
         if (unit == null)
         {
-            Debug.LogError("UnitView: Cannot initialize with null unit");
+            Log.Error("UnitView: Cannot initialize with null unit");
             return;
         }
 
@@ -110,12 +110,12 @@ public class UnitView : MonoBehaviour
     {
         if (_idlePoint == null)
         {
-            Debug.LogWarning($"UnitView [{gameObject.name}]: IdlePoint not assigned");
+            Log.Warning($"UnitView [{gameObject.name}]: IdlePoint not assigned");
         }
 
         if (_lungePoint == null)
         {
-            Debug.LogWarning($"UnitView [{gameObject.name}]: LungePoint not assigned");
+            Log.Warning($"UnitView [{gameObject.name}]: LungePoint not assigned");
         }
 
         if (_spriteRenderer == null)
@@ -123,7 +123,7 @@ public class UnitView : MonoBehaviour
             _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             if (_spriteRenderer == null)
             {
-                Debug.LogWarning($"UnitView [{gameObject.name}]: No SpriteRenderer found");
+                Log.Warning($"UnitView [{gameObject.name}]: No SpriteRenderer found");
             }
         }
     }

@@ -15,7 +15,7 @@ public class CharacterSelectController : MonoBehaviour
     {
         // Cache RunController reference to avoid repeated scene searches
         _runController = FindFirstObjectByType<RunController>();
-        if (_runController == null) 
+        if (_runController == null)
             Log.Error("[CharacterSelect] RunController not found in scene");
     }
 
@@ -40,7 +40,7 @@ public class CharacterSelectController : MonoBehaviour
             return;
 
         CurrentIndex = (CurrentIndex - 1 + _database.Characters.Count) % _database.Characters.Count;
-        Debug.Log($"[CharacterSelect] Prev → {_current.Id}");
+        Log.Info($"[CharacterSelect] Prev → {_current.Id}");
         UpdateView();
     }
 
@@ -48,11 +48,11 @@ public class CharacterSelectController : MonoBehaviour
     {
         if (_current == null)
         {
-            Debug.LogError("[CharacterSelect] Cannot confirm - no character selected");
+            Log.Error("[CharacterSelect] Cannot confirm - no character selected");
             return;
         }
 
-        Debug.Log($"[CharacterSelect] Confirmed {_current.Id}");
+        Log.Info($"[CharacterSelect] Confirmed {_current.Id}");
         GameEvents.CharacterSelected_Event?.Invoke(_current);
 
         if (_runController != null)

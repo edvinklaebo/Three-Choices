@@ -6,7 +6,7 @@ public class RunController : MonoBehaviour
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel playerDiedEvent;
     [SerializeField] private VoidEventChannel combatEndedWithPlayerDeath;
-    
+
     public Unit Player;
 
     public int _fightIndex = 1;
@@ -22,22 +22,16 @@ public class RunController : MonoBehaviour
     {
         requestNextFight.OnRaised += HandleNextFight;
         playerDiedEvent.OnRaised += OnPlayerDied;
-        
-        if (combatEndedWithPlayerDeath != null)
-        {
-            combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
-        }
+
+        if (combatEndedWithPlayerDeath != null) combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
     }
 
     private void OnDisable()
     {
         requestNextFight.OnRaised -= HandleNextFight;
         playerDiedEvent.OnRaised -= OnPlayerDied;
-        
-        if (combatEndedWithPlayerDeath != null)
-        {
-            combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
-        }
+
+        if (combatEndedWithPlayerDeath != null) combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
     }
 
     public void ContinueRun()
@@ -58,11 +52,11 @@ public class RunController : MonoBehaviour
     {
         if (character == null)
         {
-            Debug.LogError("[Run] Cannot start run with null character");
+            Log.Error("[Run] Cannot start run with null character");
             return;
         }
 
-        Debug.Log($"[Run] Starting run with {character.DisplayName}");
+        Log.Info($"[Run] Starting run with {character.DisplayName}");
         SceneManager.LoadScene("DraftScene");
         Player = CreatePlayerFromCharacter(character);
         Player.Died += _ => playerDiedEvent.Raise();

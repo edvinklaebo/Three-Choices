@@ -20,7 +20,7 @@ public class UnitHUDPanel : MonoBehaviour
     {
         if (_healthBar == null)
         {
-            Debug.LogError("UnitHUDPanel: HealthBar not assigned");
+            Log.Error("UnitHUDPanel: HealthBar not assigned");
         }
     }
 
@@ -31,7 +31,7 @@ public class UnitHUDPanel : MonoBehaviour
     {
         if (unit == null)
         {
-            Debug.LogError("UnitHUDPanel: Cannot initialize with null unit");
+            Log.Error("UnitHUDPanel: Cannot initialize with null unit");
             return;
         }
 

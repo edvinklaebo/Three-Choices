@@ -51,12 +51,12 @@ public class PauseSystemExample : MonoBehaviour
         // React to pause state changes in your game logic
         if (isPaused)
         {
-            Debug.Log("Game paused - you could disable certain systems here");
+            Log.Info("Game paused - you could disable certain systems here");
             // Example: Stop background music, pause AI, etc.
         }
         else
         {
-            Debug.Log("Game resumed - re-enable systems here");
+            Log.Info("Game resumed - re-enable systems here");
             // Example: Resume background music, resume AI, etc.
         }
     }

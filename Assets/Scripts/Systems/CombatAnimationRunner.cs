@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Responsible for sequential playback of combat actions.
-/// Manages animation queue and provides playback control.
+///     Responsible for sequential playback of combat actions.
+///     Manages animation queue and provides playback control.
 /// </summary>
 public class CombatAnimationRunner : MonoBehaviour
 {
     private readonly Queue<ICombatAction> _queue = new();
-    private bool _isRunning;
+    private Coroutine _runCoroutine;
     private bool _skipRequested;
     private float _speedMultiplier = 1f;
-    private Coroutine _runCoroutine;
 
     /// <summary>
-    /// Whether the animation runner is currently playing actions.
+    ///     Whether the animation runner is currently playing actions.
     /// </summary>
-    public bool IsRunning => _isRunning;
+    public bool IsRunning { get; private set; }
 
     /// <summary>
-    /// Speed multiplier for animations. Higher values = faster playback.
+    ///     Speed multiplier for animations. Higher values = faster playback.
     /// </summary>
     public float SpeedMultiplier
     {
@@ -28,8 +27,14 @@ public class CombatAnimationRunner : MonoBehaviour
         set => _speedMultiplier = Mathf.Max(0.1f, value);
     }
 
+    private void OnDisable()
+    {
+        // Clean up if disabled during playback
+        if (IsRunning) Cancel();
+    }
+
     /// <summary>
-    /// Enqueues a single combat action for playback.
+    ///     Enqueues a single combat action for playback.
     /// </summary>
     public void Enqueue(ICombatAction action)
     {
@@ -44,7 +49,7 @@ public class CombatAnimationRunner : MonoBehaviour
     }
 
     /// <summary>
-    /// Enqueues multiple combat actions for playback.
+    ///     Enqueues multiple combat actions for playback.
     /// </summary>
     public void EnqueueRange(IEnumerable<ICombatAction> actions)
     {
@@ -55,18 +60,14 @@ public class CombatAnimationRunner : MonoBehaviour
         }
 
         foreach (var action in actions)
-        {
             if (action != null)
-            {
                 _queue.Enqueue(action);
-            }
-        }
 
         Log.Info("Actions enqueued", new { queueSize = _queue.Count });
     }
 
     /// <summary>
-    /// Starts playing all queued actions sequentially.
+    ///     Starts playing all queued actions sequentially.
     /// </summary>
     public void PlayAll(AnimationContext ctx)
     {
@@ -76,7 +77,7 @@ public class CombatAnimationRunner : MonoBehaviour
             return;
         }
 
-        if (_isRunning)
+        if (IsRunning)
         {
             Log.Warning("CombatAnimationRunner: Already running, cannot start playback");
             return;
@@ -86,8 +87,8 @@ public class CombatAnimationRunner : MonoBehaviour
     }
 
     /// <summary>
-    /// Requests to skip all remaining animations.
-    /// Current action will complete, but subsequent actions will be skipped.
+    ///     Requests to skip all remaining animations.
+    ///     Current action will complete, but subsequent actions will be skipped.
     /// </summary>
     public void SkipAnimations()
     {
@@ -96,8 +97,8 @@ public class CombatAnimationRunner : MonoBehaviour
     }
 
     /// <summary>
-    /// Cancels the animation playback immediately.
-    /// Clears the queue and stops the runner.
+    ///     Cancels the animation playback immediately.
+    ///     Clears the queue and stops the runner.
     /// </summary>
     public void Cancel()
     {
@@ -108,14 +109,14 @@ public class CombatAnimationRunner : MonoBehaviour
         }
 
         _queue.Clear();
-        _isRunning = false;
+        IsRunning = false;
         _skipRequested = false;
 
         Log.Info("Animation playback cancelled");
     }
 
     /// <summary>
-    /// Clears all queued actions without stopping current playback.
+    ///     Clears all queued actions without stopping current playback.
     /// </summary>
     public void ClearQueue()
     {
@@ -125,7 +126,7 @@ public class CombatAnimationRunner : MonoBehaviour
 
     private IEnumerator Run(AnimationContext ctx)
     {
-        _isRunning = true;
+        IsRunning = true;
         _skipRequested = false;
 
         Log.Info("Animation playback started", new { queueSize = _queue.Count });
@@ -136,7 +137,7 @@ public class CombatAnimationRunner : MonoBehaviour
 
             // Apply speed multiplier by scaling time
             var originalTimeScale = Time.timeScale;
-            
+
             try
             {
                 Time.timeScale = _speedMultiplier;
@@ -155,18 +156,9 @@ public class CombatAnimationRunner : MonoBehaviour
             _queue.Clear();
         }
 
-        _isRunning = false;
+        IsRunning = false;
         _skipRequested = false;
 
         Log.Info("Animation playback completed");
-    }
-
-    private void OnDisable()
-    {
-        // Clean up if disabled during playback
-        if (_isRunning)
-        {
-            Cancel();
-        }
     }
 }

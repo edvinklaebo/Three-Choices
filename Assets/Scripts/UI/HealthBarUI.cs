@@ -38,7 +38,7 @@ public class HealthBarUI : MonoBehaviour
     {
         if (unit == null)
         {
-            Debug.LogError("HealthBarUI: Cannot initialize with null unit");
+            Log.Error("HealthBarUI: Cannot initialize with null unit");
             return;
         }
 

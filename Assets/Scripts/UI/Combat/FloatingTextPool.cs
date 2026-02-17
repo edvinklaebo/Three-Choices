@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Object pool for floating text instances.
-/// Manages creation and reuse of damage number UI elements.
+///     Object pool for floating text instances.
+///     Manages creation and reuse of damage number UI elements.
 /// </summary>
 public class FloatingTextPool : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class FloatingTextPool : MonoBehaviour
     [SerializeField] private int _initialPoolSize = 10;
     [SerializeField] private Camera _camera;
 
-    private readonly Stack<FloatingText> _pool = new Stack<FloatingText>();
+    private readonly Stack<FloatingText> _pool = new();
 
     public static FloatingTextPool Instance { get; private set; }
 
@@ -26,58 +26,39 @@ public class FloatingTextPool : MonoBehaviour
 
         Instance = this;
 
-        if (_container == null)
-        {
-            _container = transform;
-        }
+        if (_container == null) _container = transform;
 
-        if (_camera == null)
-        {
-            _camera = Camera.main;
-        }
+        if (_camera == null) _camera = Camera.main;
 
         // Pre-populate pool
-        for (int i = 0; i < _initialPoolSize; i++)
-        {
-            CreateNewInstance();
-        }
+        for (var i = 0; i < _initialPoolSize; i++) CreateNewInstance();
     }
 
     private void OnDestroy()
     {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
+        if (Instance == this) Instance = null;
     }
 
     /// <summary>
-    /// Spawn a floating text at world position.
+    ///     Spawn a floating text at world position.
     /// </summary>
     public void Spawn(int amount, DamageType damageType, Vector3 worldPosition)
     {
         var text = Get();
-        if (text != null)
-        {
-            text.Show(amount, damageType, worldPosition, _camera);
-        }
+        if (text != null) text.Show(amount, damageType, worldPosition, _camera);
     }
 
     /// <summary>
-    /// Get a floating text instance from pool.
+    ///     Get a floating text instance from pool.
     /// </summary>
     private FloatingText Get()
     {
         FloatingText text;
 
         if (_pool.Count > 0)
-        {
             text = _pool.Pop();
-        }
         else
-        {
             text = CreateNewInstance();
-        }
 
         text.gameObject.SetActive(true);
         text.Reset();
@@ -86,7 +67,7 @@ public class FloatingTextPool : MonoBehaviour
     }
 
     /// <summary>
-    /// Return a floating text instance to pool.
+    ///     Return a floating text instance to pool.
     /// </summary>
     public void Return(FloatingText text)
     {
@@ -98,13 +79,13 @@ public class FloatingTextPool : MonoBehaviour
     }
 
     /// <summary>
-    /// Create a new floating text instance.
+    ///     Create a new floating text instance.
     /// </summary>
     private FloatingText CreateNewInstance()
     {
         if (_floatingTextPrefab == null)
         {
-            Debug.LogError("FloatingTextPool: Prefab not assigned");
+            Log.Error("FloatingTextPool: Prefab not assigned");
             return null;
         }
 

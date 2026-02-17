@@ -141,36 +141,36 @@ public class CombatViewDiagnostics : MonoBehaviour
 
         report.AppendLine("\n=== END DIAGNOSTICS ===");
         
-        Debug.Log(report.ToString());
+        Log.Info(report.ToString());
     }
 
-    private void CheckUnitView(UnitView unitView, string name, StringBuilder report)
+    private void CheckUnitView(UnitView unitView, string componentName, StringBuilder report)
     {
         if (unitView.IdlePoint == null)
         {
-            report.AppendLine($"    ❌ {name} IdlePoint not assigned");
+            report.AppendLine($"    ❌ {componentName} IdlePoint not assigned");
         }
         else
         {
-            report.AppendLine($"    ✓ {name} IdlePoint: {unitView.IdlePoint.localPosition}");
+            report.AppendLine($"    ✓ {componentName} IdlePoint: {unitView.IdlePoint.localPosition}");
         }
 
         if (unitView.LungePoint == null)
         {
-            report.AppendLine($"    ❌ {name} LungePoint not assigned");
+            report.AppendLine($"    ❌ {componentName} LungePoint not assigned");
         }
         else
         {
-            report.AppendLine($"    ✓ {name} LungePoint: {unitView.LungePoint.localPosition}");
+            report.AppendLine($"    ✓ {componentName} LungePoint: {unitView.LungePoint.localPosition}");
         }
 
         if (unitView.SpriteTransform == null)
         {
-            report.AppendLine($"    ⚠️  {name} has no SpriteRenderer child");
+            report.AppendLine($"    ⚠️  {componentName} has no SpriteRenderer child");
         }
         else
         {
-            report.AppendLine($"    ✓ {name} SpriteRenderer found");
+            report.AppendLine($"    ✓ {componentName} SpriteRenderer found");
         }
     }
 }

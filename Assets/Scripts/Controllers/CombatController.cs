@@ -37,9 +37,8 @@ public class CombatController : MonoBehaviour
         {
             combatView = FindFirstObjectByType<CombatView>();
             if (combatView == null)
-            {
-                Log.Warning("CombatController: CombatView not found in scene. Animations and UI may not work correctly.");
-            }
+                Log.Warning(
+                    "CombatController: CombatView not found in scene. Animations and UI may not work correctly.");
         }
 
         // Initialize animation context with service placeholders
@@ -81,18 +80,12 @@ public class CombatController : MonoBehaviour
     private IEnumerator StartFightCoroutine(Unit player, int fightIndex)
     {
         // Hide draft UI before combat animations start
-        if (DraftUI.Instance != null)
-        {
-            DraftUI.Instance.Hide(animated: false);
-        }
+        if (DraftUI.Instance != null) DraftUI.Instance.Hide(false);
 
         var enemy = EnemyFactory.Create(fightIndex);
 
         // Initialize combat view with combatants
-        if (combatView != null)
-        {
-            combatView.Initialize(player, enemy);
-        }
+        if (combatView != null) combatView.Initialize(player, enemy);
 
         // Run combat logic (pure, deterministic)
         var actions = CombatSystem.RunFight(player, enemy);
@@ -105,23 +98,16 @@ public class CombatController : MonoBehaviour
         yield return new WaitUntil(() => !animationRunner.IsRunning);
 
         // Hide combat view before showing draft UI
-        if (combatView != null)
-        {
-            combatView.Hide();
-        }
+        if (combatView != null) combatView.Hide();
 
         // Continue game flow
         if (player.Stats.CurrentHP <= 0)
         {
             // Raise event after death animation completes
             if (combatEndedWithPlayerDeath != null)
-            {
                 combatEndedWithPlayerDeath.Raise();
-            }
             else
-            {
                 Log.Warning("CombatController - combatEndedWithPlayerDeath event channel not assigned");
-            }
             yield break;
         }
 
