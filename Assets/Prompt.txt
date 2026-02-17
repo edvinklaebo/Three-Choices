@@ -14,14 +14,12 @@ Current state (short):
 -- CI/CD Integration (github actions and auto deploy to itch.io)
 -- Sentry Integration for errors and logging
 -- Testing Mainly EditMode Tests
+-- Death Screen/Game Over
 
 – What’s missing / painful:
 -- Continue Button
--- SettingsMenu
--- PauseMenu
--- RestartButton
 -- Show Stats/Stats UI
--- Death Screen/Game Over
+
 
 Give me:
 

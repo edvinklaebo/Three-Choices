@@ -1,9 +1,9 @@
 using UnityEngine;
 
 /// <summary>
-/// Root combat view orchestrator.
-/// Manages player and enemy views, subscribes to combat events.
-/// Purely reactive - no game logic.
+///     Root combat view orchestrator.
+///     Manages player and enemy views, subscribes to combat events.
+///     Purely reactive - no game logic.
 /// </summary>
 public class CombatView : MonoBehaviour
 {
@@ -12,48 +12,36 @@ public class CombatView : MonoBehaviour
     [SerializeField] private CombatHUD _combatHUD;
     [SerializeField] private TurnIndicatorUI _turnIndicator;
     [SerializeField] private FloatingTextPool _floatingTextPool;
-    
-    public UnitView PlayerView => _playerView;
-    public UnitView EnemyView => _enemyView;
 
     private CanvasGroup _canvasGroup;
 
+    public UnitView PlayerView => _playerView;
+    public UnitView EnemyView => _enemyView;
+
     private void Awake()
     {
-        if (_playerView == null)
-        {
-            Debug.LogError("CombatView: PlayerView not assigned");
-        }
+        if (_playerView == null) Log.Error("CombatView: PlayerView not assigned");
 
-        if (_enemyView == null)
-        {
-            Debug.LogError("CombatView: EnemyView not assigned");
-        }
+        if (_enemyView == null) Log.Error("CombatView: EnemyView not assigned");
 
-        if (_combatHUD == null)
-        {
-            Debug.LogError("CombatView: CombatHUD not assigned");
-        }
+        if (_combatHUD == null) Log.Error("CombatView: CombatHUD not assigned");
 
         // Get or add CanvasGroup for show/hide functionality
         _canvasGroup = GetComponent<CanvasGroup>();
-        if (_canvasGroup == null)
-        {
-            _canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        }
+        if (_canvasGroup == null) _canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
         // Start hidden
         Hide();
     }
 
     /// <summary>
-    /// Initialize the combat view with player and enemy units.
+    ///     Initialize the combat view with player and enemy units.
     /// </summary>
     public void Initialize(Unit player, Unit enemy)
     {
         if (player == null || enemy == null)
         {
-            Debug.LogError("CombatView: Cannot initialize with null units");
+            Log.Error("CombatView: Cannot initialize with null units");
             return;
         }
 
@@ -75,36 +63,30 @@ public class CombatView : MonoBehaviour
     }
 
     /// <summary>
-    /// Show turn indicator for active unit.
-    /// NOTE: Currently not called - turn events not wired in combat flow.
-    /// This is a placeholder for future turn-by-turn combat visualization.
-    /// Leave _turnIndicator unassigned (null) in inspector if not implementing turn events.
+    ///     Show turn indicator for active unit.
+    ///     NOTE: Currently not called - turn events not wired in combat flow.
+    ///     This is a placeholder for future turn-by-turn combat visualization.
+    ///     Leave _turnIndicator unassigned (null) in inspector if not implementing turn events.
     /// </summary>
     public void ShowTurnIndicator(Unit activeUnit)
     {
-        if (_turnIndicator != null)
-        {
-            _turnIndicator.ShowTurn(activeUnit);
-        }
+        if (_turnIndicator != null) _turnIndicator.ShowTurn(activeUnit);
     }
 
     /// <summary>
-    /// Hide turn indicator.
-    /// NOTE: Currently not called - turn events not wired in combat flow.
-    /// This is a placeholder for future turn-by-turn combat visualization.
-    /// Leave _turnIndicator unassigned (null) in inspector if not implementing turn events.
+    ///     Hide turn indicator.
+    ///     NOTE: Currently not called - turn events not wired in combat flow.
+    ///     This is a placeholder for future turn-by-turn combat visualization.
+    ///     Leave _turnIndicator unassigned (null) in inspector if not implementing turn events.
     /// </summary>
     public void HideTurnIndicator()
     {
-        if (_turnIndicator != null)
-        {
-            _turnIndicator.Hide();
-        }
+        if (_turnIndicator != null) _turnIndicator.Hide();
     }
 
     /// <summary>
-    /// Get the UnitView for a given Unit.
-    /// Used by AnimationService and UIService for unit lookups.
+    ///     Get the UnitView for a given Unit.
+    ///     Used by AnimationService and UIService for unit lookups.
     /// </summary>
     public UnitView GetUnitView(Unit unit)
     {
@@ -121,8 +103,8 @@ public class CombatView : MonoBehaviour
     }
 
     /// <summary>
-    /// Show the combat view.
-    /// Called when combat starts.
+    ///     Show the combat view.
+    ///     Called when combat starts.
     /// </summary>
     public void Show()
     {
@@ -135,11 +117,14 @@ public class CombatView : MonoBehaviour
     }
 
     /// <summary>
-    /// Hide the combat view.
-    /// Called when draft UI is shown after battle.
+    ///     Hide the combat view.
+    ///     Called when draft UI is shown after battle.
     /// </summary>
     public void Hide()
     {
+        // Disable presentation mode when combat ends
+        if (_combatHUD != null) _combatHUD.DisablePresentationMode();
+
         if (_canvasGroup != null)
         {
             _canvasGroup.alpha = 0f;

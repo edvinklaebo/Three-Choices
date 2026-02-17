@@ -5,10 +5,11 @@ public class RunController : MonoBehaviour
 {
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel playerDiedEvent;
-    
+    [SerializeField] private VoidEventChannel combatEndedWithPlayerDeath;
+
     public Unit Player;
 
-    private int _fightIndex = 1;
+    public int _fightIndex = 1;
 
     public RunState CurrentRun { get; private set; }
 
@@ -21,36 +22,41 @@ public class RunController : MonoBehaviour
     {
         requestNextFight.OnRaised += HandleNextFight;
         playerDiedEvent.OnRaised += OnPlayerDied;
+
+        if (combatEndedWithPlayerDeath != null) combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
     }
 
     private void OnDisable()
     {
         requestNextFight.OnRaised -= HandleNextFight;
         playerDiedEvent.OnRaised -= OnPlayerDied;
+
+        if (combatEndedWithPlayerDeath != null) combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
     }
 
     public void ContinueRun()
     {
-        SceneManager.LoadScene("DraftScene");
         CurrentRun = SaveService.Load();
-
+        Player = new Unit(CurrentRun.player.Name)
+        {
+            Stats = CurrentRun.player.Stats
+        };
         _fightIndex = CurrentRun.fightIndex;
-        Player = CurrentRun.player;
 
         Player.Died += _ => playerDiedEvent.Raise();
-        SaveService.Save(CurrentRun);
-        requestNextFight.Raise();
+        SceneManager.LoadScene("DraftScene");
+        // Note: requestNextFight will be raised by CombatController.Start() when DraftScene loads
     }
 
     public void StartNewRun(CharacterDefinition character)
     {
         if (character == null)
         {
-            Debug.LogError("[Run] Cannot start run with null character");
+            Log.Error("[Run] Cannot start run with null character");
             return;
         }
 
-        Debug.Log($"[Run] Starting run with {character.DisplayName}");
+        Log.Info($"[Run] Starting run with {character.DisplayName}");
         SceneManager.LoadScene("DraftScene");
         Player = CreatePlayerFromCharacter(character);
         Player.Died += _ => playerDiedEvent.Raise();
@@ -62,7 +68,7 @@ public class RunController : MonoBehaviour
         };
 
         SaveService.Save(CurrentRun);
-        requestNextFight.Raise();
+        // Note: requestNextFight will be raised by CombatController.Start() when DraftScene loads
     }
 
     private void HandleNextFight()
@@ -80,6 +86,15 @@ public class RunController : MonoBehaviour
 
     private static void OnPlayerDied()
     {
+        // Player died event - for immediate notifications
+        // Game over logic is now handled by OnCombatEndedWithPlayerDeath
+        // to allow death animation to complete
+        Log.Info("Player died - waiting for death animation to complete");
+    }
+
+    private static void OnCombatEndedWithPlayerDeath()
+    {
+        Log.Info("Combat ended with player death - loading game over scene");
         SaveService.Delete();
         SceneManager.LoadScene("GameOver");
     }

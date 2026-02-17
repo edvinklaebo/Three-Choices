@@ -43,7 +43,7 @@ public class MainMenuController : MonoBehaviour
 
     public void OnNewGamePressed()
     {
-        Debug.Log("[MainMenu] New run requested.");
+        Log.Info("[MainMenu] New run requested.");
         GameEvents.NewRunRequested_Event?.Invoke();
         SceneManager.LoadScene(CharacterSelectSceneName);
     }

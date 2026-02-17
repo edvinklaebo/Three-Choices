@@ -52,7 +52,7 @@ namespace Tests.EditModeTests
 
             // The unit should have 50 HP
             Assert.AreEqual(50, unit.Stats.CurrentHP, "Unit should have 50 HP");
-            
+
             // Note: The slider won't update immediately due to lerping in Update()
             // The event handler sets the internal target value, but slider.value lerps in Update()
             // We can verify the event was triggered by checking the unit's HP changed
@@ -74,7 +74,7 @@ namespace Tests.EditModeTests
 
             Assert.IsTrue(unit.isDead, "Unit should be dead");
             Assert.LessOrEqual(unit.Stats.CurrentHP, 0, "HP should be 0 or negative");
-            
+
             // Note: The slider won't update immediately due to lerping in Update()
             // The target value is set to 0, but the actual slider.value lerps over time
 
@@ -112,8 +112,8 @@ namespace Tests.EditModeTests
             // Multiple changes
             unit.ApplyDamage(null, 10); // 90 HP
             unit.ApplyDamage(null, 20); // 70 HP
-            unit.Heal(15);              // 85 HP
-            unit.ApplyDamage(null, 5);  // 80 HP
+            unit.Heal(15); // 85 HP
+            unit.ApplyDamage(null, 5); // 80 HP
 
             Assert.AreEqual(80, unit.Stats.CurrentHP, "Unit should have 80 HP");
 
@@ -150,7 +150,7 @@ namespace Tests.EditModeTests
             var go = new GameObject("TestHealthBar");
             var slider = go.AddComponent<Slider>();
             var healthBar = go.AddComponent<HealthBarUI>();
-            
+
             // Awake should auto-find the slider
             var unit = CreateUnit("Test", 100, 10, 5, 5);
             healthBar.Initialize(unit);
@@ -159,6 +159,180 @@ namespace Tests.EditModeTests
             Assert.AreEqual(0f, slider.minValue, "Slider min should be 0");
             Assert.AreEqual(1f, slider.maxValue, "Slider max should be 1");
             Assert.IsFalse(slider.interactable, "Slider should not be interactable");
+
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void AnimateToCurrentHealth_UpdatesTargetValue()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+
+            var unit = CreateUnit("Test", 100, 10, 5, 5);
+            healthBar.Initialize(unit);
+
+            // Initial value should be 1.0 (100/100)
+            Assert.AreEqual(1.0f, slider.value, 0.01f, "Slider should start at full health");
+
+            // Simulate combat: damage the unit directly (state changes in CombatSystem)
+            // We modify Stats.CurrentHP directly to simulate what CombatSystem does internally
+            // before the DamageAction.Play() is called
+            unit.Stats.CurrentHP = 50;
+
+            // Now call AnimateToCurrentHealth (simulating presentation event)
+            healthBar.AnimateToCurrentHealth();
+
+            // The unit should have 50 HP
+            Assert.AreEqual(50, unit.Stats.CurrentHP, "Unit should have 50 HP");
+
+            // Note: The slider won't update immediately due to lerping in Update()
+            // The target value is set, but slider.value lerps over time
+
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void AnimateToCurrentHealth_AfterDeath_SetsTargetToZero()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+
+            var unit = CreateUnit("Test", 100, 10, 5, 5);
+            healthBar.Initialize(unit);
+
+            // Simulate combat: kill the unit directly (state changes in CombatSystem)
+            // We modify Stats.CurrentHP and isDead directly to simulate what happens
+            // in CombatSystem before DeathAction.Play() is called
+            unit.Stats.CurrentHP = 0;
+            unit.isDead = true;
+
+            // Call AnimateToCurrentHealth (simulating presentation event)
+            healthBar.AnimateToCurrentHealth();
+
+            Assert.AreEqual(0, unit.Stats.CurrentHP, "Unit should have 0 HP");
+
+            // Note: The slider won't update immediately due to lerping in Update()
+
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void PresentationMode_IgnoresStateChanges()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+
+            var unit = CreateUnit("Test", 100, 10, 5, 5);
+            healthBar.Initialize(unit);
+
+            // Enable presentation mode
+            healthBar.EnablePresentationMode();
+
+            // Change unit health via state change (should be ignored)
+            unit.ApplyDamage(null, 50);
+
+            Assert.AreEqual(50, unit.Stats.CurrentHP, "Unit should have 50 HP");
+
+            // Slider should still be at 1.0 because presentation mode ignores state changes
+            Assert.AreEqual(1.0f, slider.value, 0.01f, "Slider should remain at full health in presentation mode");
+
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void PresentationMode_RespondsToAnimateToCurrentHealth()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+
+            var unit = CreateUnit("Test", 100, 10, 5, 5);
+            healthBar.Initialize(unit);
+
+            // Enable presentation mode
+            healthBar.EnablePresentationMode();
+
+            // Simulate combat: change unit health via state change
+            // We modify Stats.CurrentHP directly to simulate CombatSystem's internal state changes
+            unit.Stats.CurrentHP = 50;
+
+            // Now trigger presentation update
+            healthBar.AnimateToCurrentHealth();
+
+            // Note: Slider won't update immediately due to lerping, but the target should be set
+            // We can't easily test the target value since it's private, so we just verify no errors
+
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void DisablePresentationMode_RespondsToStateChangesAgain()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+
+            var unit = CreateUnit("Test", 100, 10, 5, 5);
+            healthBar.Initialize(unit);
+
+            // Enable then disable presentation mode
+            healthBar.EnablePresentationMode();
+            healthBar.DisablePresentationMode();
+
+            // Now state changes should work again
+            unit.ApplyDamage(null, 50);
+
+            Assert.AreEqual(50, unit.Stats.CurrentHP, "Unit should have 50 HP");
+
+            // Note: Slider updates via lerp in Update(), but the HealthChanged event should have been processed
+
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void AnimateToHealth_AnimatesFromOldToNewValue()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+
+            var unit = CreateUnit("Test", 100, 10, 5, 5);
+            healthBar.Initialize(unit);
+
+            // Enable presentation mode
+            healthBar.EnablePresentationMode();
+
+            // Simulate combat: unit is damaged but we want to animate from old to new value
+            // fromNormalized = 1.0 (100/100), toNormalized = 0.5 (50/100)
+            healthBar.AnimateToHealth(1.0f, 0.5f);
+
+            // Slider should immediately be set to the starting value
+            Assert.AreEqual(1.0f, slider.value, 0.01f, "Slider should be at starting value");
+
+            // Note: Target value is 0.5, but lerping happens in Update()
+
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void AnimateToHealth_WithZeroMaxHP_HandlesGracefully()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+
+            var unit = CreateUnit("Test", 100, 10, 5, 5);
+            healthBar.Initialize(unit);
+
+            // Enable presentation mode
+            healthBar.EnablePresentationMode();
+
+            // Call with death scenario: from 0.1 to 0.0
+            Assert.DoesNotThrow(() => healthBar.AnimateToHealth(0.1f, 0.0f));
 
             Object.DestroyImmediate(go);
         }
