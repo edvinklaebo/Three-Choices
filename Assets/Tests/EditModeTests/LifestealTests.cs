@@ -96,7 +96,7 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void Lifesteal_RoundsUpHealAmount()
+        public void Lifesteal_HealsCorrectAmount_WhenExactPercentage()
         {
             var attacker = CreateUnit("Vampire", 100, 10);
             attacker.Stats.CurrentHP = 90;
@@ -107,16 +107,41 @@ namespace Tests.EditModeTests
             attacker.Passives.Add(lifesteal);
 
             // Run combat - attacker deals 10 damage per hit
-            // 20% of 10 = 2 HP healed per hit (no rounding needed here)
+            // 20% of 10 = 2 HP healed per hit (no rounding needed)
             var actions = CombatSystem.RunFight(attacker, defender);
 
             var healActions = actions.OfType<HealAction>().ToList();
             Assert.IsNotEmpty(healActions, "Should have heal actions");
 
-            // Each heal should be 2 HP (ceiling of 10 * 0.2 = 2)
+            // Each heal should be 2 HP (10 * 0.2 = 2)
             foreach (var healAction in healActions)
             {
                 Assert.AreEqual(2, healAction.Amount, "Should heal 2 HP per 10 damage");
+            }
+        }
+
+        [Test]
+        public void Lifesteal_RoundsUpHealAmount()
+        {
+            var attacker = CreateUnit("Vampire", 100, 7);
+            attacker.Stats.CurrentHP = 90;
+            var defender = CreateUnit("Victim", 30, 0);
+
+            // Add lifesteal passive (20% healing)
+            var lifesteal = new Lifesteal(attacker, 0.2f);
+            attacker.Passives.Add(lifesteal);
+
+            // Run combat - attacker deals 7 damage per hit
+            // 20% of 7 = 1.4, which rounds up to 2 HP healed per hit
+            var actions = CombatSystem.RunFight(attacker, defender);
+
+            var healActions = actions.OfType<HealAction>().ToList();
+            Assert.IsNotEmpty(healActions, "Should have heal actions");
+
+            // Each heal should be 2 HP (ceiling of 7 * 0.2 = 1.4)
+            foreach (var healAction in healActions)
+            {
+                Assert.AreEqual(2, healAction.Amount, "Should round up: 7 * 0.2 = 1.4 -> 2 HP");
             }
         }
 
