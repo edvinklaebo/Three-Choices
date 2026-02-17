@@ -166,7 +166,7 @@ public class ModifierExamples
             _thresholds = thresholds;
             
             // Sort by threshold descending for efficient lookup
-            System.Array.Sort(_thresholds, (a, b) => b.threshold.CompareTo(a.threshold));
+            System.Array.Sort(_thresholds, (a, b) => b.Item1.CompareTo(a.Item1));
         }
         
         public void Modify(DamageContext ctx)
@@ -176,11 +176,11 @@ public class ModifierExamples
             var hpPercent = (float)_owner.Stats.CurrentHP / _owner.Stats.MaxHP;
             
             // Find first matching threshold
-            foreach (var (threshold, multiplier) in _thresholds)
+            foreach (var threshold in _thresholds)
             {
-                if (hpPercent <= threshold)
+                if (hpPercent <= threshold.Item1)
                 {
-                    ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * multiplier);
+                    ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * threshold.Item2);
                     return;
                 }
             }
