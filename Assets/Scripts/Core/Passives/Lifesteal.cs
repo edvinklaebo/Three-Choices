@@ -29,13 +29,7 @@ public class Lifesteal : Passive
         var hpAfter = Owner.Stats.CurrentHP;
         
         // Store heal data for action queue
-        _pendingHeals.Add(new HealData
-        {
-            Amount = heal,
-            HPBefore = hpBefore,
-            HPAfter = hpAfter,
-            MaxHP = maxHP
-        });
+        _pendingHeals.Add(new HealData(heal, hpBefore, hpAfter, maxHP));
     }
 
     /// <summary>
@@ -48,11 +42,19 @@ public class Lifesteal : Passive
         return heals;
     }
 
-    public struct HealData
+    public readonly struct HealData
     {
-        public int Amount;
-        public int HPBefore;
-        public int HPAfter;
-        public int MaxHP;
+        public readonly int Amount;
+        public readonly int HPBefore;
+        public readonly int HPAfter;
+        public readonly int MaxHP;
+
+        public HealData(int amount, int hpBefore, int hpAfter, int maxHP)
+        {
+            Amount = amount;
+            HPBefore = hpBefore;
+            HPAfter = hpAfter;
+            MaxHP = maxHP;
+        }
     }
 }
