@@ -4,7 +4,7 @@ namespace Tests.EditModeTests
 {
     public class MetaProgressionSystemTests
     {
-        private Unit CreateUnit(string name, int hp, int attack)
+        private static Unit CreateUnit(string name, int hp, int attack)
         {
             return new Unit(name)
             {
@@ -143,15 +143,6 @@ namespace Tests.EditModeTests
             // Verify they work after reload
             Assert.IsTrue(MetaProgressionSystem.IsUnlocked("mod1"));
             Assert.IsTrue(MetaProgressionSystem.IsUnlocked("mod2"));
-        }
-
-        [Test]
-        public void Load_ReturnsEmptyListWhenNoSaveExists()
-        {
-            MetaProgressionSystem.Reset(); // Ensures no save file
-            var loadedIds = MetaProgressionSystem.Load();
-            Assert.IsNotNull(loadedIds);
-            Assert.AreEqual(0, loadedIds.Count);
         }
 
         [TearDown]

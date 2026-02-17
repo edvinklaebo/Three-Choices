@@ -149,7 +149,7 @@ public static class MetaProgressionSystem
         _unlockedModifiers.Clear();
         
         // Delete save file
-        if (File.Exists(SavePath))
+        if (File.Exists(SavePath) && Application.isPlaying)
             File.Delete(SavePath);
     }
 }
