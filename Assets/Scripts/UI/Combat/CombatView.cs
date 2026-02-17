@@ -46,8 +46,8 @@ public class CombatView : MonoBehaviour
         }
 
         // Initialize unit views
-        _playerView.Initialize(player, true);
-        _enemyView.Initialize(enemy, false);
+        _playerView.Initialize(player, isPlayer: true);
+        _enemyView.Initialize(enemy, isPlayer: false);
 
         // Initialize HUD
         _combatHUD.Initialize(player, enemy);
