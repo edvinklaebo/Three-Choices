@@ -11,7 +11,7 @@ public class Lifesteal : Passive
         Owner = owner;
         this.percent = percent;
 
-        owner.Damaged += OnDamageDealt;
+        owner.OnHit += OnDamageDealt;
     }
 
     private void OnDamageDealt(Unit target, int damage)

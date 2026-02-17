@@ -6,7 +6,7 @@ namespace Tests.EditModeTests
 {
     public class LifestealTests
     {
-        private Unit CreateUnit(string name, int hp, int attack)
+        private Unit CreateUnit(string name, int hp, int attack, int speed)
         {
             return new Unit(name)
             {
@@ -16,7 +16,7 @@ namespace Tests.EditModeTests
                     CurrentHP = hp,
                     AttackPower = attack,
                     Armor = 0,
-                    Speed = 10
+                    Speed = speed
                 }
             };
         }
@@ -24,9 +24,9 @@ namespace Tests.EditModeTests
         [Test]
         public void Lifesteal_HealsAttacker_WhenDamageIsDealt()
         {
-            var attacker = CreateUnit("Vampire", 50, 10);
+            var attacker = CreateUnit("Vampire", 50, 10, 10);
             attacker.Stats.CurrentHP = 30; // Reduce HP to test healing
-            var defender = CreateUnit("Victim", 100, 5);
+            var defender = CreateUnit("Victim", 100, 0, 5);
 
             // Add lifesteal passive (20% healing)
             var lifesteal = new Lifesteal(attacker, 0.2f);
@@ -45,9 +45,9 @@ namespace Tests.EditModeTests
         [Test]
         public void Lifesteal_QueuesHealAction_InCombat()
         {
-            var attacker = CreateUnit("Vampire", 100, 20);
+            var attacker = CreateUnit("Vampire", 100, 20, 10);
             attacker.Stats.CurrentHP = 80; // Reduce HP so healing is visible
-            var defender = CreateUnit("Victim", 100, 0);
+            var defender = CreateUnit("Victim", 100, 0, 5);
 
             // Add lifesteal passive (20% healing)
             var lifesteal = new Lifesteal(attacker, 0.2f);
@@ -74,9 +74,9 @@ namespace Tests.EditModeTests
         [Test]
         public void Lifesteal_HealsCorrectAmount_BasedOnDamage()
         {
-            var attacker = CreateUnit("Vampire", 100, 50);
+            var attacker = CreateUnit("Vampire", 100, 50, 10);
             attacker.Stats.CurrentHP = 50;
-            var defender = CreateUnit("Victim", 100, 0);
+            var defender = CreateUnit("Victim", 100, 0, 5);
 
             // Add lifesteal passive (20% healing)
             var lifesteal = new Lifesteal(attacker, 0.2f);
@@ -98,9 +98,9 @@ namespace Tests.EditModeTests
         [Test]
         public void Lifesteal_HealsCorrectAmount_WhenExactPercentage()
         {
-            var attacker = CreateUnit("Vampire", 100, 10);
+            var attacker = CreateUnit("Vampire", 100, 10, 10);
             attacker.Stats.CurrentHP = 90;
-            var defender = CreateUnit("Victim", 15, 0);
+            var defender = CreateUnit("Victim", 15, 0, 5);
 
             // Add lifesteal passive (20% healing)
             var lifesteal = new Lifesteal(attacker, 0.2f);
@@ -123,9 +123,9 @@ namespace Tests.EditModeTests
         [Test]
         public void Lifesteal_RoundsUpHealAmount()
         {
-            var attacker = CreateUnit("Vampire", 100, 7);
+            var attacker = CreateUnit("Vampire", 100, 7, 10);
             attacker.Stats.CurrentHP = 90;
-            var defender = CreateUnit("Victim", 30, 0);
+            var defender = CreateUnit("Victim", 30, 0, 5);
 
             // Add lifesteal passive (20% healing)
             var lifesteal = new Lifesteal(attacker, 0.2f);
@@ -148,9 +148,9 @@ namespace Tests.EditModeTests
         [Test]
         public void Lifesteal_DoesNotHealAboveMaxHP()
         {
-            var attacker = CreateUnit("Vampire", 100, 50);
+            var attacker = CreateUnit("Vampire", 100, 50, 10);
             attacker.Stats.CurrentHP = 99; // Almost full
-            var defender = CreateUnit("Victim", 100, 0);
+            var defender = CreateUnit("Victim", 100, 0, 5);
 
             // Add lifesteal passive (20% healing)
             var lifesteal = new Lifesteal(attacker, 0.2f);
@@ -169,9 +169,9 @@ namespace Tests.EditModeTests
         [Test]
         public void Lifesteal_TracksHPValuesCorrectly()
         {
-            var attacker = CreateUnit("Vampire", 100, 10);
+            var attacker = CreateUnit("Vampire", 100, 10, 10);
             attacker.Stats.CurrentHP = 80;
-            var defender = CreateUnit("Victim", 20, 0);
+            var defender = CreateUnit("Victim", 20, 0, 5);
 
             // Add lifesteal passive (20% healing)
             var lifesteal = new Lifesteal(attacker, 0.2f);
