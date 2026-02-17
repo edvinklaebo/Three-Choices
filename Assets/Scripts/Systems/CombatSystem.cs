@@ -151,6 +151,25 @@ public static class CombatSystem
         // Create damage action for animation with HP values
         actions.Add(new DamageAction(attacker, defender, ctx.FinalValue, hpBefore, hpAfter, maxHP));
 
+        // Collect lifesteal heal actions from attacker's passives
+        foreach (var passive in attacker.Passives)
+        {
+            if (passive is Lifesteal lifesteal)
+            {
+                var heals = lifesteal.ConsumePendingHeals();
+                foreach (var healData in heals)
+                {
+                    actions.Add(new HealAction(
+                        attacker,
+                        healData.Amount,
+                        healData.HPBefore,
+                        healData.HPAfter,
+                        healData.MaxHP
+                    ));
+                }
+            }
+        }
+
         // Add death action if defender died
         if (defender.isDead)
         {
