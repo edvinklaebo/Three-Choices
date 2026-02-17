@@ -1,25 +1,52 @@
 using System.Collections.Generic;
+using System.Linq;
 
+/// <summary>
+/// Pipeline for applying damage modifiers in priority order.
+/// Supports both global modifiers and context-specific modifiers.
+/// </summary>
 public static class DamagePipeline
 {
-    private static readonly List<IDamageModifier> modifiers = new();
+    private static readonly List<IDamageModifier> _globalModifiers = new();
 
     public static void Register(IDamageModifier mod)
     {
-        modifiers.Add(mod);
+        _globalModifiers.Add(mod);
     }
 
     public static void Unregister(IDamageModifier mod)
     {
-        modifiers.Remove(mod);
+        _globalModifiers.Remove(mod);
     }
 
+    /// <summary>
+    /// Process damage context through all registered modifiers in priority order.
+    /// </summary>
     public static void Process(DamageContext ctx)
     {
-        foreach (var mod in modifiers)
+        // Collect all applicable modifiers
+        var allModifiers = new List<IDamageModifier>(_globalModifiers);
+
+        // Add unit-specific modifiers (from passives)
+        if (ctx.Source != null)
+            foreach (var passive in ctx.Source.Passives)
+                if (passive is IDamageModifier modifier)
+                    allModifiers.Add(modifier);
+
+        // Apply modifiers in priority order
+        foreach (var mod in allModifiers.OrderBy(m => m.Priority))
             mod.Modify(ctx);
 
+        // Ensure non-negative damage
         if (ctx.FinalValue < 0)
             ctx.FinalValue = 0;
+    }
+
+    /// <summary>
+    /// Clear all global modifiers. Useful for testing or run resets.
+    /// </summary>
+    public static void Clear()
+    {
+        _globalModifiers.Clear();
     }
 }
