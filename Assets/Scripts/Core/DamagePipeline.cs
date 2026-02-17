@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 /// <summary>
 /// Pipeline for applying damage modifiers in priority order.
@@ -25,7 +24,7 @@ public static class DamagePipeline
     public static void Process(DamageContext ctx)
     {
         // Collect all applicable modifiers from global registration and unit passives
-        var allModifiers = new List<IDamageModifier>(_globalModifiers.Count + 10);
+        var allModifiers = new List<IDamageModifier>(_globalModifiers.Count);
         
         // Add globally registered modifiers
         allModifiers.AddRange(_globalModifiers);
