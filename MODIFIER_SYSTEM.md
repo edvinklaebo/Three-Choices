@@ -119,12 +119,12 @@ public class PiercingModifier : IDamageModifier
 
 ## Meta-Progression
 
-The `MetaProgressionSystem` manages persistent modifiers across runs.
+The `MetaProgressionSystem` manages persistent modifiers across runs with file-based persistence.
 
 ### Unlocking Modifiers
 
 ```csharp
-// Unlock after achieving something
+// Unlock after achieving something (auto-saves)
 var modifier = new FlatDamageModifier(player, 5);
 MetaProgressionSystem.UnlockModifier("meta_flat_damage_1", modifier);
 ```
@@ -132,7 +132,18 @@ MetaProgressionSystem.UnlockModifier("meta_flat_damage_1", modifier);
 ### Activating for a Run
 
 ```csharp
-// At run start
+// At game start, load saved unlocks
+var unlockedIds = MetaProgressionSystem.Load();
+
+// Recreate modifier instances for loaded IDs
+foreach (var id in unlockedIds)
+{
+    // Your code to create modifier based on ID
+    var modifier = CreateModifierFromId(id, player);
+    MetaProgressionSystem.RegisterUnlockedModifier(id, modifier);
+}
+
+// At run start, activate desired modifiers
 MetaProgressionSystem.ActivateModifier("meta_flat_damage_1");
 
 // At run end
@@ -149,6 +160,13 @@ if (MetaProgressionSystem.IsUnlocked("meta_flat_damage_1"))
 
 var allUnlocked = MetaProgressionSystem.GetUnlockedModifiers();
 ```
+
+### Persistence
+
+Unlocked modifier IDs are automatically saved to disk at:
+`Application.persistentDataPath/meta_progression.json`
+
+**Important**: Only modifier IDs are persisted, not the instances themselves. Your game code must recreate modifier instances from saved IDs on load using `RegisterUnlockedModifier()`.
 
 ## Decision Density
 

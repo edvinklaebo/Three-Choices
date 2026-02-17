@@ -24,9 +24,17 @@ DamagePipeline.Unregister(globalBuff);
 ### 3. Via Meta-Progression (For Permanent Upgrades)
 
 ```csharp
-// Unlock once
+// Unlock once (auto-saves to disk)
 var metaMod = new FlatDamageModifier(player, 5);
 MetaProgressionSystem.UnlockModifier("permanent_damage_1", metaMod);
+
+// On game start, load saved unlocks
+var unlockedIds = MetaProgressionSystem.Load();
+foreach (var id in unlockedIds)
+{
+    var modifier = CreateModifierFromId(id, player); // Your factory method
+    MetaProgressionSystem.RegisterUnlockedModifier(id, modifier);
+}
 
 // Activate each run
 MetaProgressionSystem.ActivateModifier("permanent_damage_1");
