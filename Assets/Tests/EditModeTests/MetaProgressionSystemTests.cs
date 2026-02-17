@@ -114,6 +114,46 @@ namespace Tests.EditModeTests
             MetaProgressionSystem.ActivateModifier("unknown_modifier");
         }
 
+        [Test]
+        public void SaveAndLoad_PersistsUnlockedModifiers()
+        {
+            var attacker = CreateUnit("Attacker", 100, 10);
+            var mod1 = new FlatDamageModifier(attacker, 5);
+            var mod2 = new PercentageDamageModifier(attacker, 1.5f);
+
+            // Unlock and save
+            MetaProgressionSystem.UnlockModifier("mod1", mod1);
+            MetaProgressionSystem.UnlockModifier("mod2", mod2);
+            MetaProgressionSystem.Save();
+
+            // Clear in-memory state
+            MetaProgressionSystem.Reset();
+            Assert.IsFalse(MetaProgressionSystem.IsUnlocked("mod1"));
+
+            // Load and verify IDs are restored
+            var loadedIds = MetaProgressionSystem.Load();
+            Assert.AreEqual(2, loadedIds.Count);
+            Assert.Contains("mod1", loadedIds);
+            Assert.Contains("mod2", loadedIds);
+
+            // Re-register modifiers with their IDs
+            MetaProgressionSystem.RegisterUnlockedModifier("mod1", mod1);
+            MetaProgressionSystem.RegisterUnlockedModifier("mod2", mod2);
+
+            // Verify they work after reload
+            Assert.IsTrue(MetaProgressionSystem.IsUnlocked("mod1"));
+            Assert.IsTrue(MetaProgressionSystem.IsUnlocked("mod2"));
+        }
+
+        [Test]
+        public void Load_ReturnsEmptyListWhenNoSaveExists()
+        {
+            MetaProgressionSystem.Reset(); // Ensures no save file
+            var loadedIds = MetaProgressionSystem.Load();
+            Assert.IsNotNull(loadedIds);
+            Assert.AreEqual(0, loadedIds.Count);
+        }
+
         [TearDown]
         public void Teardown()
         {

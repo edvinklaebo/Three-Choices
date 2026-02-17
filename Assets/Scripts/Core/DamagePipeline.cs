@@ -24,17 +24,28 @@ public static class DamagePipeline
     /// </summary>
     public static void Process(DamageContext ctx)
     {
-        // Collect all applicable modifiers
-        var allModifiers = new List<IDamageModifier>(_globalModifiers);
+        // Collect all applicable modifiers from global registration and unit passives
+        var allModifiers = new List<IDamageModifier>(_globalModifiers.Count + 10);
+        
+        // Add globally registered modifiers
+        allModifiers.AddRange(_globalModifiers);
 
-        // Add unit-specific modifiers (from passives)
+        // Add unit-specific modifiers (from passives) - only those not already globally registered
         if (ctx.Source != null)
+        {
             foreach (var passive in ctx.Source.Passives)
-                if (passive is IDamageModifier modifier)
+            {
+                if (passive is IDamageModifier modifier && !_globalModifiers.Contains(modifier))
+                {
                     allModifiers.Add(modifier);
+                }
+            }
+        }
 
-        // Apply modifiers in priority order
-        foreach (var mod in allModifiers.OrderBy(m => m.Priority))
+        // Sort once by priority and apply
+        allModifiers.Sort((a, b) => a.Priority.CompareTo(b.Priority));
+        
+        foreach (var mod in allModifiers)
             mod.Modify(ctx);
 
         // Ensure non-negative damage

@@ -213,6 +213,28 @@ namespace Tests.EditModeTests
             Assert.AreEqual(60, ctx.FinalValue, "Modifiers should apply in priority order regardless of registration order");
         }
 
+        [Test]
+        public void DamagePipeline_DoesNotDoubleApplyPassiveModifiers()
+        {
+            var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
+            var defender = CreateUnit("Defender", 100, 0, 0, 5);
+
+            // Create a Rage modifier that's both in passives AND registered globally
+            var rage = new Rage(attacker);
+            attacker.Passives.Add(rage);
+            DamagePipeline.Register(rage);
+
+            // Damage attacker to 50% HP to trigger rage
+            attacker.Stats.CurrentHP = 50;
+
+            var ctx = new DamageContext(attacker, defender, 10);
+            DamagePipeline.Process(ctx);
+
+            // Expected: 10 * 1.5 = 15 (Rage should only apply ONCE, not twice)
+            // If it applied twice, it would be 10 * 1.5 * 1.5 = 22.5 -> 23
+            Assert.AreEqual(15, ctx.FinalValue, "Rage should only apply once even if both in passives and globally registered");
+        }
+
         [TearDown]
         public void Teardown()
         {
