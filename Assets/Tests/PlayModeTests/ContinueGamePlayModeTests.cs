@@ -80,7 +80,7 @@ namespace Tests.PlayModeTests
             Assert.IsTrue(continueButton.gameObject.activeInHierarchy,
                 "Continue button should be visible when save exists");
 
-            Debug.Log("[Test] Continue button is visible when save exists");
+            Log.Info("[Test] Continue button is visible when save exists");
         }
 
         [UnityTest]
@@ -102,7 +102,7 @@ namespace Tests.PlayModeTests
             Assert.IsFalse(continueButton.gameObject.activeInHierarchy,
                 "Continue button should be hidden when no save exists");
 
-            Debug.Log("[Test] Continue button is hidden when no save exists");
+            Log.Info("[Test] Continue button is hidden when no save exists");
         }
 
         [UnityTest]
@@ -173,10 +173,10 @@ namespace Tests.PlayModeTests
             Assert.AreEqual(6, runController.CurrentRun.fightIndex,
                 "Fight index should be incremented once by CombatController.Start() raising requestNextFight");
 
-            Debug.Log("[Test] Continue game loaded player state correctly");
-            Debug.Log($"[Test] Player: {runController.Player.Name}, " +
-                     $"HP: {runController.Player.Stats.CurrentHP}/{runController.Player.Stats.MaxHP}, " +
-                     $"Attack: {runController.Player.Stats.AttackPower}, Fight: {runController.CurrentRun.fightIndex}");
+            Log.Info("[Test] Continue game loaded player state correctly");
+            Log.Info($"[Test] Player: {runController.Player.Name}, " +
+                      $"HP: {runController.Player.Stats.CurrentHP}/{runController.Player.Stats.MaxHP}, " +
+                      $"Attack: {runController.Player.Stats.AttackPower}, Fight: {runController.CurrentRun.fightIndex}");
 
             // === PHASE 4: Wait for scene transition to DraftScene ===
             var waitTime = 0f;
@@ -189,7 +189,7 @@ namespace Tests.PlayModeTests
             Assert.AreEqual("DraftScene", SceneManager.GetActiveScene().name,
                 "Continue should load DraftScene");
 
-            Debug.Log("[Test] Successfully transitioned to DraftScene after continue");
+            Log.Info("[Test] Successfully transitioned to DraftScene after continue");
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace Tests.PlayModeTests
             foreach (var button in allButtons)
             {
                 Log.Info($"Button: {button.name}");
-                
+
                 // Check GameObject name
                 if (button.gameObject.name.Contains(name))
                     return button;

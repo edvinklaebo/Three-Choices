@@ -13,12 +13,12 @@ public class CombatHUD : MonoBehaviour
     {
         if (_playerHUD == null)
         {
-            Debug.LogError("CombatHUD: PlayerHUD not assigned");
+            Log.Error("CombatHUD: PlayerHUD not assigned");
         }
 
         if (_enemyHUD == null)
         {
-            Debug.LogError("CombatHUD: EnemyHUD not assigned");
+            Log.Error("CombatHUD: EnemyHUD not assigned");
         }
     }
 
@@ -29,7 +29,7 @@ public class CombatHUD : MonoBehaviour
     {
         if (player == null || enemy == null)
         {
-            Debug.LogError("CombatHUD: Cannot initialize with null units");
+            Log.Error("CombatHUD: Cannot initialize with null units");
             return;
         }
 

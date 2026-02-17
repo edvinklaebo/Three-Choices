@@ -58,7 +58,7 @@ namespace Tests.PlayModeTests
             var progressBar = Object.FindFirstObjectByType<Slider>();
             Assert.IsNotNull(progressBar, "Loading progress bar should exist");
 
-            Debug.Log("[Test] Splash screen verified, waiting for main menu transition...");
+            Log.Info("[Test] Splash screen verified, waiting for main menu transition...");
 
             // === PHASE 2: Loading screen transitions to main menu ===
             var waitTime = 0f;
@@ -71,7 +71,7 @@ namespace Tests.PlayModeTests
             Assert.AreEqual("MainMenu", SceneManager.GetActiveScene().name,
                 "Scene should automatically transition to MainMenu");
 
-            Debug.Log("[Test] Main menu loaded");
+            Log.Info("[Test] Main menu loaded");
 
             // === PHASE 3: Menu buttons are present and functional ===
             yield return new WaitForSeconds(0.5f);
@@ -87,7 +87,7 @@ namespace Tests.PlayModeTests
             Assert.IsTrue(newGameButton.interactable,
                 "New Game button should be interactable");
 
-            Debug.Log("[Test] Menu buttons verified");
+            Log.Info("[Test] Menu buttons verified");
 
             // === PHASE 4: New game button is pressed and character select loads ===
             newGameButton.onClick.Invoke();
@@ -104,7 +104,7 @@ namespace Tests.PlayModeTests
             Assert.AreEqual("CharacterSelectScene", SceneManager.GetActiveScene().name,
                 "Pressing New Game should load CharacterSelectScene");
 
-            Debug.Log("[Test] Character select scene loaded");
+            Log.Info("[Test] Character select scene loaded");
 
             // === PHASE 5: Character select buttons work ===
             yield return new WaitForSeconds(0.5f);
@@ -140,7 +140,7 @@ namespace Tests.PlayModeTests
             Assert.IsTrue(selectButton.interactable,
                 "Select button should be clickable");
 
-            Debug.Log("[Test] Character select buttons verified");
+            Log.Info("[Test] Character select buttons verified");
 
             // === PHASE 6: Game starts when select is pressed ===
             selectButton.onClick.Invoke();
@@ -157,7 +157,7 @@ namespace Tests.PlayModeTests
             Assert.AreEqual("DraftScene", SceneManager.GetActiveScene().name,
                 "Confirming character selection should load DraftScene");
 
-            Debug.Log("[Test] Draft scene loaded");
+            Log.Info("[Test] Draft scene loaded");
 
             // === PHASE 7: Verify draft system is ready to show upgrades ===
             yield return new WaitForSeconds(0.5f);
@@ -177,8 +177,8 @@ namespace Tests.PlayModeTests
             Assert.IsNotNull(runController.Player, "Player should be initialized");
             Assert.IsNotNull(runController.CurrentRun, "CurrentRun should be initialized");
 
-            Debug.Log("[Test] All phases completed successfully! Game flow verified from start to draft scene.");
-            Debug.Log(
+            Log.Info("[Test] All phases completed successfully! Game flow verified from start to draft scene.");
+            Log.Info(
                 $"[Test] Player: {runController.Player.Name}, HP: {runController.Player.Stats.CurrentHP}/{runController.Player.Stats.MaxHP}");
         }
 

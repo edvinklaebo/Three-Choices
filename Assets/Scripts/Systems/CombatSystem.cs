@@ -153,12 +153,10 @@ public static class CombatSystem
 
         // Collect lifesteal heal actions from attacker's passives
         foreach (var passive in attacker.Passives)
-        {
             if (passive is Lifesteal lifesteal)
             {
                 var heals = lifesteal.ConsumePendingHeals();
                 foreach (var healData in heals)
-                {
                     actions.Add(new HealAction(
                         attacker,
                         healData.Amount,
@@ -166,15 +164,10 @@ public static class CombatSystem
                         healData.HPAfter,
                         healData.MaxHP
                     ));
-                }
             }
-        }
 
         // Add death action if defender died
-        if (defender.isDead)
-        {
-            actions.Add(new DeathAction(defender));
-        }
+        if (defender.isDead) actions.Add(new DeathAction(defender));
 
         return actions;
     }
@@ -185,15 +178,15 @@ public static class CombatSystem
 
         if (!unit.StatusEffects.Any())
             return actions;
-        
+
         for (var i = unit.StatusEffects.Count - 1; i >= 0; i--)
         {
             var effect = unit.StatusEffects[i];
-            
+
             // Track HP before status tick
             var hpBefore = unit.Stats.CurrentHP;
             var maxHP = unit.Stats.MaxHP;
-            
+
             effect.OnTurnStart(unit);
 
             // If damage was dealt, create an action
@@ -205,10 +198,7 @@ public static class CombatSystem
             }
 
             // Check for death after status effect
-            if (unit.isDead)
-            {
-                actions.Add(new DeathAction(unit));
-            }
+            if (unit.isDead) actions.Add(new DeathAction(unit));
 
             // Remove expired effects
             if (effect.Duration <= 0)
@@ -228,11 +218,11 @@ public static class CombatSystem
         for (var i = unit.StatusEffects.Count - 1; i >= 0; i--)
         {
             var effect = unit.StatusEffects[i];
-            
+
             // Track HP before status tick
             var hpBefore = unit.Stats.CurrentHP;
             var maxHP = unit.Stats.MaxHP;
-            
+
             effect.OnTurnEnd(unit);
 
             // If damage was dealt, create an action
@@ -244,10 +234,7 @@ public static class CombatSystem
             }
 
             // Check for death after status effect
-            if (unit.isDead)
-            {
-                actions.Add(new DeathAction(unit));
-            }
+            if (unit.isDead) actions.Add(new DeathAction(unit));
 
             // Remove expired effects
             if (effect.Duration <= 0)

@@ -80,7 +80,7 @@ public class PauseMenuBootstrap : MonoBehaviour
         // Add PauseInput to canvas
         canvas.gameObject.AddComponent<PauseInput>();
 
-        Debug.Log("PauseMenuUI created successfully");
+        Log.Info("PauseMenuUI created successfully");
     }
 
     private static GameObject CreatePanel(Transform parent, string name)
