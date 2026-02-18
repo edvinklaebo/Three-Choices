@@ -74,13 +74,6 @@ public class CombatController : MonoBehaviour
 
     private void HandleStartFight()
     {
-        Log.Info("message", new
-        {
-            runController.Player.Name,
-            runController.Player.Passives,
-            runController.Player.Stats.CurrentHP,
-            runController._fightIndex
-        });
         StartCoroutine(StartFightCoroutine(runController.Player, runController._fightIndex));
     }
 

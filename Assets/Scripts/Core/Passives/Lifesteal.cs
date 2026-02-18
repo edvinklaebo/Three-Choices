@@ -7,7 +7,7 @@ public class Lifesteal : IPassive
 {
     [SerializeField] private float percent;
     private Unit _owner;
-    private readonly List<HealData> _pendingHeals = new();
+    private List<HealData> _pendingHeals = new();
 
     public Lifesteal(Unit owner, float percent)
     {
@@ -42,6 +42,7 @@ public class Lifesteal : IPassive
         var hpAfter = _owner.Stats.CurrentHP;
 
         // Store heal data for action queue
+        _pendingHeals ??= new List<HealData>();
         _pendingHeals.Add(new HealData(heal, hpBefore, hpAfter, maxHP));
     }
 
