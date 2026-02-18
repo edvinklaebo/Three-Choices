@@ -27,7 +27,7 @@ public class Unit
     {
         Log.Info($"[Unit] Restoring player state for {Name}");
         
-        foreach (var passive in this.Passives)
+        foreach (var passive in Passives)
         {
             if (passive == null)
             {
@@ -111,7 +111,7 @@ public class Unit
                 newStacks = existing.Stacks + effect.Stacks
             });
 
-            existing.AddStacks(effect.Stacks);
+            existing.AddStacks(effect);
             return;
         }
 

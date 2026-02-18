@@ -46,9 +46,9 @@ namespace Tests.EditModeTests
             player.Passives.Add(new Lifesteal(player, 0.2f));
 
             // Add status effects
-            player.StatusEffects.Add(new Burn(5, 3));
-            player.StatusEffects.Add(new Poison(2, 4));
-            player.StatusEffects.Add(new Bleed(3, 2));
+            player.StatusEffects.Add(new Burn(3, 5));
+            player.StatusEffects.Add(new Poison(2, 4, 1));
+            player.StatusEffects.Add(new Bleed(3, 2, 1));
 
             return new RunState
             {

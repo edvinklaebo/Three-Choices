@@ -1,3 +1,5 @@
+using System;
+using System.Threading;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -62,9 +64,10 @@ namespace Tests.EditModeTests
             var fireball = new Fireball(caster, baseDamage: 10, burnDamagePercent: 0.5f);
             fireball.OnAttack(caster, target);
 
-            var burn = target.StatusEffects[0];
-            // Burn damage should be 50% of the actual damage dealt (10 * 0.5 = 5)
-            Assert.AreEqual(5, burn.Stacks, "Burn damage should be 50% of fireball damage");
+            if(target.StatusEffects[0] is not Burn burn)
+                throw new Exception("Burn should be applied to target");
+            
+            Assert.AreEqual(5, burn.BaseDamage, "Burn damage should be 50% of fireball damage");
         }
 
         [Test]
@@ -103,7 +106,7 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void Fireball_BurnScalesWithCritDamage()
+        public void Fireball_BurnPutsOneDebuffStack()
         {
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
             var target = CreateUnit("Target", 100, 0, 0, 5);
@@ -115,8 +118,7 @@ namespace Tests.EditModeTests
             fireball.OnAttack(caster, target);
 
             var burn = target.StatusEffects[0];
-            // Fireball crits for 20 damage, burn should be 50% of that = 10 damage
-            Assert.AreEqual(10, burn.Stacks, "Burn should scale with crit damage (20 * 0.5 = 10)");
+            Assert.AreEqual(1, burn.Stacks, "Fireball puts one burn");
         }
 
         [Test]
@@ -215,10 +217,12 @@ namespace Tests.EditModeTests
             // Second application with higher base damage
             var strongerFireball = new Fireball(caster, baseDamage: 20, burnDamagePercent: 0.5f);
             strongerFireball.OnAttack(caster, target);
+
+            if(target.StatusEffects[0] is not Burn burn)
+                throw new Exception("Burn should be applied to target");
             
             Assert.AreEqual(1, target.StatusEffects.Count, "Should still have only 1 burn effect");
-            Assert.Greater(target.StatusEffects[0].Stacks, firstBurnDamage, 
-                "Burn should update to higher damage");
+            Assert.Greater(burn.BaseDamage, firstBurnDamage, "Burn should update to higher damage");
         }
     }
 }

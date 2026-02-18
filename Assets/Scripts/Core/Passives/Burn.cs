@@ -10,30 +10,31 @@ public class Burn : IStatusEffect
 {
     [SerializeField] private int _baseDuration;
 
-    [SerializeField] private int _baseDamage;
 
-
-    public Burn(int damage, int duration)
+    public Burn(int duration, int baseDamage)
     {
-        this._baseDamage = damage;
-        this._baseDuration = duration;
+        _baseDuration = duration;
         Duration = duration;
+        BaseDamage = baseDamage;
     }
 
     public string Id => "Burn";
-
+    
     // Burn does not have traditional stacks - it uses damage value instead. Stacks is always 1 for simplicity.
     public int Stacks => 1;
 
     [field: SerializeField]
     public int Duration { get; private set; }
+    
+    [field: SerializeField]
+    public int BaseDamage { get; set; }
 
     public void OnApply(Unit target)
     {
         Log.Info("Burn applied", new
         {
             target = target.Name,
-            damage = this._baseDamage,
+            damage = BaseDamage,
             duration = Duration
         });
     }
@@ -43,12 +44,12 @@ public class Burn : IStatusEffect
         Log.Info("Burn ticking", new
         {
             target = target.Name,
-            damage = this._baseDamage,
+            damage = BaseDamage,
             duration = Duration,
             hpBefore = target.Stats.CurrentHP
         });
 
-        target.ApplyDirectDamage(this._baseDamage);
+        target.ApplyDirectDamage(BaseDamage);
         Duration--;
 
         Log.Info("Burn damage applied", new
@@ -72,25 +73,25 @@ public class Burn : IStatusEffect
         });
     }
 
-    public void AddStacks(int amount)
+    public void AddStacks(IStatusEffect effect)
     {
         // Burn does not stack - instead, refresh duration and keep highest damage
         // This is called when a new burn is applied
-        if (amount > this._baseDamage)
+        if (effect.BaseDamage > BaseDamage)
         {
             Log.Info("Burn refreshed with higher damage", new
             {
-                oldDamage = this._baseDamage,
-                newDamage = amount
+                oldDamage = BaseDamage,
+                newDamage = effect.BaseDamage
             });
-            this._baseDamage = amount;
+            BaseDamage = effect.BaseDamage;
         }
         else
         {
             Log.Info("Burn refreshed but kept higher damage", new
             {
-                currentDamage = this._baseDamage,
-                attemptedDamage = amount
+                currentDamage = BaseDamage,
+                attemptedDamage = effect.BaseDamage
             });
         }
         

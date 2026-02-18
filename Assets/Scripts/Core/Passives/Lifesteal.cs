@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class Lifesteal : Passive
 {
-    [NonSerialized] private readonly List<HealData> _pendingHeals = new();
+    private readonly List<HealData> _pendingHeals = new();
     [SerializeField] private float percent;
 
     public Lifesteal(Unit owner, float percent)

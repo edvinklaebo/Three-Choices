@@ -23,7 +23,7 @@ namespace Tests.EditModeTests
         public void Bleed_DealsDamageAtTurnStart()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var bleed = new Bleed(5, 3);
+            var bleed = new Bleed(5, 3, 1);
 
             unit.ApplyStatus(bleed);
             unit.TickStatusesTurnStart();
@@ -35,7 +35,7 @@ namespace Tests.EditModeTests
         public void Bleed_ReducesDurationEachTick()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var bleed = new Bleed(5, 3);
+            var bleed = new Bleed(5, 3, 1);
 
             unit.ApplyStatus(bleed);
 
@@ -52,7 +52,7 @@ namespace Tests.EditModeTests
         public void Bleed_ExpiresWhenDurationReachesZero()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var bleed = new Bleed(5, 2);
+            var bleed = new Bleed(5, 2, 1);
 
             unit.ApplyStatus(bleed);
 
@@ -68,8 +68,8 @@ namespace Tests.EditModeTests
         public void ApplyStatus_StacksExistingBleed()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var bleed1 = new Bleed(3, 2);
-            var bleed2 = new Bleed(2, 2);
+            var bleed1 = new Bleed(3, 2, 1);
+            var bleed2 = new Bleed(2, 2, 1);
 
             unit.ApplyStatus(bleed1);
             unit.ApplyStatus(bleed2);
@@ -82,7 +82,7 @@ namespace Tests.EditModeTests
         public void Bleed_CanKillUnit()
         {
             var unit = CreateUnit("Test", 10, 0, 0, 5);
-            var bleed = new Bleed(15, 3);
+            var bleed = new Bleed(15, 3, 1);
 
             unit.ApplyStatus(bleed);
             unit.TickStatusesTurnStart();
@@ -95,7 +95,7 @@ namespace Tests.EditModeTests
         public void Bleed_BypassesArmor()
         {
             var unit = CreateUnit("Tank", 100, 0, 1000, 5);
-            var bleed = new Bleed(10, 3);
+            var bleed = new Bleed(10, 3, 1);
 
             unit.ApplyStatus(bleed);
             unit.TickStatusesTurnStart();
@@ -109,7 +109,7 @@ namespace Tests.EditModeTests
             var bleeding = CreateUnit("Bleeding", 50, 10, 0, 10);
             var enemy = CreateUnit("Enemy", 100, 5, 0, 5);
 
-            bleeding.ApplyStatus(new Bleed(5, 10));
+            bleeding.ApplyStatus(new Bleed(5, 10, 1));
 
             CombatSystem.RunFight(bleeding, enemy);
 
@@ -125,7 +125,7 @@ namespace Tests.EditModeTests
             var bleeding = CreateUnit("Bleeding", 5, 100, 0, 10);
             var enemy = CreateUnit("Enemy", 10, 0, 0, 5);
 
-            bleeding.ApplyStatus(new Bleed(10, 3));
+            bleeding.ApplyStatus(new Bleed(10, 3, 1));
 
             CombatSystem.RunFight(bleeding, enemy);
 
@@ -196,8 +196,8 @@ namespace Tests.EditModeTests
         public void Bleed_And_Poison_CanCoexist()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var bleed = new Bleed(3, 3);
-            var poison = new Poison(2, 2);
+            var bleed = new Bleed(3, 3, 1);
+            var poison = new Poison(2, 2, 1);
 
             unit.ApplyStatus(bleed);
             unit.ApplyStatus(poison);

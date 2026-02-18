@@ -73,8 +73,8 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Test", 100);
             
             // Add some status effects
-            unit.ApplyStatus(new Poison(5, 3));
-            unit.ApplyStatus(new Bleed(3, 2));
+            unit.ApplyStatus(new Poison(5, 3, 1));
+            unit.ApplyStatus(new Bleed(3, 2, 1));
 
             panel.Initialize(unit);
 

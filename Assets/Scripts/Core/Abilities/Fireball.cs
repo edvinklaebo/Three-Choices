@@ -71,7 +71,7 @@ public class Fireball : IAbility
         if (!target.isDead)
         {
             var burnDamage = Mathf.CeilToInt(finalDamage * _burnDamagePercent);
-            target.ApplyStatus(new Burn(burnDamage, _burnDuration));
+            target.ApplyStatus(new Burn(_burnDuration, burnDamage));
 
             Log.Info("Fireball burn applied", new
             {

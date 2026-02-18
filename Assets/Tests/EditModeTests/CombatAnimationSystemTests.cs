@@ -117,7 +117,7 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Defender", 50, 5, 0, 5);
 
             // Apply poison to attacker so they take damage each turn
-            attacker.ApplyStatus(new Poison(5, 10));
+            attacker.ApplyStatus(new Poison(5, 10, 1));
 
             var actions = CombatSystem.RunFight(attacker, defender);
 
@@ -137,7 +137,7 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Poisoned", 100, 10, 0, 10);
             var enemy = CreateUnit("Enemy", 100, 5, 0, 5);
 
-            unit.ApplyStatus(new Poison(7, 3));
+            unit.ApplyStatus(new Poison(7, 3, 1));
 
             var actions = CombatSystem.RunFight(unit, enemy);
 

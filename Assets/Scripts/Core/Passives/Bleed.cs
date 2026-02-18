@@ -9,10 +9,11 @@ public class Bleed : Passive, IStatusEffect
     [SerializeField] private int passiveStacks;
 
     // Constructor for status effect usage
-    public Bleed(int stacks, int duration)
+    public Bleed(int stacks, int duration,  int baseDamage)
     {
         Stacks = stacks;
         Duration = duration;
+        BaseDamage = baseDamage;
     }
 
     // Constructor for passive usage
@@ -41,6 +42,9 @@ public class Bleed : Passive, IStatusEffect
 
     [field: SerializeField]
     public int Duration { get; set; }
+    
+    [field: SerializeField]
+    public int BaseDamage { get; set; }
 
     public void OnApply(Unit target)
     {
@@ -86,9 +90,11 @@ public class Bleed : Passive, IStatusEffect
         });
     }
 
-    public void AddStacks(int amount)
+    public void AddStacks(IStatusEffect effect)
     {
-        Stacks += amount;
+        Stacks += effect.Stacks;
+        passiveDuration = effect.Duration;
+        BaseDamage = effect.BaseDamage;
     }
 
     // Passive behavior - applies bleed when owner hits something
@@ -105,6 +111,6 @@ public class Bleed : Passive, IStatusEffect
             bleedDuration = passiveDuration
         });
 
-        target.ApplyStatus(new Bleed(passiveStacks, passiveDuration));
+        target.ApplyStatus(new Bleed(passiveStacks, passiveDuration, BaseDamage));
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 namespace Tests.EditModeTests
@@ -23,7 +24,7 @@ namespace Tests.EditModeTests
         public void Burn_DealsDamageAtTurnStart()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var burn = new Burn(5, 3);
+            var burn = new Burn(3, 5);
 
             unit.ApplyStatus(burn);
             unit.TickStatusesTurnStart();
@@ -35,7 +36,7 @@ namespace Tests.EditModeTests
         public void Burn_ReducesDurationEachTick()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var burn = new Burn(5, 3);
+            var burn = new Burn(3, 5);
 
             unit.ApplyStatus(burn);
 
@@ -52,7 +53,7 @@ namespace Tests.EditModeTests
         public void Burn_ExpiresWhenDurationReachesZero()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var burn = new Burn(5, 2);
+            var burn = new Burn(2, 5);
 
             unit.ApplyStatus(burn);
 
@@ -68,35 +69,41 @@ namespace Tests.EditModeTests
         public void Burn_DoesNotStackDamage_KeepsHighest()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var burn1 = new Burn(5, 2);
-            var burn2 = new Burn(8, 2);
+            var burn1 = new Burn(2, 5);
+            var burn2 = new Burn(2, 8);
 
             unit.ApplyStatus(burn1);
             unit.ApplyStatus(burn2);
+            
+            if(unit.StatusEffects[0] is not Burn burn)
+                throw new Exception("Burn should be applied to target");
 
             Assert.AreEqual(1, unit.StatusEffects.Count, "Should only have 1 burn effect");
-            Assert.AreEqual(8, burn1.Stacks, "Should keep higher damage: 8 > 5");
+            Assert.AreEqual(8, burn.BaseDamage, "Should keep higher damage: 8 > 5");
         }
 
         [Test]
         public void Burn_DoesNotStackDamage_KeepsHighestWhenLowerApplied()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var burn1 = new Burn(10, 2);
-            var burn2 = new Burn(5, 2);
+            var burn1 = new Burn(2, 10);
+            var burn2 = new Burn(2, 5);
 
             unit.ApplyStatus(burn1);
             unit.ApplyStatus(burn2);
 
+            if(unit.StatusEffects[0] is not Burn burn)
+                throw new Exception("Burn should be applied to target");
+            
             Assert.AreEqual(1, unit.StatusEffects.Count, "Should only have 1 burn effect");
-            Assert.AreEqual(10, burn1.Stacks, "Should keep higher damage: 10 > 5");
+            Assert.AreEqual(10, burn.BaseDamage, "Should keep higher damage: 10 > 5");
         }
 
         [Test]
         public void Burn_RefreshesDurationWhenReapplied()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var burn1 = new Burn(5, 3);
+            var burn1 = new Burn(3, 5);
 
             unit.ApplyStatus(burn1);
             unit.TickStatusesTurnStart();
@@ -114,7 +121,7 @@ namespace Tests.EditModeTests
         public void Burn_CanKillUnit()
         {
             var unit = CreateUnit("Test", 10, 0, 0, 5);
-            var burn = new Burn(15, 3);
+            var burn = new Burn(3, 15);
 
             unit.ApplyStatus(burn);
             unit.TickStatusesTurnStart();
@@ -127,7 +134,7 @@ namespace Tests.EditModeTests
         public void Burn_BypassesArmor()
         {
             var unit = CreateUnit("Tank", 100, 0, 1000, 5);
-            var burn = new Burn(10, 3);
+            var burn = new Burn(3, 10);
 
             unit.ApplyStatus(burn);
             unit.TickStatusesTurnStart();
@@ -141,7 +148,7 @@ namespace Tests.EditModeTests
             var burned = CreateUnit("Burned", 50, 10, 0, 10);
             var enemy = CreateUnit("Enemy", 100, 5, 0, 5);
 
-            burned.ApplyStatus(new Burn(5, 10));
+            burned.ApplyStatus(new Burn(10, 5));
 
             CombatSystem.RunFight(burned, enemy);
 
@@ -155,7 +162,7 @@ namespace Tests.EditModeTests
             var burned = CreateUnit("Burned", 5, 100, 0, 10);
             var enemy = CreateUnit("Enemy", 10, 0, 0, 5);
 
-            burned.ApplyStatus(new Burn(10, 3));
+            burned.ApplyStatus(new Burn(3, 10));
 
             CombatSystem.RunFight(burned, enemy);
 
@@ -168,8 +175,8 @@ namespace Tests.EditModeTests
         public void Burn_CanCoexistWithOtherStatusEffects()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var burn = new Burn(5, 3);
-            var poison = new Poison(3, 2);
+            var burn = new Burn(3, 5);
+            var poison = new Poison(3, 2, 1);
 
             unit.ApplyStatus(burn);
             unit.ApplyStatus(poison);
