@@ -4,10 +4,13 @@
 /// </summary>
 public class Burn : IStatusEffect
 {
+    private readonly int _baseDuration;
+
     public Burn(int damage, int duration)
     {
         Stacks = damage;
         Duration = duration;
+        _baseDuration = duration;
     }
 
     public string Id => "Burn";
@@ -80,7 +83,7 @@ public class Burn : IStatusEffect
             });
         }
         
-        // Reset duration when burn is refreshed
-        Duration = 3; // Default burn duration
+        // Reset duration to base duration when burn is refreshed
+        Duration = _baseDuration;
     }
 }
