@@ -7,6 +7,8 @@ public class Poison : Passive, IStatusEffect
     [SerializeField] private int passiveDuration;
 
     [SerializeField] private int passiveStacks;
+    
+    [SerializeField] private int passiveBaseDamage;
 
     // Constructor for status effect usage
     public Poison(int stacks, int duration, int baseDamage)
@@ -17,11 +19,12 @@ public class Poison : Passive, IStatusEffect
     }
 
     // Constructor for passive usage
-    public Poison(Unit owner, int stacks = 2, int duration = 3)
+    public Poison(Unit owner, int stacks = 2, int duration = 3, int baseDamage = 2)
     {
         Owner = owner;
         passiveStacks = stacks;
         passiveDuration = duration;
+        passiveBaseDamage = baseDamage;
         OnAttach();
     }
 
@@ -107,9 +110,10 @@ public class Poison : Passive, IStatusEffect
             attacker = Owner.Name,
             target = target.Name,
             poisonStacks = passiveStacks,
-            poisonDuration = passiveDuration
+            poisonDuration = passiveDuration,
+            poisonBaseDamage = passiveBaseDamage
         });
 
-        target.ApplyStatus(new Poison(passiveStacks, passiveDuration, BaseDamage));
+        target.ApplyStatus(new Poison(passiveStacks, passiveDuration, passiveBaseDamage));
     }
 }
