@@ -3,7 +3,7 @@ using System;
 [Serializable]
 public abstract class Passive
 {
-    protected Unit Owner;
+    [NonSerialized] protected Unit Owner;
 
     public void Attach(Unit owner)
     {

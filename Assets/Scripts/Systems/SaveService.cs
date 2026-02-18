@@ -22,7 +22,15 @@ public static class SaveService
         if (!HasSave()) return null;
 
         var json = File.ReadAllText(Path);
-        return JsonUtility.FromJson<RunState>(json);
+        var state = JsonUtility.FromJson<RunState>(json);
+        
+        // Restore passive event subscriptions after deserialization
+        if (state?.player != null)
+        {
+            state.player.RestorePassives();
+        }
+        
+        return state;
     }
 
     public static void Delete()

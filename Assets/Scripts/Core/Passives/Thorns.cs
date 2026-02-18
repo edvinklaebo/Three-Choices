@@ -6,7 +6,17 @@ public class Thorns : Passive
     public Thorns(Unit owner)
     {
         Owner = owner;
-        owner.Damaged += OnDamaged;
+        OnAttach();
+    }
+
+    protected override void OnAttach()
+    {
+        Owner.Damaged += OnDamaged;
+    }
+
+    protected override void OnDetach()
+    {
+        Owner.Damaged -= OnDamaged;
     }
 
     private void OnDamaged(Unit attacker, int damageTaken)

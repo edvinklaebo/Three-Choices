@@ -3,9 +3,9 @@ using System;
 [Serializable]
 public class Bleed : Passive, IStatusEffect
 {
-    private readonly int passiveDuration;
+    private int passiveDuration;
 
-    private readonly int passiveStacks;
+    private int passiveStacks;
 
     // Constructor for status effect usage
     public Bleed(int stacks, int duration)
@@ -20,8 +20,17 @@ public class Bleed : Passive, IStatusEffect
         Owner = owner;
         passiveStacks = stacks;
         passiveDuration = duration;
+        OnAttach();
+    }
 
-        owner.OnHit += ApplyBleed;
+    protected override void OnAttach()
+    {
+        Owner.OnHit += ApplyBleed;
+    }
+
+    protected override void OnDetach()
+    {
+        Owner.OnHit -= ApplyBleed;
     }
 
     public string Id => "Bleed";

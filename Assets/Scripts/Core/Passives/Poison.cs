@@ -3,9 +3,9 @@ using System;
 [Serializable]
 public class Poison : Passive, IStatusEffect
 {
-    private readonly int passiveDuration;
+    private int passiveDuration;
 
-    private readonly int passiveStacks;
+    private int passiveStacks;
 
     // Constructor for status effect usage
     public Poison(int stacks, int duration)
@@ -20,8 +20,17 @@ public class Poison : Passive, IStatusEffect
         Owner = owner;
         passiveStacks = stacks;
         passiveDuration = duration;
+        OnAttach();
+    }
 
-        owner.OnHit += ApplyPoison;
+    protected override void OnAttach()
+    {
+        Owner.OnHit += ApplyPoison;
+    }
+
+    protected override void OnDetach()
+    {
+        Owner.OnHit -= ApplyPoison;
     }
 
     public string Id => "Poison";

@@ -7,7 +7,7 @@ using System;
 [Serializable]
 public class Burn : IStatusEffect
 {
-    private readonly int _baseDuration;
+    private int _baseDuration;
 
     public Burn(int damage, int duration)
     {

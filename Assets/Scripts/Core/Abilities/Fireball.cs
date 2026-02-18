@@ -9,10 +9,10 @@ using UnityEngine;
 [Serializable]
 public class Fireball : IAbility
 {
-    private readonly Unit _owner;
-    private readonly int _baseDamage;
-    private readonly int _burnDuration;
-    private readonly float _burnDamagePercent;
+    [NonSerialized] private readonly Unit _owner;
+    private int _baseDamage;
+    private int _burnDuration;
+    private float _burnDamagePercent;
 
     public Fireball(Unit owner, int baseDamage = 10, int burnDuration = 3, float burnDamagePercent = 0.5f)
     {

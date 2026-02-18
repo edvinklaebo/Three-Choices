@@ -20,6 +20,17 @@ public class Unit
         Name = name;
     }
 
+    /// <summary>
+    /// Re-attaches all passives to this unit. Should be called after deserialization.
+    /// </summary>
+    public void RestorePassives()
+    {
+        foreach (var passive in Passives)
+        {
+            passive.Attach(this);
+        }
+    }
+
     public event Action<Unit, int> Damaged;
     public event Action<Unit, int> OnHit;
     public event Action<Unit, int, int> HealthChanged;

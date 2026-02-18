@@ -6,14 +6,23 @@ using UnityEngine;
 public class Lifesteal : Passive
 {
     private readonly List<HealData> _pendingHeals = new();
-    private readonly float percent;
+    private float percent;
 
     public Lifesteal(Unit owner, float percent)
     {
         Owner = owner;
         this.percent = percent;
+        OnAttach();
+    }
 
-        owner.OnHit += OnDamageDealt;
+    protected override void OnAttach()
+    {
+        Owner.OnHit += OnDamageDealt;
+    }
+
+    protected override void OnDetach()
+    {
+        Owner.OnHit -= OnDamageDealt;
     }
 
     private void OnDamageDealt(Unit target, int damage)
