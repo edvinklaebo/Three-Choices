@@ -23,9 +23,9 @@ public class Unit
     /// <summary>
     /// Re-attaches all passives to this unit. Should be called after deserialization.
     /// </summary>
-    public void RestorePassives()
+    public void RestorePlayerState()
     {
-        foreach (var passive in Passives)
+        foreach (var passive in this.Passives)
         {
             passive.Attach(this);
         }
@@ -44,6 +44,11 @@ public class Unit
         isDead = true;
 
         Died?.Invoke(this);
+    }
+
+    public void RaiseOnHit(Unit target, int damage)
+    {
+        OnHit?.Invoke(target, damage);
     }
 
     public void ApplyDamage(Unit attacker, int damage)

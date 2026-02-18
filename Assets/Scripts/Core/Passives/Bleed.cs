@@ -35,8 +35,12 @@ public class Bleed : Passive, IStatusEffect
     }
 
     public string Id => "Bleed";
-    public int Stacks { get; private set; }
-    public int Duration { get; private set; }
+
+    [field: SerializeField]
+    public int Stacks { get; set; }
+
+    [field: SerializeField]
+    public int Duration { get; set; }
 
     public void OnApply(Unit target)
     {

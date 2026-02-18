@@ -39,7 +39,11 @@ public class RunController : MonoBehaviour
         CurrentRun = SaveService.Load();
         Player = new Unit(CurrentRun.player.Name)
         {
-            Stats = CurrentRun.player.Stats
+            Stats = CurrentRun.player.Stats,
+            Abilities = CurrentRun.player.Abilities,
+            Passives = CurrentRun.player.Passives,
+            Name = CurrentRun.player.Name,
+            StatusEffects = CurrentRun.player.StatusEffects
         };
         _fightIndex = CurrentRun.fightIndex;
 

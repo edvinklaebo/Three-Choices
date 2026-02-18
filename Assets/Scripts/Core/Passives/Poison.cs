@@ -35,8 +35,12 @@ public class Poison : Passive, IStatusEffect
     }
 
     public string Id => "Poison";
-    public int Stacks { get; private set; }
-    public int Duration { get; private set; }
+
+    [field: SerializeField]
+    public int Stacks { get; set; }
+
+    [field: SerializeField]
+    public int Duration { get; set; }
 
     // IStatusEffect implementation
     public void OnApply(Unit target)

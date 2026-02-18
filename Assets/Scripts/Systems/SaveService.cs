@@ -27,7 +27,7 @@ public static class SaveService
         // Restore passive event subscriptions after deserialization
         if (state?.player != null)
         {
-            state.player.RestorePassives();
+            state.player.RestorePlayerState();
         }
         
         return state;

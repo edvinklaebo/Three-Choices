@@ -112,7 +112,7 @@ namespace Tests.EditModeTests
             var burn = loaded.player.StatusEffects[0] as Burn;
             Assert.NotNull(burn);
             Assert.AreEqual("Burn", burn.Id);
-            Assert.AreEqual(5, burn.Stacks);
+            Assert.AreEqual(1, burn.Stacks);
             Assert.AreEqual(3, burn.Duration);
 
             var poison = loaded.player.StatusEffects[1] as Poison;
@@ -177,7 +177,7 @@ namespace Tests.EditModeTests
             };
 
             // Trigger the passive by simulating a hit
-            loaded.player.OnHit?.Invoke(enemy, 10);
+            loaded.player.RaiseOnHit(enemy, 10);
 
             // Enemy should now have a bleed status effect with the saved parameters
             Assert.AreEqual(1, enemy.StatusEffects.Count);
