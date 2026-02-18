@@ -6,6 +6,7 @@ using UnityEngine;
 public class Lifesteal : IPassive
 {
     [SerializeField] private float percent;
+    private Unit _owner;
     private readonly List<HealData> _pendingHeals = new();
 
     public Lifesteal(Unit owner, float percent)
@@ -16,11 +17,13 @@ public class Lifesteal : IPassive
 
     public void OnAttach(Unit owner)
     {
+        _owner = owner;
         owner.OnHit += OnDamageDealt;
     }
 
     public void OnDetach(Unit owner)
     {
+        _owner = null;
         owner.OnHit -= OnDamageDealt;
     }
 
@@ -29,14 +32,14 @@ public class Lifesteal : IPassive
         var heal = Mathf.CeilToInt(damage * percent);
 
         // Track HP before healing
-        var hpBefore = target.Stats.CurrentHP;
-        var maxHP = target.Stats.MaxHP;
+        var hpBefore = _owner.Stats.CurrentHP;
+        var maxHP = _owner.Stats.MaxHP;
 
         // Apply healing to state
-        target.Heal(heal);
+        _owner.Heal(heal);
 
         // Track HP after healing
-        var hpAfter = target.Stats.CurrentHP;
+        var hpAfter = _owner.Stats.CurrentHP;
 
         // Store heal data for action queue
         _pendingHeals.Add(new HealData(heal, hpBefore, hpAfter, maxHP));
