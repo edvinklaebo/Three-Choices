@@ -2,14 +2,14 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class Bleed : Passive, IStatusEffect
+public class Bleed : IPassive, IStatusEffect
 {
     [SerializeField] private int passiveDuration;
 
     [SerializeField] private int passiveStacks;
 
     // Constructor for status effect usage
-    public Bleed(int stacks, int duration,  int baseDamage)
+    public Bleed(int stacks, int duration, int baseDamage)
     {
         Stacks = stacks;
         Duration = duration;
@@ -19,32 +19,28 @@ public class Bleed : Passive, IStatusEffect
     // Constructor for passive usage
     public Bleed(Unit owner, int stacks = 2, int duration = 3)
     {
-        Owner = owner;
         passiveStacks = stacks;
         passiveDuration = duration;
-        OnAttach();
+        OnAttach(owner);
     }
 
-    protected override void OnAttach()
+    public void OnAttach(Unit owner)
     {
-        Owner.OnHit += ApplyBleed;
+        owner.OnHit += ApplyBleed;
     }
 
-    protected override void OnDetach()
+    public void OnDetach(Unit owner)
     {
-        Owner.OnHit -= ApplyBleed;
+        owner.OnHit -= ApplyBleed;
     }
 
     public string Id => "Bleed";
 
-    [field: SerializeField]
-    public int Stacks { get; set; }
+    [field: SerializeField] public int Stacks { get; set; }
 
-    [field: SerializeField]
-    public int Duration { get; set; }
-    
-    [field: SerializeField]
-    public int BaseDamage { get; set; }
+    [field: SerializeField] public int Duration { get; set; }
+
+    [field: SerializeField] public int BaseDamage { get; set; }
 
     public void OnApply(Unit target)
     {
@@ -105,7 +101,6 @@ public class Bleed : Passive, IStatusEffect
 
         Log.Info("Bleed passive triggered", new
         {
-            attacker = Owner.Name,
             target = target.Name,
             bleedStacks = passiveStacks,
             bleedDuration = passiveDuration

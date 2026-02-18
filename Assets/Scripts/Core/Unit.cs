@@ -12,7 +12,7 @@ public class Unit
     public bool isDead;
 
     [SerializeReference] public List<IAbility> Abilities = new();
-    [SerializeReference] public List<Passive> Passives = new();
+    [SerializeReference] public List<IPassive> Passives = new();
     [SerializeReference] public List<IStatusEffect> StatusEffects = new();
 
     public Unit(string name)
@@ -21,12 +21,12 @@ public class Unit
     }
 
     /// <summary>
-    /// Re-attaches all passives to this unit. Should be called after deserialization.
+    ///     Re-attaches all passives to this unit. Should be called after deserialization.
     /// </summary>
     public void RestorePlayerState()
     {
         Log.Info($"[Unit] Restoring player state for {Name}");
-        
+
         foreach (var passive in Passives)
         {
             if (passive == null)
@@ -34,12 +34,13 @@ public class Unit
                 Log.Warning($"[Unit] Null passive found in {Name}'s passive list");
                 continue;
             }
-            
-            passive.Attach(this);
+
+            passive.OnAttach(this);
             Log.Info($"[Unit] Attached passive: {passive.GetType().Name}");
         }
-        
-        Log.Info($"[Unit] Player state restored - Abilities: {Abilities.Count}, Passives: {Passives.Count}, StatusEffects: {StatusEffects.Count}");
+
+        Log.Info(
+            $"[Unit] Player state restored - Abilities: {Abilities.Count}, Passives: {Passives.Count}, StatusEffects: {StatusEffects.Count}");
     }
 
     public event Action<Unit, int> Damaged;

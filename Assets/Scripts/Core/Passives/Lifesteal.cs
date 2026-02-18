@@ -3,26 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Lifesteal : Passive
+public class Lifesteal : IPassive
 {
-    private readonly List<HealData> _pendingHeals = new();
     [SerializeField] private float percent;
+    private readonly List<HealData> _pendingHeals = new();
 
     public Lifesteal(Unit owner, float percent)
     {
-        Owner = owner;
         this.percent = percent;
-        OnAttach();
+        OnAttach(owner);
     }
 
-    protected override void OnAttach()
+    public void OnAttach(Unit owner)
     {
-        Owner.OnHit += OnDamageDealt;
+        owner.OnHit += OnDamageDealt;
     }
 
-    protected override void OnDetach()
+    public void OnDetach(Unit owner)
     {
-        Owner.OnHit -= OnDamageDealt;
+        owner.OnHit -= OnDamageDealt;
     }
 
     private void OnDamageDealt(Unit target, int damage)
@@ -30,14 +29,14 @@ public class Lifesteal : Passive
         var heal = Mathf.CeilToInt(damage * percent);
 
         // Track HP before healing
-        var hpBefore = Owner.Stats.CurrentHP;
-        var maxHP = Owner.Stats.MaxHP;
+        var hpBefore = target.Stats.CurrentHP;
+        var maxHP = target.Stats.MaxHP;
 
         // Apply healing to state
-        Owner.Heal(heal);
+        target.Heal(heal);
 
         // Track HP after healing
-        var hpAfter = Owner.Stats.CurrentHP;
+        var hpAfter = target.Stats.CurrentHP;
 
         // Store heal data for action queue
         _pendingHeals.Add(new HealData(heal, hpBefore, hpAfter, maxHP));

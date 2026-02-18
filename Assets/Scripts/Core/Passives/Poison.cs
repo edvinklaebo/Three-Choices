@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class Poison : Passive, IStatusEffect
+public class Poison : IPassive, IStatusEffect
 {
     [SerializeField] private int passiveDuration;
 
@@ -19,32 +19,28 @@ public class Poison : Passive, IStatusEffect
     // Constructor for passive usage
     public Poison(Unit owner, int stacks = 2, int duration = 3)
     {
-        Owner = owner;
         passiveStacks = stacks;
         passiveDuration = duration;
-        OnAttach();
+        OnAttach(owner);
     }
 
-    protected override void OnAttach()
+    public void OnAttach(Unit target)
     {
-        Owner.OnHit += ApplyPoison;
+        target.OnHit += ApplyPoison;
     }
 
-    protected override void OnDetach()
+    public void OnDetach(Unit target)
     {
-        Owner.OnHit -= ApplyPoison;
+        target.OnHit -= ApplyPoison;
     }
 
     public string Id => "Poison";
 
-    [field: SerializeField]
-    public int Stacks { get; set; }
+    [field: SerializeField] public int Stacks { get; set; }
 
-    [field: SerializeField]
-    public int Duration { get; set; }
+    [field: SerializeField] public int Duration { get; set; }
 
-    [field: SerializeField]
-    public int BaseDamage { get; set; }
+    [field: SerializeField] public int BaseDamage { get; set; }
 
     // IStatusEffect implementation
     public void OnApply(Unit target)
@@ -104,7 +100,6 @@ public class Poison : Passive, IStatusEffect
 
         Log.Info("Poison passive triggered", new
         {
-            attacker = Owner.Name,
             target = target.Name,
             poisonStacks = passiveStacks,
             poisonDuration = passiveDuration

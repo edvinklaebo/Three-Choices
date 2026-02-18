@@ -74,8 +74,8 @@ namespace Tests.EditModeTests
 
             unit.ApplyStatus(burn1);
             unit.ApplyStatus(burn2);
-            
-            if(unit.StatusEffects[0] is not Burn burn)
+
+            if (unit.StatusEffects[0] is not Burn burn)
                 throw new Exception("Burn should be applied to target");
 
             Assert.AreEqual(1, unit.StatusEffects.Count, "Should only have 1 burn effect");
@@ -92,9 +92,9 @@ namespace Tests.EditModeTests
             unit.ApplyStatus(burn1);
             unit.ApplyStatus(burn2);
 
-            if(unit.StatusEffects[0] is not Burn burn)
+            if (unit.StatusEffects[0] is not Burn burn)
                 throw new Exception("Burn should be applied to target");
-            
+
             Assert.AreEqual(1, unit.StatusEffects.Count, "Should only have 1 burn effect");
             Assert.AreEqual(10, burn.BaseDamage, "Should keep higher damage: 10 > 5");
         }

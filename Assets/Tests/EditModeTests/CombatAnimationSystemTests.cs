@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests.EditModeTests
 {
@@ -45,10 +42,8 @@ namespace Tests.EditModeTests
 
             var damageActions = new List<ICombatAction>();
             foreach (var action in actions)
-            {
                 if (action is DamageAction)
                     damageActions.Add(action);
-            }
 
             Assert.Greater(damageActions.Count, 0, "Combat should produce at least one damage action");
         }
@@ -63,10 +58,8 @@ namespace Tests.EditModeTests
 
             var deathActions = new List<DeathAction>();
             foreach (var action in actions)
-            {
                 if (action is DeathAction death)
                     deathActions.Add(death);
-            }
 
             Assert.AreEqual(1, deathActions.Count, "Should produce exactly one death action");
             Assert.AreEqual("B", deathActions[0].Target.Name, "Dead unit should be B");
@@ -97,13 +90,11 @@ namespace Tests.EditModeTests
 
             DeathAction deathAction = null;
             foreach (var action in actions)
-            {
                 if (action is DeathAction death)
                 {
                     deathAction = death;
                     break;
                 }
-            }
 
             Assert.IsNotNull(deathAction, "Should have a death action");
             Assert.AreEqual("Defender", deathAction.Target.Name);
@@ -123,10 +114,8 @@ namespace Tests.EditModeTests
 
             var statusActions = new List<StatusEffectAction>();
             foreach (var action in actions)
-            {
                 if (action is StatusEffectAction status)
                     statusActions.Add(status);
-            }
 
             Assert.Greater(statusActions.Count, 0, "Combat with poison should produce status effect actions");
         }
@@ -143,13 +132,11 @@ namespace Tests.EditModeTests
 
             StatusEffectAction statusAction = null;
             foreach (var action in actions)
-            {
                 if (action is StatusEffectAction status)
                 {
                     statusAction = status;
                     break;
                 }
-            }
 
             Assert.IsNotNull(statusAction, "Should have a status effect action");
             Assert.AreEqual("Poisoned", statusAction.Target.Name);
@@ -175,11 +162,9 @@ namespace Tests.EditModeTests
             Assert.AreEqual(unitB1.Stats.CurrentHP, unitB2.Stats.CurrentHP, "Unit B HP should be identical");
 
             // Verify action types match
-            for (int i = 0; i < actions1.Count; i++)
-            {
+            for (var i = 0; i < actions1.Count; i++)
                 Assert.AreEqual(actions1[i].GetType(), actions2[i].GetType(),
                     $"Action {i} type should match");
-            }
         }
 
         [Test]

@@ -2,29 +2,27 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// Fireball ability that triggers at turn start.
-/// Deals damage that can crit, then applies burn based on final damage.
-/// Burn cannot crit and does not stack.
+///     Fireball ability that triggers at turn start.
+///     Deals damage that can crit, then applies burn based on final damage.
+///     Burn cannot crit and does not stack.
 /// </summary>
 [Serializable]
 public class Fireball : IAbility
 {
-    [NonSerialized] private readonly Unit _owner;
     [SerializeField] private int _baseDamage;
     [SerializeField] private int _burnDuration;
     [SerializeField] private float _burnDamagePercent;
 
-    public Fireball(Unit owner, int baseDamage = 10, int burnDuration = 3, float burnDamagePercent = 0.5f)
+    public Fireball(int baseDamage = 10, int burnDuration = 3, float burnDamagePercent = 0.5f)
     {
-        _owner = owner;
         _baseDamage = baseDamage;
         _burnDuration = burnDuration;
         _burnDamagePercent = burnDamagePercent;
     }
 
     /// <summary>
-    /// This method is called from the ability triggering system, not during normal attack.
-    /// For Fireball, this is triggered at turn start.
+    ///     This method is called from the ability triggering system, not during normal attack.
+    ///     For Fireball, this is triggered at turn start.
     /// </summary>
     public void OnAttack(Unit self, Unit target)
     {
@@ -41,7 +39,7 @@ public class Fireball : IAbility
         // Calculate damage through damage pipeline (can crit)
         var armorMultiplier = GetDamageMultiplier(target.Stats.Armor);
         var adjustedBaseDamage = Mathf.CeilToInt(_baseDamage * armorMultiplier);
-        
+
         var ctx = new DamageContext(self, target, adjustedBaseDamage);
         DamagePipeline.Process(ctx);
 

@@ -39,7 +39,7 @@ namespace Tests.EditModeTests
             };
 
             // Add abilities
-            player.Abilities.Add(new Fireball(player));
+            player.Abilities.Add(new Fireball());
 
             // Add passives
             player.Passives.Add(new Thorns(player));
@@ -108,7 +108,7 @@ namespace Tests.EditModeTests
 
             // Verify status effects are preserved
             Assert.AreEqual(3, loaded.player.StatusEffects.Count);
-            
+
             var burn = loaded.player.StatusEffects[0] as Burn;
             Assert.NotNull(burn);
             Assert.AreEqual("Burn", burn.Id);
@@ -143,10 +143,10 @@ namespace Tests.EditModeTests
                     Speed = 10
                 }
             };
-            
+
             // Add a Bleed passive with custom parameters
-            player.Passives.Add(new Bleed(player, stacks: 5, duration: 4));
-            
+            player.Passives.Add(new Bleed(player, 5, 4));
+
             var run = new RunState
             {
                 version = 1,

@@ -1,31 +1,34 @@
 using System;
 
 [Serializable]
-public class Thorns : Passive
+public class Thorns : IPassive
 {
+    private Unit _owner;
+
     public Thorns(Unit owner)
     {
-        Owner = owner;
-        OnAttach();
+        _owner = owner;
+        OnAttach(owner);
     }
 
-    protected override void OnAttach()
+    public void OnAttach(Unit owner)
     {
-        Owner.Damaged += OnDamaged;
+        owner.Damaged += OnDamaged;
     }
 
-    protected override void OnDetach()
+    public void OnDetach(Unit owner)
     {
-        Owner.Damaged -= OnDamaged;
+        owner.Damaged -= OnDamaged;
     }
+
 
     private void OnDamaged(Unit attacker, int damageTaken)
     {
         if (attacker == null)
             return;
 
-        var thornDamage = Owner.Stats.Armor / 4;
+        var thornDamage = _owner.Stats.Armor / 4;
 
-        attacker.ApplyDamage(Owner, thornDamage);
+        attacker.ApplyDamage(_owner, thornDamage);
     }
 }

@@ -76,10 +76,10 @@ public class CombatController : MonoBehaviour
     {
         Log.Info("message", new
         {
-            this.runController.Player.Name,
-            this.runController.Player.Passives,
-            this.runController.Player.Stats.CurrentHP,
-            this.runController._fightIndex
+            runController.Player.Name,
+            runController.Player.Passives,
+            runController.Player.Stats.CurrentHP,
+            runController._fightIndex
         });
         StartCoroutine(StartFightCoroutine(runController.Player, runController._fightIndex));
     }
@@ -87,7 +87,7 @@ public class CombatController : MonoBehaviour
     private IEnumerator StartFightCoroutine(Unit player, int fightIndex)
     {
         // Hide draft UI before combat animations start
-        if (DraftUI.Instance != null) DraftUI.Instance.Hide(animated: false);
+        if (DraftUI.Instance != null) DraftUI.Instance.Hide(false);
 
         var enemy = EnemyFactory.Create(fightIndex);
 

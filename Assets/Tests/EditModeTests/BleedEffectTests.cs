@@ -203,9 +203,9 @@ namespace Tests.EditModeTests
             unit.ApplyStatus(poison);
 
             Assert.AreEqual(2, unit.StatusEffects.Count, "Should have both bleed and poison");
-            
+
             unit.TickStatusesTurnStart();
-            
+
             Assert.AreEqual(95, unit.Stats.CurrentHP, "Should take 5 damage total (3 from bleed + 2 from poison)");
         }
     }

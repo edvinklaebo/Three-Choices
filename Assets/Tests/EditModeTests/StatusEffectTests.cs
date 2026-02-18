@@ -68,7 +68,7 @@ namespace Tests.EditModeTests
         public void ApplyStatus_StacksExistingPoison()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var poison1 = new Poison(3, 2,1);
+            var poison1 = new Poison(3, 2, 1);
             var poison2 = new Poison(2, 2, 1);
 
             unit.ApplyStatus(poison1);
@@ -82,7 +82,7 @@ namespace Tests.EditModeTests
         public void Poison_CanKillUnit()
         {
             var unit = CreateUnit("Test", 10, 0, 0, 5);
-            var poison = new Poison(15, 3,1);
+            var poison = new Poison(15, 3, 1);
 
             unit.ApplyStatus(poison);
             unit.TickStatusesTurnStart();

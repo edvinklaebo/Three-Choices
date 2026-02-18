@@ -2,8 +2,8 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// Burn status effect that deals damage over time.
-/// Unlike stacking effects, Burn refreshes duration and stores the highest damage value.
+///     Burn status effect that deals damage over time.
+///     Unlike stacking effects, Burn refreshes duration and stores the highest damage value.
 /// </summary>
 [Serializable]
 public class Burn : IStatusEffect
@@ -19,15 +19,13 @@ public class Burn : IStatusEffect
     }
 
     public string Id => "Burn";
-    
+
     // Burn does not have traditional stacks - it uses damage value instead. Stacks is always 1 for simplicity.
     public int Stacks => 1;
 
-    [field: SerializeField]
-    public int Duration { get; private set; }
-    
-    [field: SerializeField]
-    public int BaseDamage { get; set; }
+    [field: SerializeField] public int Duration { get; private set; }
+
+    [field: SerializeField] public int BaseDamage { get; set; }
 
     public void OnApply(Unit target)
     {
@@ -94,7 +92,7 @@ public class Burn : IStatusEffect
                 attemptedDamage = effect.BaseDamage
             });
         }
-        
+
         // Reset duration to base duration when burn is refreshed
         Duration = _baseDuration;
     }
