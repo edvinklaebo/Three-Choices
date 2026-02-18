@@ -8,7 +8,6 @@ public class DoubleStrike : IPassive
     [SerializeField] private float triggerChance;
     [SerializeField] private float damageMultiplier;
     private Unit _owner;
-    private System.Random _random = new();
     private List<DoubleStrikeData> _pendingStrikes = new();
 
     public DoubleStrike(Unit owner, float triggerChance, float damageMultiplier)
@@ -21,7 +20,6 @@ public class DoubleStrike : IPassive
     public void OnAttach(Unit owner)
     {
         _owner = owner;
-        _random = new System.Random();
         owner.OnHit += OnDamageDealt;
     }
 
@@ -34,7 +32,7 @@ public class DoubleStrike : IPassive
     private void OnDamageDealt(Unit target, int damage)
     {
         // Roll for double strike trigger
-        var roll = (float)_random.NextDouble();
+        var roll = UnityEngine.Random.value;
         
         if (roll < triggerChance)
         {
