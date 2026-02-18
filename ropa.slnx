@@ -1,0 +1,5 @@
+﻿<Solution>
+  <Project Path="Ropa.csproj" />
+  <Project Path="EditModeTests.csproj" />
+  <Project Path="PlayModeTests.csproj" />
+</Solution>
