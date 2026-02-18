@@ -10,13 +10,15 @@
     &lt;TestId&gt;NUnit3x::9B5F8F48-B8C0-D96D-230B-5D869FE3EC68::.NETFramework,Version=v4.7.1::Tests.EditModeTests.DraftUITests.Awake_CreatesCanvasGroup&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7a53687f_002D6d03_002D45ad_002D9356_002D8e11f6dd60a5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DraftUITests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=7a53687f_002D6d03_002D45ad_002D9356_002D8e11f6dd60a5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="DraftUITests #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::8743B24D-9797-49AF-D306-87F4D8526C2F::.NETFramework,Version=v4.7.1::Tests.PlayModeTests.ContinueGamePlayModeTests.ContinueButton_IsHidden_WhenNoSaveExists&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::9B5F8F48-B8C0-D96D-230B-5D869FE3EC68::.NETFramework,Version=v4.7.1::Tests.EditModeTests.LifestealTests.Lifesteal_DoesNotHealAboveMaxHP&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f78b48af_002Dcdd3_002D4c73_002Db5c5_002D8a1fb411cdc4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="DraftUITests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f78b48af_002Dcdd3_002D4c73_002Db5c5_002D8a1fb411cdc4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DraftUITests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::9B5F8F48-B8C0-D96D-230B-5D869FE3EC68::.NETFramework,Version=v4.7.1::Tests.EditModeTests.DraftUITests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::9B5F8F48-B8C0-D96D-230B-5D869FE3EC68::.NETFramework,Version=v4.7.1::Tests.EditModeTests.LifestealTests.Lifesteal_DoesNotHealAboveMaxHP&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

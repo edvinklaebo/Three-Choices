@@ -54,7 +54,7 @@ public static class UpgradeApplier
         {
             case "Fireball":
                 Log.Info("Ability Applied: Fireball");
-                unit.Abilities.Add(new Fireball(unit));
+                unit.Abilities.Add(new Fireball());
                 break;
             default:
                 throw new ArgumentOutOfRangeException(upgrade.AbilityId);
@@ -84,7 +84,7 @@ public static class UpgradeApplier
                 Log.Info("Passive Applied: Poison");
                 unit.Passives.Add(new Poison(unit));
                 break;
-            
+
             case "Bleed":
                 Log.Info("Passive Applied: Bleed");
                 unit.Passives.Add(new Bleed(unit));

@@ -1,29 +1,49 @@
-public class Poison : Passive, IStatusEffect
-{
-    private readonly int passiveDuration;
+using System;
+using UnityEngine;
 
-    private readonly int passiveStacks;
+[Serializable]
+public class Poison : IPassive, IStatusEffect
+{
+    [SerializeField] private int passiveDuration;
+
+    [SerializeField] private int passiveStacks;
+    
+    [SerializeField] private int passiveBaseDamage;
 
     // Constructor for status effect usage
-    public Poison(int stacks, int duration)
+    public Poison(int stacks, int duration, int baseDamage)
     {
         Stacks = stacks;
         Duration = duration;
+        BaseDamage = baseDamage;
     }
 
     // Constructor for passive usage
-    public Poison(Unit owner, int stacks = 2, int duration = 3)
+    public Poison(Unit owner, int stacks = 2, int duration = 3, int baseDamage = 2)
     {
-        Owner = owner;
         passiveStacks = stacks;
         passiveDuration = duration;
+        passiveBaseDamage = baseDamage;
+        OnAttach(owner);
+    }
 
-        owner.OnHit += ApplyPoison;
+    public void OnAttach(Unit target)
+    {
+        target.OnHit += ApplyPoison;
+    }
+
+    public void OnDetach(Unit target)
+    {
+        target.OnHit -= ApplyPoison;
     }
 
     public string Id => "Poison";
-    public int Stacks { get; private set; }
-    public int Duration { get; private set; }
+
+    [field: SerializeField] public int Stacks { get; set; }
+
+    [field: SerializeField] public int Duration { get; set; }
+
+    [field: SerializeField] public int BaseDamage { get; set; }
 
     // IStatusEffect implementation
     public void OnApply(Unit target)
@@ -70,9 +90,9 @@ public class Poison : Passive, IStatusEffect
         });
     }
 
-    public void AddStacks(int amount)
+    public void AddStacks(IStatusEffect effect)
     {
-        Stacks += amount;
+        Stacks += effect.Stacks;
     }
 
     // Passive behavior - applies poison when owner hits something
@@ -83,12 +103,12 @@ public class Poison : Passive, IStatusEffect
 
         Log.Info("Poison passive triggered", new
         {
-            attacker = Owner.Name,
             target = target.Name,
             poisonStacks = passiveStacks,
-            poisonDuration = passiveDuration
+            poisonDuration = passiveDuration,
+            poisonBaseDamage = passiveBaseDamage
         });
 
-        target.ApplyStatus(new Poison(passiveStacks, passiveDuration));
+        target.ApplyStatus(new Poison(passiveStacks, passiveDuration, passiveBaseDamage));
     }
 }

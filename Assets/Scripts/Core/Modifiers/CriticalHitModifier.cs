@@ -1,16 +1,15 @@
 using UnityEngine;
 
 /// <summary>
-/// Applies critical hit damage based on a chance percentage.
-/// Runs as a late-stage multiplier (priority 210).
+///     Applies critical hit damage based on a chance percentage.
+///     Runs as a late-stage multiplier (priority 210).
 /// </summary>
 public class CriticalHitModifier : IDamageModifier
 {
-    public int Priority => 210; // Late multiplier, after standard modifiers
-
-    private readonly Unit _owner;
     private readonly float _critChance;
     private readonly float _critMultiplier;
+
+    private readonly Unit _owner;
 
     public CriticalHitModifier(Unit owner, float critChance, float critMultiplier)
     {
@@ -18,6 +17,8 @@ public class CriticalHitModifier : IDamageModifier
         _critChance = Mathf.Clamp01(critChance);
         _critMultiplier = critMultiplier;
     }
+
+    public int Priority => 210; // Late multiplier, after standard modifiers
 
     public void Modify(DamageContext ctx)
     {

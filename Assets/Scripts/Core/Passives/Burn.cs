@@ -1,28 +1,38 @@
+using System;
+using UnityEngine;
+
 /// <summary>
-/// Burn status effect that deals damage over time.
-/// Unlike stacking effects, Burn refreshes duration and stores the highest damage value.
+///     Burn status effect that deals damage over time.
+///     Unlike stacking effects, Burn refreshes duration and stores the highest damage value.
 /// </summary>
+[Serializable]
 public class Burn : IStatusEffect
 {
-    private readonly int _baseDuration;
+    [SerializeField] private int _baseDuration;
 
-    public Burn(int damage, int duration)
+
+    public Burn(int duration, int baseDamage)
     {
-        Stacks = damage;
-        Duration = duration;
         _baseDuration = duration;
+        Duration = duration;
+        BaseDamage = baseDamage;
     }
 
     public string Id => "Burn";
-    public int Stacks { get; private set; }
-    public int Duration { get; private set; }
+
+    // Burn does not have traditional stacks - it uses damage value instead. Stacks is always 1 for simplicity.
+    public int Stacks => 1;
+
+    [field: SerializeField] public int Duration { get; private set; }
+
+    [field: SerializeField] public int BaseDamage { get; set; }
 
     public void OnApply(Unit target)
     {
         Log.Info("Burn applied", new
         {
             target = target.Name,
-            damage = Stacks,
+            damage = BaseDamage,
             duration = Duration
         });
     }
@@ -32,12 +42,12 @@ public class Burn : IStatusEffect
         Log.Info("Burn ticking", new
         {
             target = target.Name,
-            damage = Stacks,
+            damage = BaseDamage,
             duration = Duration,
             hpBefore = target.Stats.CurrentHP
         });
 
-        target.ApplyDirectDamage(Stacks);
+        target.ApplyDirectDamage(BaseDamage);
         Duration--;
 
         Log.Info("Burn damage applied", new
@@ -61,28 +71,28 @@ public class Burn : IStatusEffect
         });
     }
 
-    public void AddStacks(int amount)
+    public void AddStacks(IStatusEffect effect)
     {
         // Burn does not stack - instead, refresh duration and keep highest damage
         // This is called when a new burn is applied
-        if (amount > Stacks)
+        if (effect.BaseDamage > BaseDamage)
         {
             Log.Info("Burn refreshed with higher damage", new
             {
-                oldDamage = Stacks,
-                newDamage = amount
+                oldDamage = BaseDamage,
+                newDamage = effect.BaseDamage
             });
-            Stacks = amount;
+            BaseDamage = effect.BaseDamage;
         }
         else
         {
             Log.Info("Burn refreshed but kept higher damage", new
             {
-                currentDamage = Stacks,
-                attemptedDamage = amount
+                currentDamage = BaseDamage,
+                attemptedDamage = effect.BaseDamage
             });
         }
-        
+
         // Reset duration to base duration when burn is refreshed
         Duration = _baseDuration;
     }

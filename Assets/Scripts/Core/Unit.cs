@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 [Serializable]
 public class Unit
@@ -10,13 +11,36 @@ public class Unit
 
     public bool isDead;
 
-    public List<IAbility> Abilities = new();
-    public List<Passive> Passives = new();
-    public List<IStatusEffect> StatusEffects = new();
+    [SerializeReference] public List<IAbility> Abilities = new();
+    [SerializeReference] public List<IPassive> Passives = new();
+    [SerializeReference] public List<IStatusEffect> StatusEffects = new();
 
     public Unit(string name)
     {
         Name = name;
+    }
+
+    /// <summary>
+    ///     Re-attaches all passives to this unit. Should be called after deserialization.
+    /// </summary>
+    public void RestorePlayerState()
+    {
+        Log.Info($"[Unit] Restoring player state for {Name}");
+
+        foreach (var passive in Passives)
+        {
+            if (passive == null)
+            {
+                Log.Warning($"[Unit] Null passive found in {Name}'s passive list");
+                continue;
+            }
+
+            passive.OnAttach(this);
+            Log.Info($"[Unit] Attached passive: {passive.GetType().Name}");
+        }
+
+        Log.Info(
+            $"[Unit] Player state restored - Abilities: {Abilities.Count}, Passives: {Passives.Count}, StatusEffects: {StatusEffects.Count}");
     }
 
     public event Action<Unit, int> Damaged;
@@ -32,6 +56,11 @@ public class Unit
         isDead = true;
 
         Died?.Invoke(this);
+    }
+
+    public void RaiseOnHit(Unit target, int damage)
+    {
+        OnHit?.Invoke(target, damage);
     }
 
     public void ApplyDamage(Unit attacker, int damage)
@@ -83,7 +112,7 @@ public class Unit
                 newStacks = existing.Stacks + effect.Stacks
             });
 
-            existing.AddStacks(effect.Stacks);
+            existing.AddStacks(effect);
             return;
         }
 
