@@ -129,6 +129,65 @@ namespace Tests.EditModeTests
         }
 
         [Test]
+        public void Save_PassiveWithParameters_WorksAfterLoad()
+        {
+            // Create a player with a Bleed passive that has specific stacks/duration
+            var player = new Unit("Warrior")
+            {
+                Stats = new Stats
+                {
+                    MaxHP = 100,
+                    CurrentHP = 100,
+                    AttackPower = 20,
+                    Armor = 5,
+                    Speed = 10
+                }
+            };
+            
+            // Add a Bleed passive with custom parameters
+            player.Passives.Add(new Bleed(player, stacks: 5, duration: 4));
+            
+            var run = new RunState
+            {
+                version = 1,
+                fightIndex = 1,
+                player = player
+            };
+
+            // Save and load
+            SaveService.Save(run);
+            var loaded = SaveService.Load();
+
+            // Verify the passive was restored
+            Assert.AreEqual(1, loaded.player.Passives.Count);
+            var bleedPassive = loaded.player.Passives[0] as Bleed;
+            Assert.NotNull(bleedPassive);
+
+            // Verify the passive behavior works - when player hits, should apply bleed to target
+            var enemy = new Unit("Enemy")
+            {
+                Stats = new Stats
+                {
+                    MaxHP = 50,
+                    CurrentHP = 50,
+                    AttackPower = 5,
+                    Armor = 0,
+                    Speed = 5
+                }
+            };
+
+            // Trigger the passive by simulating a hit
+            loaded.player.OnHit?.Invoke(enemy, 10);
+
+            // Enemy should now have a bleed status effect with the saved parameters
+            Assert.AreEqual(1, enemy.StatusEffects.Count);
+            var appliedBleed = enemy.StatusEffects[0] as Bleed;
+            Assert.NotNull(appliedBleed);
+            Assert.AreEqual(5, appliedBleed.Stacks, "Bleed stacks should match the saved passive parameter");
+            Assert.AreEqual(4, appliedBleed.Duration, "Bleed duration should match the saved passive parameter");
+        }
+
+        [Test]
         public void Delete_RemovesSaveFile()
         {
             SaveService.Save(CreateDummyRun());

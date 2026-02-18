@@ -1,11 +1,12 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class Bleed : Passive, IStatusEffect
 {
-    private int passiveDuration;
+    [SerializeField] private int passiveDuration;
 
-    private int passiveStacks;
+    [SerializeField] private int passiveStacks;
 
     // Constructor for status effect usage
     public Bleed(int stacks, int duration)

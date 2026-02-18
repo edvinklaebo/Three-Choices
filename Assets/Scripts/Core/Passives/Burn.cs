@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 /// <summary>
 /// Burn status effect that deals damage over time.
@@ -7,7 +8,7 @@ using System;
 [Serializable]
 public class Burn : IStatusEffect
 {
-    private int _baseDuration;
+    [SerializeField] private int _baseDuration;
 
     public Burn(int damage, int duration)
     {
