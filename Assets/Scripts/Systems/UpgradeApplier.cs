@@ -11,7 +11,7 @@ public static class UpgradeApplier
                 break;
 
             case UpgradeType.Ability:
-                ApplyAbility(upgrade);
+                ApplyAbility(upgrade, unit);
                 break;
 
             case UpgradeType.Passive:
