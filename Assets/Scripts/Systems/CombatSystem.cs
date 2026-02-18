@@ -234,8 +234,9 @@ public static class CombatSystem
                 }
             }
 
-        // Add death action if defender died
-        if (defender.isDead) actions.Add(new DeathAction(defender));
+        // Add death action if defender died and no death action was added yet
+        if (defender.isDead && !actions.OfType<DeathAction>().Any(a => a.Target == defender))
+            actions.Add(new DeathAction(defender));
 
         return actions;
     }
