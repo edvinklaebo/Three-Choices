@@ -37,14 +37,15 @@ public class RunController : MonoBehaviour
     public void ContinueRun()
     {
         CurrentRun = SaveService.Load();
-        Player = new Unit(CurrentRun.player.Name)
+        
+        if (CurrentRun?.player == null)
         {
-            Stats = CurrentRun.player.Stats,
-            Abilities = CurrentRun.player.Abilities,
-            Passives = CurrentRun.player.Passives,
-            Name = CurrentRun.player.Name,
-            StatusEffects = CurrentRun.player.StatusEffects
-        };
+            Log.Error("Failed to load saved run");
+            return;
+        }
+        
+        // Use the loaded player directly - it's already been restored by SaveService.Load()
+        Player = CurrentRun.player;
         _fightIndex = CurrentRun.fightIndex;
 
         Player.Died += _ => playerDiedEvent.Raise();
