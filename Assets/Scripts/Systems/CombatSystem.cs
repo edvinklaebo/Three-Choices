@@ -174,6 +174,66 @@ public static class CombatSystem
                     ));
             }
 
+        // Check for double strike and execute second hits
+        foreach (var passive in attacker.Passives)
+            if (passive is DoubleStrike doubleStrike)
+            {
+                var strikes = doubleStrike.ConsumePendingStrikes();
+                foreach (var strikeData in strikes)
+                {
+                    if (strikeData.Target.isDead)
+                        continue;
+
+                    // Calculate second hit damage with multiplier
+                    var secondArmorMultiplier = GetDamageMultiplier(strikeData.Target.Stats.Armor);
+                    var secondBaseDamage = Mathf.CeilToInt(attacker.Stats.AttackPower * secondArmorMultiplier * strikeData.DamageMultiplier);
+
+                    var secondCtx = new DamageContext(attacker, strikeData.Target, secondBaseDamage);
+                    DamagePipeline.Process(secondCtx);
+
+                    // Capture HP before second hit
+                    var secondHpBefore = strikeData.Target.Stats.CurrentHP;
+                    var secondMaxHP = strikeData.Target.Stats.MaxHP;
+
+                    // Apply second hit damage
+                    strikeData.Target.ApplyDamage(attacker, secondCtx.FinalValue);
+
+                    // Capture HP after second hit
+                    var secondHpAfter = strikeData.Target.Stats.CurrentHP;
+
+                    Log.Info("Double Strike second hit applied", new
+                    {
+                        attacker = attacker.Name,
+                        target = strikeData.Target.Name,
+                        damage = secondCtx.FinalValue,
+                        hpBefore = secondHpBefore,
+                        hpAfter = secondHpAfter
+                    });
+
+                    // Add damage action for second hit
+                    actions.Add(new DamageAction(attacker, strikeData.Target, secondCtx.FinalValue, secondHpBefore, secondHpAfter, secondMaxHP));
+
+                    // Collect lifesteal from second hit
+                    foreach (var healPassive in attacker.Passives)
+                        if (healPassive is Lifesteal secondLifesteal)
+                        {
+                            var secondHeals = secondLifesteal.ConsumePendingHeals();
+                            foreach (var healData in secondHeals)
+                                actions.Add(new HealAction(
+                                    attacker,
+                                    healData.Amount,
+                                    healData.HPBefore,
+                                    healData.HPAfter,
+                                    healData.MaxHP
+                                ));
+                        }
+
+                    // Add death action if target died from second hit
+                    if (strikeData.Target.isDead)
+                        actions.Add(new DeathAction(strikeData.Target));
+                }
+            }
+
         // Add death action if defender died
         if (defender.isDead) actions.Add(new DeathAction(defender));
 
