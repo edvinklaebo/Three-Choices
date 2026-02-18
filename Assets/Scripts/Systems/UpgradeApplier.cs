@@ -48,12 +48,14 @@ public static class UpgradeApplier
         }
     }
 
-    private static void ApplyAbility(UpgradeDefinition upgrade)
+    private static void ApplyAbility(UpgradeDefinition upgrade, Unit unit)
     {
         switch (upgrade.AbilityId)
         {
-            case "1":
-                throw new NotImplementedException();
+            case "Fireball":
+                Log.Info("Ability Applied: Fireball");
+                unit.Abilities.Add(new Fireball(unit));
+                break;
             default:
                 throw new ArgumentOutOfRangeException(upgrade.AbilityId);
         }

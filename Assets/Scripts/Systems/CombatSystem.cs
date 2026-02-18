@@ -57,6 +57,14 @@ public static class CombatSystem
                 if (acting.isDead)
                     break;
 
+                // Trigger abilities at turn start (e.g., Fireball)
+                var target = attackerTurn ? defender : attacker;
+                var abilityActions = TriggerAbilities(acting, target);
+                actions.AddRange(abilityActions);
+
+                if (target.isDead)
+                    break;
+
                 List<ICombatAction> attackActions;
                 if (attackerTurn)
                     attackActions = Attack(attacker, defender, round);
@@ -205,6 +213,50 @@ public static class CombatSystem
             {
                 effect.OnExpire(unit);
                 unit.StatusEffects.RemoveAt(i);
+            }
+        }
+
+        return actions;
+    }
+
+    private static List<ICombatAction> TriggerAbilities(Unit source, Unit target)
+    {
+        var actions = new List<ICombatAction>();
+
+        if (!source.Abilities.Any())
+            return actions;
+
+        foreach (var ability in source.Abilities)
+        {
+            Log.Info("Triggering ability", new
+            {
+                source = source.Name,
+                target = target.Name,
+                ability = ability.GetType().Name
+            });
+
+            // Capture HP before ability
+            var hpBefore = target.Stats.CurrentHP;
+            var maxHP = target.Stats.MaxHP;
+
+            // Trigger the ability
+            ability.OnAttack(source, target);
+
+            // Capture HP after ability
+            var hpAfter = target.Stats.CurrentHP;
+
+            // Create combat action for the ability (currently only Fireball supported)
+            if (ability is Fireball && hpAfter < hpBefore)
+            {
+                var damage = hpBefore - hpAfter;
+                actions.Add(new FireballAction(source, target, damage, hpBefore, hpAfter, maxHP));
+            }
+
+            // Check for death after ability
+            if (target.isDead)
+            {
+                actions.Add(new DeathAction(target));
+                break;
             }
         }
 
