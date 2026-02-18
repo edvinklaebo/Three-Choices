@@ -1,7 +1,10 @@
+using System;
+
 /// <summary>
 /// Burn status effect that deals damage over time.
 /// Unlike stacking effects, Burn refreshes duration and stores the highest damage value.
 /// </summary>
+[Serializable]
 public class Burn : IStatusEffect
 {
     private readonly int _baseDuration;

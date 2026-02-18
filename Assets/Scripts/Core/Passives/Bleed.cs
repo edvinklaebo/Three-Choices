@@ -1,3 +1,6 @@
+using System;
+
+[Serializable]
 public class Bleed : Passive, IStatusEffect
 {
     private readonly int passiveDuration;

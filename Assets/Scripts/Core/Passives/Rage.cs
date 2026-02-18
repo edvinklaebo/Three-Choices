@@ -1,9 +1,11 @@
+using System;
 using UnityEngine;
 
 /// <summary>
 /// Increases damage based on missing health percentage.
 /// Applied as a late-stage multiplier (priority 200).
 /// </summary>
+[Serializable]
 public class Rage : Passive, IDamageModifier
 {
     public int Priority => 200; // Late-stage multiplier

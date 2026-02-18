@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -5,6 +6,7 @@ using UnityEngine;
 /// Deals damage that can crit, then applies burn based on final damage.
 /// Burn cannot crit and does not stack.
 /// </summary>
+[Serializable]
 public class Fireball : IAbility
 {
     private readonly Unit _owner;

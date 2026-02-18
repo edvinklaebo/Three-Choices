@@ -1,3 +1,6 @@
+using System;
+
+[Serializable]
 public class Poison : Passive, IStatusEffect
 {
     private readonly int passiveDuration;

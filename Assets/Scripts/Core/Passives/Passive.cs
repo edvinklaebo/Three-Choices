@@ -1,3 +1,6 @@
+using System;
+
+[Serializable]
 public abstract class Passive
 {
     protected Unit Owner;

@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class Lifesteal : Passive
 {
     private readonly List<HealData> _pendingHeals = new();

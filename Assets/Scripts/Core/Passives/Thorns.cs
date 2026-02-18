@@ -1,3 +1,6 @@
+using System;
+
+[Serializable]
 public class Thorns : Passive
 {
     public Thorns(Unit owner)

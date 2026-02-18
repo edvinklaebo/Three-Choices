@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 [Serializable]
 public class Unit
@@ -10,9 +11,9 @@ public class Unit
 
     public bool isDead;
 
-    public List<IAbility> Abilities = new();
-    public List<Passive> Passives = new();
-    public List<IStatusEffect> StatusEffects = new();
+    [SerializeReference] public List<IAbility> Abilities = new();
+    [SerializeReference] public List<Passive> Passives = new();
+    [SerializeReference] public List<IStatusEffect> StatusEffects = new();
 
     public Unit(string name)
     {
