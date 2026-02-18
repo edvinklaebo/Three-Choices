@@ -25,10 +25,21 @@ public class Unit
     /// </summary>
     public void RestorePlayerState()
     {
+        Log.Info($"[Unit] Restoring player state for {Name}");
+        
         foreach (var passive in this.Passives)
         {
+            if (passive == null)
+            {
+                Log.Warning($"[Unit] Null passive found in {Name}'s passive list");
+                continue;
+            }
+            
             passive.Attach(this);
+            Log.Info($"[Unit] Attached passive: {passive.GetType().Name}");
         }
+        
+        Log.Info($"[Unit] Player state restored - Abilities: {Abilities.Count}, Passives: {Passives.Count}, StatusEffects: {StatusEffects.Count}");
     }
 
     public event Action<Unit, int> Damaged;

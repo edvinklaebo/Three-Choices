@@ -36,19 +36,21 @@ public class RunController : MonoBehaviour
 
     public void ContinueRun()
     {
+        Log.Info("[Run] Continue run requested");
+        
         CurrentRun = SaveService.Load();
         
         if (CurrentRun?.player == null)
         {
-            Log.Error("Failed to load saved run");
+            Log.Error("[Run] Failed to load saved run - save data is invalid or corrupted");
             return;
         }
         
         // Use the loaded player directly - it's already been restored by SaveService.Load()
-        Player = CurrentRun.player;
+        InitializePlayer(CurrentRun.player);
         _fightIndex = CurrentRun.fightIndex;
 
-        Player.Died += _ => playerDiedEvent.Raise();
+        Log.Info($"[Run] Continuing run at fight {_fightIndex} with player {Player.Name}");
         SceneManager.LoadScene("DraftScene");
         // Note: requestNextFight will be raised by CombatController.Start() when DraftScene loads
     }
@@ -62,10 +64,10 @@ public class RunController : MonoBehaviour
         }
 
         Log.Info($"[Run] Starting run with {character.DisplayName}");
-        SceneManager.LoadScene("DraftScene");
-        Player = CreatePlayerFromCharacter(character);
-        Player.Died += _ => playerDiedEvent.Raise();
-
+        
+        var newPlayer = CreatePlayerFromCharacter(character);
+        InitializePlayer(newPlayer);
+        
         CurrentRun = new RunState
         {
             fightIndex = _fightIndex,
@@ -73,7 +75,27 @@ public class RunController : MonoBehaviour
         };
 
         SaveService.Save(CurrentRun);
+        
+        SceneManager.LoadScene("DraftScene");
         // Note: requestNextFight will be raised by CombatController.Start() when DraftScene loads
+    }
+    
+    /// <summary>
+    /// Initializes the player and subscribes to necessary events.
+    /// This ensures consistent initialization whether loading or starting new.
+    /// </summary>
+    private void InitializePlayer(Unit player)
+    {
+        if (player == null)
+        {
+            Log.Error("[Run] Cannot initialize null player");
+            return;
+        }
+        
+        Player = player;
+        Player.Died += _ => playerDiedEvent.Raise();
+        
+        Log.Info($"[Run] Player initialized: {Player.Name} (HP: {Player.Stats.CurrentHP}/{Player.Stats.MaxHP}, Abilities: {Player.Abilities.Count}, Passives: {Player.Passives.Count})");
     }
 
     private void HandleNextFight()
