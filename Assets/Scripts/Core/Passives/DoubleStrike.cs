@@ -110,6 +110,12 @@ public class DoubleStrike : IPassive, ICombatListener
             // Add damage action for second hit
             _context.AddAction(new DamageAction(_owner, strikeData.Target, secondCtx.FinalValue, secondHpBefore, secondHpAfter, secondMaxHP));
 
+            // Raise OnHit event for the second hit - this allows other passives to respond
+            _context.Raise(new OnHitEvent(_owner, strikeData.Target, secondCtx.FinalValue));
+
+            // Raise AfterAttack event for the second hit - this collects any pending actions (e.g., lifesteal heals)
+            _context.Raise(new AfterAttackEvent(_owner, strikeData.Target));
+
             // Add death action if target died from second hit
             if (strikeData.Target.isDead && !_context.Actions.OfType<DeathAction>().Any(a => a.Target == strikeData.Target))
                 _context.AddAction(new DeathAction(strikeData.Target));
