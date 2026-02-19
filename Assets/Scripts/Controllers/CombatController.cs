@@ -12,38 +12,23 @@ public class CombatController : MonoBehaviour
 
     private AnimationContext _animationContext;
 
+    private void Awake()
+    {
+        if (animationRunner == null)
+            Log.Error("CombatController: animationRunner is not assigned. Assign it in the Inspector.");
+        if (combatView == null)
+            Log.Error("CombatController: combatView is not assigned. Assign it in the Inspector.");
+    }
+
     private void Start()
     {
-        // Find or create animation runner
-        if (animationRunner == null)
-        {
-            animationRunner = FindFirstObjectByType<CombatAnimationRunner>();
-            if (animationRunner == null)
-            {
-                var runnerObj = new GameObject("CombatAnimationRunner");
-                animationRunner = runnerObj.AddComponent<CombatAnimationRunner>();
-            }
-        }
+        if (animationRunner == null || combatView == null) return;
 
-        // Find combat view
-        if (combatView == null)
-        {
-            combatView = FindFirstObjectByType<CombatView>();
-            if (combatView == null)
-                Log.Warning(
-                    "CombatController: CombatView not found in scene. Animations and UI may not work correctly.");
-        }
-
-        // Initialize animation context with service placeholders
         var animService = new AnimationService();
         var uiService = new UIService();
 
-        // Wire services to combat view
-        if (combatView != null)
-        {
-            animService.SetCombatView(combatView);
-            uiService.SetCombatView(combatView);
-        }
+        animService.SetCombatView(combatView);
+        uiService.SetCombatView(combatView);
 
         _animationContext = new AnimationContext(
             animService,
