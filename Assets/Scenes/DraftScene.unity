@@ -1598,22 +1598,46 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c4aafdc060e22b04783f8511dd5af925, type: 2}
     - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: combatEndedWithPlayerDeath
-      value: 
-      objectReference: {fileID: 11400000, guid: 1044acb858714ffbb28024209733b59a, type: 2}
-    - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
       propertyPath: _fightStarted
       value: 
       objectReference: {fileID: 11400000, guid: aabb1122cc334455667788990011aabb, type: 2}
     - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
+      propertyPath: animationRunner
+      value: 
+      objectReference: {fileID: 620796518}
+    - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
       propertyPath: requestNextFight
       value: 
       objectReference: {fileID: 11400000, guid: 18d1e828aba52d34c9d0ce104cc75a6f, type: 2}
+    - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
+      propertyPath: combatEndedWithPlayerDeath
+      value: 
+      objectReference: {fileID: 11400000, guid: 1044acb858714ffbb28024209733b59a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1935682594972769654, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 620796518}
   m_SourcePrefab: {fileID: 100100000, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
+--- !u!1 &620796517 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1935682594972769654, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
+  m_PrefabInstance: {fileID: 620796516}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &620796518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620796517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 154ae69b4fb049e4bc9c6a53b3a6e30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ropa::CombatAnimationRunner
 --- !u!1 &637573338
 GameObject:
   m_ObjectHideFlags: 0
@@ -4106,7 +4130,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::TurnIndicatorUI
   _turnText: {fileID: 0}
   _canvasGroup: {fileID: 1913143619}
-  _fadeDuration: 0.3
 --- !u!225 &1913143619
 CanvasGroup:
   m_ObjectHideFlags: 0

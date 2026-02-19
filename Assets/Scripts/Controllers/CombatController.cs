@@ -14,9 +14,6 @@ public class CombatController : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Assert(animationRunner != null, "CombatController: animationRunner is not assigned. Please assign it in the Inspector.");
-        Debug.Assert(combatView != null, "CombatController: combatView is not assigned. Please assign it in the Inspector.");
-
         if (animationRunner == null)
             Log.Error("CombatController: animationRunner is not assigned. Assign it in the Inspector.");
         if (combatView == null)
