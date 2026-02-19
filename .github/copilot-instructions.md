@@ -10,18 +10,18 @@
 
 ## Architectural rules (STRICT)
 
-- ❌ No God objects (GameManager must remain thin or orchestration-only)
-- ✅ Prefer composition over inheritance
+- ❌ No God objects, prefer single responsibilty.
+- ✅ Prefer composition over inheritance.
 - ✅ Game logic must be decoupled from MonoBehaviours
-- ✅ Use events/signals instead of direct system references
-- ❌ Do not introduce singletons unless explicitly requested
+- ✅ Use events/signals instead of direct system references.
+- ❌ Do not introduce singletons unless explicitly requested.
 
 ## Data & state
 
-- ✅ Use ScriptableObjects for configuration/data
-- ❌ Do not store mutable runtime state in ScriptableObjects
-- ✅ Runtime state belongs in plain C# classes or services
-- ✅ Rarity, upgrades, and balance values must be data-driven
+- ✅ Use ScriptableObjects for configuration/data.
+- ❌ Do not store mutable runtime state in ScriptableObjects.
+- ✅ Runtime state belongs in plain C# classes or services.
+- ✅ Rarity, upgrades, and balance values must be data-driven.
 
 ## Code style & conventions
 
