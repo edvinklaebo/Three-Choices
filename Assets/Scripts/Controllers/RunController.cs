@@ -25,8 +25,10 @@ public class RunController : MonoBehaviour
         requestNextFight.OnRaised += HandleNextFight;
         playerDiedEvent.OnRaised += OnPlayerDied;
 
-        if (combatEndedWithPlayerDeath != null) combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
-        if (_continueRunRequested != null) _continueRunRequested.OnRaised += ContinueRun;
+        if (combatEndedWithPlayerDeath != null) 
+            combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
+        if (_continueRunRequested != null) 
+            _continueRunRequested.OnRaised += ContinueRun;
 
         GameEvents.CharacterSelected_Event += StartNewRun;
     }
@@ -36,13 +38,15 @@ public class RunController : MonoBehaviour
         requestNextFight.OnRaised -= HandleNextFight;
         playerDiedEvent.OnRaised -= OnPlayerDied;
 
-        if (combatEndedWithPlayerDeath != null) combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
-        if (_continueRunRequested != null) _continueRunRequested.OnRaised -= ContinueRun;
+        if (combatEndedWithPlayerDeath != null) 
+            combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
+        if (_continueRunRequested != null) 
+            _continueRunRequested.OnRaised -= ContinueRun;
 
         GameEvents.CharacterSelected_Event -= StartNewRun;
     }
 
-    public void ContinueRun()
+    private void ContinueRun()
     {
         Log.Info("[Run] Continue run requested");
         
@@ -63,7 +67,7 @@ public class RunController : MonoBehaviour
         // Note: requestNextFight will be raised by CombatController.Start() when DraftScene loads
     }
 
-    public void StartNewRun(CharacterDefinition character)
+    private void StartNewRun(CharacterDefinition character)
     {
         if (character == null)
         {

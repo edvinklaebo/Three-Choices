@@ -18,7 +18,8 @@ public class MainMenuController : MonoBehaviour
         quitButton.onClick.AddListener(OnQuitClicked);
         continueButton.onClick.AddListener(OnContinueClicked);
 
-        if (newGameButton != null) newGameButton.onClick.AddListener(OnNewGamePressed);
+        if (newGameButton != null)
+            newGameButton.onClick.AddListener(OnNewGamePressed);
     }
 
     private void Start()
