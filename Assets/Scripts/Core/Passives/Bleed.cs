@@ -1,40 +1,18 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+///     Bleed status effect that deals damage over time based on stacks.
+///     Bypasses armor. Stacks accumulate when re-applied.
+/// </summary>
 [Serializable]
-public class Bleed : IPassive, IStatusEffect
+public class Bleed : IStatusEffect
 {
-    [SerializeField] private int passiveDuration;
-
-    [SerializeField] private int passiveStacks;
-    
-    [SerializeField] private int passiveBaseDamage;
-
-    // Constructor for status effect usage
     public Bleed(int stacks, int duration, int baseDamage)
     {
         Stacks = stacks;
         Duration = duration;
         BaseDamage = baseDamage;
-    }
-
-    // Constructor for passive usage
-    public Bleed(Unit owner, int stacks = 2, int duration = 3, int baseDamage = 2)
-    {
-        passiveStacks = stacks;
-        passiveDuration = duration;
-        passiveBaseDamage = baseDamage;
-        OnAttach(owner);
-    }
-
-    public void OnAttach(Unit owner)
-    {
-        owner.OnHit += ApplyBleed;
-    }
-
-    public void OnDetach(Unit owner)
-    {
-        owner.OnHit -= ApplyBleed;
     }
 
     public string Id => "Bleed";
@@ -94,22 +72,5 @@ public class Bleed : IPassive, IStatusEffect
         Stacks += effect.Stacks;
         Duration = effect.Duration;
         BaseDamage = effect.BaseDamage;
-    }
-
-    // Passive behavior - applies bleed when owner hits something
-    private void ApplyBleed(Unit target, int _)
-    {
-        if (target == null)
-            return;
-
-        Log.Info("Bleed passive triggered", new
-        {
-            target = target.Name,
-            bleedStacks = passiveStacks,
-            bleedDuration = passiveDuration,
-            bleedBaseDamage = passiveBaseDamage
-        });
-
-        target.ApplyStatus(new Bleed(passiveStacks, passiveDuration, passiveBaseDamage));
     }
 }
