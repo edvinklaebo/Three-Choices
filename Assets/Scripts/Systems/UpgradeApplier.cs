@@ -90,6 +90,11 @@ public static class UpgradeApplier
                 unit.Passives.Add(new BleedUpgrade(unit));
                 break;
 
+            case "DoubleStrike":
+                Log.Info("Passive Applied: DoubleStrike");
+                unit.Passives.Add(new DoubleStrike(unit, 0.25f, 0.75f));
+                break;
+
             default:
                 throw new ArgumentOutOfRangeException(upgrade.AbilityId);
         }

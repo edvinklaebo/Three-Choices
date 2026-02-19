@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Lifesteal : IPassive
+public class Lifesteal : IPassive, ICombatListener
 {
     [SerializeField] private float percent;
     private Unit _owner;
     private List<HealData> _pendingHeals = new();
+    private CombatContext _context;
+
+    public int Priority => 200; // Late priority - after damage is dealt
 
     public Lifesteal(Unit owner, float percent)
     {
@@ -27,6 +30,18 @@ public class Lifesteal : IPassive
         owner.OnHit -= OnDamageDealt;
     }
 
+    public void RegisterHandlers(CombatContext context)
+    {
+        _context = context;
+        context.On<AfterAttackEvent>(OnAfterAttack);
+    }
+
+    public void UnregisterHandlers(CombatContext context)
+    {
+        _context = null;
+        context.Off<AfterAttackEvent>(OnAfterAttack);
+    }
+
     private void OnDamageDealt(Unit target, int damage)
     {
         var heal = Mathf.CeilToInt(damage * percent);
@@ -44,6 +59,26 @@ public class Lifesteal : IPassive
         // Store heal data for action queue
         _pendingHeals ??= new List<HealData>();
         _pendingHeals.Add(new HealData(heal, hpBefore, hpAfter, maxHP));
+    }
+
+    private void OnAfterAttack(AfterAttackEvent evt)
+    {
+        // Only process if we're the attacker
+        if (evt.Source != _owner)
+            return;
+
+        // Add heal actions to context
+        var heals = ConsumePendingHeals();
+        foreach (var healData in heals)
+        {
+            _context.AddAction(new HealAction(
+                _owner,
+                healData.Amount,
+                healData.HPBefore,
+                healData.HPAfter,
+                healData.MaxHP
+            ));
+        }
     }
 
     /// <summary>
