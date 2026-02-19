@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using UnityEngine;
 
 namespace Tests.EditModeTests
 {
@@ -9,7 +10,8 @@ namespace Tests.EditModeTests
         {
             const int fightIndex = 3;
 
-            var enemy = EnemyFactory.Create(fightIndex);
+            var factory = ScriptableObject.CreateInstance<EnemyFactory>();
+            var enemy = factory.Create(fightIndex);
 
             Assert.IsNotNull(enemy);
             Assert.AreEqual(15 + fightIndex * 5, enemy.Stats.MaxHP);
@@ -18,6 +20,8 @@ namespace Tests.EditModeTests
             Assert.AreEqual(2 + fightIndex / 2, enemy.Stats.Armor);
             Assert.AreEqual(5 + fightIndex / 2, enemy.Stats.Speed);
             Assert.IsFalse(string.IsNullOrEmpty(enemy.Name));
+
+            Object.DestroyImmediate(factory);
         }
     }
 }
