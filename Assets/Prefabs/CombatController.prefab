@@ -47,6 +47,6 @@ MonoBehaviour:
   requestNextFight: {fileID: 0}
   fightEnded: {fileID: 0}
   combatEndedWithPlayerDeath: {fileID: 0}
-  runController: {fileID: 0}
+  _fightStarted: {fileID: 0}
   animationRunner: {fileID: 0}
   combatView: {fileID: 0}

@@ -11,12 +11,10 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private Button quitButton;
     [SerializeField] private Button continueButton;
     [SerializeField] private Button newGameButton;
-
-    private RunController runController;
+    [SerializeField] private VoidEventChannel _continueRunRequested;
 
     private void Awake()
     {
-        runController = FindFirstObjectByType<RunController>();
         quitButton.onClick.AddListener(OnQuitClicked);
         continueButton.onClick.AddListener(OnContinueClicked);
 
@@ -35,10 +33,10 @@ public class MainMenuController : MonoBehaviour
 
     public void OnContinueClicked()
     {
-        if (runController != null)
-            runController.ContinueRun();
+        if (_continueRunRequested != null)
+            _continueRunRequested.Raise();
         else
-            Log.Error("RunController not found when Continue was clicked");
+            Log.Error("MainMenuController: ContinueRunRequested event channel not assigned");
     }
 
     public void OnNewGamePressed()

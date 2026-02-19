@@ -6,10 +6,12 @@ public class RunController : MonoBehaviour
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel playerDiedEvent;
     [SerializeField] private VoidEventChannel combatEndedWithPlayerDeath;
+    [SerializeField] private VoidEventChannel _continueRunRequested;
+    [SerializeField] private FightStartedEventChannel _fightStarted;
 
     public Unit Player;
 
-    public int _fightIndex = 1;
+    private int _fightIndex = 1;
 
     public RunState CurrentRun { get; private set; }
 
@@ -24,6 +26,9 @@ public class RunController : MonoBehaviour
         playerDiedEvent.OnRaised += OnPlayerDied;
 
         if (combatEndedWithPlayerDeath != null) combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
+        if (_continueRunRequested != null) _continueRunRequested.OnRaised += ContinueRun;
+
+        GameEvents.CharacterSelected_Event += StartNewRun;
     }
 
     private void OnDisable()
@@ -32,6 +37,9 @@ public class RunController : MonoBehaviour
         playerDiedEvent.OnRaised -= OnPlayerDied;
 
         if (combatEndedWithPlayerDeath != null) combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
+        if (_continueRunRequested != null) _continueRunRequested.OnRaised -= ContinueRun;
+
+        GameEvents.CharacterSelected_Event -= StartNewRun;
     }
 
     public void ContinueRun()
@@ -102,6 +110,7 @@ public class RunController : MonoBehaviour
     {
         _fightIndex++;
         Save();
+        _fightStarted?.Raise(Player, _fightIndex);
     }
 
     private void Save()

@@ -6,7 +6,7 @@ public class CombatController : MonoBehaviour
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel fightEnded;
     [SerializeField] private VoidEventChannel combatEndedWithPlayerDeath;
-    [SerializeField] private RunController runController;
+    [SerializeField] private FightStartedEventChannel _fightStarted;
     [SerializeField] private CombatAnimationRunner animationRunner;
     [SerializeField] private CombatView combatView;
 
@@ -14,13 +14,6 @@ public class CombatController : MonoBehaviour
 
     private void Start()
     {
-        runController = FindFirstObjectByType<RunController>();
-        if (runController == null)
-        {
-            Log.Error("No RunController found! Did you forget to start new run?");
-            return;
-        }
-
         // Find or create animation runner
         if (animationRunner == null)
         {
@@ -64,17 +57,17 @@ public class CombatController : MonoBehaviour
 
     private void OnEnable()
     {
-        requestNextFight.OnRaised += HandleStartFight;
+        if (_fightStarted != null) _fightStarted.OnRaised += HandleStartFight;
     }
 
     private void OnDisable()
     {
-        requestNextFight.OnRaised -= HandleStartFight;
+        if (_fightStarted != null) _fightStarted.OnRaised -= HandleStartFight;
     }
 
-    private void HandleStartFight()
+    private void HandleStartFight(Unit player, int fightIndex)
     {
-        StartCoroutine(StartFightCoroutine(runController.Player, runController._fightIndex));
+        StartCoroutine(StartFightCoroutine(player, fightIndex));
     }
 
     private IEnumerator StartFightCoroutine(Unit player, int fightIndex)
