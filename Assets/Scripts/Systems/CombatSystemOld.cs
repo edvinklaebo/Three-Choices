@@ -3,21 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-/// <summary>
-/// Instance-based combat engine that uses event-driven architecture
-/// Replaces static CombatSystem with extensible pattern
-/// </summary>
-public class CombatEngine
+public static class CombatSystem
 {
-    private readonly CombatContext _context = new();
-
-    public List<ICombatAction> RunFight(Unit attacker, Unit defender)
+    public static List<ICombatAction> RunFight(Unit attacker, Unit defender)
     {
-        _context.Clear();
-
-        // Register combat listeners from both units
-        RegisterListeners(attacker);
-        RegisterListeners(defender);
+        var actions = new List<ICombatAction>();
 
         Log.Info("Combat started", new
         {
@@ -62,8 +52,7 @@ public class CombatEngine
                 var acting = attackerTurn ? attacker : defender;
 
                 var statusActions = TickStatusesTurnStart(acting);
-                foreach (var action in statusActions)
-                    _context.AddAction(action);
+                actions.AddRange(statusActions);
 
                 if (acting.isDead)
                     break;
@@ -71,18 +60,21 @@ public class CombatEngine
                 // Trigger abilities at turn start (e.g., Fireball)
                 var target = attackerTurn ? defender : attacker;
                 var abilityActions = TriggerAbilities(acting, target);
-                foreach (var action in abilityActions)
-                    _context.AddAction(action);
+                actions.AddRange(abilityActions);
 
                 if (target.isDead)
                     break;
 
-                // Execute attack with event-driven flow
-                Attack(attackerTurn ? attacker : defender, attackerTurn ? defender : attacker, round);
+                List<ICombatAction> attackActions;
+                if (attackerTurn)
+                    attackActions = Attack(attacker, defender, round);
+                else
+                    attackActions = Attack(defender, attacker, round);
+
+                actions.AddRange(attackActions);
 
                 var endStatusActions = TickStatusesTurnEnd(acting);
-                foreach (var action in endStatusActions)
-                    _context.AddAction(action);
+                actions.AddRange(endStatusActions);
 
                 attackerTurn = !attackerTurn;
             }
@@ -99,7 +91,7 @@ public class CombatEngine
         }
         catch (Exception ex)
         {
-            Log.Exception(ex, "CombatEngine.RunFight failed", new
+            Log.Exception(ex, "CombatSystem.RunFight failed", new
             {
                 attacker = attacker.Name,
                 defender = defender.Name,
@@ -111,38 +103,14 @@ public class CombatEngine
 
             throw;
         }
-        finally
-        {
-            // Clean up listeners
-            _context.Clear();
-        }
 
-        return _context.Actions.ToList();
+        return actions;
     }
 
-    private void RegisterListeners(Unit unit)
+    private static List<ICombatAction> Attack(Unit attacker, Unit defender, int round)
     {
-        // Register passives that implement ICombatListener
-        foreach (var passive in unit.Passives)
-        {
-            if (passive is ICombatListener listener)
-            {
-                _context.RegisterListener(listener);
-            }
-        }
+        var actions = new List<ICombatAction>();
 
-        // Register abilities that implement ICombatListener
-        foreach (var ability in unit.Abilities)
-        {
-            if (ability is ICombatListener listener)
-            {
-                _context.RegisterListener(listener);
-            }
-        }
-    }
-
-    private void Attack(Unit attacker, Unit defender, int round)
-    {
         Log.Info("Attack start", new
         {
             round,
@@ -152,13 +120,11 @@ public class CombatEngine
             defenderHp = defender.Stats.CurrentHP
         });
 
-        // Raise before attack event
-        _context.Raise(new BeforeAttackEvent(attacker, defender));
-
         var armorMultiplier = GetDamageMultiplier(defender.Stats.Armor);
         var baseDamage = Mathf.CeilToInt(attacker.Stats.AttackPower * armorMultiplier);
 
         var ctx = new DamageContext(attacker, defender, baseDamage);
+
         DamagePipeline.Process(ctx);
 
         Log.Info("Damage calculated", new
@@ -191,20 +157,91 @@ public class CombatEngine
         });
 
         // Create damage action for animation with HP values
-        _context.AddAction(new DamageAction(attacker, defender, ctx.FinalValue, hpBefore, hpAfter, maxHP));
+        actions.Add(new DamageAction(attacker, defender, ctx.FinalValue, hpBefore, hpAfter, maxHP));
 
-        // Raise OnHit event - listeners can respond (e.g., DoubleStrike queues extra hits)
-        _context.Raise(new OnHitEvent(attacker, defender, ctx.FinalValue));
+        // Collect lifesteal heal actions from attacker's passives
+        foreach (var passive in attacker.Passives)
+            if (passive is Lifesteal lifesteal)
+            {
+                var heals = lifesteal.ConsumePendingHeals();
+                foreach (var healData in heals)
+                    actions.Add(new HealAction(
+                        attacker,
+                        healData.Amount,
+                        healData.HPBefore,
+                        healData.HPAfter,
+                        healData.MaxHP
+                    ));
+            }
 
-        // Raise after attack event - this is when listeners add their actions
-        _context.Raise(new AfterAttackEvent(attacker, defender));
+        // Check for double strike and execute second hits
+        foreach (var passive in attacker.Passives)
+            if (passive is DoubleStrike doubleStrike)
+            {
+                var strikes = doubleStrike.ConsumePendingStrikes();
+                foreach (var strikeData in strikes)
+                {
+                    if (strikeData.Target.isDead)
+                        continue;
 
-        // Add death action if defender died
-        if (defender.isDead && !_context.Actions.OfType<DeathAction>().Any(a => a.Target == defender))
-            _context.AddAction(new DeathAction(defender));
+                    // Calculate second hit damage with multiplier
+                    var secondArmorMultiplier = GetDamageMultiplier(strikeData.Target.Stats.Armor);
+                    var secondBaseDamage = Mathf.CeilToInt(attacker.Stats.AttackPower * secondArmorMultiplier * strikeData.DamageMultiplier);
+
+                    var secondCtx = new DamageContext(attacker, strikeData.Target, secondBaseDamage);
+                    DamagePipeline.Process(secondCtx);
+
+                    // Capture HP before second hit
+                    var secondHpBefore = strikeData.Target.Stats.CurrentHP;
+                    var secondMaxHP = strikeData.Target.Stats.MaxHP;
+
+                    // Apply second hit damage
+                    strikeData.Target.ApplyDamage(attacker, secondCtx.FinalValue);
+
+                    // Capture HP after second hit
+                    var secondHpAfter = strikeData.Target.Stats.CurrentHP;
+
+                    Log.Info("Double Strike second hit applied", new
+                    {
+                        attacker = attacker.Name,
+                        target = strikeData.Target.Name,
+                        damage = secondCtx.FinalValue,
+                        hpBefore = secondHpBefore,
+                        hpAfter = secondHpAfter
+                    });
+
+                    // Add damage action for second hit
+                    actions.Add(new DamageAction(attacker, strikeData.Target, secondCtx.FinalValue, secondHpBefore, secondHpAfter, secondMaxHP));
+
+                    // Collect lifesteal from second hit
+                    foreach (var healPassive in attacker.Passives)
+                        if (healPassive is Lifesteal secondLifesteal)
+                        {
+                            var secondHeals = secondLifesteal.ConsumePendingHeals();
+                            foreach (var healData in secondHeals)
+                                actions.Add(new HealAction(
+                                    attacker,
+                                    healData.Amount,
+                                    healData.HPBefore,
+                                    healData.HPAfter,
+                                    healData.MaxHP
+                                ));
+                        }
+
+                    // Add death action if target died from second hit
+                    if (strikeData.Target.isDead)
+                        actions.Add(new DeathAction(strikeData.Target));
+                }
+            }
+
+        // Add death action if defender died and no death action was added yet
+        if (defender.isDead && !actions.OfType<DeathAction>().Any(a => a.Target == defender))
+            actions.Add(new DeathAction(defender));
+
+        return actions;
     }
 
-    private List<ICombatAction> TickStatusesTurnStart(Unit unit)
+    private static List<ICombatAction> TickStatusesTurnStart(Unit unit)
     {
         var actions = new List<ICombatAction>();
 
@@ -243,7 +280,7 @@ public class CombatEngine
         return actions;
     }
 
-    private List<ICombatAction> TriggerAbilities(Unit source, Unit target)
+    private static List<ICombatAction> TriggerAbilities(Unit source, Unit target)
     {
         var actions = new List<ICombatAction>();
 
@@ -261,36 +298,35 @@ public class CombatEngine
 
             // Capture HP before ability
             var hpBefore = target.Stats.CurrentHP;
+            var maxHP = target.Stats.MaxHP;
 
-            // Trigger the ability (applies damage)
+            // Trigger the ability
             ability.OnAttack(source, target);
 
             // Capture HP after ability
             var hpAfter = target.Stats.CurrentHP;
 
-            // Let ability create its own actions if it implements IActionCreator
-            if (ability is IActionCreator actionCreator)
+            // Create combat action for the ability (currently only Fireball supported)
+            if (ability is Fireball && hpAfter < hpBefore)
             {
-                actionCreator.CreateActions(_context, source, target, hpBefore, hpAfter);
+                var damage = hpBefore - hpAfter;
+                actions.Add(new FireballAction(source, target, damage, hpBefore, hpAfter, maxHP));
             }
 
             // Check for death after ability
             if (target.isDead)
             {
-                if (!_context.Actions.OfType<DeathAction>().Any(a => a.Target == target))
-                    _context.AddAction(new DeathAction(target));
+                actions.Add(new DeathAction(target));
+                break;
             }
         }
 
         return actions;
     }
 
-    private List<ICombatAction> TickStatusesTurnEnd(Unit unit)
+    private static List<ICombatAction> TickStatusesTurnEnd(Unit unit)
     {
         var actions = new List<ICombatAction>();
-
-        if (!unit.StatusEffects.Any())
-            return actions;
 
         for (var i = unit.StatusEffects.Count - 1; i >= 0; i--)
         {
@@ -336,6 +372,4 @@ public class CombatEngine
 
         return multiplier;
     }
-
-    public CombatContext Context => _context;
 }

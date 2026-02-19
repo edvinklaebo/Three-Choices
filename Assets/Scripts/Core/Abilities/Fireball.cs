@@ -7,17 +7,41 @@ using UnityEngine;
 ///     Burn cannot crit and does not stack.
 /// </summary>
 [Serializable]
-public class Fireball : IAbility
+public class Fireball : IAbility, ICombatListener, IActionCreator
 {
     [SerializeField] private int _baseDamage;
     [SerializeField] private int _burnDuration;
     [SerializeField] private float _burnDamagePercent;
+    private CombatContext _context;
+
+    public int Priority => 50; // Early priority - abilities trigger before normal attacks
 
     public Fireball(int baseDamage = 10, int burnDuration = 3, float burnDamagePercent = 0.5f)
     {
         _baseDamage = baseDamage;
         _burnDuration = burnDuration;
         _burnDamagePercent = burnDamagePercent;
+    }
+
+    public void RegisterHandlers(CombatContext context)
+    {
+        _context = context;
+        // No event handlers needed for abilities
+    }
+
+    public void UnregisterHandlers(CombatContext context)
+    {
+        _context = null;
+    }
+
+    public void CreateActions(CombatContext context, Unit source, Unit target, int hpBefore, int hpAfter)
+    {
+        if (hpAfter < hpBefore)
+        {
+            var damage = hpBefore - hpAfter;
+            var maxHP = target.Stats.MaxHP;
+            context.AddAction(new FireballAction(source, target, damage, hpBefore, hpAfter, maxHP));
+        }
     }
 
     /// <summary>
