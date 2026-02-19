@@ -50,21 +50,51 @@ public void RestorePlayerState()
 }
 ```
 
-### 4. Dual-Role Classes (Current Issue)
+### 4. Separation of Passives and Status Effects (Implemented)
 
-Some classes serve dual purposes:
-- **Passive role**: Attached to player, triggers when conditions met
-- **Status Effect role**: Applied to enemies, ticks each turn
+To maintain single responsibility and avoid confusion, passives and status effects have been separated:
+- **Passive role**: Attached to player, triggers when conditions met (e.g., `BleedUpgrade`)
+- **Status Effect role**: Applied to targets, ticks each turn (e.g., `Bleed`)
 
-Example: `Bleed` class
-- As passive: Listens to `Owner.OnHit`, creates Bleed effects on hit
-- As status effect: Applied to enemy, deals damage over time
+Example: `BleedUpgrade` passive and `Bleed` status effect
+- `BleedUpgrade`: Listens to `Owner.OnHit`, creates `Bleed` status effects on hit
+- `Bleed`: Applied to enemy, deals damage over time
 
-**Data Fields:**
-- Passive mode needs: `passiveStacks`, `passiveDuration`, `passiveBaseDamage`
-- Status effect mode needs: `Stacks`, `Duration`, `BaseDamage`
+**Implementation:**
+```csharp
+// Passive creates status effects but isn't one itself
+public class BleedUpgrade : IPassive
+{
+    [SerializeField] private int stacks;
+    [SerializeField] private int duration;
+    [SerializeField] private int baseDamage;
+    
+    private void ApplyBleed(Unit target, int _)
+    {
+        target.ApplyStatus(new Bleed(stacks, duration, baseDamage));
+    }
+}
 
-**Critical Bug**: If `passiveBaseDamage` isn't initialized, undefined damage values are passed to status effects!
+// Separate, focused status effect class
+public class Bleed : IStatusEffect
+{
+    public int Stacks { get; set; }
+    public int Duration { get; set; }
+    public int BaseDamage { get; set; }
+    
+    public void OnTurnStart(Unit target)
+    {
+        target.ApplyDirectDamage(Stacks);
+        Duration--;
+    }
+}
+```
+
+**Benefits:**
+- Single responsibility per class
+- Clearer serialization (each class serializes only relevant data)
+- Easier to test and maintain
+- No confusion about which fields are used when
 
 ### 5. Initialization Flow
 
@@ -109,52 +139,6 @@ Player.Died += event
 ❌ Recreate Unit after loading (breaks passive Owner references)
 ❌ Assume event subscriptions persist after deserialization
 ❌ Leave fields uninitialized in constructors
-
-## Future Architecture Recommendations
-
-### Separate Passives and StatusEffects
-Current dual-role classes create confusion. Recommended refactor:
-
-**Option A: Factory Pattern**
-```csharp
-// Passive creates status effects but isn't one itself
-public class BleedPassive : Passive
-{
-    public int Stacks { get; set; }
-    public int Duration { get; set; }
-    public int BaseDamage { get; set; }
-    
-    private void OnHit(Unit target)
-    {
-        target.ApplyStatus(CreateBleedEffect());
-    }
-    
-    private BleedEffect CreateBleedEffect()
-    {
-        return new BleedEffect(Stacks, Duration, BaseDamage);
-    }
-}
-
-// Separate, focused status effect class
-public class BleedEffect : IStatusEffect
-{
-    public int Stacks { get; set; }
-    public int Duration { get; set; }
-    public int BaseDamage { get; set; }
-    
-    public void OnTurnStart(Unit target)
-    {
-        target.ApplyDirectDamage(Stacks);
-        Duration--;
-    }
-}
-```
-
-**Benefits:**
-- Single responsibility per class
-- Clearer serialization (each class serializes only relevant data)
-- Easier to test and maintain
-- No confusion about which fields are used when
 
 ## Debugging Tips
 
