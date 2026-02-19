@@ -87,7 +87,7 @@ public static class UpgradeApplier
 
             case "Bleed":
                 Log.Info("Passive Applied: Bleed");
-                unit.Passives.Add(new Bleed(unit));
+                unit.Passives.Add(new BleedUpgrade(unit));
                 break;
 
             default:
