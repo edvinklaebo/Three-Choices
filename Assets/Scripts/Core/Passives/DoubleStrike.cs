@@ -122,24 +122,9 @@ public class DoubleStrike : IPassive, ICombatListener
                 // Add damage action for second hit
                 _context.AddAction(new DamageAction(_owner, strikeData.Target, secondCtx.FinalValue, secondHpBefore, secondHpAfter, secondMaxHP));
 
-                // Manually collect lifesteal heals from second hit
-                foreach (var passive in _owner.Passives)
-                {
-                    if (passive is Lifesteal lifesteal)
-                    {
-                        var heals = lifesteal.ConsumePendingHeals();
-                        foreach (var healData in heals)
-                        {
-                            _context.AddAction(new HealAction(
-                                _owner,
-                                healData.Amount,
-                                healData.HPBefore,
-                                healData.HPAfter,
-                                healData.MaxHP
-                            ));
-                        }
-                    }
-                }
+                // Raise AfterAttackEvent for the second hit so other passives (e.g., Lifesteal) can process it
+                // DoubleStrike won't recurse because _isProcessingStrikes is true
+                _context.Raise(new AfterAttackEvent(_owner, strikeData.Target));
 
                 // Add death action if target died from second hit
                 if (strikeData.Target.isDead && !_context.Actions.OfType<DeathAction>().Any(a => a.Target == strikeData.Target))
