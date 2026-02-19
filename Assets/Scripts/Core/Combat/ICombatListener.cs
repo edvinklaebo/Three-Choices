@@ -1,5 +1,3 @@
-using System;
-
 /// <summary>
 /// Interface for combat event listeners
 /// Passives and abilities implement this to respond to combat events

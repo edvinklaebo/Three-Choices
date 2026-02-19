@@ -6,10 +6,12 @@ public class RunController : MonoBehaviour
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel playerDiedEvent;
     [SerializeField] private VoidEventChannel combatEndedWithPlayerDeath;
+    [SerializeField] private VoidEventChannel _continueRunRequested;
+    [SerializeField] private FightStartedEventChannel _fightStarted;
 
     public Unit Player;
 
-    public int _fightIndex = 1;
+    private int _fightIndex = 1;
 
     public RunState CurrentRun { get; private set; }
 
@@ -23,7 +25,12 @@ public class RunController : MonoBehaviour
         requestNextFight.OnRaised += HandleNextFight;
         playerDiedEvent.OnRaised += OnPlayerDied;
 
-        if (combatEndedWithPlayerDeath != null) combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
+        if (combatEndedWithPlayerDeath != null) 
+            combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
+        if (_continueRunRequested != null) 
+            _continueRunRequested.OnRaised += ContinueRun;
+
+        GameEvents.CharacterSelected_Event += StartNewRun;
     }
 
     private void OnDisable()
@@ -31,10 +38,15 @@ public class RunController : MonoBehaviour
         requestNextFight.OnRaised -= HandleNextFight;
         playerDiedEvent.OnRaised -= OnPlayerDied;
 
-        if (combatEndedWithPlayerDeath != null) combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
+        if (combatEndedWithPlayerDeath != null) 
+            combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
+        if (_continueRunRequested != null) 
+            _continueRunRequested.OnRaised -= ContinueRun;
+
+        GameEvents.CharacterSelected_Event -= StartNewRun;
     }
 
-    public void ContinueRun()
+    private void ContinueRun()
     {
         Log.Info("[Run] Continue run requested");
         
@@ -55,7 +67,7 @@ public class RunController : MonoBehaviour
         // Note: requestNextFight will be raised by CombatController.Start() when DraftScene loads
     }
 
-    public void StartNewRun(CharacterDefinition character)
+    private void StartNewRun(CharacterDefinition character)
     {
         if (character == null)
         {
@@ -102,6 +114,7 @@ public class RunController : MonoBehaviour
     {
         _fightIndex++;
         Save();
+        _fightStarted?.Raise(Player, _fightIndex);
     }
 
     private void Save()

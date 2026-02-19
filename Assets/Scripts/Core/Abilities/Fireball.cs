@@ -26,7 +26,6 @@ public class Fireball : IAbility, ICombatListener, IActionCreator
     public void RegisterHandlers(CombatContext context)
     {
         _context = context;
-        // No event handlers needed for abilities
     }
 
     public void UnregisterHandlers(CombatContext context)

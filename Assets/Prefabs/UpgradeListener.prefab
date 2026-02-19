@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::UpgradeListener
   upgradePicked: {fileID: 0}
   requestNextFight: {fileID: 0}
+  _fightStarted: {fileID: 0}

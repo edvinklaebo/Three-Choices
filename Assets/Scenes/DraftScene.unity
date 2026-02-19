@@ -1516,8 +1516,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   panel: {fileID: 1018811895}
-  runController: {fileID: 0}
-  requestNextFight: {fileID: 11400000, guid: 18d1e828aba52d34c9d0ce104cc75a6f, type: 2}
+  _fightStarted: {fileID: 11400000, guid: aabb1122cc334455667788990011aabb, type: 2}
   _healthBar: {fileID: 377509771}
 --- !u!4 &538174025
 Transform:
@@ -1603,9 +1602,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1044acb858714ffbb28024209733b59a, type: 2}
     - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: runController
+      propertyPath: _fightStarted
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: aabb1122cc334455667788990011aabb, type: 2}
     - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
       propertyPath: requestNextFight
       value: 
@@ -2627,9 +2626,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -3270932877066738787, guid: 1ee38493f2930b34388a77cd9c6aa287, type: 3}
-      propertyPath: runController
+      propertyPath: _fightStarted
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: aabb1122cc334455667788990011aabb, type: 2}
     - target: {fileID: -3270932877066738787, guid: 1ee38493f2930b34388a77cd9c6aa287, type: 3}
       propertyPath: upgradePicked
       value: 

@@ -5,19 +5,9 @@ public class CharacterSelectController : MonoBehaviour
     [SerializeField] private CharacterDatabase _database;
     [SerializeField] private CharacterSelectView _view;
 
-    private RunController _runController;
-
     public int CurrentIndex { get; private set; }
 
     private CharacterDefinition _current => _database?.GetByIndex(CurrentIndex);
-
-    private void Awake()
-    {
-        // Cache RunController reference to avoid repeated scene searches
-        _runController = FindFirstObjectByType<RunController>();
-        if (_runController == null)
-            Log.Error("[CharacterSelect] RunController not found in scene");
-    }
 
     private void OnEnable()
     {
@@ -54,13 +44,6 @@ public class CharacterSelectController : MonoBehaviour
 
         Log.Info($"[CharacterSelect] Confirmed {_current.Id}");
         GameEvents.CharacterSelected_Event?.Invoke(_current);
-
-        if (_runController != null)
-            _runController.StartNewRun(_current);
-        else if (Application.isPlaying)
-            Log.Error("[CharacterSelect] RunController not found");
-        else
-            Log.Info("[CharacterSelect] RunController not found");
     }
 
     private void UpdateView()
