@@ -11,6 +11,7 @@ public class DoubleStrike : IPassive, ICombatListener
     private Unit _owner;
     private List<DoubleStrikeData> _pendingStrikes = new();
     private CombatContext _context;
+    private bool _isProcessingStrikes = false; // Prevent recursive double strikes
 
     public int Priority => 210; // Late priority - after damage is dealt, after lifesteal
 
@@ -47,6 +48,10 @@ public class DoubleStrike : IPassive, ICombatListener
 
     private void OnDamageDealt(Unit target, int damage)
     {
+        // Don't trigger double strike during second hit processing to avoid infinite recursion
+        if (_isProcessingStrikes)
+            return;
+
         // Roll for double strike trigger
         var roll = UnityEngine.Random.value;
         
@@ -74,77 +79,78 @@ public class DoubleStrike : IPassive, ICombatListener
         if (evt.Source != _owner)
             return;
 
+        // Prevent recursive processing
+        if (_isProcessingStrikes)
+            return;
+
         // Execute pending strikes
-        var strikes = ConsumePendingStrikes();
-        foreach (var strikeData in strikes)
+        _isProcessingStrikes = true;
+        try
         {
-            if (strikeData.Target.isDead)
-                continue;
-
-            // Calculate second hit damage with multiplier
-            var armorMultiplier = 100f / (100f + strikeData.Target.Stats.Armor);
-            var secondBaseDamage = Mathf.CeilToInt(_owner.Stats.AttackPower * armorMultiplier * strikeData.DamageMultiplier);
-
-            var secondCtx = new DamageContext(_owner, strikeData.Target, secondBaseDamage);
-            DamagePipeline.Process(secondCtx);
-
-            // Capture HP before second hit
-            var secondHpBefore = strikeData.Target.Stats.CurrentHP;
-            var secondMaxHP = strikeData.Target.Stats.MaxHP;
-
-            // Apply second hit damage
-            strikeData.Target.ApplyDamage(_owner, secondCtx.FinalValue);
-
-            // Capture HP after second hit
-            var secondHpAfter = strikeData.Target.Stats.CurrentHP;
-
-            Log.Info("Double Strike second hit applied", new
+            var strikes = ConsumePendingStrikes();
+            foreach (var strikeData in strikes)
             {
-                attacker = _owner.Name,
-                target = strikeData.Target.Name,
-                damage = secondCtx.FinalValue,
-                hpBefore = secondHpBefore,
-                hpAfter = secondHpAfter
-            });
+                if (strikeData.Target.isDead)
+                    continue;
 
-            // Add damage action for second hit
-            _context.AddAction(new DamageAction(_owner, strikeData.Target, secondCtx.FinalValue, secondHpBefore, secondHpAfter, secondMaxHP));
+                // Calculate second hit damage with multiplier
+                var armorMultiplier = 100f / (100f + strikeData.Target.Stats.Armor);
+                var secondBaseDamage = Mathf.CeilToInt(_owner.Stats.AttackPower * armorMultiplier * strikeData.DamageMultiplier);
 
-            // Raise OnHit event for the second hit - this allows other passives to respond
-            _context.Raise(new OnHitEvent(_owner, strikeData.Target, secondCtx.FinalValue));
+                var secondCtx = new DamageContext(_owner, strikeData.Target, secondBaseDamage);
+                DamagePipeline.Process(secondCtx);
 
-            // Raise AfterAttack event for the second hit - this collects any pending actions (e.g., lifesteal heals)
-            _context.Raise(new AfterAttackEvent(_owner, strikeData.Target));
+                // Capture HP before second hit
+                var secondHpBefore = strikeData.Target.Stats.CurrentHP;
+                var secondMaxHP = strikeData.Target.Stats.MaxHP;
 
-            // Add death action if target died from second hit
-            if (strikeData.Target.isDead && !_context.Actions.OfType<DeathAction>().Any(a => a.Target == strikeData.Target))
-                _context.AddAction(new DeathAction(strikeData.Target));
+                // Apply second hit damage
+                strikeData.Target.ApplyDamage(_owner, secondCtx.FinalValue);
+
+                // Capture HP after second hit
+                var secondHpAfter = strikeData.Target.Stats.CurrentHP;
+
+                Log.Info("Double Strike second hit applied", new
+                {
+                    attacker = _owner.Name,
+                    target = strikeData.Target.Name,
+                    damage = secondCtx.FinalValue,
+                    hpBefore = secondHpBefore,
+                    hpAfter = secondHpAfter
+                });
+
+                // Add damage action for second hit
+                _context.AddAction(new DamageAction(_owner, strikeData.Target, secondCtx.FinalValue, secondHpBefore, secondHpAfter, secondMaxHP));
+
+                // Manually collect lifesteal heals from second hit
+                foreach (var passive in _owner.Passives)
+                {
+                    if (passive is Lifesteal lifesteal)
+                    {
+                        var heals = lifesteal.ConsumePendingHeals();
+                        foreach (var healData in heals)
+                        {
+                            _context.AddAction(new HealAction(
+                                _owner,
+                                healData.Amount,
+                                healData.HPBefore,
+                                healData.HPAfter,
+                                healData.MaxHP
+                            ));
+                        }
+                    }
+                }
+
+                // Add death action if target died from second hit
+                if (strikeData.Target.isDead && !_context.Actions.OfType<DeathAction>().Any(a => a.Target == strikeData.Target))
+                    _context.AddAction(new DeathAction(strikeData.Target));
+            }
         }
-    }
-
-    /// <summary>
-    ///     Get and clear all pending double strikes that need to be executed.
-    /// </summary>
-    public List<DoubleStrikeData> ConsumePendingStrikes()
-    {
-        var strikes = new List<DoubleStrikeData>(_pendingStrikes);
-        _pendingStrikes.Clear();
-        return strikes;
-    }
-
-    public readonly struct DoubleStrikeData
-    {
-        public readonly Unit Target;
-        public readonly float DamageMultiplier;
-
-        public DoubleStrikeData(Unit target, float damageMultiplier)
+        finally
         {
-            Target = target;
-            DamageMultiplier = damageMultiplier;
+            _isProcessingStrikes = false;
         }
     }
-}
-
 
     /// <summary>
     ///     Get and clear all pending double strikes that need to be executed.
