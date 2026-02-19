@@ -145,7 +145,7 @@ namespace Tests.EditModeTests
             };
 
             // Add a Bleed passive with custom parameters
-            player.Passives.Add(new Bleed(player, 5, 4));
+            player.Passives.Add(new BleedUpgrade(player, 5, 4));
 
             var run = new RunState
             {
@@ -160,7 +160,7 @@ namespace Tests.EditModeTests
 
             // Verify the passive was restored
             Assert.AreEqual(1, loaded.player.Passives.Count);
-            var bleedPassive = loaded.player.Passives[0] as Bleed;
+            var bleedPassive = loaded.player.Passives[0] as BleedUpgrade;
             Assert.NotNull(bleedPassive);
 
             // Verify the passive behavior works - when player hits, should apply bleed to target
