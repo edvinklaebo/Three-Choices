@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class UpgradeListener : MonoBehaviour
 {
+    [Header("Events")]
     [SerializeField] private UpgradeEventChannel upgradePicked;
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private FightStartedEventChannel _fightStarted;

@@ -9,6 +9,8 @@ public class DraftUI : MonoBehaviour
     public static DraftUI Instance;
     public Button[] DraftButtons;
 
+    [SerializeField] private VoidEventChannel _onHideRequested;
+
     private const float FadeDuration = 0.3f;
 
     private List<UpgradeDefinition> _currentDraft;
@@ -34,6 +36,21 @@ public class DraftUI : MonoBehaviour
         }
 
         // Start hidden (no animation in Awake)
+        Hide(animated: false);
+    }
+
+    private void OnEnable()
+    {
+        if (_onHideRequested != null) _onHideRequested.OnRaised += OnHideRequested;
+    }
+
+    private void OnDisable()
+    {
+        if (_onHideRequested != null) _onHideRequested.OnRaised -= OnHideRequested;
+    }
+
+    private void OnHideRequested()
+    {
         Hide(animated: false);
     }
 

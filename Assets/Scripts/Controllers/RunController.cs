@@ -3,12 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class RunController : MonoBehaviour
 {
+    [Header("Events")]
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel playerDiedEvent;
     [SerializeField] private VoidEventChannel combatEndedWithPlayerDeath;
     [SerializeField] private VoidEventChannel _continueRunRequested;
     [SerializeField] private FightStartedEventChannel _fightStarted;
 
+    [Header("References")]
     public Unit Player;
 
     private int _fightIndex = 1;

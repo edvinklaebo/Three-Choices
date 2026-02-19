@@ -3,40 +3,35 @@ using UnityEngine;
 
 public class CombatController : MonoBehaviour
 {
+    [Header("Events")]
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel fightEnded;
     [SerializeField] private VoidEventChannel combatEndedWithPlayerDeath;
+    [SerializeField] private VoidEventChannel _hideDraftUI;
     [SerializeField] private FightStartedEventChannel _fightStarted;
+    
+    [Header("References")]
     [SerializeField] private CombatAnimationRunner animationRunner;
-    [SerializeField] private CombatView combatView;
-
-    private AnimationContext _animationContext;
+    [SerializeField] private CombatServicesInstaller _servicesInstaller;
+    [SerializeField] private EnemyFactory _enemyFactory;
+    [SerializeField] private CombatSystemService _combatSystem;
 
     private void Awake()
     {
         if (animationRunner == null)
             Log.Error("CombatController: animationRunner is not assigned. Assign it in the Inspector.");
-        if (combatView == null)
-            Log.Error("CombatController: combatView is not assigned. Assign it in the Inspector.");
+        if (_servicesInstaller == null)
+            Log.Error("CombatController: servicesInstaller is not assigned. Assign it in the Inspector.");
+        if (_enemyFactory == null)
+            Log.Error("CombatController: enemyFactory is not assigned. Assign it in the Inspector.");
+        if (_combatSystem == null)
+            Log.Error("CombatController: combatSystem is not assigned. Assign it in the Inspector.");
+        if (_hideDraftUI == null)
+            Log.Warning("CombatController: hideDraftUI event channel is not assigned. Draft UI will not be hidden.");
     }
 
     private void Start()
     {
-        if (animationRunner == null || combatView == null) return;
-
-        var animService = new AnimationService();
-        var uiService = new UIService();
-
-        animService.SetCombatView(combatView);
-        uiService.SetCombatView(combatView);
-
-        _animationContext = new AnimationContext(
-            animService,
-            uiService,
-            new VFXService(),
-            new SFXService()
-        );
-
         requestNextFight.Raise();
     }
 
@@ -58,22 +53,24 @@ public class CombatController : MonoBehaviour
     private IEnumerator StartFightCoroutine(Unit player, int fightIndex)
     {
         // Hide draft UI before combat animations start
-        if (DraftUI.Instance != null) DraftUI.Instance.Hide(false);
+        _hideDraftUI?.Raise();
 
-        var enemy = EnemyFactory.Create(fightIndex);
+        var enemy = _enemyFactory.Create(fightIndex);
+
+        var combatView = _servicesInstaller.CombatView;
 
         // Initialize combat view with combatants
         if (combatView != null) combatView.Initialize(player, enemy);
 
         // Run combat logic (pure, deterministic)
-        var actions = CombatSystem.RunFight(player, enemy);
+        var actions = _combatSystem.RunFight(player, enemy);
 
         // Queue actions for animation
         animationRunner.EnqueueRange(actions);
-        animationRunner.PlayAll(_animationContext);
+        animationRunner.PlayAll(_servicesInstaller.Context);
 
         // Wait for animations to complete
-        yield return new WaitUntil(() => !animationRunner.IsRunning);
+        yield return animationRunner.WaitForCompletion();
 
         // Hide combat view before showing draft UI
         if (combatView != null) combatView.Hide();
