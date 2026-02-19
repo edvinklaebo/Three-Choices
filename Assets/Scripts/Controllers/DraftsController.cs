@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class DraftController : MonoBehaviour
 {
+    [Header("Events")]
     [SerializeField] private UpgradeEventChannel upgradePicked;
     [SerializeField] private VoidEventChannel fightEnded;
 

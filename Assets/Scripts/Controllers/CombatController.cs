@@ -3,11 +3,14 @@ using UnityEngine;
 
 public class CombatController : MonoBehaviour
 {
+    [Header("Events")]
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel fightEnded;
     [SerializeField] private VoidEventChannel combatEndedWithPlayerDeath;
     [SerializeField] private VoidEventChannel _hideDraftUI;
     [SerializeField] private FightStartedEventChannel _fightStarted;
+    
+    [Header("References")]
     [SerializeField] private CombatAnimationRunner animationRunner;
     [SerializeField] private CombatServicesInstaller _servicesInstaller;
     [SerializeField] private EnemyFactory _enemyFactory;
@@ -29,8 +32,6 @@ public class CombatController : MonoBehaviour
 
     private void Start()
     {
-        if (animationRunner == null || _servicesInstaller == null || _enemyFactory == null || _combatSystem == null) return;
-
         requestNextFight.Raise();
     }
 

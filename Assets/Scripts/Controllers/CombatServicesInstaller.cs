@@ -6,6 +6,7 @@ using UnityEngine;
 /// </summary>
 public class CombatServicesInstaller : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private CombatView _combatView;
 
     public AnimationContext Context { get; private set; }

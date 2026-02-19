@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CharacterSelectController : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private CharacterDatabase _database;
     [SerializeField] private CharacterSelectView _view;
 

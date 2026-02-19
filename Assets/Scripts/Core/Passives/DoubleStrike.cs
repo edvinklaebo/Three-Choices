@@ -127,7 +127,7 @@ public class DoubleStrike : IPassive, ICombatListener
                 _context.Raise(new AfterAttackEvent(_owner, strikeData.Target));
 
                 // Add death action if target died from second hit
-                if (strikeData.Target.isDead && !_context.Actions.OfType<DeathAction>().Any(a => a.Target == strikeData.Target))
+                if (strikeData.Target.isDead && _context.Actions.OfType<DeathAction>().All(a => a.Target != strikeData.Target))
                     _context.AddAction(new DeathAction(strikeData.Target));
             }
         }

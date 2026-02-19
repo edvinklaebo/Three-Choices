@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CharacterSelectInput : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private CharacterSelectController _controller;
 
     private void Update()

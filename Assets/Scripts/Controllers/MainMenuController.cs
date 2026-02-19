@@ -7,11 +7,15 @@ public class MainMenuController : MonoBehaviour
 {
     private const string CharacterSelectSceneName = "CharacterSelectScene";
 
+    [Header("Events")] 
+    [SerializeField] private VoidEventChannel _continueRunRequested;
+
+    [Header("References")] 
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button continueButton;
     [SerializeField] private Button newGameButton;
-    [SerializeField] private VoidEventChannel _continueRunRequested;
+
 
     private void Awake()
     {

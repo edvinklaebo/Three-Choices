@@ -6,10 +6,13 @@ using UnityEngine.UI;
 
 public class CharacterSelectView : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private Image _portraitImage;
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private StatsPanelUI _statsPanel;
     [SerializeField] private Transform _portraitTransform;
+    
+    [Header("Configuration")]
     [SerializeField] private float _animationTime = 0.2f;
     [SerializeField] private float _scaleAmount = 0.1f;
 
