@@ -2,39 +2,13 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class Poison : IPassive, IStatusEffect
+public class Poison : IStatusEffect
 {
-    [SerializeField] private int passiveDuration;
-
-    [SerializeField] private int passiveStacks;
-    
-    [SerializeField] private int passiveBaseDamage;
-
-    // Constructor for status effect usage
     public Poison(int stacks, int duration, int baseDamage)
     {
         Stacks = stacks;
         Duration = duration;
         BaseDamage = baseDamage;
-    }
-
-    // Constructor for passive usage
-    public Poison(Unit owner, int stacks = 2, int duration = 3, int baseDamage = 2)
-    {
-        passiveStacks = stacks;
-        passiveDuration = duration;
-        passiveBaseDamage = baseDamage;
-        OnAttach(owner);
-    }
-
-    public void OnAttach(Unit target)
-    {
-        target.OnHit += ApplyPoison;
-    }
-
-    public void OnDetach(Unit target)
-    {
-        target.OnHit -= ApplyPoison;
     }
 
     public string Id => "Poison";
@@ -45,7 +19,6 @@ public class Poison : IPassive, IStatusEffect
 
     [field: SerializeField] public int BaseDamage { get; set; }
 
-    // IStatusEffect implementation
     public void OnApply(Unit target)
     {
         Log.Info("Poison applied", new
@@ -93,22 +66,5 @@ public class Poison : IPassive, IStatusEffect
     public void AddStacks(IStatusEffect effect)
     {
         Stacks += effect.Stacks;
-    }
-
-    // Passive behavior - applies poison when owner hits something
-    private void ApplyPoison(Unit target, int _)
-    {
-        if (target == null)
-            return;
-
-        Log.Info("Poison passive triggered", new
-        {
-            target = target.Name,
-            poisonStacks = passiveStacks,
-            poisonDuration = passiveDuration,
-            poisonBaseDamage = passiveBaseDamage
-        });
-
-        target.ApplyStatus(new Poison(passiveStacks, passiveDuration, passiveBaseDamage));
     }
 }

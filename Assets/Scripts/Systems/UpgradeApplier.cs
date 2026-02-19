@@ -82,7 +82,7 @@ public static class UpgradeApplier
 
             case "Poison":
                 Log.Info("Passive Applied: Poison");
-                unit.Passives.Add(new Poison(unit));
+                unit.Passives.Add(new PoisonUpgrade(unit));
                 break;
 
             case "Bleed":

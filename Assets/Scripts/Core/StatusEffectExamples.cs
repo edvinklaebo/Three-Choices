@@ -21,7 +21,7 @@ public static class StatusEffectExamples
     {
         // When player has Poison passive, attackers get poisoned
         // See Assets/Scripts/Core/Poison.cs
-        defender.Passives.Add(new Poison(defender));
+        defender.Passives.Add(new PoisonUpgrade(defender));
         // Now whenever defender is hit, attacker receives 2 stacks for 3 turns
     }
 
