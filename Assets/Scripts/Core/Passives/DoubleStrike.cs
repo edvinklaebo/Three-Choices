@@ -45,7 +45,7 @@ public class DoubleStrike : IPassive, ICombatListener
         context.Off<AfterAttackEvent>(OnAfterAttack);
     }
 
-    private void OnDamageDealt(Unit target, int damage)
+    private void OnDamageDealt(Unit self, Unit target, int damage)
     {
         // Don't trigger double strike during second hit processing to avoid infinite recursion
         if (_isProcessingStrikes)

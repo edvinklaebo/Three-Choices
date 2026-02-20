@@ -43,8 +43,8 @@ public class Unit
             $"[Unit] Player state restored - Abilities: {Abilities.Count}, Passives: {Passives.Count}, StatusEffects: {StatusEffects.Count}");
     }
 
-    public event Action<Unit, int> Damaged;
-    public event Action<Unit, int> OnHit;
+    public event Action<Unit, Unit, int> Damaged;
+    public event Action<Unit, Unit, int> OnHit;
     public event Action<Unit, int, int> HealthChanged;
     public event Action<Unit> Died;
     public event Action<Unit, IStatusEffect, bool> StatusEffectApplied;
@@ -61,7 +61,7 @@ public class Unit
 
     public void RaiseOnHit(Unit target, int damage)
     {
-        OnHit?.Invoke(target, damage);
+        OnHit?.Invoke(this, target, damage);
     }
 
     public void ApplyDamage(Unit attacker, int damage)
@@ -71,8 +71,8 @@ public class Unit
 
         Stats.CurrentHP -= damage;
 
-        Damaged?.Invoke(attacker, damage);
-        attacker?.OnHit?.Invoke(this, damage);
+        Damaged?.Invoke(this, attacker, damage);
+        attacker?.OnHit?.Invoke(attacker, this, damage);
         HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
 
         if (Stats.CurrentHP <= 0)

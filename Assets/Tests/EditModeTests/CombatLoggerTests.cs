@@ -82,7 +82,7 @@ namespace Tests.EditModeTests
             var damagedAttacker = (Unit)null;
             var damagedAmount = 0;
 
-            defender.Damaged += (a, d) =>
+            defender.Damaged += (self, a, d) =>
             {
                 damagedAttacker = a;
                 damagedAmount = d;

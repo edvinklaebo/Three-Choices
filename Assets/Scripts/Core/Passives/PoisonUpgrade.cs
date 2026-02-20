@@ -26,7 +26,7 @@ public class PoisonUpgrade : IPassive
         owner.OnHit -= ApplyPoison;
     }
 
-    private void ApplyPoison(Unit target, int _)
+    private void ApplyPoison(Unit self, Unit target, int _)
     {
         if (target == null)
             return;

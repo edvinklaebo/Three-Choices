@@ -140,7 +140,7 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Test", 100, 0, 0, 5);
             var damagedTriggered = false;
 
-            unit.Damaged += (_, _) => damagedTriggered = true;
+            unit.Damaged += (_, _, _) => damagedTriggered = true;
             unit.ApplyDamage(unit, 10);
 
             Assert.IsTrue(damagedTriggered, "Damage should trigger Damaged event");
