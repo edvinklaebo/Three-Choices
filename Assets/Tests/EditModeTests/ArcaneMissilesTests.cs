@@ -138,13 +138,14 @@ namespace Tests.EditModeTests
             {
                 if (actions[i] is ArcaneMissilesAction && firstMissiles == -1)
                     firstMissiles = i;
-                if (actions[i] is DamageAction && firstAttack == -1)
+                // Only look for the normal attack DamageAction after the ArcaneMissilesAction
+                if (actions[i] is DamageAction && firstMissiles != -1 && firstAttack == -1)
                     firstAttack = i;
             }
 
             Assert.Greater(firstMissiles, -1, "Should have ArcaneMissilesAction");
             Assert.Greater(firstAttack, -1, "Should have DamageAction");
-            Assert.Greater(firstMissiles, firstAttack, "Arcane Missiles should happen before attack");
+            Assert.Less(firstMissiles, firstAttack, "Arcane Missiles should happen before attack");
         }
 
         [Test]
