@@ -12,13 +12,15 @@ public class UpgradeListener : MonoBehaviour
     private void OnEnable()
     {
         upgradePicked.OnRaised += Apply;
-        if (_fightStarted != null) _fightStarted.OnRaised += OnFightStarted;
+        if (_fightStarted != null) 
+            _fightStarted.OnRaised += OnFightStarted;
     }
 
     private void OnDisable()
     {
         upgradePicked.OnRaised -= Apply;
-        if (_fightStarted != null) _fightStarted.OnRaised -= OnFightStarted;
+        if (_fightStarted != null) 
+            _fightStarted.OnRaised -= OnFightStarted;
     }
 
     private void OnFightStarted(Unit player, int fightIndex)
@@ -28,10 +30,8 @@ public class UpgradeListener : MonoBehaviour
 
     private void Apply(UpgradeDefinition upgrade)
     {
-        Log.Info("Applying upgrade ", upgrade);
-
-        // Hide draft UI immediately when upgrade is picked
-        if (DraftUI.Instance != null) DraftUI.Instance.Hide(true);
+        if (DraftUI.Instance)
+            DraftUI.Instance.Hide();
 
         UpgradeApplier.Apply(upgrade, _player);
 

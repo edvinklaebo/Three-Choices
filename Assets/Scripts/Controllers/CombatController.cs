@@ -37,12 +37,14 @@ public class CombatController : MonoBehaviour
 
     private void OnEnable()
     {
-        if (_fightStarted != null) _fightStarted.OnRaised += HandleStartFight;
+        if (_fightStarted != null) 
+            _fightStarted.OnRaised += HandleStartFight;
     }
 
     private void OnDisable()
     {
-        if (_fightStarted != null) _fightStarted.OnRaised -= HandleStartFight;
+        if (_fightStarted != null) 
+            _fightStarted.OnRaised -= HandleStartFight;
     }
 
     private void HandleStartFight(Unit player, int fightIndex)
@@ -61,7 +63,8 @@ public class CombatController : MonoBehaviour
         var combatView = _servicesInstaller.CombatView;
 
         // Initialize combat view with combatants
-        if (combatView != null) combatView.Initialize(player, enemy);
+        if (combatView) 
+            combatView.Initialize(player, enemy);
 
         // Run combat logic (pure, deterministic)
         var actions = _combatSystem.RunFight(player, enemy);
@@ -74,13 +77,14 @@ public class CombatController : MonoBehaviour
         yield return animationRunner.WaitForCompletion();
 
         // Hide combat view before showing draft UI
-        if (combatView != null) combatView.Hide();
+        if (combatView) 
+            combatView.Hide();
 
         // Continue game flow
         if (player.Stats.CurrentHP <= 0)
         {
             // Raise event after death animation completes
-            if (combatEndedWithPlayerDeath != null)
+            if (combatEndedWithPlayerDeath)
                 combatEndedWithPlayerDeath.Raise();
             else
                 Log.Warning("CombatController - combatEndedWithPlayerDeath event channel not assigned");
