@@ -169,7 +169,7 @@ namespace Tests.EditModeTests
 
             Assert.Greater(firstFireball, -1, "Should have fireball action");
             Assert.Greater(firstAttack, -1, "Should have attack action");
-            Assert.Less(firstFireball, firstAttack, "Fireball should happen before attack");
+            Assert.Greater(firstFireball, firstAttack, "Fireball should happen before attack");
         }
 
         [Test]

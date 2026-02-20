@@ -130,7 +130,7 @@ public class CombatContext
 
         AddAction(effectId != null
             ? new StatusEffectAction(target, effectId, ctx.FinalDamage, hpBefore, hpAfter, maxHP)
-            : (ICombatAction)new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP));
+            : new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP));
 
         Raise(new OnHitEvent(source, target, ctx.FinalDamage));
 
