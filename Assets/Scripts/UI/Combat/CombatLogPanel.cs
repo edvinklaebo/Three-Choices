@@ -75,6 +75,5 @@ public class CombatLogPanel : MonoBehaviour
             return;
 
         Canvas.ForceUpdateCanvases();
-        _scrollRect.verticalNormalizedPosition = 0f;
     }
 }

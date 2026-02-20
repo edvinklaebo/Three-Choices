@@ -19,7 +19,6 @@ public class CombatLogger
             Log.Warning("[CombatLogger] Cannot register null unit");
             return;
         }
-
         unit.Damaged += OnDamaged;
         unit.OnHit += OnHit;
         unit.HealthChanged += OnHealthChanged;
@@ -71,5 +70,10 @@ public class CombatLogger
             ? $"[Status] {unit.Name} stacked {effect.Id} (new total: {effect.Stacks})"
             : $"[Status] {unit.Name} gained {effect.Id} ({effect.Stacks} stacks)";
         Emit(message);
+    }
+
+    public void Invoke(string name)
+    {
+        LogAdded?.Invoke(name);
     }
 }
