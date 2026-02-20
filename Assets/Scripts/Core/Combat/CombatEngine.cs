@@ -4,15 +4,57 @@ using System.Linq;
 using UnityEngine;
 
 /// <summary>
-/// Instance-based combat engine that uses event-driven architecture
-/// Replaces static CombatSystem with extensible pattern
+/// Instance-based combat engine that uses event-driven architecture.
+/// Replaces static CombatSystem with extensible pattern.
+/// Not thread-safe: a single instance must not run concurrent fights.
 /// </summary>
 public class CombatEngine
 {
     private readonly CombatContext _context = new();
 
+    private Unit _attacker;
+    private Unit _defender;
+    private bool _attackerTurn;
+    private int _round;
+
     public List<ICombatAction> RunFight(Unit attacker, Unit defender)
     {
+        Initialize(attacker, defender);
+
+        try
+        {
+            while (!IsFinished())
+                ExecuteRound();
+
+            return BuildResult();
+        }
+        catch (Exception ex)
+        {
+            Log.Exception(ex, "CombatEngine.RunFight failed", new
+            {
+                attacker = _attacker.Name,
+                defender = _defender.Name,
+                round = _round,
+                attackerHp = _attacker.Stats.CurrentHP,
+                defenderHp = _defender.Stats.CurrentHP,
+                attackerTurn = _attackerTurn
+            });
+
+            throw;
+        }
+        finally
+        {
+            // Clean up listeners
+            _context.Clear();
+        }
+    }
+
+    private void Initialize(Unit attacker, Unit defender)
+    {
+        _attacker = attacker;
+        _defender = defender;
+        _round = 0;
+
         _context.Clear();
 
         // Register combat listeners from both units
@@ -30,92 +72,79 @@ public class CombatEngine
             attackerArmor = attacker.Stats.Armor,
             defenderArmor = defender.Stats.Armor,
             attackerSpeed = attacker.Stats.Speed,
-            defenerSpeed = defender.Stats.Speed
+            defenderSpeed = defender.Stats.Speed
         });
 
-        var attackerTurn = attacker.Stats.Speed >= defender.Stats.Speed;
+        _attackerTurn = attacker.Stats.Speed >= defender.Stats.Speed;
 
         Log.Info("Turn order decided", new
         {
-            first = attackerTurn ? attacker.Name : defender.Name,
+            first = _attackerTurn ? attacker.Name : defender.Name,
             reason = "speed",
             aSpeed = attacker.Stats.Speed,
             bSpeed = defender.Stats.Speed
         });
+    }
 
-        var round = 0;
+    private bool IsFinished()
+    {
+        // HP-based check is used between rounds so that units starting at 0 HP are handled correctly.
+        // isDead-based checks inside ExecuteRound serve as within-round early exits when a unit
+        // dies from a status effect or ability before the normal attack phase.
+        return _attacker.Stats.CurrentHP <= 0 || _defender.Stats.CurrentHP <= 0;
+    }
 
-        try
+    private void ExecuteRound()
+    {
+        _round++;
+
+        Log.Info("Combat round start", new
         {
-            while (attacker.Stats.CurrentHP > 0 && defender.Stats.CurrentHP > 0)
-            {
-                round++;
+            round = _round,
+            aHp = _attacker.Stats.CurrentHP,
+            bHp = _defender.Stats.CurrentHP,
+            turn = _attackerTurn ? _attacker.Name : _defender.Name
+        });
 
-                Log.Info("Combat round start", new
-                {
-                    round,
-                    aHp = attacker.Stats.CurrentHP,
-                    bHp = defender.Stats.CurrentHP,
-                    turn = attackerTurn ? attacker.Name : defender.Name
-                });
+        var acting = _attackerTurn ? _attacker : _defender;
+        var target = _attackerTurn ? _defender : _attacker;
 
-                var acting = attackerTurn ? attacker : defender;
+        var statusActions = TickStatusesTurnStart(acting);
+        foreach (var action in statusActions)
+            _context.AddAction(action);
 
-                var statusActions = TickStatusesTurnStart(acting);
-                foreach (var action in statusActions)
-                    _context.AddAction(action);
+        if (acting.isDead)
+            return;
 
-                if (acting.isDead)
-                    break;
+        // Trigger abilities at turn start (e.g., Fireball)
+        var abilityActions = TriggerAbilities(acting, target);
+        foreach (var action in abilityActions)
+            _context.AddAction(action);
 
-                // Trigger abilities at turn start (e.g., Fireball)
-                var target = attackerTurn ? defender : attacker;
-                var abilityActions = TriggerAbilities(acting, target);
-                foreach (var action in abilityActions)
-                    _context.AddAction(action);
+        if (target.isDead)
+            return;
 
-                if (target.isDead)
-                    break;
+        // Execute attack with event-driven flow
+        Attack(acting, target, _round);
 
-                // Execute attack with event-driven flow
-                Attack(attackerTurn ? attacker : defender, attackerTurn ? defender : attacker, round);
+        var endStatusActions = TickStatusesTurnEnd(acting);
+        foreach (var action in endStatusActions)
+            _context.AddAction(action);
 
-                var endStatusActions = TickStatusesTurnEnd(acting);
-                foreach (var action in endStatusActions)
-                    _context.AddAction(action);
+        _attackerTurn = !_attackerTurn;
+    }
 
-                attackerTurn = !attackerTurn;
-            }
+    private List<ICombatAction> BuildResult()
+    {
+        var winner = _attacker.Stats.CurrentHP > 0 ? _attacker.Name : _defender.Name;
 
-            var winner = attacker.Stats.CurrentHP > 0 ? attacker.Name : defender.Name;
-
-            Log.Info("Combat finished", new
-            {
-                winner,
-                rounds = round,
-                finalAHp = attacker.Stats.CurrentHP,
-                finalBHp = defender.Stats.CurrentHP
-            });
-        }
-        catch (Exception ex)
+        Log.Info("Combat finished", new
         {
-            Log.Exception(ex, "CombatEngine.RunFight failed", new
-            {
-                attacker = attacker.Name,
-                defender = defender.Name,
-                round,
-                attackerHp = attacker.Stats.CurrentHP,
-                defenderHp = defender.Stats.CurrentHP,
-                attackerTurn
-            });
-
-            throw;
-        }
-        finally
-        {
-            // Clean up listeners
-            _context.Clear();
-        }
+            winner,
+            rounds = _round,
+            finalAHp = _attacker.Stats.CurrentHP,
+            finalBHp = _defender.Stats.CurrentHP
+        });
 
         return _context.Actions.ToList();
     }
