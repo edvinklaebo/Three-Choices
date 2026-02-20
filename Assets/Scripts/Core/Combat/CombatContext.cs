@@ -103,8 +103,10 @@ public class CombatContext
     /// <summary>
     /// Resolve a full attack through all combat phases. This is the single point where
     /// HP is mutated and healing/statuses are applied.
+    /// When <paramref name="effectId"/> is provided, a <see cref="StatusEffectAction"/> is
+    /// recorded instead of a <see cref="DamageAction"/> (used for status effect ticks).
     /// </summary>
-    public void ResolveDamage(Unit source, Unit target, int baseDamage)
+    public void ResolveDamage(Unit source, Unit target, int baseDamage, string effectId = null)
     {
         var ctx = new DamageContext(source, target, baseDamage);
 
@@ -126,7 +128,9 @@ public class CombatContext
         target.ApplyDamage(source, ctx.FinalDamage);
         var hpAfter = target.Stats.CurrentHP;
 
-        AddAction(new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP));
+        AddAction(effectId != null
+            ? new StatusEffectAction(target, effectId, ctx.FinalDamage, hpBefore, hpAfter, maxHP)
+            : (ICombatAction)new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP));
 
         Raise(new OnHitEvent(source, target, ctx.FinalDamage));
 

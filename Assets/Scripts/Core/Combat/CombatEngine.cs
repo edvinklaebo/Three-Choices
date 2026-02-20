@@ -82,9 +82,17 @@ public class CombatEngine
         var target = _attackerTurn ? _defender : _attacker;
 
         TickStatusesTurnStart(acting, target);
-        TriggerAbilities     (acting, target);
-        Attack               (acting, target);
-        TickStatusesTurnEnd  (acting, target);
+
+        if (acting.isDead || target.isDead)
+            return;
+
+        TriggerAbilities(acting, target);
+
+        if (acting.isDead || target.isDead)
+            return;
+
+        Attack(acting, target);
+        TickStatusesTurnEnd(acting, target);
 
         _attackerTurn = !_attackerTurn;
     }
@@ -129,24 +137,26 @@ public class CombatEngine
 
     private void TickStatusesTurnStart(Unit source, Unit target)
     {
-        if (!target.StatusEffects.Any())
+        if (!source.StatusEffects.Any())
             return;
 
-        for (var i = target.StatusEffects.Count - 1; i >= 0; i--)
+        for (var i = source.StatusEffects.Count - 1; i >= 0; i--)
         {
-            var effect = target.StatusEffects[i];
+            var effect = source.StatusEffects[i];
 
-            var damage = effect.OnTurnStart(target);
+            var damage = effect.OnTurnStart(source);
 
             if (damage > 0)
-                _context.ResolveDamage(source, target, damage);
+                _context.ResolveDamage(null, source, damage, effect.Id);
 
             // Remove expired effects
-            if (effect.Duration > 0) 
-                continue;
-            
-            effect.OnExpire(target);
-            target.StatusEffects.RemoveAt(i);
+            if (effect.Duration <= 0)
+            {
+                effect.OnExpire(source);
+                source.StatusEffects.RemoveAt(i);
+            }
+
+            if (source.isDead) return;
         }
     }
 
@@ -178,24 +188,26 @@ public class CombatEngine
 
     private void TickStatusesTurnEnd(Unit source, Unit target)
     {
-        if (!target.StatusEffects.Any())
+        if (!source.StatusEffects.Any())
             return;
 
-        for (var i = target.StatusEffects.Count - 1; i >= 0; i--)
+        for (var i = source.StatusEffects.Count - 1; i >= 0; i--)
         {
-            var effect = target.StatusEffects[i];
+            var effect = source.StatusEffects[i];
 
-            var damage = effect.OnTurnEnd(target);
+            var damage = effect.OnTurnEnd(source);
 
             if (damage > 0)
-                _context.ResolveDamage(source, target, damage);
+                _context.ResolveDamage(null, source, damage, effect.Id);
 
             // Remove expired effects
             if (effect.Duration <= 0)
             {
-                effect.OnExpire(target);
-                target.StatusEffects.RemoveAt(i);
+                effect.OnExpire(source);
+                source.StatusEffects.RemoveAt(i);
             }
+
+            if (source.isDead) return;
         }
     }
 }
