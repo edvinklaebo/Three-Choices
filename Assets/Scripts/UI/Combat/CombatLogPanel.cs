@@ -51,7 +51,7 @@ public class CombatLogPanel : MonoBehaviour
         if (_entries.Count > _maxEntries)
         {
             var oldest = _entries.Dequeue();
-            Destroy(oldest.gameObject);
+            DestroyImmediate(oldest.gameObject);
         }
 
         ScrollToBottom();
@@ -64,7 +64,7 @@ public class CombatLogPanel : MonoBehaviour
     {
         foreach (var entry in _entries)
             if (entry != null)
-                Destroy(entry.gameObject);
+                DestroyImmediate(entry.gameObject);
 
         _entries.Clear();
     }
