@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 /// <summary>
 /// Instance-based combat engine that uses event-driven architecture.
@@ -56,6 +55,9 @@ public class CombatEngine
         _round = 0;
 
         _context.Clear();
+
+        // Register armor mitigation as a global combat rule (applied in Mitigation phase)
+        _context.RegisterListener(new ArmorMitigationModifier());
 
         // Register combat listeners from both units
         RegisterListeners(attacker);
@@ -184,21 +186,8 @@ public class CombatEngine
         // Raise before attack event for pre-resolution listeners
         _context.Raise(new BeforeAttackEvent(attacker, defender));
 
-        var armorMultiplier = GetDamageMultiplier(defender.Stats.Armor);
-        var baseDamage = Mathf.CeilToInt(attacker.Stats.AttackPower * armorMultiplier);
-
-        Log.Info("Damage calculated", new
-        {
-            attacker = attacker.Name,
-            defender = defender.Name,
-            attackPower = attacker.Stats.AttackPower,
-            defenderArmor = defender.Stats.Armor,
-            armorMultiplier,
-            baseDamage
-        });
-
-        // Resolve all phases: DamageCalculation, Mitigation, DamageApplication, Healing, etc.
-        _context.ResolveAttack(attacker, defender, baseDamage);
+        // Pass raw AttackPower — armor reduction is applied in the Mitigation phase by ArmorMitigationModifier
+        _context.ResolveAttack(attacker, defender, attacker.Stats.AttackPower);
 
         // Raise AfterAttackEvent after full resolution so post-resolution effects (e.g. DoubleStrike) can react
         _context.Raise(new AfterAttackEvent(attacker, defender));
@@ -322,19 +311,6 @@ public class CombatEngine
         }
 
         return actions;
-    }
-
-    private static float GetDamageMultiplier(int armor)
-    {
-        var multiplier = 100f / (100f + armor);
-
-        Log.Info("Armor multiplier computed", new
-        {
-            armor,
-            multiplier
-        });
-
-        return multiplier;
     }
 
     public CombatContext Context => _context;
