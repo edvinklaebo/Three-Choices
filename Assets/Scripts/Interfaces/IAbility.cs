@@ -1,4 +1,8 @@
 ﻿public interface IAbility
 {
-    void OnAttack(Unit self, Unit target);
+    /// <summary>
+    /// Executes the ability. Returns the amount of HP damage dealt to the target;
+    /// the caller is responsible for applying it via <see cref="CombatContext.ApplyDamage"/>.
+    /// </summary>
+    int OnAttack(Unit self, Unit target);
 }

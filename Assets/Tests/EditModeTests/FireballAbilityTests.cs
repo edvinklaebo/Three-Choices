@@ -34,9 +34,9 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
             var fireball = new Fireball(10);
-            fireball.OnAttack(caster, target);
+            var damage = fireball.OnAttack(caster, target);
 
-            Assert.Less(target.Stats.CurrentHP, 100, "Fireball should deal damage to target");
+            Assert.Greater(damage, 0, "Fireball should return positive damage");
         }
 
         [Test]
@@ -75,13 +75,10 @@ namespace Tests.EditModeTests
             var tank = CreateUnit("Tank", 100, 0, 100, 5); // 100 armor = 50% reduction
 
             var fireball = new Fireball(20);
-            var hpBefore = tank.Stats.CurrentHP;
-            fireball.OnAttack(caster, tank);
-            var hpAfter = tank.Stats.CurrentHP;
+            var damage = fireball.OnAttack(caster, tank);
 
-            var damageDealt = hpBefore - hpAfter;
             // With 100 armor: 100 / (100 + 100) = 0.5 multiplier, so 20 * 0.5 = 10 damage
-            Assert.AreEqual(10, damageDealt, "Fireball should be reduced by armor");
+            Assert.AreEqual(10, damage, "Fireball should be reduced by armor");
         }
 
         [Test]
@@ -94,13 +91,10 @@ namespace Tests.EditModeTests
             DamagePipeline.Register(new CriticalHitModifier(caster, 1.0f, 2.0f));
 
             var fireball = new Fireball(10);
-            var hpBefore = target.Stats.CurrentHP;
-            fireball.OnAttack(caster, target);
-            var hpAfter = target.Stats.CurrentHP;
+            var damage = fireball.OnAttack(caster, target);
 
-            var damageDealt = hpBefore - hpAfter;
             // With 100% crit and 2x multiplier: 10 * 2 = 20 damage
-            Assert.AreEqual(20, damageDealt, "Fireball should be able to crit");
+            Assert.AreEqual(20, damage, "Fireball should be able to crit");
         }
 
         [Test]

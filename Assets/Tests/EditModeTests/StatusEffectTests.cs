@@ -269,14 +269,16 @@ namespace Tests.EditModeTests
             {
             }
 
-            public void OnTurnStart(Unit target)
+            public int OnTurnStart(Unit target)
             {
                 Duration--;
+                return 0;
             }
 
-            public void OnTurnEnd(Unit target)
+            public int OnTurnEnd(Unit target)
             {
                 TurnEndCalled = true;
+                return 0;
             }
 
             public void OnExpire(Unit target)

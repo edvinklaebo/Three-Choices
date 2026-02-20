@@ -133,12 +133,15 @@ public class Unit
         Tick(e => e.OnTurnEnd(this));
     }
 
-    private void Tick(Action<IStatusEffect> action)
+    private void Tick(Func<IStatusEffect, int> tickAction)
     {
         for (var i = StatusEffects.Count - 1; i >= 0; i--)
         {
             var e = StatusEffects[i];
-            action(e);
+            var damage = tickAction(e);
+
+            if (damage > 0)
+                ApplyDirectDamage(damage);
 
             if (e.Duration <= 0)
             {

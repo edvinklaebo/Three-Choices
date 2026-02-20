@@ -46,11 +46,12 @@ public class Fireball : IAbility, ICombatListener, IActionCreator
     /// <summary>
     ///     This method is called from the ability triggering system, not during normal attack.
     ///     For Fireball, this is triggered at turn start.
+    ///     Returns the damage dealt; the caller applies it via <see cref="CombatContext.ApplyDamage"/>.
     /// </summary>
-    public void OnAttack(Unit self, Unit target)
+    public int OnAttack(Unit self, Unit target)
     {
         if (target == null || target.isDead)
-            return;
+            return 0;
 
         Log.Info("Fireball ability triggered", new
         {
@@ -78,29 +79,22 @@ public class Fireball : IAbility, ICombatListener, IActionCreator
             isCritical = ctx.IsCritical
         });
 
-        // Apply damage to target
-        target.ApplyDamage(self, finalDamage);
+        // Apply burn based on final damage (burn damage cannot crit).
+        // Burn is queued before the caller applies HP damage intentionally: the burn effect starts
+        // this turn regardless of whether the fireball kills the target. A burn on a dead target
+        // never ticks since the fight ends immediately after the kill.
+        var burnDamage = Mathf.CeilToInt(finalDamage * _burnDamagePercent);
+        target.ApplyStatus(new Burn(_burnDuration, burnDamage));
 
-        Log.Info("Fireball damage applied", new
+        Log.Info("Fireball burn applied", new
         {
             target = target.Name,
-            damage = finalDamage,
-            targetHP = target.Stats.CurrentHP
+            burnDamage,
+            burnDuration = _burnDuration
         });
 
-        // Apply burn based on final damage (but burn damage cannot crit)
-        if (!target.isDead)
-        {
-            var burnDamage = Mathf.CeilToInt(finalDamage * _burnDamagePercent);
-            target.ApplyStatus(new Burn(_burnDuration, burnDamage));
-
-            Log.Info("Fireball burn applied", new
-            {
-                target = target.Name,
-                burnDamage,
-                burnDuration = _burnDuration
-            });
-        }
+        // Return damage — caller (CombatEngine) applies it via _context.ApplyDamage
+        return finalDamage;
     }
 
     private static float GetDamageMultiplier(int armor)

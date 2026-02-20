@@ -273,5 +273,114 @@ namespace Tests.EditModeTests
             var damageActions = actions.OfType<DamageAction>().ToList();
             Assert.GreaterOrEqual(damageActions.Count, 2, "Both primary and second hit should create DamageActions via ResolveAttack");
         }
+
+        [Test]
+        public void ApplyDamage_StatusEffect_ReducesTargetHP()
+        {
+            var target = CreateUnit("Target", 100, 0);
+            var context = new CombatContext();
+
+            context.ApplyDamage(null, target, 15, DamageSource.StatusEffect, "Poison");
+
+            Assert.AreEqual(85, target.Stats.CurrentHP, "ApplyDamage should reduce target HP by the amount");
+        }
+
+        [Test]
+        public void ApplyDamage_StatusEffect_CreatesStatusEffectAction()
+        {
+            var target = CreateUnit("Target", 100, 0);
+            var context = new CombatContext();
+
+            context.ApplyDamage(null, target, 10, DamageSource.StatusEffect, "Burn");
+
+            var statusActions = context.Actions.OfType<StatusEffectAction>().ToList();
+            Assert.AreEqual(1, statusActions.Count, "ApplyDamage should create a StatusEffectAction");
+            Assert.AreEqual("Burn", statusActions[0].EffectName);
+            Assert.AreEqual(10, statusActions[0].Amount);
+        }
+
+        [Test]
+        public void ApplyDamage_StatusEffect_CreatesDeathAction_WhenTargetDies()
+        {
+            var target = CreateUnit("Target", 10, 0);
+            var context = new CombatContext();
+
+            context.ApplyDamage(null, target, 20, DamageSource.StatusEffect, "Poison");
+
+            Assert.IsTrue(target.isDead, "Target should die when damage exceeds HP");
+            var deathActions = context.Actions.OfType<DeathAction>().ToList();
+            Assert.AreEqual(1, deathActions.Count, "ApplyDamage should automatically create a DeathAction");
+        }
+
+        [Test]
+        public void ApplyDamage_StatusEffect_DoesNotCreateDuplicateDeathAction()
+        {
+            var target = CreateUnit("Target", 10, 0);
+            var context = new CombatContext();
+
+            context.ApplyDamage(null, target, 20, DamageSource.StatusEffect, "Poison");
+            // Simulate a second call after the target is already dead
+            context.ApplyDamage(null, target, 5, DamageSource.StatusEffect, "Bleed");
+
+            var deathActions = context.Actions.OfType<DeathAction>().ToList();
+            Assert.AreEqual(1, deathActions.Count, "Should not duplicate DeathAction for the same target");
+        }
+
+        [Test]
+        public void ApplyDamage_Ability_ReducesTargetHP_WithoutCreatingAction()
+        {
+            var source = CreateUnit("Caster", 100, 0);
+            var target = CreateUnit("Target", 100, 0);
+            var context = new CombatContext();
+
+            context.ApplyDamage(source, target, 25, DamageSource.Ability);
+
+            Assert.AreEqual(75, target.Stats.CurrentHP, "ApplyDamage should reduce target HP");
+            var damageActions = context.Actions.OfType<DamageAction>().ToList();
+            Assert.AreEqual(0, damageActions.Count, "Ability damage does not create a DamageAction — IActionCreator handles that");
+        }
+
+        [Test]
+        public void ApplyDamage_StatusEffect_RecordsCorrectHPBeforeAndAfter()
+        {
+            var target = CreateUnit("Target", 100, 0);
+            var context = new CombatContext();
+
+            context.ApplyDamage(null, target, 30, DamageSource.StatusEffect, "Bleed");
+
+            var statusAction = context.Actions.OfType<StatusEffectAction>().First();
+            Assert.AreEqual(100, statusAction.TargetHPBefore, "HP before should be recorded correctly");
+            Assert.AreEqual(70, statusAction.TargetHPAfter, "HP after should be recorded correctly");
+        }
+
+        [Test]
+        public void ApplyDamage_CombatEngine_StatusTick_CreatesStatusEffectAction()
+        {
+            var attacker = CreateUnit("A", 100, 5, 10);
+            var defender = CreateUnit("B", 100, 0, 5);
+            defender.ApplyStatus(new Poison(10, 3, 1));
+
+            var engine = new CombatEngine();
+            var actions = engine.RunFight(attacker, defender);
+
+            var statusActions = actions.OfType<StatusEffectAction>().ToList();
+            Assert.IsNotEmpty(statusActions, "Engine should create StatusEffectActions via ApplyDamage for status effects");
+            Assert.IsTrue(statusActions.All(a => a.EffectName == "Poison"), "StatusEffectActions should have the correct effect name");
+        }
+
+        [Test]
+        public void ApplyDamage_CombatEngine_StatusTick_DeathCreatesDeathAction()
+        {
+            var attacker = CreateUnit("A", 100, 0, 5);
+            var defender = CreateUnit("B", 5, 0, 10);
+            defender.ApplyStatus(new Poison(10, 3, 1)); // 10 damage kills 5 HP unit
+
+            var engine = new CombatEngine();
+            var actions = engine.RunFight(attacker, defender);
+
+            Assert.IsTrue(defender.isDead, "Defender should die from poison");
+            var deathActions = actions.OfType<DeathAction>().Where(a => a.Target == defender).ToList();
+            Assert.AreEqual(1, deathActions.Count, "Exactly one DeathAction should be created for the defender");
+        }
     }
 }

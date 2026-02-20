@@ -101,6 +101,58 @@ public class CombatContext
     }
 
     /// <summary>
+    /// Central point for applying damage outside of a full <see cref="ResolveAttack"/> pipeline
+    /// (e.g. status effect ticks, ability damage).
+    /// Reduces target HP, records the appropriate action, and raises a <see cref="DeathAction"/>
+    /// if the target dies.
+    /// </summary>
+    /// <param name="source">Unit dealing the damage, or <c>null</c> for environmental/effect damage.</param>
+    /// <param name="target">Unit receiving the damage.</param>
+    /// <param name="amount">Amount of damage to apply.</param>
+    /// <param name="sourceType">Origin of the damage, used to select the recorded action type.</param>
+    /// <param name="effectId">
+    /// Effect identifier required when <paramref name="sourceType"/> is
+    /// <see cref="DamageSource.StatusEffect"/> (e.g. "Poison", "Burn").
+    /// </param>
+    public void ApplyDamage(Unit source, Unit target, int amount, DamageSource sourceType, string effectId = null)
+    {
+        if (amount <= 0) return;
+
+        var hpBefore = target.Stats.CurrentHP;
+        var maxHP = target.Stats.MaxHP;
+
+        target.ApplyDirectDamage(amount);
+
+        var hpAfter = target.Stats.CurrentHP;
+
+        Log.Info("ApplyDamage", new
+        {
+            source = source?.Name ?? "effect",
+            target = target.Name,
+            amount,
+            sourceType,
+            hpBefore,
+            hpAfter
+        });
+
+        switch (sourceType)
+        {
+            case DamageSource.StatusEffect:
+                AddAction(new StatusEffectAction(target, effectId, amount, hpBefore, hpAfter, maxHP));
+                break;
+            case DamageSource.Ability:
+                // Action creation is handled by IActionCreator after this call
+                break;
+            case DamageSource.Attack:
+                AddAction(new DamageAction(source, target, amount, hpBefore, hpAfter, maxHP));
+                break;
+        }
+
+        if (target.isDead && !_actions.OfType<DeathAction>().Any(a => a.Target == target))
+            AddAction(new DeathAction(target));
+    }
+
+    /// <summary>
     /// Resolve a full attack through all combat phases. This is the single point where
     /// HP is mutated and healing/statuses are applied.
     /// </summary>
