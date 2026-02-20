@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -93,42 +92,20 @@ public class DoubleStrike : IPassive, ICombatListener
                 if (strikeData.Target.isDead)
                     continue;
 
-                // Calculate second hit damage with multiplier
+                // Calculate second hit base damage (armor + multiplier), then let ResolveAttack handle the rest
                 var armorMultiplier = 100f / (100f + strikeData.Target.Stats.Armor);
                 var secondBaseDamage = Mathf.CeilToInt(_owner.Stats.AttackPower * armorMultiplier * strikeData.DamageMultiplier);
 
-                var secondCtx = new DamageContext(_owner, strikeData.Target, secondBaseDamage);
-                DamagePipeline.Process(secondCtx);
-
-                // Capture HP before second hit
-                var secondHpBefore = strikeData.Target.Stats.CurrentHP;
-                var secondMaxHP = strikeData.Target.Stats.MaxHP;
-
-                // Apply second hit damage
-                strikeData.Target.ApplyDamage(_owner, secondCtx.FinalValue);
-
-                // Capture HP after second hit
-                var secondHpAfter = strikeData.Target.Stats.CurrentHP;
-
-                Log.Info("Double Strike second hit applied", new
+                Log.Info("Double Strike second hit queued", new
                 {
                     attacker = _owner.Name,
                     target = strikeData.Target.Name,
-                    damage = secondCtx.FinalValue,
-                    hpBefore = secondHpBefore,
-                    hpAfter = secondHpAfter
+                    secondBaseDamage,
+                    strikeData.DamageMultiplier
                 });
 
-                // Add damage action for second hit
-                _context.AddAction(new DamageAction(_owner, strikeData.Target, secondCtx.FinalValue, secondHpBefore, secondHpAfter, secondMaxHP));
-
-                // Raise AfterAttackEvent for the second hit so other passives (e.g., Lifesteal) can process it
-                // DoubleStrike won't recurse because _isProcessingStrikes is true
-                _context.Raise(new AfterAttackEvent(_owner, strikeData.Target));
-
-                // Add death action if target died from second hit
-                if (strikeData.Target.isDead && _context.Actions.OfType<DeathAction>().All(a => a.Target != strikeData.Target))
-                    _context.AddAction(new DeathAction(strikeData.Target));
+                // Resolve the second hit through all combat phases — no direct HP mutation
+                _context.ResolveAttack(_owner, strikeData.Target, secondBaseDamage);
             }
         }
         finally

@@ -152,14 +152,11 @@ public class CombatEngine
             defenderHp = defender.Stats.CurrentHP
         });
 
-        // Raise before attack event
+        // Raise before attack event for pre-resolution listeners
         _context.Raise(new BeforeAttackEvent(attacker, defender));
 
         var armorMultiplier = GetDamageMultiplier(defender.Stats.Armor);
         var baseDamage = Mathf.CeilToInt(attacker.Stats.AttackPower * armorMultiplier);
-
-        var ctx = new DamageContext(attacker, defender, baseDamage);
-        DamagePipeline.Process(ctx);
 
         Log.Info("Damage calculated", new
         {
@@ -171,37 +168,11 @@ public class CombatEngine
             baseDamage
         });
 
-        // Capture HP before applying damage
-        var hpBefore = defender.Stats.CurrentHP;
-        var maxHP = defender.Stats.MaxHP;
+        // Resolve all phases: DamageCalculation, Mitigation, DamageApplication, Healing, etc.
+        _context.ResolveAttack(attacker, defender, baseDamage);
 
-        // Apply damage to unit state
-        defender.ApplyDamage(attacker, ctx.FinalValue);
-
-        // Capture HP after applying damage
-        var hpAfter = defender.Stats.CurrentHP;
-
-        Log.Info("Damage applied", new
-        {
-            attacker = attacker.Name,
-            defender = defender.Name,
-            ctx.FinalValue,
-            hpBefore,
-            hpAfter
-        });
-
-        // Create damage action for animation with HP values
-        _context.AddAction(new DamageAction(attacker, defender, ctx.FinalValue, hpBefore, hpAfter, maxHP));
-
-        // Raise OnHit event - listeners can respond (e.g., DoubleStrike queues extra hits)
-        _context.Raise(new OnHitEvent(attacker, defender, ctx.FinalValue));
-
-        // Raise after attack event - this is when listeners add their actions
+        // Raise AfterAttackEvent after full resolution so post-resolution effects (e.g. DoubleStrike) can react
         _context.Raise(new AfterAttackEvent(attacker, defender));
-
-        // Add death action if defender died
-        if (defender.isDead && !_context.Actions.OfType<DeathAction>().Any(a => a.Target == defender))
-            _context.AddAction(new DeathAction(defender));
     }
 
     private List<ICombatAction> TickStatusesTurnStart(Unit unit)
