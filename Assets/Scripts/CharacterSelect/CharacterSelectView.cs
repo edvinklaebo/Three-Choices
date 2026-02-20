@@ -15,24 +15,28 @@ public class CharacterSelectView : MonoBehaviour
     [Header("Configuration")]
     [SerializeField] private float _animationTime = 0.2f;
     [SerializeField] private float _scaleAmount = 0.1f;
-
+    
+    private Coroutine _scaleRoutine;
     private Vector3 _originalScale = Vector3.one;
 
     private void Awake()
     {
-        if (_portraitTransform != null) _originalScale = _portraitTransform.localScale;
+        if (_portraitTransform != null) 
+            _originalScale = _portraitTransform.localScale;
     }
 
     public void DisplayCharacter(CharacterDefinition character)
     {
-        if (character == null)
+        if (!character)
             return;
 
-        if (_portraitImage != null && character.Portrait != null) _portraitImage.sprite = character.Portrait;
+        if (_portraitImage && character.Portrait) 
+            _portraitImage.sprite = character.Portrait;
 
-        if (_nameText != null) _nameText.text = character.DisplayName;
+        if (_nameText) 
+            _nameText.text = character.DisplayName;
 
-        if (_statsPanel != null)
+        if (_statsPanel)
         {
             var stats = new List<StatViewData>
             {
@@ -49,12 +53,14 @@ public class CharacterSelectView : MonoBehaviour
 
     private void PlaySelectionAnimation()
     {
-        if (_portraitTransform != null)
-        {
-            // Simple scale punch animation
-            _portraitTransform.localScale = _originalScale + Vector3.one * _scaleAmount;
-            StartCoroutine(AnimateScale());
-        }
+        if (!_portraitTransform)
+            return;
+
+        if (_scaleRoutine != null)
+            StopCoroutine(_scaleRoutine);
+
+        _portraitTransform.localScale = _originalScale + Vector3.one * _scaleAmount;
+        _scaleRoutine = StartCoroutine(AnimateScale());
     }
 
     private IEnumerator AnimateScale()
@@ -65,11 +71,12 @@ public class CharacterSelectView : MonoBehaviour
         while (elapsed < _animationTime)
         {
             elapsed += Time.deltaTime;
-            var t = elapsed / _animationTime;
+            var t = Mathf.Clamp01(elapsed / _animationTime);
             _portraitTransform.localScale = Vector3.Lerp(startScale, _originalScale, t);
             yield return null;
         }
 
         _portraitTransform.localScale = _originalScale;
+        _scaleRoutine = null;
     }
 }
