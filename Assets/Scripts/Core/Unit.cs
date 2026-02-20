@@ -85,19 +85,6 @@ public class Unit
         HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
     }
 
-    public void ApplyDirectDamage(int damage)
-    {
-        if (isDead)
-            return;
-
-        Stats.CurrentHP -= damage;
-
-        HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
-
-        if (Stats.CurrentHP <= 0)
-            Die();
-    }
-
     public void ApplyStatus(IStatusEffect effect)
     {
         var existing = StatusEffects.FirstOrDefault(e => e.Id == effect.Id);
@@ -141,7 +128,7 @@ public class Unit
             var damage = tickAction(e);
 
             if (damage > 0)
-                ApplyDirectDamage(damage);
+                ApplyDamage(null, damage);
 
             if (e.Duration <= 0)
             {

@@ -63,29 +63,7 @@ public class CombatEngine
         RegisterListeners(attacker);
         RegisterListeners(defender);
 
-        Log.Info("Combat started", new
-        {
-            attacker = attacker.Name,
-            defender = defender.Name,
-            attackerHp = attacker.Stats.CurrentHP,
-            defenderHp = defender.Stats.CurrentHP,
-            attackerAtk = attacker.Stats.AttackPower,
-            defenderAtk = defender.Stats.AttackPower,
-            attackerArmor = attacker.Stats.Armor,
-            defenderArmor = defender.Stats.Armor,
-            attackerSpeed = attacker.Stats.Speed,
-            defenderSpeed = defender.Stats.Speed
-        });
-
         _attackerTurn = attacker.Stats.Speed >= defender.Stats.Speed;
-
-        Log.Info("Turn order decided", new
-        {
-            first = _attackerTurn ? attacker.Name : defender.Name,
-            reason = "speed",
-            aSpeed = attacker.Stats.Speed,
-            bSpeed = defender.Stats.Speed
-        });
     }
 
     private bool IsFinished()
@@ -100,48 +78,19 @@ public class CombatEngine
     {
         _round++;
 
-        Log.Info("Combat round start", new
-        {
-            round = _round,
-            aHp = _attacker.Stats.CurrentHP,
-            bHp = _defender.Stats.CurrentHP,
-            turn = _attackerTurn ? _attacker.Name : _defender.Name
-        });
-
         var acting = _attackerTurn ? _attacker : _defender;
         var target = _attackerTurn ? _defender : _attacker;
 
-        TickStatusesTurnStart(acting);
-
-        if (acting.isDead)
-            return;
-
-        // Trigger abilities at turn start (e.g., Fireball)
-        TriggerAbilities(acting, target);
-
-        if (target.isDead)
-            return;
-
-        // Execute attack with event-driven flow
-        Attack(acting, target, _round);
-
-        TickStatusesTurnEnd(acting);
+        TickStatusesTurnStart(acting, target);
+        TriggerAbilities     (acting, target);
+        Attack               (acting, target);
+        TickStatusesTurnEnd  (acting, target);
 
         _attackerTurn = !_attackerTurn;
     }
 
     private List<ICombatAction> BuildResult()
     {
-        var winner = _attacker.Stats.CurrentHP > 0 ? _attacker.Name : _defender.Name;
-
-        Log.Info("Combat finished", new
-        {
-            winner,
-            rounds = _round,
-            finalAHp = _attacker.Stats.CurrentHP,
-            finalBHp = _defender.Stats.CurrentHP
-        });
-
         return _context.Actions.ToList();
     }
 
@@ -166,47 +115,38 @@ public class CombatEngine
         }
     }
 
-    private void Attack(Unit attacker, Unit defender, int round)
+    private void Attack(Unit source, Unit target)
     {
-        Log.Info("Attack start", new
-        {
-            round,
-            attacker = attacker.Name,
-            defender = defender.Name,
-            attackerHp = attacker.Stats.CurrentHP,
-            defenderHp = defender.Stats.CurrentHP
-        });
-
         // Raise before attack event for pre-resolution listeners
-        _context.Raise(new BeforeAttackEvent(attacker, defender));
+        _context.Raise(new BeforeAttackEvent(source, target));
 
         // Pass raw AttackPower — armor reduction is applied in the Mitigation phase by ArmorMitigationModifier
-        _context.ResolveAttack(attacker, defender, attacker.Stats.AttackPower);
+        _context.ResolveDamage(source, target, source.Stats.AttackPower);
 
         // Raise AfterAttackEvent after full resolution so post-resolution effects (e.g. DoubleStrike) can react
-        _context.Raise(new AfterAttackEvent(attacker, defender));
+        _context.Raise(new AfterAttackEvent(source, target));
     }
 
-    private void TickStatusesTurnStart(Unit unit)
+    private void TickStatusesTurnStart(Unit source, Unit target)
     {
-        if (!unit.StatusEffects.Any())
+        if (!target.StatusEffects.Any())
             return;
 
-        for (var i = unit.StatusEffects.Count - 1; i >= 0; i--)
+        for (var i = target.StatusEffects.Count - 1; i >= 0; i--)
         {
-            var effect = unit.StatusEffects[i];
+            var effect = target.StatusEffects[i];
 
-            var damage = effect.OnTurnStart(unit);
+            var damage = effect.OnTurnStart(target);
 
             if (damage > 0)
-                _context.ApplyDamage(null, unit, damage, DamageSource.StatusEffect, effect.Id);
+                _context.ResolveDamage(source, target, damage);
 
             // Remove expired effects
-            if (effect.Duration <= 0)
-            {
-                effect.OnExpire(unit);
-                unit.StatusEffects.RemoveAt(i);
-            }
+            if (effect.Duration > 0) 
+                continue;
+            
+            effect.OnExpire(target);
+            target.StatusEffects.RemoveAt(i);
         }
     }
 
@@ -217,21 +157,14 @@ public class CombatEngine
 
         foreach (var ability in source.Abilities)
         {
-            Log.Info("Triggering ability", new
-            {
-                source = source.Name,
-                target = target.Name,
-                ability = ability.GetType().Name
-            });
-
             var hpBefore = target.Stats.CurrentHP;
 
             // Trigger the ability — returns damage without applying HP mutation
-            var damage = ability.OnAttack(source, target);
+            var damage = ability.OnCast(source, target);
 
             // Apply damage through context (handles action creation and death)
             if (damage > 0)
-                _context.ApplyDamage(source, target, damage, DamageSource.Ability);
+                _context.ResolveDamage(source, target, damage);
 
             var hpAfter = target.Stats.CurrentHP;
 
@@ -243,28 +176,26 @@ public class CombatEngine
         }
     }
 
-    private void TickStatusesTurnEnd(Unit unit)
+    private void TickStatusesTurnEnd(Unit source, Unit target)
     {
-        if (!unit.StatusEffects.Any())
+        if (!target.StatusEffects.Any())
             return;
 
-        for (var i = unit.StatusEffects.Count - 1; i >= 0; i--)
+        for (var i = target.StatusEffects.Count - 1; i >= 0; i--)
         {
-            var effect = unit.StatusEffects[i];
+            var effect = target.StatusEffects[i];
 
-            var damage = effect.OnTurnEnd(unit);
+            var damage = effect.OnTurnEnd(target);
 
             if (damage > 0)
-                _context.ApplyDamage(null, unit, damage, DamageSource.StatusEffect, effect.Id);
+                _context.ResolveDamage(source, target, damage);
 
             // Remove expired effects
             if (effect.Duration <= 0)
             {
-                effect.OnExpire(unit);
-                unit.StatusEffects.RemoveAt(i);
+                effect.OnExpire(target);
+                target.StatusEffects.RemoveAt(i);
             }
         }
     }
-
-    public CombatContext Context => _context;
 }

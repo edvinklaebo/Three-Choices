@@ -33,7 +33,7 @@ public abstract class CombatEvent
 }
 
 /// <summary>
-/// Raised for each phase of a <see cref="CombatContext.ResolveAttack"/> call.
+/// Raised for each phase of a <see cref="CombatContext.ResolveDamage"/> call.
 /// Listeners filter by <see cref="CombatEvent.Phase"/> and mutate <see cref="Context"/> instead of units directly.
 /// <see cref="CombatEvent.Source"/> and <see cref="CombatEvent.Target"/> mirror <see cref="Context"/>.Source/Target.
 /// </summary>
