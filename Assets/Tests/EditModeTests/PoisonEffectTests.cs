@@ -87,7 +87,7 @@ namespace Tests.EditModeTests
             unit.ApplyStatus(poison);
             unit.TickStatusesTurnStart();
 
-            Assert.IsTrue(unit.isDead, "Poison should be able to kill the unit");
+            Assert.IsTrue(unit.IsDead, "Poison should be able to kill the unit");
             Assert.LessOrEqual(unit.Stats.CurrentHP, 0, "HP should be 0 or negative");
         }
 

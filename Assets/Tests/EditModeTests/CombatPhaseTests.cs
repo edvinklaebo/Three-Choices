@@ -61,7 +61,7 @@ namespace Tests.EditModeTests
 
             context.ResolveDamage(source, target, 100);
 
-            Assert.IsTrue(target.isDead, "Target should be dead");
+            Assert.IsTrue(target.IsDead, "Target should be dead");
             var deathActions = context.Actions.OfType<DeathAction>().ToList();
             Assert.AreEqual(1, deathActions.Count, "Should create exactly one DeathAction");
         }
@@ -308,7 +308,7 @@ namespace Tests.EditModeTests
             var engine = new CombatEngine();
             var actions = engine.RunFight(attacker, defender);
 
-            Assert.IsTrue(defender.isDead, "Defender should die from poison");
+            Assert.IsTrue(defender.IsDead, "Defender should die from poison");
             var deathActions = actions.OfType<DeathAction>().Where(a => a.Target == defender).ToList();
             Assert.AreEqual(1, deathActions.Count, "Exactly one DeathAction should be created for the defender");
         }

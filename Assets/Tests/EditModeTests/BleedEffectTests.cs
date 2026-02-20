@@ -87,7 +87,7 @@ namespace Tests.EditModeTests
             unit.ApplyStatus(bleed);
             unit.TickStatusesTurnStart();
 
-            Assert.IsTrue(unit.isDead, "Bleed should be able to kill the unit");
+            Assert.IsTrue(unit.IsDead, "Bleed should be able to kill the unit");
             Assert.LessOrEqual(unit.Stats.CurrentHP, 0, "HP should be 0 or negative");
         }
 
@@ -129,7 +129,7 @@ namespace Tests.EditModeTests
 
             CombatSystem.RunFight(bleeding, enemy);
 
-            Assert.IsTrue(bleeding.isDead, "Bleeding unit should die from bleed");
+            Assert.IsTrue(bleeding.IsDead, "Bleeding unit should die from bleed");
             Assert.AreEqual(10, enemy.Stats.CurrentHP,
                 "Enemy should take no damage because bleeding unit died before attacking");
         }
