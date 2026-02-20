@@ -92,9 +92,8 @@ public class DoubleStrike : IPassive, ICombatListener
                 if (strikeData.Target.isDead)
                     continue;
 
-                // Calculate second hit base damage (armor + multiplier), then let ResolveAttack handle the rest
-                var armorMultiplier = 100f / (100f + strikeData.Target.Stats.Armor);
-                var secondBaseDamage = Mathf.CeilToInt(_owner.Stats.AttackPower * armorMultiplier * strikeData.DamageMultiplier);
+                // Armor mitigation is handled by ArmorMitigationModifier in the Mitigation phase
+                var secondBaseDamage = Mathf.CeilToInt(_owner.Stats.AttackPower * strikeData.DamageMultiplier);
 
                 Log.Info("Double Strike second hit queued", new
                 {
