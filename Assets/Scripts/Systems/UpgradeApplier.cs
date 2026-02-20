@@ -56,6 +56,10 @@ public static class UpgradeApplier
                 Log.Info("Ability Applied: Fireball");
                 unit.Abilities.Add(new Fireball());
                 break;
+            case "Arcane Missiles":
+                Log.Info("Ability Applied: Arcane Missiles");
+                unit.Abilities.Add(new ArcaneMissiles());
+                break;
             default:
                 throw new ArgumentOutOfRangeException(upgrade.AbilityId);
         }
