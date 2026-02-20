@@ -2,6 +2,11 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ACanvasGroup_002Ecs_002Fl_003A_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F5f51c6ceedf7454dbded279bc31f2c68b000_003F90_003F437b9b45_003FCanvasGroup_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AMonoBehaviour_002Ecs_002Fl_003A_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F18b3b31e3d8341f487466ebb6800bc67212400_003F8d_003F4862674d_003FMonoBehaviour_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003ASystem_002ECollections_002EGeneric_002Ecs_002Fl_003A_002E_002E_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E3_003Fresharper_002Dhost_003FSourcesCache_003Fd44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e_003FSystem_002ECollections_002EGeneric_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=580578fa_002D93cc_002D4eab_002D96e3_002D8b3be9354dc9/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ArcaneMissiles_TriggersBeforeAttack" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::9B5F8F48-B8C0-D96D-230B-5D869FE3EC68::.NETFramework,Version=v4.7.1::Tests.EditModeTests.ArcaneMissilesTests.ArcaneMissiles_TriggersBeforeAttack&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=70c09c1a_002Dd43a_002D4664_002Db7ec_002Dc5738f9d23b9/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ApplyStat_MaxHP_IncreasesMaxAndCurrentHP" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
@@ -14,11 +19,13 @@
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::8743B24D-9797-49AF-D306-87F4D8526C2F::.NETFramework,Version=v4.7.1::Tests.PlayModeTests.ContinueGamePlayModeTests.ContinueButton_IsHidden_WhenNoSaveExists&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::9B5F8F48-B8C0-D96D-230B-5D869FE3EC68::.NETFramework,Version=v4.7.1::Tests.EditModeTests.LifestealTests.Lifesteal_DoesNotHealAboveMaxHP&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::9B5F8F48-B8C0-D96D-230B-5D869FE3EC68::.NETFramework,Version=v4.7.1::Tests.EditModeTests.ArcaneMissilesTests.ArcaneMissiles_TriggersBeforeAttack&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f78b48af_002Dcdd3_002D4c73_002Db5c5_002D8a1fb411cdc4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DraftUITests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f78b48af_002Dcdd3_002D4c73_002Db5c5_002D8a1fb411cdc4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="DraftUITests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::9B5F8F48-B8C0-D96D-230B-5D869FE3EC68::.NETFramework,Version=v4.7.1::Tests.EditModeTests.DraftUITests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::9B5F8F48-B8C0-D96D-230B-5D869FE3EC68::.NETFramework,Version=v4.7.1::Tests.EditModeTests.LifestealTests.Lifesteal_DoesNotHealAboveMaxHP&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::9B5F8F48-B8C0-D96D-230B-5D869FE3EC68::.NETFramework,Version=v4.7.1::Tests.EditModeTests.ArcaneMissilesTests.ArcaneMissiles_TriggersBeforeAttack&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

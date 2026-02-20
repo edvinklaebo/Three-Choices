@@ -32,6 +32,8 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
             var arcaneMissiles = new ArcaneMissiles();
+            var combatContext = new CombatContext();
+            arcaneMissiles.RegisterHandlers(combatContext);
             var damage = arcaneMissiles.OnCast(caster, target);
 
             Assert.Greater(damage, 0, "Arcane Missiles should return positive damage");
@@ -45,6 +47,9 @@ namespace Tests.EditModeTests
 
             // 3 missiles at 5 damage each = 15 total
             var arcaneMissiles = new ArcaneMissiles(baseDamage: 5, missileCount: 3);
+            var combatContext = new CombatContext();
+            arcaneMissiles.RegisterHandlers(combatContext);
+            
             var damage = arcaneMissiles.OnCast(caster, target);
 
             Assert.AreEqual(15, damage, "Total damage should be sum of all missile hits");
@@ -59,7 +64,9 @@ namespace Tests.EditModeTests
 
             var twoMissiles = new ArcaneMissiles(baseDamage: 5, missileCount: 2);
             var fiveMissiles = new ArcaneMissiles(baseDamage: 5, missileCount: 5);
-
+            var combatContext = new CombatContext();
+            twoMissiles.RegisterHandlers(combatContext);
+            fiveMissiles.RegisterHandlers(combatContext);
             var damage2 = twoMissiles.OnCast(caster, target1);
             var damage5 = fiveMissiles.OnCast(caster, target2);
 
@@ -77,6 +84,8 @@ namespace Tests.EditModeTests
             DamagePipeline.Register(new CriticalHitModifier(caster, 1.0f, 2.0f));
 
             var arcaneMissiles = new ArcaneMissiles(baseDamage: 5, missileCount: 3);
+            var combatContext = new CombatContext();
+            arcaneMissiles.RegisterHandlers(combatContext);
             var damage = arcaneMissiles.OnCast(caster, target);
 
             // 3 missiles * 5 base * 2x crit = 30
