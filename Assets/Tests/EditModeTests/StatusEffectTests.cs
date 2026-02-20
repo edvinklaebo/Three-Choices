@@ -125,9 +125,9 @@ namespace Tests.EditModeTests
             var poisoned = CreateUnit("Poisoned", 5, 100, 0, 10);
             var enemy = CreateUnit("Enemy", 10, 0, 0, 5);
 
-            poisoned.ApplyStatus(new Poison(10, 3, 1));
+            poisoned.ApplyStatus(new Poison(10, 3, 5));
 
-            CombatSystem.RunFight(poisoned, enemy);
+            CombatSystem.RunFight(enemy, poisoned);
 
             Assert.IsTrue(poisoned.isDead, "Poisoned unit should die from poison");
             Assert.AreEqual(10, enemy.Stats.CurrentHP,
@@ -135,16 +135,16 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void ApplyDirectDamage_DoesNotTriggerDamagedEvent()
+        public void ApplyDamage_TriggerDamagedEvent()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
             var damagedTriggered = false;
 
-            unit.Damaged += (source, damage) => damagedTriggered = true;
-            unit.ApplyDirectDamage(10);
+            unit.Damaged += (_, _) => damagedTriggered = true;
+            unit.ApplyDamage(unit, 10);
 
-            Assert.IsFalse(damagedTriggered, "Direct damage should not trigger Damaged event");
-            Assert.AreEqual(90, unit.Stats.CurrentHP, "HP should still be reduced");
+            Assert.IsTrue(damagedTriggered, "Damage should trigger Damaged event");
+            Assert.AreEqual(90, unit.Stats.CurrentHP, "HP should be reduced");
         }
 
         [Test]
@@ -154,13 +154,13 @@ namespace Tests.EditModeTests
             var healthChangedTriggered = false;
             var recordedHP = -1;
 
-            unit.HealthChanged += (u, current, max) =>
+            unit.HealthChanged += (_, current, _) =>
             {
                 healthChangedTriggered = true;
                 recordedHP = current;
             };
 
-            unit.ApplyDirectDamage(10);
+            unit.ApplyDamage(unit, 10);
 
             Assert.IsTrue(healthChangedTriggered, "Direct damage should trigger HealthChanged event");
             Assert.AreEqual(90, recordedHP, "Event should report correct HP");
@@ -269,14 +269,16 @@ namespace Tests.EditModeTests
             {
             }
 
-            public void OnTurnStart(Unit target)
+            public int OnTurnStart(Unit target)
             {
                 Duration--;
+                return 0;
             }
 
-            public void OnTurnEnd(Unit target)
+            public int OnTurnEnd(Unit target)
             {
                 TurnEndCalled = true;
+                return 0;
             }
 
             public void OnExpire(Unit target)

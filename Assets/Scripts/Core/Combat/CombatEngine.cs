@@ -63,29 +63,7 @@ public class CombatEngine
         RegisterListeners(attacker);
         RegisterListeners(defender);
 
-        Log.Info("Combat started", new
-        {
-            attacker = attacker.Name,
-            defender = defender.Name,
-            attackerHp = attacker.Stats.CurrentHP,
-            defenderHp = defender.Stats.CurrentHP,
-            attackerAtk = attacker.Stats.AttackPower,
-            defenderAtk = defender.Stats.AttackPower,
-            attackerArmor = attacker.Stats.Armor,
-            defenderArmor = defender.Stats.Armor,
-            attackerSpeed = attacker.Stats.Speed,
-            defenderSpeed = defender.Stats.Speed
-        });
-
         _attackerTurn = attacker.Stats.Speed >= defender.Stats.Speed;
-
-        Log.Info("Turn order decided", new
-        {
-            first = _attackerTurn ? attacker.Name : defender.Name,
-            reason = "speed",
-            aSpeed = attacker.Stats.Speed,
-            bSpeed = defender.Stats.Speed
-        });
     }
 
     private bool IsFinished()
@@ -100,54 +78,27 @@ public class CombatEngine
     {
         _round++;
 
-        Log.Info("Combat round start", new
-        {
-            round = _round,
-            aHp = _attacker.Stats.CurrentHP,
-            bHp = _defender.Stats.CurrentHP,
-            turn = _attackerTurn ? _attacker.Name : _defender.Name
-        });
-
         var acting = _attackerTurn ? _attacker : _defender;
         var target = _attackerTurn ? _defender : _attacker;
 
-        var statusActions = TickStatusesTurnStart(acting);
-        foreach (var action in statusActions)
-            _context.AddAction(action);
+        TickStatusesTurnStart(acting, target);
 
-        if (acting.isDead)
+        if (acting.isDead || target.isDead)
             return;
 
-        // Trigger abilities at turn start (e.g., Fireball)
-        var abilityActions = TriggerAbilities(acting, target);
-        foreach (var action in abilityActions)
-            _context.AddAction(action);
+        TriggerAbilities(acting, target);
 
-        if (target.isDead)
+        if (acting.isDead || target.isDead)
             return;
 
-        // Execute attack with event-driven flow
-        Attack(acting, target, _round);
-
-        var endStatusActions = TickStatusesTurnEnd(acting);
-        foreach (var action in endStatusActions)
-            _context.AddAction(action);
+        Attack(acting, target);
+        TickStatusesTurnEnd(acting, target);
 
         _attackerTurn = !_attackerTurn;
     }
 
     private List<ICombatAction> BuildResult()
     {
-        var winner = _attacker.Stats.CurrentHP > 0 ? _attacker.Name : _defender.Name;
-
-        Log.Info("Combat finished", new
-        {
-            winner,
-            rounds = _round,
-            finalAHp = _attacker.Stats.CurrentHP,
-            finalBHp = _defender.Stats.CurrentHP
-        });
-
         return _context.Actions.ToList();
     }
 
@@ -172,89 +123,59 @@ public class CombatEngine
         }
     }
 
-    private void Attack(Unit attacker, Unit defender, int round)
+    private void Attack(Unit source, Unit target)
     {
-        Log.Info("Attack start", new
-        {
-            round,
-            attacker = attacker.Name,
-            defender = defender.Name,
-            attackerHp = attacker.Stats.CurrentHP,
-            defenderHp = defender.Stats.CurrentHP
-        });
-
         // Raise before attack event for pre-resolution listeners
-        _context.Raise(new BeforeAttackEvent(attacker, defender));
+        _context.Raise(new BeforeAttackEvent(source, target));
 
         // Pass raw AttackPower — armor reduction is applied in the Mitigation phase by ArmorMitigationModifier
-        _context.ResolveAttack(attacker, defender, attacker.Stats.AttackPower);
+        _context.ResolveDamage(source, target, source.Stats.AttackPower);
 
         // Raise AfterAttackEvent after full resolution so post-resolution effects (e.g. DoubleStrike) can react
-        _context.Raise(new AfterAttackEvent(attacker, defender));
+        _context.Raise(new AfterAttackEvent(source, target));
     }
 
-    private List<ICombatAction> TickStatusesTurnStart(Unit unit)
+    private void TickStatusesTurnStart(Unit source, Unit target)
     {
-        var actions = new List<ICombatAction>();
+        if (!source.StatusEffects.Any())
+            return;
 
-        if (!unit.StatusEffects.Any())
-            return actions;
-
-        for (var i = unit.StatusEffects.Count - 1; i >= 0; i--)
+        for (var i = source.StatusEffects.Count - 1; i >= 0; i--)
         {
-            var effect = unit.StatusEffects[i];
+            var effect = source.StatusEffects[i];
 
-            // Track HP before status tick
-            var hpBefore = unit.Stats.CurrentHP;
-            var maxHP = unit.Stats.MaxHP;
+            var damage = effect.OnTurnStart(source);
 
-            effect.OnTurnStart(unit);
-
-            // If damage was dealt, create an action
-            var hpAfter = unit.Stats.CurrentHP;
-            if (hpAfter < hpBefore)
-            {
-                var damage = hpBefore - hpAfter;
-                actions.Add(new StatusEffectAction(unit, effect.Id, damage, hpBefore, hpAfter, maxHP));
-            }
-
-            // Check for death after status effect
-            if (unit.isDead) actions.Add(new DeathAction(unit));
+            if (damage > 0)
+                _context.ResolveDamage(null, source, damage, effect.Id);
 
             // Remove expired effects
             if (effect.Duration <= 0)
             {
-                effect.OnExpire(unit);
-                unit.StatusEffects.RemoveAt(i);
+                effect.OnExpire(source);
+                source.StatusEffects.RemoveAt(i);
             }
-        }
 
-        return actions;
+            if (source.isDead) return;
+        }
     }
 
-    private List<ICombatAction> TriggerAbilities(Unit source, Unit target)
+    private void TriggerAbilities(Unit source, Unit target)
     {
-        var actions = new List<ICombatAction>();
-
         if (!source.Abilities.Any())
-            return actions;
+            return;
 
         foreach (var ability in source.Abilities)
         {
-            Log.Info("Triggering ability", new
-            {
-                source = source.Name,
-                target = target.Name,
-                ability = ability.GetType().Name
-            });
-
-            // Capture HP before ability
             var hpBefore = target.Stats.CurrentHP;
 
-            // Trigger the ability (applies damage)
-            ability.OnAttack(source, target);
+            // Trigger the ability — returns damage without applying HP mutation
+            var damage = ability.OnCast(source, target);
 
-            // Capture HP after ability
+            // Apply damage through context (handles action creation and death)
+            if (damage > 0)
+                _context.ResolveDamage(source, target, damage);
+
             var hpAfter = target.Stats.CurrentHP;
 
             // Let ability create its own actions if it implements IActionCreator
@@ -262,56 +183,31 @@ public class CombatEngine
             {
                 actionCreator.CreateActions(_context, source, target, hpBefore, hpAfter);
             }
-
-            // Check for death after ability
-            if (target.isDead)
-            {
-                if (!_context.Actions.OfType<DeathAction>().Any(a => a.Target == target))
-                    _context.AddAction(new DeathAction(target));
-            }
         }
-
-        return actions;
     }
 
-    private List<ICombatAction> TickStatusesTurnEnd(Unit unit)
+    private void TickStatusesTurnEnd(Unit source, Unit target)
     {
-        var actions = new List<ICombatAction>();
+        if (!source.StatusEffects.Any())
+            return;
 
-        if (!unit.StatusEffects.Any())
-            return actions;
-
-        for (var i = unit.StatusEffects.Count - 1; i >= 0; i--)
+        for (var i = source.StatusEffects.Count - 1; i >= 0; i--)
         {
-            var effect = unit.StatusEffects[i];
+            var effect = source.StatusEffects[i];
 
-            // Track HP before status tick
-            var hpBefore = unit.Stats.CurrentHP;
-            var maxHP = unit.Stats.MaxHP;
+            var damage = effect.OnTurnEnd(source);
 
-            effect.OnTurnEnd(unit);
-
-            // If damage was dealt, create an action
-            var hpAfter = unit.Stats.CurrentHP;
-            if (hpAfter < hpBefore)
-            {
-                var damage = hpBefore - hpAfter;
-                actions.Add(new StatusEffectAction(unit, effect.Id, damage, hpBefore, hpAfter, maxHP));
-            }
-
-            // Check for death after status effect
-            if (unit.isDead) actions.Add(new DeathAction(unit));
+            if (damage > 0)
+                _context.ResolveDamage(null, source, damage, effect.Id);
 
             // Remove expired effects
             if (effect.Duration <= 0)
             {
-                effect.OnExpire(unit);
-                unit.StatusEffects.RemoveAt(i);
+                effect.OnExpire(source);
+                source.StatusEffects.RemoveAt(i);
             }
+
+            if (source.isDead) return;
         }
-
-        return actions;
     }
-
-    public CombatContext Context => _context;
 }

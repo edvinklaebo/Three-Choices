@@ -12,7 +12,6 @@ public class Fireball : IAbility, ICombatListener, IActionCreator
     [SerializeField] private int _baseDamage;
     [SerializeField] private int _burnDuration;
     [SerializeField] private float _burnDamagePercent;
-    private CombatContext _context;
 
     public int Priority => 50; // Early priority - abilities trigger before normal attacks
 
@@ -25,12 +24,10 @@ public class Fireball : IAbility, ICombatListener, IActionCreator
 
     public void RegisterHandlers(CombatContext context)
     {
-        _context = context;
     }
 
     public void UnregisterHandlers(CombatContext context)
     {
-        _context = null;
     }
 
     public void CreateActions(CombatContext context, Unit source, Unit target, int hpBefore, int hpAfter)
@@ -46,65 +43,28 @@ public class Fireball : IAbility, ICombatListener, IActionCreator
     /// <summary>
     ///     This method is called from the ability triggering system, not during normal attack.
     ///     For Fireball, this is triggered at turn start.
+    ///     Returns the damage dealt; the caller applies it via <see cref="CombatContext.ApplyDamage"/>.
     /// </summary>
-    public void OnAttack(Unit self, Unit target)
+    public int OnCast(Unit self, Unit target)
     {
         if (target == null || target.isDead)
-            return;
+            return 0;
 
-        Log.Info("Fireball ability triggered", new
-        {
-            source = self.Name,
-            target = target.Name,
-            baseDamage = _baseDamage
-        });
-
-        // Calculate damage through damage pipeline (can crit)
-        var armorMultiplier = GetDamageMultiplier(target.Stats.Armor);
-        var adjustedBaseDamage = Mathf.CeilToInt(_baseDamage * armorMultiplier);
-
-        var ctx = new DamageContext(self, target, adjustedBaseDamage);
+        var ctx = new DamageContext(self, target, _baseDamage);
         DamagePipeline.Process(ctx);
 
         var finalDamage = ctx.FinalValue;
 
-        Log.Info("Fireball damage calculated", new
-        {
-            source = self.Name,
-            target = target.Name,
-            baseDamage = _baseDamage,
-            adjustedBaseDamage,
-            finalDamage,
-            isCritical = ctx.IsCritical
-        });
+        var burnDamage = Mathf.CeilToInt(finalDamage * _burnDamagePercent);
+        target.ApplyStatus(new Burn(_burnDuration, burnDamage));
 
-        // Apply damage to target
-        target.ApplyDamage(self, finalDamage);
-
-        Log.Info("Fireball damage applied", new
+        Log.Info("Fireball burn applied", new
         {
             target = target.Name,
-            damage = finalDamage,
-            targetHP = target.Stats.CurrentHP
+            burnDamage,
+            burnDuration = _burnDuration
         });
 
-        // Apply burn based on final damage (but burn damage cannot crit)
-        if (!target.isDead)
-        {
-            var burnDamage = Mathf.CeilToInt(finalDamage * _burnDamagePercent);
-            target.ApplyStatus(new Burn(_burnDuration, burnDamage));
-
-            Log.Info("Fireball burn applied", new
-            {
-                target = target.Name,
-                burnDamage,
-                burnDuration = _burnDuration
-            });
-        }
-    }
-
-    private static float GetDamageMultiplier(int armor)
-    {
-        return 100f / (100f + armor);
+        return finalDamage;
     }
 }
