@@ -196,17 +196,16 @@ namespace Tests.EditModeTests
         public void Bleed_And_Poison_CanCoexist()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var unit2 = CreateUnit("Test", 100, 0, 0, 5);
-            
             var bleed = new Bleed(3, 3, 1);
             var poison = new Poison(2, 2, 1);
 
             unit.ApplyStatus(bleed);
             unit.ApplyStatus(poison);
-            
-            CombatSystem.RunFight(unit, unit2);
 
             Assert.AreEqual(2, unit.StatusEffects.Count, "Should have both bleed and poison");
+
+            unit.TickStatusesTurnStart();
+
             Assert.AreEqual(95, unit.Stats.CurrentHP, "Should take 5 damage total (3 from bleed + 2 from poison)");
         }
     }

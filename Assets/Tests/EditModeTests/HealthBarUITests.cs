@@ -203,12 +203,8 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Test", 100, 10, 5, 5);
             healthBar.Initialize(unit);
 
-            // TODO Simulate death how?
-            // Simulate combat: kill the unit directly (state changes in CombatSystem)
-            // We modify Stats.CurrentHP and isDead directly to simulate what happens
-            // in CombatSystem before DeathAction.Play() is called
-            // unit.Stats.CurrentHP = 0;
-            // unit.Die = true;
+            // Kill the unit via the public API
+            unit.ApplyDamage(null, 100);
 
             // Call AnimateToCurrentHealth (simulating presentation event)
             healthBar.AnimateToCurrentHealth();
