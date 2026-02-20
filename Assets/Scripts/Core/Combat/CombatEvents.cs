@@ -8,10 +8,43 @@ public abstract class CombatEvent
     public Unit Source { get; }
     public Unit Target { get; }
 
+    /// <summary>
+    /// Combat phase associated with this event. Set on phase-specific events such as <see cref="DamagePhaseEvent"/>.
+    /// </summary>
+    public CombatPhase Phase { get; }
+
     protected CombatEvent(Unit source, Unit target)
     {
         Source = source;
         Target = target;
+    }
+
+    protected CombatEvent(CombatPhase phase)
+    {
+        Phase = phase;
+    }
+
+    protected CombatEvent(Unit source, Unit target, CombatPhase phase)
+    {
+        Source = source;
+        Target = target;
+        Phase = phase;
+    }
+}
+
+/// <summary>
+/// Raised for each phase of a <see cref="CombatContext.ResolveAttack"/> call.
+/// Listeners filter by <see cref="CombatEvent.Phase"/> and mutate <see cref="Context"/> instead of units directly.
+/// <see cref="CombatEvent.Source"/> and <see cref="CombatEvent.Target"/> mirror <see cref="Context"/>.Source/Target.
+/// </summary>
+public class DamagePhaseEvent : CombatEvent
+{
+    public DamageContext Context { get; }
+
+    public DamagePhaseEvent(CombatPhase phase, DamageContext context)
+        : base(context.Source, context.Target, phase)
+    {
+        Context = context;
     }
 }
 

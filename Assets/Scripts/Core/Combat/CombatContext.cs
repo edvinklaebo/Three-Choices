@@ -99,4 +99,95 @@ public class CombatContext
         _listeners.Clear();
         _eventHandlers.Clear();
     }
+
+    /// <summary>
+    /// Resolve a full attack through all combat phases. This is the single point where
+    /// HP is mutated and healing/statuses are applied.
+    /// </summary>
+    public void ResolveAttack(Unit source, Unit target, int baseDamage)
+    {
+        var ctx = new DamageContext(source, target, baseDamage);
+
+        ExecutePhase(CombatPhase.PreAction, ctx);
+        if (ctx.Cancelled) return;
+
+        // Run existing pipeline modifiers (e.g. Rage, Crit) during DamageCalculation
+        DamagePipeline.Process(ctx);
+        ctx.ModifiedDamage = ctx.FinalValue;
+
+        ExecutePhase(CombatPhase.DamageCalculation, ctx);
+        ExecutePhase(CombatPhase.Mitigation, ctx);
+
+        // Lock in the final damage value — single point of HP mutation
+        ctx.FinalDamage = ctx.ModifiedDamage;
+
+        var hpBefore = target.Stats.CurrentHP;
+        var maxHP = target.Stats.MaxHP;
+        target.ApplyDamage(source, ctx.FinalDamage);
+        var hpAfter = target.Stats.CurrentHP;
+
+        Log.Info("Damage applied", new
+        {
+            source = source.Name,
+            target = target.Name,
+            ctx.FinalDamage,
+            hpBefore,
+            hpAfter
+        });
+
+        AddAction(new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP));
+
+        Raise(new OnHitEvent(source, target, ctx.FinalDamage));
+
+        ExecutePhase(CombatPhase.Healing, ctx);
+        // ResourceGain and StatusApplication use immediate application: their phase lets listeners
+        // queue values, then Apply* runs right after so effects see a consistent state.
+        ExecutePhase(CombatPhase.ResourceGain, ctx);
+        ApplyResourceGain(ctx);
+        ExecutePhase(CombatPhase.StatusApplication, ctx);
+        ApplyStatuses(ctx);
+        // PostResolve runs last (e.g. Lifesteal queues PendingHealing here), then ApplyHealing
+        // runs so all accumulated healing from Healing + PostResolve phases is applied together.
+        ExecutePhase(CombatPhase.PostResolve, ctx);
+
+        // Apply healing after PostResolve so listeners in PostResolve (e.g. Lifesteal) can queue healing first
+        ApplyHealing(ctx);
+
+        if (target.isDead && !_actions.OfType<DeathAction>().Any(a => a.Target == target))
+            AddAction(new DeathAction(target));
+    }
+
+    private void ExecutePhase(CombatPhase phase, DamageContext context)
+    {
+        Raise(new DamagePhaseEvent(phase, context));
+    }
+
+    private void ApplyHealing(DamageContext context)
+    {
+        if (context.PendingHealing <= 0) return;
+
+        var hpBefore = context.Source.Stats.CurrentHP;
+        context.Source.Heal(context.PendingHealing);
+        var hpAfter = context.Source.Stats.CurrentHP;
+
+        AddAction(new HealAction(context.Source, context.PendingHealing, hpBefore, hpAfter, context.Source.Stats.MaxHP));
+    }
+
+    private void ApplyResourceGain(DamageContext context)
+    {
+        if (context.PendingResourceGain > 0)
+        {
+            Log.Warning("ApplyResourceGain: resource system not yet implemented", new
+            {
+                source = context.Source?.Name,
+                context.PendingResourceGain
+            });
+        }
+    }
+
+    private void ApplyStatuses(DamageContext context)
+    {
+        foreach (var status in context.PendingStatuses)
+            context.Target.ApplyStatus(status);
+    }
 }
