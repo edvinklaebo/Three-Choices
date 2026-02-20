@@ -47,6 +47,7 @@ public class Unit
     public event Action<Unit, int> OnHit;
     public event Action<Unit, int, int> HealthChanged;
     public event Action<Unit> Died;
+    public event Action<Unit, IStatusEffect, bool> StatusEffectApplied;
 
     private void Die()
     {
@@ -113,11 +114,13 @@ public class Unit
             });
 
             existing.AddStacks(effect);
+            StatusEffectApplied?.Invoke(this, existing, true);
             return;
         }
 
         StatusEffects.Add(effect);
         effect.OnApply(this);
+        StatusEffectApplied?.Invoke(this, effect, false);
     }
 
     public void TickStatusesTurnStart()

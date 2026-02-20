@@ -106,7 +106,9 @@ public class RunController : MonoBehaviour
             return;
         }
         
+        CombatLogger.Instance.UnregisterUnit(Player);
         Player = player;
+        CombatLogger.Instance.RegisterUnit(Player);
         Player.Died += _ => playerDiedEvent.Raise();
         
         Log.Info($"[Run] Player initialized: {Player.Name} (HP: {Player.Stats.CurrentHP}/{Player.Stats.MaxHP}, Abilities: {Player.Abilities.Count}, Passives: {Player.Passives.Count})");

@@ -56,6 +56,7 @@ public class CombatController : MonoBehaviour
         _hideDraftUI?.Raise();
 
         var enemy = _enemyFactory.Create(fightIndex);
+        CombatLogger.Instance.RegisterUnit(enemy);
 
         var combatView = _servicesInstaller.CombatView;
 
