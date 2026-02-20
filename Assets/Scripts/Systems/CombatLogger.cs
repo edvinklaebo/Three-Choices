@@ -1,8 +1,16 @@
+using System;
+
 public class CombatLogger
 {
     public static CombatLogger Instance { get; } = new CombatLogger();
 
     private CombatLogger() { }
+
+    /// <summary>
+    ///     Raised whenever the logger produces a new formatted message.
+    ///     Subscribe to display log entries in a UI scroll view.
+    /// </summary>
+    public event Action<string> LogAdded;
 
     public void RegisterUnit(Unit unit)
     {
@@ -31,31 +39,37 @@ public class CombatLogger
         unit.StatusEffectApplied -= OnStatusEffectApplied;
     }
 
+    private void Emit(string message)
+    {
+        Log.Info(message);
+        LogAdded?.Invoke(message);
+    }
+
     private void OnDamaged(Unit attacker, int damage)
     {
-        Log.Info($"[Damaged] {attacker.Name} dealt {damage} damage");
+        Emit($"[Damaged] {attacker.Name} dealt {damage} damage");
     }
 
     private void OnHit(Unit target, int damage)
     {
-        Log.Info($"[Hit] Hit landed on {target.Name} for {damage} damage");
+        Emit($"[Hit] Hit landed on {target.Name} for {damage} damage");
     }
 
     private void OnHealthChanged(Unit unit, int currentHP, int maxHP)
     {
-        Log.Info($"[Health] {unit.Name}: {currentHP}/{maxHP} HP");
+        Emit($"[Health] {unit.Name}: {currentHP}/{maxHP} HP");
     }
 
     private void OnDied(Unit unit)
     {
-        Log.Info($"[Death] {unit.Name} has died");
+        Emit($"[Death] {unit.Name} has died");
     }
 
     private void OnStatusEffectApplied(Unit unit, IStatusEffect effect, bool stacked)
     {
-        if (stacked)
-            Log.Info($"[Status] {unit.Name} stacked {effect.Id} (new total: {effect.Stacks})");
-        else
-            Log.Info($"[Status] {unit.Name} gained {effect.Id} ({effect.Stacks} stacks)");
+        var message = stacked
+            ? $"[Status] {unit.Name} stacked {effect.Id} (new total: {effect.Stacks})"
+            : $"[Status] {unit.Name} gained {effect.Id} ({effect.Stacks} stacks)";
+        Emit(message);
     }
 }
