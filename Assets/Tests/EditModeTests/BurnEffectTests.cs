@@ -126,7 +126,7 @@ namespace Tests.EditModeTests
             unit.ApplyStatus(burn);
             unit.TickStatusesTurnStart();
 
-            Assert.IsTrue(unit.isDead, "Burn should be able to kill the unit");
+            Assert.IsTrue(unit.IsDead, "Burn should be able to kill the unit");
             Assert.LessOrEqual(unit.Stats.CurrentHP, 0, "HP should be 0 or negative");
         }
 
@@ -166,7 +166,7 @@ namespace Tests.EditModeTests
 
             CombatSystem.RunFight(burned, enemy);
 
-            Assert.IsTrue(burned.isDead, "Burned unit should die from burn");
+            Assert.IsTrue(burned.IsDead, "Burned unit should die from burn");
             Assert.AreEqual(10, enemy.Stats.CurrentHP,
                 "Enemy should take no damage because burned unit died before attacking");
         }

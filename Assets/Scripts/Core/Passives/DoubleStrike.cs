@@ -10,7 +10,7 @@ public class DoubleStrike : IPassive, ICombatListener
     private Unit _owner;
     private List<DoubleStrikeData> _pendingStrikes = new();
     private CombatContext _context;
-    private bool _isProcessingStrikes = false; // Prevent recursive double strikes
+    private bool _isProcessingStrikes; // Prevent recursive double strikes
 
     public int Priority => 210; // Late priority - after damage is dealt, after lifesteal
 
@@ -89,7 +89,7 @@ public class DoubleStrike : IPassive, ICombatListener
             var strikes = ConsumePendingStrikes();
             foreach (var strikeData in strikes)
             {
-                if (strikeData.Target.isDead)
+                if (strikeData.Target.IsDead)
                     continue;
 
                 // Armor mitigation is handled by ArmorMitigationModifier in the Mitigation phase

@@ -186,8 +186,8 @@ namespace Tests.EditModeTests
             CombatSystem.RunFight(attacker, defender);
 
             // Attacker should win with bonus damage
-            Assert.IsTrue(defender.isDead, "Defender should be defeated");
-            Assert.IsFalse(attacker.isDead, "Attacker should survive");
+            Assert.IsTrue(defender.IsDead, "Defender should be defeated");
+            Assert.IsFalse(attacker.IsDead, "Attacker should survive");
         }
 
         [Test]

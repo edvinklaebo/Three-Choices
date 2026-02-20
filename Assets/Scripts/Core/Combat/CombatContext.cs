@@ -148,7 +148,7 @@ public class CombatContext
         // Apply healing after PostResolve so listeners in PostResolve (e.g. Lifesteal) can queue healing first
         ApplyHealing(ctx);
 
-        if (target.isDead && _actions.OfType<DeathAction>().All(a => a.Target != target))
+        if (target.IsDead && _actions.OfType<DeathAction>().All(a => a.Target != target))
             AddAction(new DeathAction(target));
     }
 

@@ -132,7 +132,7 @@ namespace Tests.EditModeTests
             var actions = CombatSystem.RunFight(attacker, defender);
 
             // Defender should die from first hit
-            Assert.IsTrue(defender.isDead, "Defender should be dead");
+            Assert.IsTrue(defender.IsDead, "Defender should be dead");
 
             // Should only have 1 damage action since target died
             var damageActions = actions.OfType<DamageAction>().ToList();

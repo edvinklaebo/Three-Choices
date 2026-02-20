@@ -87,7 +87,7 @@ namespace Tests.EditModeTests
             unit.ApplyStatus(bleed);
             unit.TickStatusesTurnStart();
 
-            Assert.IsTrue(unit.isDead, "Bleed should be able to kill the unit");
+            Assert.IsTrue(unit.IsDead, "Bleed should be able to kill the unit");
             Assert.LessOrEqual(unit.Stats.CurrentHP, 0, "HP should be 0 or negative");
         }
 
@@ -129,7 +129,7 @@ namespace Tests.EditModeTests
 
             CombatSystem.RunFight(bleeding, enemy);
 
-            Assert.IsTrue(bleeding.isDead, "Bleeding unit should die from bleed");
+            Assert.IsTrue(bleeding.IsDead, "Bleeding unit should die from bleed");
             Assert.AreEqual(10, enemy.Stats.CurrentHP,
                 "Enemy should take no damage because bleeding unit died before attacking");
         }
@@ -196,16 +196,17 @@ namespace Tests.EditModeTests
         public void Bleed_And_Poison_CanCoexist()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
+            var unit2 = CreateUnit("Test", 100, 0, 0, 5);
+            
             var bleed = new Bleed(3, 3, 1);
             var poison = new Poison(2, 2, 1);
 
             unit.ApplyStatus(bleed);
             unit.ApplyStatus(poison);
+            
+            CombatSystem.RunFight(unit, unit2);
 
             Assert.AreEqual(2, unit.StatusEffects.Count, "Should have both bleed and poison");
-
-            unit.TickStatusesTurnStart();
-
             Assert.AreEqual(95, unit.Stats.CurrentHP, "Should take 5 damage total (3 from bleed + 2 from poison)");
         }
     }
