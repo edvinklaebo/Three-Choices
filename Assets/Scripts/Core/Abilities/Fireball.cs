@@ -32,27 +32,27 @@ public class Fireball : IAbility, ICombatListener, IActionCreator
 
     public void CreateActions(CombatContext context, Unit source, Unit target, int hpBefore, int hpAfter)
     {
-        if (hpAfter < hpBefore)
-        {
-            var damage = hpBefore - hpAfter;
-            var maxHP = target.Stats.MaxHP;
-            context.AddAction(new FireballAction(source, target, damage, hpBefore, hpAfter, maxHP));
-        }
+        if (hpAfter >= hpBefore) 
+            return;
+        
+        var damage = hpBefore - hpAfter;
+        var maxHP = target.Stats.MaxHP;
+        context.AddAction(new FireballAction(source, target, damage, hpBefore, hpAfter, maxHP));
     }
 
     /// <summary>
     ///     This method is called from the ability triggering system, not during normal attack.
     ///     For Fireball, this is triggered at turn start.
-    ///     Returns the damage dealt; the caller applies it via <see cref="CombatContext.ApplyDamage"/>.
+    ///     Returns the damage dealt; the caller applies it via <see cref="DamagePipeline.Process"/>.
     /// </summary>
     public int OnCast(Unit self, Unit target)
     {
-        if (target == null || target.isDead)
+        if (target == null || target.IsDead)
             return 0;
 
         var ctx = new DamageContext(self, target, _baseDamage);
         DamagePipeline.Process(ctx);
-
+        
         var finalDamage = ctx.FinalValue;
 
         var burnDamage = Mathf.CeilToInt(finalDamage * _burnDamagePercent);

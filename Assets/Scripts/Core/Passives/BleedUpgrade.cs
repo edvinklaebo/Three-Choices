@@ -29,7 +29,7 @@ public class BleedUpgrade : IPassive
         owner.OnHit -= ApplyBleed;
     }
 
-    private void ApplyBleed(Unit target, int _)
+    private void ApplyBleed(Unit self, Unit target, int _)
     {
         if (target == null)
             return;

@@ -44,14 +44,14 @@ public class CombatLogger
         LogAdded?.Invoke(message);
     }
 
-    private void OnDamaged(Unit attacker, int damage)
+    private void OnDamaged(Unit self, Unit attacker, int damage)
     {
-        Emit($"[Damaged] {attacker.Name} dealt {damage} damage");
+        Emit($"[Damaged] {self.Name} took {damage} damage from {attacker?.Name ?? "unknown"}");
     }
 
-    private void OnHit(Unit target, int damage)
+    private void OnHit(Unit self, Unit target, int damage)
     {
-        Emit($"[Hit] Hit landed on {target.Name} for {damage} damage");
+        Emit($"[Hit] {self.Name} hit {target.Name} for {damage} damage");
     }
 
     private void OnHealthChanged(Unit unit, int currentHP, int maxHP)

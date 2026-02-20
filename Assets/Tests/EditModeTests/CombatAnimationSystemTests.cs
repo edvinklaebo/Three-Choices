@@ -98,7 +98,7 @@ namespace Tests.EditModeTests
 
             Assert.IsNotNull(deathAction, "Should have a death action");
             Assert.AreEqual("Defender", deathAction.Target.Name);
-            Assert.IsTrue(deathAction.Target.isDead);
+            Assert.IsTrue(deathAction.Target.IsDead);
         }
 
         [Test]

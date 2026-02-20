@@ -82,16 +82,18 @@ public class CombatEngine
         var target = _attackerTurn ? _defender : _attacker;
 
         TickStatusesTurnStart(acting, target);
-
-        if (acting.isDead || target.isDead)
+        if (acting.IsDead || target.IsDead)
             return;
 
         TriggerAbilities(acting, target);
 
-        if (acting.isDead || target.isDead)
+        if (acting.IsDead || target.IsDead)
             return;
 
         Attack(acting, target);
+        if (acting.IsDead || target.IsDead)
+            return;
+        
         TickStatusesTurnEnd(acting, target);
 
         _attackerTurn = !_attackerTurn;
@@ -156,7 +158,8 @@ public class CombatEngine
                 source.StatusEffects.RemoveAt(i);
             }
 
-            if (source.isDead) return;
+            if (source.IsDead) 
+                return;
         }
     }
 
@@ -207,7 +210,8 @@ public class CombatEngine
                 source.StatusEffects.RemoveAt(i);
             }
 
-            if (source.isDead) return;
+            if (source.IsDead) 
+                return;
         }
     }
 }

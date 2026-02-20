@@ -1081,7 +1081,7 @@ GameObject:
   - component: {fileID: 1336595001}
   - component: {fileID: 1336595000}
   m_Layer: 0
-  m_Name: CharacterInput
+  m_Name: CharacterSelectConfirm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1682,6 +1682,6 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1778331222}
   - {fileID: 685321892}
+  - {fileID: 1336595001}
   - {fileID: 2016932083}
   - {fileID: 90798972}
-  - {fileID: 1336595001}

@@ -120,7 +120,7 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Target", 1, 0, 0, 5);
             target.ApplyDamage(caster, 100); // Kill the target
 
-            Assert.IsTrue(target.isDead, "Target should be dead");
+            Assert.IsTrue(target.IsDead, "Target should be dead");
 
             var fireball = new Fireball();
             fireball.OnCast(caster, target);
@@ -140,7 +140,7 @@ namespace Tests.EditModeTests
             CombatSystem.RunFight(caster, target);
 
             // Target should have taken fireball damage + regular attack damage + burn over time
-            Assert.IsTrue(target.isDead, "Target should be dead from fireball + attacks + burn");
+            Assert.IsTrue(target.IsDead, "Target should be dead from fireball + attacks + burn");
             Assert.Greater(caster.Stats.CurrentHP, 0, "Caster should survive (target has 0 attack)");
         }
 

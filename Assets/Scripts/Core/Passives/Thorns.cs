@@ -22,8 +22,8 @@ public class Thorns : IPassive
     }
 
 
-    private void OnDamaged(Unit attacker, int damageTaken)
+    private void OnDamaged(Unit self, Unit attacker, int damageTaken)
     {
-        Log.Info("Applied thorns to "  + attacker.Name);
+        Log.Info("Applied thorns to "  + (attacker?.Name ?? "unknown"));
     }
 }

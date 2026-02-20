@@ -87,7 +87,7 @@ namespace Tests.EditModeTests
             unit.ApplyStatus(poison);
             unit.TickStatusesTurnStart();
 
-            Assert.IsTrue(unit.isDead, "Poison should be able to kill the unit");
+            Assert.IsTrue(unit.IsDead, "Poison should be able to kill the unit");
             Assert.LessOrEqual(unit.Stats.CurrentHP, 0, "HP should be 0 or negative");
         }
 
@@ -129,7 +129,7 @@ namespace Tests.EditModeTests
 
             CombatSystem.RunFight(enemy, poisoned);
 
-            Assert.IsTrue(poisoned.isDead, "Poisoned unit should die from poison");
+            Assert.IsTrue(poisoned.IsDead, "Poisoned unit should die from poison");
             Assert.AreEqual(10, enemy.Stats.CurrentHP,
                 "Enemy should take no damage because poisoned unit died before attacking");
         }
@@ -140,7 +140,7 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Test", 100, 0, 0, 5);
             var damagedTriggered = false;
 
-            unit.Damaged += (_, _) => damagedTriggered = true;
+            unit.Damaged += (_, _, _) => damagedTriggered = true;
             unit.ApplyDamage(unit, 10);
 
             Assert.IsTrue(damagedTriggered, "Damage should trigger Damaged event");

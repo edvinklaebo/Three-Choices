@@ -72,7 +72,7 @@ namespace Tests.EditModeTests
             // Kill the unit
             unit.ApplyDamage(null, 100);
 
-            Assert.IsTrue(unit.isDead, "Unit should be dead");
+            Assert.IsTrue(unit.IsDead, "Unit should be dead");
             Assert.LessOrEqual(unit.Stats.CurrentHP, 0, "HP should be 0 or negative");
 
             // Note: The slider won't update immediately due to lerping in Update()
@@ -203,11 +203,8 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Test", 100, 10, 5, 5);
             healthBar.Initialize(unit);
 
-            // Simulate combat: kill the unit directly (state changes in CombatSystem)
-            // We modify Stats.CurrentHP and isDead directly to simulate what happens
-            // in CombatSystem before DeathAction.Play() is called
-            unit.Stats.CurrentHP = 0;
-            unit.isDead = true;
+            // Kill the unit via the public API
+            unit.ApplyDamage(null, 100);
 
             // Call AnimateToCurrentHealth (simulating presentation event)
             healthBar.AnimateToCurrentHealth();
