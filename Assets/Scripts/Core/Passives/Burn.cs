@@ -37,7 +37,7 @@ public class Burn : IStatusEffect
         });
     }
 
-    public void OnTurnStart(Unit target)
+    public int OnTurnStart(Unit target)
     {
         Log.Info("Burn ticking", new
         {
@@ -47,20 +47,23 @@ public class Burn : IStatusEffect
             hpBefore = target.Stats.CurrentHP
         });
 
-        target.ApplyDirectDamage(BaseDamage);
+        var damage = BaseDamage;
         Duration--;
 
-        Log.Info("Burn damage applied", new
+        Log.Info("Burn damage calculated", new
         {
             target = target.Name,
-            hpAfter = target.Stats.CurrentHP,
+            damage,
             remainingDuration = Duration
         });
+
+        return damage;
     }
 
-    public void OnTurnEnd(Unit target)
+    public int OnTurnEnd(Unit target)
     {
         // No behavior on turn end
+        return 0;
     }
 
     public void OnExpire(Unit target)

@@ -18,19 +18,19 @@ public class CombatContext
     /// </summary>
     public void RegisterListener(ICombatListener listener)
     {
-        if (!_listeners.Contains(listener))
-        {
-            _listeners.Add(listener);
-            // Sort by priority after adding
-            _listeners.Sort((a, b) => a.Priority.CompareTo(b.Priority));
-            listener.RegisterHandlers(this);
-        }
+        if (_listeners.Contains(listener)) 
+            return;
+        
+        _listeners.Add(listener);
+        // Sort by priority after adding
+        _listeners.Sort((a, b) => a.Priority.CompareTo(b.Priority));
+        listener.RegisterHandlers(this);
     }
 
     /// <summary>
     /// Unregister a listener from combat events
     /// </summary>
-    public void UnregisterListener(ICombatListener listener)
+    private void UnregisterListener(ICombatListener listener)
     {
         if (_listeners.Remove(listener))
         {
@@ -57,10 +57,10 @@ public class CombatContext
     public void Off<TEvent>(Action<TEvent> handler) where TEvent : CombatEvent
     {
         var eventType = typeof(TEvent);
-        if (_eventHandlers.ContainsKey(eventType))
+        if (_eventHandlers.TryGetValue(eventType, out var eventHandler))
         {
             // Find and remove the matching handler
-            _eventHandlers[eventType].RemoveAll(h => h.Target == handler.Target && h.Method == handler.Method);
+            eventHandler.RemoveAll(h => h.Target == handler.Target && h.Method == handler.Method);
         }
     }
 
@@ -70,9 +70,9 @@ public class CombatContext
     public void Raise<TEvent>(TEvent evt) where TEvent : CombatEvent
     {
         var eventType = typeof(TEvent);
-        if (_eventHandlers.ContainsKey(eventType))
+        if (_eventHandlers.TryGetValue(eventType, out var eventHandler))
         {
-            foreach (var handler in _eventHandlers[eventType].ToList())
+            foreach (var handler in eventHandler.ToList())
             {
                 handler(evt);
             }
@@ -103,8 +103,10 @@ public class CombatContext
     /// <summary>
     /// Resolve a full attack through all combat phases. This is the single point where
     /// HP is mutated and healing/statuses are applied.
+    /// When <paramref name="effectId"/> is provided, a <see cref="StatusEffectAction"/> is
+    /// recorded instead of a <see cref="DamageAction"/> (used for status effect ticks).
     /// </summary>
-    public void ResolveAttack(Unit source, Unit target, int baseDamage)
+    public void ResolveDamage(Unit source, Unit target, int baseDamage, string effectId = null)
     {
         var ctx = new DamageContext(source, target, baseDamage);
 
@@ -126,16 +128,9 @@ public class CombatContext
         target.ApplyDamage(source, ctx.FinalDamage);
         var hpAfter = target.Stats.CurrentHP;
 
-        Log.Info("Damage applied", new
-        {
-            source = source.Name,
-            target = target.Name,
-            ctx.FinalDamage,
-            hpBefore,
-            hpAfter
-        });
-
-        AddAction(new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP));
+        AddAction(effectId != null
+            ? new StatusEffectAction(target, effectId, ctx.FinalDamage, hpBefore, hpAfter, maxHP)
+            : new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP));
 
         Raise(new OnHitEvent(source, target, ctx.FinalDamage));
 
@@ -153,7 +148,7 @@ public class CombatContext
         // Apply healing after PostResolve so listeners in PostResolve (e.g. Lifesteal) can queue healing first
         ApplyHealing(ctx);
 
-        if (target.isDead && !_actions.OfType<DeathAction>().Any(a => a.Target == target))
+        if (target.isDead && _actions.OfType<DeathAction>().All(a => a.Target != target))
             AddAction(new DeathAction(target));
     }
 

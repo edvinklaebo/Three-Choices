@@ -33,7 +33,7 @@ public class Bleed : IStatusEffect
         });
     }
 
-    public void OnTurnStart(Unit target)
+    public int OnTurnStart(Unit target)
     {
         Log.Info("Bleed ticking", new
         {
@@ -43,20 +43,23 @@ public class Bleed : IStatusEffect
             hpBefore = target.Stats.CurrentHP
         });
 
-        target.ApplyDirectDamage(Stacks);
+        var damage = Stacks;
         Duration--;
 
-        Log.Info("Bleed damage applied", new
+        Log.Info("Bleed damage calculated", new
         {
             target = target.Name,
-            hpAfter = target.Stats.CurrentHP,
+            damage,
             remainingDuration = Duration
         });
+
+        return damage;
     }
 
-    public void OnTurnEnd(Unit target)
+    public int OnTurnEnd(Unit target)
     {
         // No behavior on turn end
+        return 0;
     }
 
     public void OnExpire(Unit target)

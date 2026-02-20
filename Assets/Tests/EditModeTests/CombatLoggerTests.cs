@@ -48,7 +48,7 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Test");
             var stackedValues = new System.Collections.Generic.List<bool>();
 
-            unit.StatusEffectApplied += (u, e, stacked) => stackedValues.Add(stacked);
+            unit.StatusEffectApplied += (_, _, stacked) => stackedValues.Add(stacked);
 
             unit.ApplyStatus(new Poison(5, 3, 1));
             unit.ApplyStatus(new Poison(3, 2, 1));
@@ -64,7 +64,7 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Test");
             IStatusEffect lastEffect = null;
 
-            unit.StatusEffectApplied += (u, e, stacked) => lastEffect = e;
+            unit.StatusEffectApplied += (_, e, _) => lastEffect = e;
 
             unit.ApplyStatus(new Poison(3, 3, 1));
             unit.ApplyStatus(new Poison(4, 3, 1));
@@ -101,7 +101,7 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Test", hp: 50);
             var healthChangedFired = false;
 
-            unit.HealthChanged += (u, cur, max) => healthChangedFired = true;
+            unit.HealthChanged += (_, _, _) => healthChangedFired = true;
 
             CombatLogger.Instance.RegisterUnit(unit);
             unit.Heal(10);
@@ -112,13 +112,15 @@ namespace Tests.EditModeTests
         [Test]
         public void RegisterUnit_ReceivesDiedEvent()
         {
-            var unit = CreateUnit("Test", hp: 10);
+            var victim = CreateUnit("Test", hp: 10);
+            var rapist = CreateUnit("Test", hp: 10);
+            
             var diedFired = false;
 
-            unit.Died += _ => diedFired = true;
+            victim.Died += _ => diedFired = true;
 
-            CombatLogger.Instance.RegisterUnit(unit);
-            unit.ApplyDirectDamage(10);
+            CombatLogger.Instance.RegisterUnit(victim);
+            victim.ApplyDamage(rapist, 10);
 
             Assert.IsTrue(diedFired);
         }
@@ -129,7 +131,7 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Test");
             var statusFired = false;
 
-            unit.StatusEffectApplied += (u, e, stacked) => statusFired = true;
+            unit.StatusEffectApplied += (_, _, _) => statusFired = true;
 
             CombatLogger.Instance.RegisterUnit(unit);
             unit.ApplyStatus(new Poison(5, 3, 1));
