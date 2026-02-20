@@ -1,1 +1,0 @@
-Create a Disord server for my game.
