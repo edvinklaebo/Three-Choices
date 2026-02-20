@@ -24,11 +24,6 @@ public class Thorns : IPassive
 
     private void OnDamaged(Unit attacker, int damageTaken)
     {
-        if (attacker == null)
-            return;
-
-        var thornDamage = _owner.Stats.Armor / 4;
-
-        attacker.ApplyDamage(_owner, thornDamage);
+        Log.Info("Applied thorns to "  + attacker.Name);
     }
 }

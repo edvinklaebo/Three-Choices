@@ -119,6 +119,8 @@ public class DoubleStrike : IPassive, ICombatListener
     /// </summary>
     public List<DoubleStrikeData> ConsumePendingStrikes()
     {
+        if(_pendingStrikes == null)
+            return new List<DoubleStrikeData>();
         var strikes = new List<DoubleStrikeData>(_pendingStrikes);
         _pendingStrikes.Clear();
         return strikes;
