@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -83,6 +84,34 @@ public class CombatView : MonoBehaviour
     public void HideTurnIndicator()
     {
         if (_turnIndicator != null) _turnIndicator.Hide();
+    }
+
+    /// <summary>
+    ///     Build a deterministic mapping of units to their UI components.
+    ///     Call this once after <see cref="Initialize" /> and pass the result to
+    ///     <see cref="UIService.SetBindings" /> so all UI lookups use direct references.
+    ///     Returns an empty dictionary and logs a warning when either unit is null,
+    ///     consistent with the fail-soft pattern used elsewhere in combat setup.
+    /// </summary>
+    public IReadOnlyDictionary<Unit, UnitUIBinding> BuildBindings(Unit player, Unit enemy)
+    {
+        if (player == null || enemy == null)
+        {
+            Log.Warning("CombatView.BuildBindings: called with null unit — bindings not built");
+            return new Dictionary<Unit, UnitUIBinding>();
+        }
+
+        return new Dictionary<Unit, UnitUIBinding>
+        {
+            [player] = new UnitUIBinding(
+                _playerView,
+                _combatHUD?.GetHealthBar(player),
+                _combatHUD?.GetHUDPanel(player)),
+            [enemy] = new UnitUIBinding(
+                _enemyView,
+                _combatHUD?.GetHealthBar(enemy),
+                _combatHUD?.GetHUDPanel(enemy))
+        };
     }
 
     /// <summary>

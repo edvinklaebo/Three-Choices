@@ -7,41 +7,16 @@ using UnityEngine;
 /// </summary>
 public class UIService
 {
-    private CombatView _combatView;
-    private readonly Dictionary<Unit, UnitUIBinding> _bindings = new();
-
-    public void SetCombatView(CombatView combatView)
-    {
-        _combatView = combatView;
-        _bindings.Clear();
-    }
+    private IReadOnlyDictionary<Unit, UnitUIBinding> _bindings = new Dictionary<Unit, UnitUIBinding>();
 
     /// <summary>
-    ///     Build a deterministic mapping of units to their UI components.
-    ///     Call this once after <see cref="CombatView.Initialize" /> so all lookups
-    ///     use direct references instead of repeated component searches.
+    ///     Provide the fully built unit → UI binding map.
+    ///     Must be called once after <see cref="CombatView.BuildBindings" /> so all
+    ///     lookups use direct references instead of repeated component searches.
     /// </summary>
-    public void BuildBindings(Unit player, Unit enemy)
+    public void SetBindings(IReadOnlyDictionary<Unit, UnitUIBinding> bindings)
     {
-        _bindings.Clear();
-
-        if (_combatView == null || player == null || enemy == null)
-        {
-            Log.Warning("UIService.BuildBindings: called with null CombatView or unit — bindings not built");
-            return;
-        }
-
-        var combatHUD = _combatView.CombatHUD;
-
-        _bindings[player] = new UnitUIBinding(
-            _combatView.PlayerView,
-            combatHUD?.GetHealthBar(player),
-            combatHUD?.GetHUDPanel(player));
-        
-        _bindings[enemy] = new UnitUIBinding(
-            _combatView.EnemyView,
-            combatHUD?.GetHealthBar(enemy),
-            combatHUD?.GetHUDPanel(enemy));
+        _bindings = bindings ?? new Dictionary<Unit, UnitUIBinding>();
     }
 
     /// <summary>
