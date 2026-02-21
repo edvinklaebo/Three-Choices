@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 839014fb033893745a850c69f0e87c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  upgradePicked: {fileID: 0}
   fightEnded: {fileID: 0}
+  _showDraft: {fileID: 0}

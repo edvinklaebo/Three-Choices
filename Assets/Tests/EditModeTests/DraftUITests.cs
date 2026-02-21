@@ -36,7 +36,7 @@ namespace Tests.EditModeTests
                 _draftUI.DraftButtons[i] = btn;
             }
             
-            if(!_draftUI.didAwake)
+            if(!_draftUI.DidAwake)
                 _draftUI.Awake();
 
         }
