@@ -67,7 +67,8 @@ public class CombatController : MonoBehaviour
             combatView.Initialize(player, enemy);
 
         // Build deterministic unit→UI mapping once, now that CombatView is initialized
-        _servicesInstaller.Context?.UI.BuildBindings(player, enemy);
+        if (combatView)
+            _servicesInstaller.Context?.UI.SetBindings(combatView.BuildBindings(player, enemy));
 
         // Run combat logic (pure, deterministic)
         var actions = _combatSystem.RunFight(player, enemy);

@@ -29,10 +29,10 @@ namespace Tests.EditModeTests
         /// <summary>
         /// Reads the private _bindings dictionary from a UIService instance.
         /// </summary>
-        private static Dictionary<Unit, UnitUIBinding> GetBindings(UIService service)
+        private static IReadOnlyDictionary<Unit, UnitUIBinding> GetBindings(UIService service)
         {
             var field = typeof(UIService).GetField("_bindings", NonPublicInstance);
-            return (Dictionary<Unit, UnitUIBinding>)field?.GetValue(service);
+            return (IReadOnlyDictionary<Unit, UnitUIBinding>)field?.GetValue(service);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void BuildBindings_WithValidCombatView_PopulatesBothUnits()
+        public void SetBindings_WithValidBindings_PopulatesBothUnits()
         {
             var (root, combatView, _, _) = CreateCombatViewHierarchy();
 
@@ -103,8 +103,7 @@ namespace Tests.EditModeTests
             combatView.Initialize(player, enemy);
 
             var uiService = new UIService();
-            uiService.SetCombatView(combatView);
-            uiService.BuildBindings(player, enemy);
+            uiService.SetBindings(combatView.BuildBindings(player, enemy));
 
             var bindings = GetBindings(uiService);
             Assert.AreEqual(2, bindings.Count, "Bindings should contain both player and enemy");
@@ -115,7 +114,7 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void BuildBindings_WithValidCombatView_StoresCorrectUnitViews()
+        public void SetBindings_WithValidBindings_StoresCorrectUnitViews()
         {
             var (root, combatView, playerView, enemyView) = CreateCombatViewHierarchy();
 
@@ -125,8 +124,7 @@ namespace Tests.EditModeTests
             combatView.Initialize(player, enemy);
 
             var uiService = new UIService();
-            uiService.SetCombatView(combatView);
-            uiService.BuildBindings(player, enemy);
+            uiService.SetBindings(combatView.BuildBindings(player, enemy));
 
             var bindings = GetBindings(uiService);
             Assert.AreEqual(playerView, bindings[player].UnitView, "Player binding should hold the player UnitView");
@@ -136,7 +134,7 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void BuildBindings_WithValidCombatView_StoresHealthBars()
+        public void SetBindings_WithValidBindings_StoresHealthBars()
         {
             var (root, combatView, _, _) = CreateCombatViewHierarchy();
 
@@ -146,8 +144,7 @@ namespace Tests.EditModeTests
             combatView.Initialize(player, enemy);
 
             var uiService = new UIService();
-            uiService.SetCombatView(combatView);
-            uiService.BuildBindings(player, enemy);
+            uiService.SetBindings(combatView.BuildBindings(player, enemy));
 
             var bindings = GetBindings(uiService);
             Assert.IsNotNull(bindings[player].HealthBar, "Player binding should hold a HealthBarUI");
@@ -157,34 +154,30 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void BuildBindings_WithNullCombatView_LeavesBindingsEmpty()
+        public void SetBindings_WithNullBindings_LeavesBindingsEmpty()
         {
-            var player = CreateUnit("Player");
-            var enemy = CreateUnit("Enemy");
-
             var uiService = new UIService();
-            // Do not call SetCombatView
-            Assert.DoesNotThrow(() => uiService.BuildBindings(player, enemy));
+            Assert.DoesNotThrow(() => uiService.SetBindings(null));
 
             var bindings = GetBindings(uiService);
-            Assert.AreEqual(0, bindings.Count, "Bindings should be empty when CombatView is null");
+            Assert.AreEqual(0, bindings.Count, "Bindings should be empty when null is passed");
         }
 
         [Test]
-        public void BuildBindings_WithNullPlayer_DoesNotThrow()
+        public void CombatView_BuildBindings_WithNullUnit_DoesNotThrow()
         {
             var (root, combatView, _, _) = CreateCombatViewHierarchy();
 
-            var uiService = new UIService();
-            uiService.SetCombatView(combatView);
-
-            Assert.DoesNotThrow(() => uiService.BuildBindings(null, CreateUnit("Enemy")));
+            IReadOnlyDictionary<Unit, UnitUIBinding> result = null;
+            Assert.DoesNotThrow(() => result = combatView.BuildBindings(null, CreateUnit("Enemy")));
+            Assert.IsNotNull(result, "BuildBindings should return an empty dictionary, not null");
+            Assert.AreEqual(0, result.Count, "BuildBindings with a null unit should return empty bindings");
 
             Object.DestroyImmediate(root);
         }
 
         [Test]
-        public void SetCombatView_WhenCombatViewIsNull_ClearsExistingBindings()
+        public void SetBindings_WithNullBindings_ClearsExistingBindings()
         {
             var (root, combatView, _, _) = CreateCombatViewHierarchy();
 
@@ -194,16 +187,15 @@ namespace Tests.EditModeTests
             combatView.Initialize(player, enemy);
 
             var uiService = new UIService();
-            uiService.SetCombatView(combatView);
-            uiService.BuildBindings(player, enemy);
+            uiService.SetBindings(combatView.BuildBindings(player, enemy));
 
             // Confirm bindings were built
             Assert.AreEqual(2, GetBindings(uiService).Count);
 
-            // Setting a new (null) CombatView should clear bindings
-            uiService.SetCombatView(null);
+            // Passing null should clear bindings
+            uiService.SetBindings(null);
 
-            Assert.AreEqual(0, GetBindings(uiService).Count, "SetCombatView should clear existing bindings");
+            Assert.AreEqual(0, GetBindings(uiService).Count, "SetBindings(null) should clear existing bindings");
 
             Object.DestroyImmediate(root);
         }
@@ -219,8 +211,7 @@ namespace Tests.EditModeTests
             combatView.Initialize(player, enemy);
 
             var uiService = new UIService();
-            uiService.SetCombatView(combatView);
-            uiService.BuildBindings(player, enemy);
+            uiService.SetBindings(combatView.BuildBindings(player, enemy));
 
             Assert.DoesNotThrow(() => uiService.AnimateHealthBar(player));
             Assert.DoesNotThrow(() => uiService.AnimateHealthBar(enemy));
