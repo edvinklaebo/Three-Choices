@@ -39,7 +39,7 @@ public class UIService
             combatHUD?.GetHUDPanel(player));
         
         _bindings[enemy] = new UnitUIBinding(
-            _combatView.PlayerView,
+            _combatView.EnemyView,
             combatHUD?.GetHealthBar(enemy),
             combatHUD?.GetHUDPanel(enemy));
     }
@@ -106,7 +106,7 @@ public class UIService
 
     /// <summary>
     ///     Animates the health bar for a unit from a specific old value to a specific new value.
-    ///     This allows proper animation even when the units state has already been modified.
+    ///     This allows proper animation even when the unit's state has already been modified.
     /// </summary>
     public void AnimateHealthBarToValue(Unit target, int hpBefore, int hpAfter, int maxHP)
     {
