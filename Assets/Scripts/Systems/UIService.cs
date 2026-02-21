@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -7,22 +8,40 @@ using UnityEngine;
 public class UIService
 {
     private CombatView _combatView;
+    private readonly Dictionary<Unit, UnitUIBinding> _bindings = new();
 
     public void SetCombatView(CombatView combatView)
     {
         _combatView = combatView;
+        _bindings.Clear();
     }
 
-    public void ShowDamage(Unit target, int amount, DamageType damageType = DamageType.Physical)
+    /// <summary>
+    ///     Build a deterministic mapping of units to their UI components.
+    ///     Call this once after <see cref="CombatView.Initialize" /> so all lookups
+    ///     use direct references instead of repeated component searches.
+    /// </summary>
+    public void BuildBindings(Unit player, Unit enemy)
     {
-        Log.Info("Showing damage UI", new { target = target.Name, damage = amount, type = damageType });
+        _bindings.Clear();
 
-        var worldPosition = GetUnitWorldPosition(target);
-        if (worldPosition.HasValue && FloatingTextPool.Instance != null)
-            FloatingTextPool.Instance.Spawn(amount, damageType, worldPosition.Value);
+        if (_combatView == null || player == null || enemy == null)
+        {
+            Log.Warning("UIService.BuildBindings: called with null CombatView or unit — bindings not built");
+            return;
+        }
 
-        // Animate health bar to current health value (fallback for non-combat or old callers)
-        AnimateHealthBar(target);
+        var combatHUD = _combatView.CombatHUD;
+
+        _bindings[player] = new UnitUIBinding(
+            _combatView.PlayerView,
+            combatHUD?.GetHealthBar(player),
+            combatHUD?.GetHUDPanel(player));
+        
+        _bindings[enemy] = new UnitUIBinding(
+            _combatView.EnemyView,
+            combatHUD?.GetHealthBar(enemy),
+            combatHUD?.GetHUDPanel(enemy));
     }
 
     /// <summary>
@@ -121,9 +140,6 @@ public class UIService
     /// </summary>
     private Vector3? GetUnitWorldPosition(Unit target)
     {
-        if (_combatView == null)
-            return null;
-
         var unitView = GetUnitView(target);
         if (unitView != null)
             // Spawn above unit's center
@@ -132,44 +148,24 @@ public class UIService
         return null;
     }
 
-    /// <summary>
-    ///     Get the UnitView for a given Unit.
-    /// </summary>
     private UnitView GetUnitView(Unit target)
     {
-        if (_combatView == null)
-            return null;
-
-        return _combatView.GetUnitView(target);
+        return TryGetBinding(target, out var b) ? b.UnitView : null;
     }
 
-    /// <summary>
-    ///     Get the HealthBarUI for a given Unit.
-    /// </summary>
     private HealthBarUI GetHealthBar(Unit target)
     {
-        if (_combatView == null || target == null)
-            return null;
-
-        var combatHUD = _combatView.GetComponentInChildren<CombatHUD>();
-        if (combatHUD == null)
-            return null;
-
-        return combatHUD.GetHealthBar(target);
+        return TryGetBinding(target, out var b) ? b.HealthBar : null;
     }
 
-    /// <summary>
-    ///     Get the UnitHUDPanel for a given Unit.
-    /// </summary>
     private UnitHUDPanel GetHUDPanel(Unit target)
     {
-        if (_combatView == null || target == null)
-            return null;
+        return TryGetBinding(target, out var b) ? b.HUDPanel : null;
+    }
 
-        var combatHUD = _combatView.GetComponentInChildren<CombatHUD>();
-        if (combatHUD == null)
-            return null;
-
-        return combatHUD.GetHUDPanel(target);
+    private bool TryGetBinding(Unit target, out UnitUIBinding binding)
+    {
+        binding = null;
+        return target != null && _bindings.TryGetValue(target, out binding);
     }
 }
