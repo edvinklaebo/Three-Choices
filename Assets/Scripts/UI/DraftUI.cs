@@ -19,7 +19,9 @@ public class DraftUI : MonoBehaviour
 
     public void Awake()
     {
-        var canvasGroup = GetComponent<CanvasGroup>() ?? gameObject.AddComponent<CanvasGroup>();
+        var canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
         _fader = new UIFader(canvasGroup, this);
 
         _draftOptions = BuildOptions();
