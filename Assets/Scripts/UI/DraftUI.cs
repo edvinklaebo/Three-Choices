@@ -121,7 +121,6 @@ public class DraftUI : MonoBehaviour
             if (DraftButtons[i] == null) continue;
             var view = DraftButtons[i].GetComponent<DraftOptionView>()
                        ?? DraftButtons[i].gameObject.AddComponent<DraftOptionView>();
-            if (!view.DidAwake) view.Awake();
             options[i] = view;
         }
         return options;

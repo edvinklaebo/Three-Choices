@@ -23,7 +23,7 @@ namespace Tests.EditModeTests
             _text = textObj.AddComponent<Text>();
 
             _view = _btnObj.AddComponent<DraftOptionView>();
-            if (!_view.DidAwake) _view.Awake();
+            _view.Awake();
         }
 
         [TearDown]

@@ -5,21 +5,18 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class DraftOptionView : MonoBehaviour
 {
-    private Button _button;
-    private Text _text;
-    private Image _icon;
-    private TooltipTrigger _tooltip;
+    [SerializeField] private Button _button;
+    [SerializeField] private Text _text;
+    [SerializeField] private Image _icon;
+    [SerializeField] private TooltipTrigger _tooltip;
     private Action _cachedClick;
-
-    public bool DidAwake { get; private set; }
 
     public void Awake()
     {
-        _button = GetComponent<Button>();
-        _text = GetComponentInChildren<Text>();
-        _icon = GetComponentInChildren<Image>(true);
-        _tooltip = GetComponent<TooltipTrigger>();
-        DidAwake = true;
+        if (_button == null) _button = GetComponent<Button>();
+        if (_text == null) _text = GetComponentInChildren<Text>();
+        if (_icon == null) _icon = GetComponentInChildren<Image>(true);
+        if (_tooltip == null) _tooltip = GetComponent<TooltipTrigger>();
     }
 
     public void Bind(UpgradeDefinition upgrade, Action<UpgradeDefinition> onPick)
