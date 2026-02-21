@@ -47,3 +47,4 @@ MonoBehaviour:
   upgradePicked: {fileID: 0}
   requestNextFight: {fileID: 0}
   _fightStarted: {fileID: 0}
+  _hideDraft: {fileID: 0}

@@ -6,10 +6,11 @@ using UnityEngine.UI;
 
 public class DraftUI : MonoBehaviour
 {
-    public static DraftUI Instance;
     public Button[] DraftButtons;
 
     [SerializeField] private VoidEventChannel _onHideRequested;
+    [SerializeField] private DraftEventChannel _onShowRequested;
+    [SerializeField] private UpgradeEventChannel _upgradePicked;
 
     private const float FadeDuration = 0.3f;
 
@@ -17,17 +18,10 @@ public class DraftUI : MonoBehaviour
     private Action<UpgradeDefinition> _onPick;
     private CanvasGroup _canvasGroup;
 
+    public bool DidAwake { get; private set; }
+
     public void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Log.Warning($"Duplicate {nameof(DraftUI)} detected. Destroying this instance.");
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-
         // Get or add CanvasGroup for fade animation
         _canvasGroup = GetComponent<CanvasGroup>();
         if (_canvasGroup == null)
@@ -37,16 +31,30 @@ public class DraftUI : MonoBehaviour
 
         // Start hidden (no animation in Awake)
         Hide(animated: false);
+
+        DidAwake = true;
     }
 
     private void OnEnable()
     {
         if (_onHideRequested != null) _onHideRequested.OnRaised += OnHideRequested;
+        if (_onShowRequested != null) _onShowRequested.OnRaised += OnShowRequested;
     }
 
     private void OnDisable()
     {
         if (_onHideRequested != null) _onHideRequested.OnRaised -= OnHideRequested;
+        if (_onShowRequested != null) _onShowRequested.OnRaised -= OnShowRequested;
+    }
+
+    private void OnShowRequested(List<UpgradeDefinition> draft)
+    {
+        if (_upgradePicked == null)
+        {
+            Log.Warning("DraftUI: _upgradePicked event channel is not assigned. Upgrade picks will not be broadcast.");
+        }
+
+        Show(draft, u => _upgradePicked?.Raise(u));
     }
 
     private void OnHideRequested()

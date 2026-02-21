@@ -6,6 +6,7 @@ public class UpgradeListener : MonoBehaviour
     [SerializeField] private UpgradeEventChannel upgradePicked;
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private FightStartedEventChannel _fightStarted;
+    [SerializeField] private VoidEventChannel _hideDraft;
 
     private Unit _player;
 
@@ -30,8 +31,7 @@ public class UpgradeListener : MonoBehaviour
 
     private void Apply(UpgradeDefinition upgrade)
     {
-        if (DraftUI.Instance)
-            DraftUI.Instance.Hide();
+        _hideDraft?.Raise();
 
         UpgradeApplier.Apply(upgrade, _player);
 
