@@ -35,14 +35,14 @@ public class UIService
 
         _bindings[player] = new UnitUIBinding
         {
-            UnitView = _combatView.PlayerView,
+            UnitView = _combatView.GetUnitView(player),
             HealthBar = combatHUD?.GetHealthBar(player),
             HUDPanel = combatHUD?.GetHUDPanel(player)
         };
 
         _bindings[enemy] = new UnitUIBinding
         {
-            UnitView = _combatView.EnemyView,
+            UnitView = _combatView.GetUnitView(enemy),
             HealthBar = combatHUD?.GetHealthBar(enemy),
             HUDPanel = combatHUD?.GetHUDPanel(enemy)
         };
