@@ -9,7 +9,9 @@ public class DraftOptionView : MonoBehaviour
     [SerializeField] private Text _text;
     [SerializeField] private Image _icon;
     [SerializeField] private TooltipTrigger _tooltip;
-    private Action _cachedClick;
+
+    private UpgradeDefinition _boundUpgrade;
+    private Action<UpgradeDefinition> _onPick;
 
     public void Awake()
     {
@@ -17,15 +19,20 @@ public class DraftOptionView : MonoBehaviour
         if (_text == null) _text = GetComponentInChildren<Text>();
         if (_icon == null) _icon = GetComponentInChildren<Image>(true);
         if (_tooltip == null) _tooltip = GetComponent<TooltipTrigger>();
+
+        _button.onClick.AddListener(OnClicked);
     }
 
     public void Bind(UpgradeDefinition upgrade, Action<UpgradeDefinition> onPick)
     {
         if (upgrade == null)
         {
-            Log.Error("DraftOptionView.Bind called with null upgrade", new { name = gameObject.name });
+            Log.Error("Bind called with null upgrade", new { name = gameObject.name });
             return;
         }
+
+        _boundUpgrade = upgrade;
+        _onPick = onPick;
 
         if (_tooltip != null)
         {
@@ -35,24 +42,16 @@ public class DraftOptionView : MonoBehaviour
 
         if (_text != null)
             _text.text = upgrade.DisplayName;
-        else
-            Log.Warning("DraftOptionView missing Text component", new { name = gameObject.name });
 
         if (_icon != null)
         {
-            if (upgrade.Icon != null)
-            {
-                _icon.sprite = upgrade.Icon;
-                _icon.enabled = true;
-            }
-            else
-            {
-                _icon.enabled = false;
-            }
+            _icon.sprite = upgrade.Icon;
+            _icon.enabled = upgrade.Icon != null;
         }
+    }
 
-        if (_cachedClick != null) _button.onClick.RemoveListener(_cachedClick);
-        _cachedClick = () => onPick?.Invoke(upgrade);
-        _button.onClick.AddListener(_cachedClick);
+    private void OnClicked()
+    {
+        _onPick?.Invoke(_boundUpgrade);
     }
 }
