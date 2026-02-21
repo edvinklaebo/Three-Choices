@@ -52,7 +52,7 @@ namespace Tests.EditModeTests
         public void Awake_CreatesCanvasGroup()
         {
             var canvasGroup = _draftUIObject.GetComponent<CanvasGroup>();
-            
+
             Assert.IsNotNull(canvasGroup, "CanvasGroup should be created in Awake");
         }
 
