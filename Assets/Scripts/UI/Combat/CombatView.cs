@@ -17,6 +17,7 @@ public class CombatView : MonoBehaviour
 
     public UnitView PlayerView => _playerView;
     public UnitView EnemyView => _enemyView;
+    public CombatHUD CombatHUD => _combatHUD;
 
     private void Awake()
     {
