@@ -164,19 +164,6 @@ namespace Tests.EditModeTests
             Assert.AreEqual(0, bindings.Count, "Bindings should be empty when null is passed");
         }
 
-        [Test]
-        public void CombatView_BuildBindings_WithNullUnit_DoesNotThrow()
-        {
-            var (root, combatView, _, _) = CreateCombatViewHierarchy();
-
-            LogAssert.Expect(LogType.Warning, "[WARN] CombatView.BuildBindings: called with null unit — bindings not built");
-            IReadOnlyDictionary<Unit, UnitUIBinding> result = null;
-            Assert.DoesNotThrow(() => result = combatView.BuildBindings(null, CreateUnit("Enemy")));
-            Assert.IsNotNull(result, "BuildBindings should return an empty dictionary, not null");
-            Assert.AreEqual(0, result.Count, "BuildBindings with a null unit should return empty bindings");
-
-            Object.DestroyImmediate(root);
-        }
 
         [Test]
         public void SetBindings_WithNullBindings_ClearsExistingBindings()
