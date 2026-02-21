@@ -2,12 +2,14 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Button))]
 public class DraftOptionView : MonoBehaviour
 {
     private Button _button;
     private Text _text;
     private Image _icon;
     private TooltipTrigger _tooltip;
+    private Action _cachedClick;
 
     public bool DidAwake { get; private set; }
 
@@ -20,7 +22,7 @@ public class DraftOptionView : MonoBehaviour
         DidAwake = true;
     }
 
-    public void Bind(UpgradeDefinition upgrade, Action onPick)
+    public void Bind(UpgradeDefinition upgrade, Action<UpgradeDefinition> onPick)
     {
         if (upgrade == null)
         {
@@ -52,7 +54,8 @@ public class DraftOptionView : MonoBehaviour
             }
         }
 
-        _button.onClick.RemoveAllListeners();
-        _button.onClick.AddListener(() => onPick?.Invoke());
+        if (_cachedClick != null) _button.onClick.RemoveListener(_cachedClick);
+        _cachedClick = () => onPick?.Invoke(upgrade);
+        _button.onClick.AddListener(_cachedClick);
     }
 }

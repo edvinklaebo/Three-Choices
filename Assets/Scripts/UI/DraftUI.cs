@@ -13,7 +13,6 @@ public class DraftUI : MonoBehaviour
 
     private UIFader _fader;
     private DraftOptionView[] _draftOptions;
-    private List<UpgradeDefinition> _currentDraft;
 
     public bool DidAwake { get; private set; }
 
@@ -80,8 +79,6 @@ public class DraftUI : MonoBehaviour
         if (_draftOptions == null || _draftOptions.Length != DraftButtons.Length)
             _draftOptions = BuildOptions();
 
-        _currentDraft = draft;
-
         gameObject.SetActive(true);
         _fader.Show(animated);
 
@@ -104,8 +101,7 @@ public class DraftUI : MonoBehaviour
             option.gameObject.SetActive(true);
 
             var upgrade = draft[i];
-            var captured = i;
-            option.Bind(upgrade, () => Pick(captured, onPick));
+            option.Bind(upgrade, onPick);
         }
     }
 
@@ -113,14 +109,6 @@ public class DraftUI : MonoBehaviour
     {
         Log.Info("DraftUI.Hide invoked", new { animated });
         _fader.Hide(animated);
-    }
-
-    private void Pick(int index, Action<UpgradeDefinition> onPick)
-    {
-        if (_currentDraft == null || index < 0 || index >= _currentDraft.Count)
-            return;
-
-        onPick?.Invoke(_currentDraft[index]);
     }
 
     private DraftOptionView[] BuildOptions()

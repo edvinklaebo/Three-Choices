@@ -61,17 +61,17 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void Bind_OnClick_InvokesOnPick()
+        public void Bind_OnClick_InvokesOnPickWithUpgrade()
         {
-            var invoked = false;
+            UpgradeDefinition received = null;
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
             upgrade.EditorInit("Quick Strike", "Quick Strike", UpgradeType.Stat, StatType.AttackPower, 2);
 
-            _view.Bind(upgrade, () => invoked = true);
+            _view.Bind(upgrade, u => received = u);
 
             _btnObj.GetComponent<Button>().onClick.Invoke();
 
-            Assert.IsTrue(invoked, "onPick should be invoked when button is clicked");
+            Assert.AreEqual(upgrade, received, "onPick should be invoked with the bound upgrade");
 
             Object.DestroyImmediate(upgrade);
         }
