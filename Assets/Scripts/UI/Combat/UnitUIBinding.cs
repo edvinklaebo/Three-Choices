@@ -4,7 +4,17 @@
 /// </summary>
 public sealed class UnitUIBinding
 {
-    public UnitView UnitView { get; init; }
-    public HealthBarUI HealthBar { get; init; }
-    public UnitHUDPanel HUDPanel { get; init; }
+    public UnitView UnitView { get;  }
+    public HealthBarUI HealthBar { get;  }
+    public UnitHUDPanel HUDPanel { get;  }
+    
+    public UnitUIBinding(
+        UnitView unitView,
+        HealthBarUI healthBar,
+        UnitHUDPanel hudPanel)
+    {
+        UnitView = unitView;
+        HealthBar = healthBar;
+        HUDPanel = hudPanel;
+    }
 }

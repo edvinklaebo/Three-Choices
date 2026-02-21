@@ -32,7 +32,7 @@ namespace Tests.EditModeTests
         private static Dictionary<Unit, UnitUIBinding> GetBindings(UIService service)
         {
             var field = typeof(UIService).GetField("_bindings", NonPublicInstance);
-            return (Dictionary<Unit, UnitUIBinding>)field.GetValue(service);
+            return (Dictionary<Unit, UnitUIBinding>)field?.GetValue(service);
         }
 
         /// <summary>

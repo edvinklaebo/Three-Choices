@@ -33,31 +33,15 @@ public class UIService
 
         var combatHUD = _combatView.CombatHUD;
 
-        _bindings[player] = new UnitUIBinding
-        {
-            UnitView = _combatView.PlayerView,
-            HealthBar = combatHUD?.GetHealthBar(player),
-            HUDPanel = combatHUD?.GetHUDPanel(player)
-        };
-
-        _bindings[enemy] = new UnitUIBinding
-        {
-            UnitView = _combatView.EnemyView,
-            HealthBar = combatHUD?.GetHealthBar(enemy),
-            HUDPanel = combatHUD?.GetHUDPanel(enemy)
-        };
-    }
-
-    public void ShowDamage(Unit target, int amount, DamageType damageType = DamageType.Physical)
-    {
-        Log.Info("Showing damage UI", new { target = target.Name, damage = amount, type = damageType });
-
-        var worldPosition = GetUnitWorldPosition(target);
-        if (worldPosition.HasValue && FloatingTextPool.Instance != null)
-            FloatingTextPool.Instance.Spawn(amount, damageType, worldPosition.Value);
-
-        // Animate health bar to current health value (fallback for non-combat or old callers)
-        AnimateHealthBar(target);
+        _bindings[player] = new UnitUIBinding(
+            _combatView.PlayerView,
+            combatHUD?.GetHealthBar(player),
+            combatHUD?.GetHUDPanel(player));
+        
+        _bindings[enemy] = new UnitUIBinding(
+            _combatView.PlayerView,
+            combatHUD?.GetHealthBar(enemy),
+            combatHUD?.GetHUDPanel(enemy));
     }
 
     /// <summary>
@@ -122,7 +106,7 @@ public class UIService
 
     /// <summary>
     ///     Animates the health bar for a unit from a specific old value to a specific new value.
-    ///     This allows proper animation even when the unit's state has already been modified.
+    ///     This allows proper animation even when the units state has already been modified.
     /// </summary>
     public void AnimateHealthBarToValue(Unit target, int hpBefore, int hpAfter, int maxHP)
     {
