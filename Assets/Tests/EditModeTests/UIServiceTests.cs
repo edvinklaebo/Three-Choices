@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 using UnityEngine.UI;
 
 namespace Tests.EditModeTests
@@ -168,6 +169,7 @@ namespace Tests.EditModeTests
         {
             var (root, combatView, _, _) = CreateCombatViewHierarchy();
 
+            LogAssert.Expect(LogType.Warning, "[WARN] CombatView.BuildBindings: called with null unit — bindings not built");
             IReadOnlyDictionary<Unit, UnitUIBinding> result = null;
             Assert.DoesNotThrow(() => result = combatView.BuildBindings(null, CreateUnit("Enemy")));
             Assert.IsNotNull(result, "BuildBindings should return an empty dictionary, not null");
