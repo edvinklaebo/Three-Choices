@@ -106,9 +106,11 @@ public class RunController : MonoBehaviour
 
     private void HandleNextFight()
     {
-        _fightIndex++;
-        Save();
         _fightStarted?.Raise(Player, _fightIndex);
+        
+        _fightIndex++;
+        
+        Save();
     }
 
     private void Save()
