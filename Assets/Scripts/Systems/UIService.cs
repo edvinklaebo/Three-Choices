@@ -16,6 +16,9 @@ public class UIService
     /// </summary>
     public void SetBindings(IReadOnlyDictionary<Unit, UnitUIBinding> bindings)
     {
+        foreach (var binding in _bindings.Values)
+            binding.HealthBar?.Unbind();
+
         _bindings = bindings ?? new Dictionary<Unit, UnitUIBinding>();
     }
 

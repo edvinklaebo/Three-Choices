@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.TestTools;
 using UnityEngine.UI;
 
 namespace Tests.EditModeTests
@@ -214,6 +215,68 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Player");
 
             Assert.DoesNotThrow(() => uiService.AnimateHealthBarToValue(unit, 100, 100));
+        }
+
+        [Test]
+        public void SetBindings_WithNullAfterValidBindings_UnbindsHealthBars()
+        {
+            var (root, combatView, _, _) = CreateCombatViewHierarchy();
+
+            var player = CreateUnit("Player");
+            var enemy = CreateUnit("Enemy");
+
+            combatView.Initialize(player, enemy);
+
+            var uiService = new UIService();
+            uiService.SetBindings(combatView.BuildBindings(player, enemy));
+
+            // Confirm bindings were built
+            Assert.AreEqual(2, GetBindings(uiService).Count);
+
+            // Retrieve health bar references before clearing
+            var playerHB = GetBindings(uiService)[player].HealthBar;
+            var enemyHB = GetBindings(uiService)[enemy].HealthBar;
+
+            uiService.SetBindings(null);
+
+            // After unbind, AnimateToHealth should log an error (no unit bound)
+            LogAssert.Expect(LogType.Error, "[ERROR] HealthBarUI: AnimateToHealth called with no unit bound");
+            playerHB.AnimateToHealth(100, 50);
+
+            LogAssert.Expect(LogType.Error, "[ERROR] HealthBarUI: AnimateToHealth called with no unit bound");
+            enemyHB.AnimateToHealth(100, 50);
+
+            Object.DestroyImmediate(root);
+        }
+
+        [Test]
+        public void SetBindings_ReplacingBindings_UnbindsOldHealthBars()
+        {
+            var (root1, combatView1, _, _) = CreateCombatViewHierarchy();
+            var (root2, combatView2, _, _) = CreateCombatViewHierarchy();
+
+            var player1 = CreateUnit("Player1");
+            var enemy1 = CreateUnit("Enemy1");
+            var player2 = CreateUnit("Player2");
+            var enemy2 = CreateUnit("Enemy2");
+
+            combatView1.Initialize(player1, enemy1);
+            combatView2.Initialize(player2, enemy2);
+
+            var uiService = new UIService();
+            uiService.SetBindings(combatView1.BuildBindings(player1, enemy1));
+
+            var oldPlayerHB = GetBindings(uiService)[player1].HealthBar;
+
+            // Replace bindings with new ones — old health bars should be unbound
+            uiService.SetBindings(combatView2.BuildBindings(player2, enemy2));
+
+            // Old health bar should now have no unit bound
+            LogAssert.Expect(LogType.Error, "[ERROR] HealthBarUI: AnimateToHealth called with no unit bound");
+            oldPlayerHB.AnimateToHealth(100, 50);
+
+            Object.DestroyImmediate(root1);
+            Object.DestroyImmediate(root2);
         }
     }
 }
