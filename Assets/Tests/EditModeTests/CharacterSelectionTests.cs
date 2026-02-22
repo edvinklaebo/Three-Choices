@@ -7,15 +7,15 @@ namespace Tests.EditModeTests
 {
     public class CharacterSelectionTests
     {
-        private CharacterDatabase _testDatabase;
+        private CharacterCollection _testCollection;
 
         [SetUp]
         public void Setup()
         {
-            _testDatabase = ScriptableObject.CreateInstance<CharacterDatabase>();
-            _testDatabase.Characters = new List<CharacterDefinition>();
+            _testCollection = ScriptableObject.CreateInstance<CharacterCollection>();
 
-            // Create 3 test characters
+            var characters = new List<CharacterDefinition>();
+
             for (var i = 0; i < 3; i++)
             {
                 var character = ScriptableObject.CreateInstance<CharacterDefinition>();
@@ -25,28 +25,34 @@ namespace Tests.EditModeTests
                 character.Attack = 10 + i;
                 character.Armor = 5 + i;
                 character.Speed = 10;
-                _testDatabase.Characters.Add(character);
+
+                characters.Add(character);
             }
+
+            var field = typeof(CharacterCollection)
+                .GetField("_characters", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            field?.SetValue(_testCollection, characters);
         }
 
         [TearDown]
         public void Cleanup()
         {
-            if (_testDatabase != null) Object.DestroyImmediate(_testDatabase);
+            if (_testCollection != null) Object.DestroyImmediate(_testCollection);
         }
 
         [Test]
         public void Database_HasThreeCharacters()
         {
             // Assert
-            Assert.AreEqual(3, _testDatabase.Characters.Count);
+            Assert.AreEqual(3, _testCollection.Characters.Count);
         }
 
         [Test]
         public void Database_GetByIndex_ReturnsCorrectCharacter()
         {
             // Act
-            var character = _testDatabase.GetByIndex(1);
+            var character = _testCollection.GetByIndex(1);
 
             // Assert
             Assert.NotNull(character);
@@ -57,7 +63,7 @@ namespace Tests.EditModeTests
         public void Database_GetByIndex_ClampsToValidRange()
         {
             // Act - Try to get index beyond range
-            var character = _testDatabase.GetByIndex(10);
+            var character = _testCollection.GetByIndex(10);
 
             // Assert - Should clamp to last valid index
             Assert.NotNull(character);
@@ -68,7 +74,7 @@ namespace Tests.EditModeTests
         public void Database_GetByIndex_ClampsNegativeToZero()
         {
             // Act
-            var character = _testDatabase.GetByIndex(-1);
+            var character = _testCollection.GetByIndex(-1);
 
             // Assert - Should clamp to 0
             Assert.NotNull(character);
@@ -83,9 +89,9 @@ namespace Tests.EditModeTests
             var controller = go.AddComponent<CharacterSelectController>();
 
             // Use reflection to set the private _database field
-            var databaseField = typeof(CharacterSelectController).GetField("_database",
+            var databaseField = typeof(CharacterSelectController).GetField("_collection",
                 BindingFlags.NonPublic | BindingFlags.Instance);
-            databaseField?.SetValue(controller, _testDatabase);
+            databaseField?.SetValue(controller, _testCollection);
 
             // Act
             controller.Next(); // Index 1
@@ -105,9 +111,9 @@ namespace Tests.EditModeTests
             var go = new GameObject();
             var controller = go.AddComponent<CharacterSelectController>();
 
-            var databaseField = typeof(CharacterSelectController).GetField("_database",
+            var databaseField = typeof(CharacterSelectController).GetField("_collection",
                 BindingFlags.NonPublic | BindingFlags.Instance);
-            databaseField?.SetValue(controller, _testDatabase);
+            databaseField?.SetValue(controller, _testCollection);
 
             // Act - Previous from index 0 should wrap to last
             controller.Previous();
@@ -125,9 +131,9 @@ namespace Tests.EditModeTests
             var go = new GameObject();
             var controller = go.AddComponent<CharacterSelectController>();
 
-            var databaseField = typeof(CharacterSelectController).GetField("_database",
+            var databaseField = typeof(CharacterSelectController).GetField("_collection",
                 BindingFlags.NonPublic | BindingFlags.Instance);
-            databaseField?.SetValue(controller, _testDatabase);
+            databaseField?.SetValue(controller, _testCollection);
 
             CharacterDefinition received = null;
             GameEvents.CharacterSelected_Event += c => received = c;

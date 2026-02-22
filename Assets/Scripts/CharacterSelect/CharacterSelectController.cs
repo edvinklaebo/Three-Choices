@@ -1,14 +1,15 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CharacterSelectController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private CharacterDatabase _database;
+    [SerializeField] private CharacterCollection _collection;
     [SerializeField] private CharacterSelectView _view;
 
     public int CurrentIndex { get; private set; }
 
-    private CharacterDefinition _current => _database?.GetByIndex(CurrentIndex);
+    private CharacterDefinition _current => _collection?.GetByIndex(CurrentIndex);
 
     private void OnEnable()
     {
@@ -17,20 +18,20 @@ public class CharacterSelectController : MonoBehaviour
 
     public void Next()
     {
-        if (_database == null || _database.Characters == null || _database.Characters.Count == 0)
+        if (_collection == null || _collection.Characters == null || _collection.Characters.Count == 0)
             return;
 
-        CurrentIndex = (CurrentIndex + 1) % _database.Characters.Count;
+        CurrentIndex = (CurrentIndex + 1) % _collection.Characters.Count;
         Log.Info($"[CharacterSelect] Next → {_current.Id}");
         UpdateView();
     }
 
     public void Previous()
     {
-        if (_database == null || _database.Characters == null || _database.Characters.Count == 0)
+        if (_collection == null || _collection.Characters == null || _collection.Characters.Count == 0)
             return;
 
-        CurrentIndex = (CurrentIndex - 1 + _database.Characters.Count) % _database.Characters.Count;
+        CurrentIndex = (CurrentIndex - 1 + _collection.Characters.Count) % _collection.Characters.Count;
         Log.Info($"[CharacterSelect] Prev → {_current.Id}");
         UpdateView();
     }
