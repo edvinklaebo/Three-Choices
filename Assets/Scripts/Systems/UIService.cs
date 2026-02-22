@@ -41,13 +41,13 @@ public class UIService
             FloatingTextPool.Instance.Spawn(amount, damageType, worldPosition.Value);
 
         // Animate health bar with explicit HP values
-        AnimateHealthBarToValue(target, hpBefore, hpAfter, maxHP);
+        AnimateHealthBarToValue(target, hpBefore, hpAfter);
 
         // Update HP text with explicit values
         UpdateHealthText(target, hpAfter, maxHP);
     }
 
-    public void ShowHealing(Unit target, int amount)
+    public void ShowHealing(Unit target, int amount, int hpBefore, int hpAfter)
     {
         Log.Info("Showing healing UI", new { target = target.Name, healing = amount });
 
@@ -56,7 +56,7 @@ public class UIService
             FloatingTextPool.Instance.Spawn(amount, DamageType.Heal, worldPosition.Value);
 
         // Animate health bar to current health value
-        AnimateHealthBar(target);
+        AnimateHealthBarToValue(target, hpBefore, hpAfter);
     }
 
     public void ShowStatusEffect(Unit target, string effectName)
@@ -67,34 +67,17 @@ public class UIService
     }
 
     /// <summary>
-    ///     Animates the health bar for a unit to its current health value.
-    ///     This ensures health bar animations are driven by presentation events, not raw state changes.
+    ///     Animates the health bar for a unit from a specific old HP to a specific new HP.
+    ///     This allows proper animation even when the unit's state has already been modified.
     /// </summary>
-    public void AnimateHealthBar(Unit target)
+    public void AnimateHealthBarToValue(Unit target, int hpBefore, int hpAfter)
     {
         if (target == null)
             return;
 
         var healthBar = GetHealthBar(target);
-        if (healthBar != null) healthBar.AnimateToCurrentHealth();
-    }
-
-    /// <summary>
-    ///     Animates the health bar for a unit from a specific old value to a specific new value.
-    ///     This allows proper animation even when the unit's state has already been modified.
-    /// </summary>
-    public void AnimateHealthBarToValue(Unit target, int hpBefore, int hpAfter, int maxHP)
-    {
-        if (target == null || maxHP <= 0)
-            return;
-
-        var healthBar = GetHealthBar(target);
         if (healthBar != null)
-        {
-            var fromNormalized = Mathf.Clamp01((float)hpBefore / maxHP);
-            var toNormalized = Mathf.Clamp01((float)hpAfter / maxHP);
-            healthBar.AnimateToHealth(fromNormalized, toNormalized);
-        }
+            healthBar.AnimateToHealth(hpBefore, hpAfter);
     }
 
     /// <summary>

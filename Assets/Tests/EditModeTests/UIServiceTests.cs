@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 using UnityEngine.UI;
 
 namespace Tests.EditModeTests
@@ -202,8 +201,8 @@ namespace Tests.EditModeTests
             var uiService = new UIService();
             uiService.SetBindings(combatView.BuildBindings(player, enemy));
 
-            Assert.DoesNotThrow(() => uiService.AnimateHealthBar(player));
-            Assert.DoesNotThrow(() => uiService.AnimateHealthBar(enemy));
+            Assert.DoesNotThrow(() => uiService.AnimateHealthBarToValue(player, 100, 100));
+            Assert.DoesNotThrow(() => uiService.AnimateHealthBarToValue(enemy, 100, 100));
 
             Object.DestroyImmediate(root);
         }
@@ -214,7 +213,7 @@ namespace Tests.EditModeTests
             var uiService = new UIService();
             var unit = CreateUnit("Player");
 
-            Assert.DoesNotThrow(() => uiService.AnimateHealthBar(unit));
+            Assert.DoesNotThrow(() => uiService.AnimateHealthBarToValue(unit, 100, 100));
         }
     }
 }

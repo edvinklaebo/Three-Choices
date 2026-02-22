@@ -61,21 +61,11 @@ public class CombatHUD : MonoBehaviour
     {
         if (_playerHUD != null)
         {
-            var healthBar = _playerHUD.GetHealthBar();
-            if (healthBar != null)
-            {
-                healthBar.EnablePresentationMode();
-            }
             _playerHUD.EnablePresentationMode();
         }
 
         if (_enemyHUD != null)
         {
-            var healthBar = _enemyHUD.GetHealthBar();
-            if (healthBar != null)
-            {
-                healthBar.EnablePresentationMode();
-            }
             _enemyHUD.EnablePresentationMode();
         }
 
@@ -90,21 +80,11 @@ public class CombatHUD : MonoBehaviour
     {
         if (_playerHUD != null)
         {
-            var healthBar = _playerHUD.GetHealthBar();
-            if (healthBar != null)
-            {
-                healthBar.DisablePresentationMode();
-            }
             _playerHUD.DisablePresentationMode();
         }
 
         if (_enemyHUD != null)
         {
-            var healthBar = _enemyHUD.GetHealthBar();
-            if (healthBar != null)
-            {
-                healthBar.DisablePresentationMode();
-            }
             _enemyHUD.DisablePresentationMode();
         }
 
