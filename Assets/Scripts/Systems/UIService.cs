@@ -41,7 +41,7 @@ public class UIService
             FloatingTextPool.Instance.Spawn(amount, damageType, worldPosition.Value);
 
         // Animate health bar with explicit HP values
-        AnimateHealthBarToValue(target, hpBefore, hpAfter, maxHP);
+        AnimateHealthBarToValue(target, hpBefore, hpAfter);
 
         // Update HP text with explicit values
         UpdateHealthText(target, hpAfter, maxHP);
@@ -80,21 +80,17 @@ public class UIService
     }
 
     /// <summary>
-    ///     Animates the health bar for a unit from a specific old value to a specific new value.
+    ///     Animates the health bar for a unit from a specific old HP to a specific new HP.
     ///     This allows proper animation even when the unit's state has already been modified.
     /// </summary>
-    public void AnimateHealthBarToValue(Unit target, int hpBefore, int hpAfter, int maxHP)
+    public void AnimateHealthBarToValue(Unit target, int hpBefore, int hpAfter)
     {
-        if (target == null || maxHP <= 0)
+        if (target == null)
             return;
 
         var healthBar = GetHealthBar(target);
         if (healthBar != null)
-        {
-            var fromNormalized = Mathf.Clamp01((float)hpBefore / maxHP);
-            var toNormalized = Mathf.Clamp01((float)hpAfter / maxHP);
-            healthBar.AnimateToHealth(fromNormalized, toNormalized);
-        }
+            healthBar.AnimateToHealth(hpBefore, hpAfter);
     }
 
     /// <summary>

@@ -227,10 +227,10 @@ namespace Tests.EditModeTests
             healthBar.Initialize(unit);
 
             // Simulate combat: unit is damaged but we want to animate from old to new value
-            // fromNormalized = 1.0 (100/100), toNormalized = 0.5 (50/100)
-            healthBar.AnimateToHealth(1.0f, 0.5f);
+            // hpBefore = 100, hpAfter = 50 (out of 100)
+            healthBar.AnimateToHealth(100, 50);
 
-            // Slider should immediately be set to the starting value
+            // Slider should immediately be set to the starting normalized value (1.0)
             Assert.AreEqual(1.0f, slider.value, 0.01f, "Slider should be at starting value");
 
             // Note: Target value is 0.5, but lerping happens in Update()
@@ -248,8 +248,8 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Test", 100, 10, 5, 5);
             healthBar.Initialize(unit);
 
-            // Call with death scenario: from 0.1 to 0.0
-            Assert.DoesNotThrow(() => healthBar.AnimateToHealth(0.1f, 0.0f));
+            // Call with death scenario: from 10 to 0
+            Assert.DoesNotThrow(() => healthBar.AnimateToHealth(10, 0));
 
             Object.DestroyImmediate(go);
         }

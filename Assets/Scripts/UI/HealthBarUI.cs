@@ -90,28 +90,35 @@ public class HealthBarUI : MonoBehaviour
     }
 
     /// <summary>
-    ///     Animates the health bar from a specific value to another specific value.
+    ///     Animates the health bar from a specific HP value to another HP value.
     ///     This allows proper animation even when the unit's state has already changed.
     ///     Used when combat logic pre-calculates all state changes before presentation.
     /// </summary>
-    /// <param name="fromNormalized">Starting health value (0-1)</param>
-    /// <param name="toNormalized">Target health value (0-1)</param>
-    public void AnimateToHealth(float fromNormalized, float toNormalized)
+    /// <param name="hpBefore">Starting HP value</param>
+    /// <param name="hpAfter">Target HP value</param>
+    public void AnimateToHealth(int hpBefore, int hpAfter)
     {
-        if (_slider == null)
+        if (_slider == null || _unit == null)
             return;
 
+        var maxHP = _unit.Stats.MaxHP;
+        if (maxHP <= 0)
+            return;
+
+        var fromNormalized = Mathf.Clamp01((float)hpBefore / maxHP);
+        var toNormalized = Mathf.Clamp01((float)hpAfter / maxHP);
+
         // Set the slider to the starting value immediately (no lerp)
-        _slider.value = Mathf.Clamp01(fromNormalized);
+        _slider.value = fromNormalized;
 
         // Set target to the ending value (will lerp in Update)
-        _targetValue = Mathf.Clamp01(toNormalized);
+        _targetValue = toNormalized;
 
         Log.Info("HealthBarUI: Animating health", new
         {
-            unit = _unit?.Name ?? "unknown",
-            from = fromNormalized,
-            to = toNormalized
+            unit = _unit.Name,
+            from = hpBefore,
+            to = hpAfter
         });
     }
 
