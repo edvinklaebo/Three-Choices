@@ -12,8 +12,9 @@ using UnityEngine.UI;
 ///     Usage:
 ///     1. Attach to a GameObject with a Slider component
 ///     2. Assign the Slider in the inspector (or it will auto-find on the same GameObject)
-///     3. Call Initialize(unit) with the Unit to track
-///     4. Health bar animates only when AnimateToCurrentHealth() or AnimateToHealth() is called
+///     3. Call Bind(unit) with the Unit to track
+///     4. Health bar animates only when AnimateToHealth() is called
+///     5. Call Unbind() when done tracking the unit
 /// </summary>
 [RequireComponent(typeof(Slider))]
 public class HealthBarUI : MonoBehaviour
@@ -37,15 +38,32 @@ public class HealthBarUI : MonoBehaviour
         _slider.interactable = false;
     }
 
-    public void Initialize(Unit unit)
+    /// <summary>
+    ///     Binds this health bar to a unit. Stops any active animation and immediately
+    ///     resets the slider to the unit's current normalized HP.
+    /// </summary>
+    public void Bind(Unit unit)
     {
         if (unit == null)
         {
-            Log.Error("HealthBarUI: Cannot initialize with null unit");
+            Log.Error("HealthBarUI: Cannot bind null unit");
             return;
         }
 
+        StopActiveAnimation();
         _unit = unit;
+
+        var maxHP = _unit.Stats.MaxHP;
+        _slider.value = NormalizeHP(_unit.Stats.CurrentHP, maxHP);
+    }
+
+    /// <summary>
+    ///     Unbinds the current unit. Stops any active animation and clears the unit reference.
+    /// </summary>
+    public void Unbind()
+    {
+        StopActiveAnimation();
+        _unit = null;
     }
 
     /// <summary>
@@ -57,21 +75,38 @@ public class HealthBarUI : MonoBehaviour
     /// <param name="hpAfter">Target HP value</param>
     public void AnimateToHealth(int hpBefore, int hpAfter)
     {
-        if (!_slider || _unit == null)
+        if (_unit == null)
+        {
+            Log.Error("HealthBarUI: AnimateToHealth called with no unit bound");
+            return;
+        }
+
+        if (!_slider)
             return;
 
         var maxHP = _unit.Stats.MaxHP;
         if (maxHP <= 0)
             return;
 
-        var from = Mathf.Clamp01((float)hpBefore / maxHP);
-        var to = Mathf.Clamp01((float)hpAfter / maxHP);
+        var from = NormalizeHP(hpBefore, maxHP);
+        var to = NormalizeHP(hpAfter, maxHP);
 
-        if (_animation != null)
-            StopCoroutine(_animation);
+        StopActiveAnimation();
 
         _animation = StartCoroutine(AnimateRoutine(from, to));
     }
+
+    private void StopActiveAnimation()
+    {
+        if (_animation != null)
+        {
+            StopCoroutine(_animation);
+            _animation = null;
+        }
+    }
+
+    private float NormalizeHP(int hp, int maxHP) =>
+        maxHP > 0 ? Mathf.Clamp01((float)hp / maxHP) : 0f;
 
     private IEnumerator AnimateRoutine(float from, float to)
     {
