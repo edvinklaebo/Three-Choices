@@ -151,7 +151,7 @@ public class CombatAnimationRunner : MonoBehaviour
             }
             finally
             {
-                // Restore original time scale
+                // Restore original timescale
                 Time.timeScale = originalTimeScale;
             }
         }
