@@ -47,7 +47,7 @@ public class UIService
         UpdateHealthText(target, hpAfter, maxHP);
     }
 
-    public void ShowHealing(Unit target, int amount)
+    public void ShowHealing(Unit target, int amount, int hpBefore, int hpAfter)
     {
         Log.Info("Showing healing UI", new { target = target.Name, healing = amount });
 
@@ -56,7 +56,7 @@ public class UIService
             FloatingTextPool.Instance.Spawn(amount, DamageType.Heal, worldPosition.Value);
 
         // Animate health bar to current health value
-        AnimateHealthBar(target);
+        AnimateHealthBarToValue(target, hpBefore, hpAfter);
     }
 
     public void ShowStatusEffect(Unit target, string effectName)
@@ -64,19 +64,6 @@ public class UIService
         Log.Info("Showing status effect UI", new { target = target.Name, effect = effectName });
         // Status effects are displayed via StatusEffectPanel
         // This method is kept for compatibility with existing ICombatAction implementations
-    }
-
-    /// <summary>
-    ///     Animates the health bar for a unit to its current health value.
-    ///     This ensures health bar animations are driven by presentation events, not raw state changes.
-    /// </summary>
-    public void AnimateHealthBar(Unit target)
-    {
-        if (target == null)
-            return;
-
-        var healthBar = GetHealthBar(target);
-        if (healthBar != null) healthBar.AnimateToCurrentHealth();
     }
 
     /// <summary>

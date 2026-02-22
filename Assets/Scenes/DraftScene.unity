@@ -1086,6 +1086,7 @@ GameObject:
   m_Component:
   - component: {fileID: 377509770}
   - component: {fileID: 377509771}
+  - component: {fileID: 377509772}
   m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
@@ -1126,8 +1127,58 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Ropa::HealthBarUI
   _slider: {fileID: 1148397662}
-  _lerpSpeed: 5
-  IsInitialized: 0
+  _animationDuration: 0.25
+--- !u!114 &377509772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377509769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_FillRect: {fileID: 0}
+  m_HandleRect: {fileID: 0}
+  m_Direction: 0
+  m_MinValue: 0
+  m_MaxValue: 1
+  m_WholeNumbers: 0
+  m_Value: 0
+  m_OnValueChanged:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &397725051
 GameObject:
   m_ObjectHideFlags: 0
@@ -3008,6 +3059,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1018746301}
   - component: {fileID: 1018746303}
+  - component: {fileID: 1018746304}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -3088,6 +3140,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1018746304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018746300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33caecf42320499fade588a2cd959a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ropa::HealthBarUI
+  _slider: {fileID: 1018746303}
+  _animationDuration: 0.25
 --- !u!224 &1018811894 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2305188280344056194, guid: bbfc358d193e9684f8aed4592a06c7e3, type: 3}
@@ -3666,7 +3732,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1400065719}
-  - component: {fileID: 1400065720}
   m_Layer: 5
   m_Name: Healthbar
   m_TagString: Untagged
@@ -3695,21 +3760,6 @@ RectTransform:
   m_AnchoredPosition: {x: 19, y: -179}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1400065720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1400065718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33caecf42320499fade588a2cd959a71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Ropa::HealthBarUI
-  _slider: {fileID: 1018746303}
-  _lerpSpeed: 5
-  IsInitialized: 0
 --- !u!1 &1525837915
 GameObject:
   m_ObjectHideFlags: 0
@@ -4026,7 +4076,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1759980309}
-  - component: {fileID: 1759980310}
   m_Layer: 5
   m_Name: Healthbar
   m_TagString: Untagged
@@ -4055,21 +4104,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -149}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1759980310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1759980308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33caecf42320499fade588a2cd959a71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Ropa::HealthBarUI
-  _slider: {fileID: 1882725332}
-  _lerpSpeed: 5
-  IsInitialized: 0
 --- !u!1 &1796230828
 GameObject:
   m_ObjectHideFlags: 0
@@ -4131,7 +4165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Ropa::UnitHUDPanel
   _nameText: {fileID: 694806933}
-  _healthBar: {fileID: 1400065720}
+  _healthBar: {fileID: 1018746304}
   _statusEffectPanel: {fileID: 1190481501}
   _hpText: {fileID: 2132852467}
 --- !u!1 &1838065960
@@ -4422,6 +4456,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1882725331}
   - component: {fileID: 1882725332}
+  - component: {fileID: 1882725333}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -4498,10 +4533,24 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1882725333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882725330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33caecf42320499fade588a2cd959a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ropa::HealthBarUI
+  _slider: {fileID: 1882725332}
+  _animationDuration: 0.25
 --- !u!1 &1913143616
 GameObject:
   m_ObjectHideFlags: 0
@@ -5202,7 +5251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Ropa::UnitHUDPanel
   _nameText: {fileID: 179809340}
-  _healthBar: {fileID: 1759980310}
+  _healthBar: {fileID: 1882725333}
   _statusEffectPanel: {fileID: 2075143701}
   _hpText: {fileID: 449101853}
 --- !u!222 &2103107095

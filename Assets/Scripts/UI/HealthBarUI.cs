@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,29 +15,26 @@ using UnityEngine.UI;
 ///     3. Call Initialize(unit) with the Unit to track
 ///     4. Health bar animates only when AnimateToCurrentHealth() or AnimateToHealth() is called
 /// </summary>
+[RequireComponent(typeof(Slider))]
 public class HealthBarUI : MonoBehaviour
 {
     [SerializeField] private Slider _slider;
-    [SerializeField] private float _lerpSpeed = 5f;
+    [SerializeField] private float _animationDuration = 0.25f;
 
-    public bool IsInitialized;
     private bool _sliderConfigured;
-    private float _targetValue;
 
     private Unit _unit;
+    private Coroutine _animation;
 
-    private void Awake()
-    {
-        EnsureSliderConfigured();
-    }
-
-    private void Update()
+    public void Awake()
     {
         if (_slider == null)
-            return;
+            _slider = GetComponent<Slider>();
 
-        if (Mathf.Abs(_slider.value - _targetValue) > 0.001f)
-            _slider.value = Mathf.Lerp(_slider.value, _targetValue, Time.deltaTime * _lerpSpeed);
+        if (_slider == null)
+            throw new InvalidOperationException("HealthBarUI requires a Slider.");
+        
+        _slider.interactable = false;
     }
 
     public void Initialize(Unit unit)
@@ -46,87 +45,48 @@ public class HealthBarUI : MonoBehaviour
             return;
         }
 
-        // Ensure slider is configured (in case Initialize is called before Awake)
-        EnsureSliderConfigured();
-
         _unit = unit;
-        _targetValue = GetNormalizedHealth();
-
-        // Set slider value immediately to avoid animating from 0 on first initialization
-        if (_slider != null) _slider.value = _targetValue;
-
-        IsInitialized = true;
-    }
-
-    private void EnsureSliderConfigured()
-    {
-        if (_sliderConfigured)
-            return;
-
-        // Auto-find slider if not assigned
-        if (_slider == null) _slider = GetComponent<Slider>();
-
-        // Configure slider for health bar use
-        if (_slider != null)
-        {
-            _slider.minValue = 0f;
-            _slider.maxValue = 1f;
-            _slider.interactable = false;
-            _sliderConfigured = true;
-        }
-    }
-
-    /// <summary>
-    ///     Animates the health bar to the unit's current health value.
-    ///     This should be called from combat presentation events (DamageAction, HealAction, etc.)
-    ///     to ensure the health bar animates in sync with visual feedback.
-    /// </summary>
-    public void AnimateToCurrentHealth()
-    {
-        if (_unit == null)
-            return;
-
-        _targetValue = GetNormalizedHealth();
     }
 
     /// <summary>
     ///     Animates the health bar from a specific HP value to another HP value.
-    ///     This allows proper animation even when the unit's state has already changed.
+    ///     This allows proper animation even when the units state has already changed.
     ///     Used when combat logic pre-calculates all state changes before presentation.
     /// </summary>
     /// <param name="hpBefore">Starting HP value</param>
     /// <param name="hpAfter">Target HP value</param>
     public void AnimateToHealth(int hpBefore, int hpAfter)
     {
-        if (_slider == null || _unit == null)
+        if (!_slider || _unit == null)
             return;
 
         var maxHP = _unit.Stats.MaxHP;
         if (maxHP <= 0)
             return;
 
-        var fromNormalized = Mathf.Clamp01((float)hpBefore / maxHP);
-        var toNormalized = Mathf.Clamp01((float)hpAfter / maxHP);
+        var from = Mathf.Clamp01((float)hpBefore / maxHP);
+        var to = Mathf.Clamp01((float)hpAfter / maxHP);
 
-        // Set the slider to the starting value immediately (no lerp)
-        _slider.value = fromNormalized;
+        if (_animation != null)
+            StopCoroutine(_animation);
 
-        // Set target to the ending value (will lerp in Update)
-        _targetValue = toNormalized;
-
-        Log.Info("HealthBarUI: Animating health", new
-        {
-            unit = _unit.Name,
-            from = hpBefore,
-            to = hpAfter
-        });
+        _animation = StartCoroutine(AnimateRoutine(from, to));
     }
 
-    private float GetNormalizedHealth()
+    private IEnumerator AnimateRoutine(float from, float to)
     {
-        if (_unit == null || _unit.Stats.MaxHP <= 0)
-            return 0f;
+        var elapsed = 0f;
 
-        return Mathf.Clamp01((float)_unit.Stats.CurrentHP / _unit.Stats.MaxHP);
+        _slider.value = from;
+
+        while (elapsed < _animationDuration)
+        {
+            elapsed += Time.deltaTime;
+            var t = elapsed / _animationDuration;
+            _slider.value = Mathf.Lerp(from, to, t);
+            yield return null;
+        }
+
+        _slider.value = to;
     }
 }
