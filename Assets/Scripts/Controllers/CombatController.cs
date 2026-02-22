@@ -54,6 +54,12 @@ public class CombatController : MonoBehaviour
 
     private IEnumerator StartFightCoroutine(Unit player, int fightIndex)
     {
+        // Prevent re-entrancy: if a previous fight is still animating (e.g. from a duplicate
+        // _fightStarted event), wait until it finishes before initialising the next fight.
+        // Safe from deadlock because Run() has no dependency on this coroutine completing.
+        if (animationRunner.IsRunning)
+            yield return animationRunner.WaitForCompletion();
+
         // Hide draft UI before combat animations start
         _hideDraftUI?.Raise();
 
