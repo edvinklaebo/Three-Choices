@@ -43,52 +43,11 @@ public class CombatHUD : MonoBehaviour
             _enemyHUD.Initialize(enemy);
         }
 
-        // Enable presentation mode for combat
-        EnablePresentationMode();
-
         Log.Info("CombatHUD initialized", new
         {
             player = player.Name,
             enemy = enemy.Name
         });
-    }
-
-    /// <summary>
-    /// Enable presentation-driven mode for all health bars.
-    /// Health bars will only update from presentation events, not raw state changes.
-    /// </summary>
-    public void EnablePresentationMode()
-    {
-        if (_playerHUD != null)
-        {
-            _playerHUD.EnablePresentationMode();
-        }
-
-        if (_enemyHUD != null)
-        {
-            _enemyHUD.EnablePresentationMode();
-        }
-
-        Log.Info("CombatHUD: Presentation mode enabled");
-    }
-
-    /// <summary>
-    /// Disable presentation-driven mode for all health bars.
-    /// Health bars will respond to raw state changes again.
-    /// </summary>
-    public void DisablePresentationMode()
-    {
-        if (_playerHUD != null)
-        {
-            _playerHUD.DisablePresentationMode();
-        }
-
-        if (_enemyHUD != null)
-        {
-            _enemyHUD.DisablePresentationMode();
-        }
-
-        Log.Info("CombatHUD: Presentation mode disabled");
     }
 
     /// <summary>

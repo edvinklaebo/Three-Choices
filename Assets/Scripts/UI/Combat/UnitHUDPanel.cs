@@ -14,7 +14,6 @@ public class UnitHUDPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _hpText;
 
     private Unit _unit;
-    private bool _presentationMode;
 
     private void Awake()
     {
@@ -55,8 +54,6 @@ public class UnitHUDPanel : MonoBehaviour
             _statusEffectPanel.Initialize(unit);
         }
 
-        // Subscribe to health changes for numeric display
-        _unit.HealthChanged += OnHealthChanged;
         UpdateHealthTextFromUnit();
 
         Log.Info("UnitHUDPanel initialized", new
@@ -81,22 +78,6 @@ public class UnitHUDPanel : MonoBehaviour
         return _unit;
     }
 
-    /// <summary>
-    /// Enable presentation-driven mode where HP text only updates from explicit calls.
-    /// This prevents the text from updating in response to raw state changes.
-    /// </summary>
-    public void EnablePresentationMode()
-    {
-        _presentationMode = true;
-    }
-
-    /// <summary>
-    /// Disable presentation-driven mode, allowing HP text to respond to state changes again.
-    /// </summary>
-    public void DisablePresentationMode()
-    {
-        _presentationMode = false;
-    }
 
     /// <summary>
     /// Update HP text with explicit values for presentation-driven display.
@@ -104,31 +85,14 @@ public class UnitHUDPanel : MonoBehaviour
     /// </summary>
     public void UpdateHealthText(int currentHP, int maxHP)
     {
-        if (_hpText != null)
+        if (_hpText)
         {
             // Clamp currentHP to 0 minimum to avoid showing negative numbers
-            int displayHP = Mathf.Max(0, currentHP);
+            var displayHP = Mathf.Max(0, currentHP);
             _hpText.text = $"{displayHP} / {maxHP}";
         }
     }
 
-    private void OnDisable()
-    {
-        if (_unit != null)
-        {
-            _unit.HealthChanged -= OnHealthChanged;
-        }
-    }
-
-    private void OnHealthChanged(Unit unit, int currentHP, int maxHP)
-    {
-        // If in presentation mode, ignore state change events
-        // HP text will only update via explicit UpdateHealthText() calls
-        if (_presentationMode)
-            return;
-
-        UpdateHealthText(currentHP, maxHP);
-    }
 
     private void UpdateHealthTextFromUnit()
     {
