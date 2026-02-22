@@ -15,7 +15,7 @@ public class RunController : MonoBehaviour
 
     [Header("References")] public Unit Player;
 
-    private int _fightIndex = 1;
+    private int _fightIndex;
 
     public RunState CurrentRun { get; private set; }
 

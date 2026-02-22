@@ -98,14 +98,14 @@ public class HealthBarUI : MonoBehaviour
 
     private void StopActiveAnimation()
     {
-        if (_animation != null)
-        {
-            StopCoroutine(_animation);
-            _animation = null;
-        }
+        if (_animation == null) 
+            return;
+        
+        StopCoroutine(_animation);
+        _animation = null;
     }
 
-    private float NormalizeHP(int hp, int maxHP) =>
+    private static float NormalizeHP(int hp, int maxHP) =>
         maxHP > 0 ? Mathf.Clamp01((float)hp / maxHP) : 0f;
 
     private IEnumerator AnimateRoutine(float from, float to)
