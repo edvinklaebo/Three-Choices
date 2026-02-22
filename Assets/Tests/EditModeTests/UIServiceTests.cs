@@ -240,5 +240,39 @@ namespace Tests.EditModeTests
             Object.DestroyImmediate(root1);
             Object.DestroyImmediate(root2);
         }
+
+        /// <summary>
+        /// Regression test for: "2nd fight doesn't bind the units healthbar correctly"
+        /// The same CombatView (and thus same HealthBarUI GameObjects) is reused between fights.
+        /// SetBindings must not unbind health bars that are also present in the new bindings.
+        /// </summary>
+        [Test]
+        public void SetBindings_SecondFightSameCombatView_HealthBarsRemainBound()
+        {
+            var (root, combatView, _, _) = CreateCombatViewHierarchy();
+
+            var player = CreateUnit("Player");
+            var enemy1 = CreateUnit("Enemy1");
+            var enemy2 = CreateUnit("Enemy2");
+
+            var uiService = new UIService();
+
+            // Simulate first fight
+            combatView.Initialize(player, enemy1);
+            uiService.SetBindings(combatView.BuildBindings(player, enemy1));
+
+            // Simulate second fight: same CombatView is re-initialized with a new enemy
+            combatView.Initialize(player, enemy2);
+            var newBindings = combatView.BuildBindings(player, enemy2);
+            uiService.SetBindings(newBindings);
+
+            // Health bars were re-bound by Initialize; SetBindings must not have unbound them
+            Assert.DoesNotThrow(() => uiService.AnimateHealthBarToValue(player, 100, 80),
+                "Player health bar should still be bound after second fight setup");
+            Assert.DoesNotThrow(() => uiService.AnimateHealthBarToValue(enemy2, 100, 80),
+                "Enemy health bar should still be bound after second fight setup");
+
+            Object.DestroyImmediate(root);
+        }
     }
 }

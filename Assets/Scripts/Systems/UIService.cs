@@ -16,10 +16,20 @@ public class UIService
     /// </summary>
     public void SetBindings(IReadOnlyDictionary<Unit, UnitUIBinding> bindings)
     {
-        foreach (var binding in _bindings.Values)
-            binding.HealthBar?.Unbind();
+        var newBindings = bindings ?? new Dictionary<Unit, UnitUIBinding>();
 
-        _bindings = bindings ?? new Dictionary<Unit, UnitUIBinding>();
+        // Collect health bar instances present in the new bindings so we do not
+        // unbind health bars that are being reused across fights on the same CombatView.
+        var reusedHealthBars = new HashSet<HealthBarUI>();
+        foreach (var b in newBindings.Values)
+            if (b.HealthBar != null)
+                reusedHealthBars.Add(b.HealthBar);
+
+        foreach (var binding in _bindings.Values)
+            if (binding.HealthBar != null && !reusedHealthBars.Contains(binding.HealthBar))
+                binding.HealthBar.Unbind();
+
+        _bindings = newBindings;
     }
 
     /// <summary>
