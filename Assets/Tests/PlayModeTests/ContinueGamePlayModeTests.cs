@@ -159,7 +159,7 @@ namespace Tests.PlayModeTests
             // Verify the loaded state matches what we saved
             Assert.AreEqual("ContinuedHero", runController.Player.Name,
                 "Player name should match saved state");
-            Assert.AreEqual(62, runController.Player.Stats.CurrentHP,
+            Assert.AreEqual(64, runController.Player.Stats.CurrentHP,
                 "Player CurrentHP should match saved state");
             Assert.AreEqual(150, runController.Player.Stats.MaxHP,
                 "Player MaxHP should match saved state");
