@@ -73,10 +73,10 @@ public class UnitHUDPanel : MonoBehaviour
     /// </summary>
     public void UpdateHealthText(int currentHP, int maxHP)
     {
-        if (_hpText != null)
+        if (_hpText)
         {
             // Clamp currentHP to 0 minimum to avoid showing negative numbers
-            int displayHP = Mathf.Max(0, currentHP);
+            var displayHP = Mathf.Max(0, currentHP);
             _hpText.text = $"{displayHP} / {maxHP}";
         }
     }

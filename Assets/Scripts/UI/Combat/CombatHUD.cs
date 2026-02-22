@@ -41,8 +41,7 @@ public class CombatHUD : MonoBehaviour
         if (_enemyHUD)
         {
             _enemyHUD.Initialize(enemy);
-        }
-        
+        }        
 
         Log.Info("CombatHUD initialized", new
         {
@@ -50,8 +49,7 @@ public class CombatHUD : MonoBehaviour
             enemy = enemy.Name
         });
     }
-
-
+    
     /// <summary>
     /// Get the health bar for a specific unit.
     /// </summary>
