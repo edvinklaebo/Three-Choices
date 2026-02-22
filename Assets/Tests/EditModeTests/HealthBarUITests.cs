@@ -47,7 +47,7 @@ namespace Tests.EditModeTests
             healthBar.Awake();
             healthBar.Bind(unit);
             
-            healthBar.AnimateToHealth(100, 100);
+            healthBar.AnimateToHealth(100, 100, 100);
             
             // Initial value should be 1.0 (100/100)
             Assert.AreEqual(1.0f, slider.value, 0.01f, "Slider should start at full health");
@@ -185,7 +185,7 @@ namespace Tests.EditModeTests
             healthBar.Awake();
             healthBar.Bind(unit);
 
-            healthBar.AnimateToHealth(100, 100);
+            healthBar.AnimateToHealth(100, 100, 100);
             
             // Initial value should be 1.0 (100/100)
             Assert.AreEqual(1.0f, slider.value, 0.01f, "Slider should start at full health");
@@ -196,7 +196,7 @@ namespace Tests.EditModeTests
             unit.Stats.CurrentHP = 50;
 
             // Now call AnimateToCurrentHealth (simulating presentation event)
-            healthBar.AnimateToHealth(100, 50);
+            healthBar.AnimateToHealth(100, 100, 50);
 
             // The unit should have 50 HP
             Assert.AreEqual(50, unit.Stats.CurrentHP, "Unit should have 50 HP");
@@ -221,7 +221,7 @@ namespace Tests.EditModeTests
             unit.ApplyDamage(null, 100);
 
             // Call AnimateToCurrentHealth (simulating presentation event)
-            healthBar.AnimateToHealth(100, 0);
+            healthBar.AnimateToHealth(100, 100, 0);
 
             Assert.AreEqual(0, unit.Stats.CurrentHP, "Unit should have 0 HP");
 
@@ -243,7 +243,7 @@ namespace Tests.EditModeTests
 
             // Simulate combat: unit is damaged, but we want to animate from old to new value
             // hpBefore = 100, hpAfter = 50 (out of 100)
-            healthBar.AnimateToHealth(100, 50);
+            healthBar.AnimateToHealth(100,100, 50);
 
             // Slider should immediately be set to the starting normalized value (1.0)
             Assert.AreEqual(1f, slider.value, 0.1f, "Slider should be at starting value");
@@ -265,7 +265,7 @@ namespace Tests.EditModeTests
             healthBar.Bind(unit);
 
             // Call with death scenario: from 10 to 0
-            Assert.DoesNotThrow(() => healthBar.AnimateToHealth(10, 0));
+            Assert.DoesNotThrow(() => healthBar.AnimateToHealth(100, 10, 0));
 
             Object.DestroyImmediate(go);
         }

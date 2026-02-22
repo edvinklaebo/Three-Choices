@@ -15,10 +15,10 @@ public class DraftOptionView : MonoBehaviour
 
     public void Awake()
     {
-        if (_button == null) _button = GetComponent<Button>();
-        if (_text == null) _text = GetComponentInChildren<Text>();
-        if (_icon == null) _icon = GetComponentInChildren<Image>(true);
-        if (_tooltip == null) _tooltip = GetComponent<TooltipTrigger>();
+        if (!_button) _button = GetComponent<Button>();
+        if (!_text) _text = GetComponentInChildren<Text>();
+        if (!_icon) _icon = GetComponentInChildren<Image>(true);
+        if (!_tooltip) _tooltip = GetComponent<TooltipTrigger>();
 
         _button.onClick.AddListener(OnClicked);
     }
@@ -27,7 +27,7 @@ public class DraftOptionView : MonoBehaviour
     {
         if (upgrade == null)
         {
-            Log.Error("Bind called with null upgrade", new { name = gameObject.name });
+            Log.Error("Bind called with null upgrade", new { gameObject.name });
             return;
         }
 

@@ -149,7 +149,7 @@ public class CombatEngine
             var damage = effect.OnTurnStart(source);
 
             if (damage > 0)
-                _context.ResolveDamage(null, source, damage, effect.Id);
+                _context.ResolveDamage(source, target, damage, effect.Id);
 
             // Remove expired effects
             if (effect.Duration <= 0)
@@ -201,7 +201,7 @@ public class CombatEngine
             var damage = effect.OnTurnEnd(source);
 
             if (damage > 0)
-                _context.ResolveDamage(null, source, damage, effect.Id);
+                _context.ResolveDamage(source, target, damage, effect.Id);
 
             // Remove expired effects
             if (effect.Duration <= 0)

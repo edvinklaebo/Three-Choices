@@ -24,7 +24,6 @@ public class HealthBarUI : MonoBehaviour
 
     private bool _sliderConfigured;
 
-    private Unit _unit;
     private Coroutine _animation;
 
     public void Awake()
@@ -36,6 +35,7 @@ public class HealthBarUI : MonoBehaviour
             throw new InvalidOperationException("HealthBarUI requires a Slider.");
         
         _slider.interactable = false;
+        _slider.value = 1f;
     }
 
     /// <summary>
@@ -51,10 +51,7 @@ public class HealthBarUI : MonoBehaviour
         }
 
         StopActiveAnimation();
-        _unit = unit;
 
-        var maxHP = _unit.Stats.MaxHP;
-        _slider.value = NormalizeHP(_unit.Stats.CurrentHP, maxHP);
     }
 
     /// <summary>
@@ -63,7 +60,6 @@ public class HealthBarUI : MonoBehaviour
     public void Unbind()
     {
         StopActiveAnimation();
-        _unit = null;
     }
 
     /// <summary>
@@ -71,25 +67,19 @@ public class HealthBarUI : MonoBehaviour
     ///     This allows proper animation even when the units state has already changed.
     ///     Used when combat logic pre-calculates all state changes before presentation.
     /// </summary>
+    /// <param name="maxHp">Targets maxHp</param>
     /// <param name="hpBefore">Starting HP value</param>
     /// <param name="hpAfter">Target HP value</param>
-    public void AnimateToHealth(int hpBefore, int hpAfter)
+    public void AnimateToHealth(int maxHp, int hpBefore, int hpAfter)
     {
-        if (_unit == null)
-        {
-            Log.Error("HealthBarUI: AnimateToHealth called with no unit bound");
-            return;
-        }
-
         if (!_slider)
             return;
 
-        var maxHP = _unit.Stats.MaxHP;
-        if (maxHP <= 0)
+        if (maxHp <= 0)
             return;
 
-        var from = NormalizeHP(hpBefore, maxHP);
-        var to = NormalizeHP(hpAfter, maxHP);
+        var from = NormalizeHP(hpBefore, maxHp);
+        var to = NormalizeHP(hpAfter, maxHp);
 
         StopActiveAnimation();
 
@@ -98,14 +88,15 @@ public class HealthBarUI : MonoBehaviour
 
     private void StopActiveAnimation()
     {
-        if (_animation != null)
-        {
-            StopCoroutine(_animation);
-            _animation = null;
-        }
+        if (_animation == null) 
+            return;
+        
+        StopCoroutine(_animation);
+        
+        _animation = null;
     }
 
-    private float NormalizeHP(int hp, int maxHP) =>
+    private static float NormalizeHP(int hp, int maxHP) =>
         maxHP > 0 ? Mathf.Clamp01((float)hp / maxHP) : 0f;
 
     private IEnumerator AnimateRoutine(float from, float to)

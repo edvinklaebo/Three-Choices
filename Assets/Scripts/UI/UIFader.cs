@@ -48,7 +48,7 @@ public class UIFader
         _canvasGroup.interactable = false;
         _canvasGroup.blocksRaycasts = false;
 
-        float elapsed = 0f;
+        var elapsed = 0f;
 
         while (elapsed < _fadeDuration)
         {
@@ -67,7 +67,7 @@ public class UIFader
         _canvasGroup.interactable = false;
         _canvasGroup.blocksRaycasts = false;
 
-        float elapsed = 0f;
+        var elapsed = 0f;
 
         while (elapsed < _fadeDuration)
         {

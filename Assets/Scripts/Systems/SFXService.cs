@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class SFXService
 {
-    public void PlayAttackSound(Unit source)
+    public void PlayHealSound(Unit source)
     {
         Log.Info("Playing attack SFX", new { source = source.Name });
         // Placeholder: Play attack sound

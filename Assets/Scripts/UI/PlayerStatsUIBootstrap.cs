@@ -21,6 +21,5 @@ public class PlayerStatsUIBootstrap : MonoBehaviour
     private void OnFightStarted(Unit player, int fightIndex)
     {
         panel.Show(player.Stats.ToViewData());
-        _healthBar.Bind(player);
     }
 }

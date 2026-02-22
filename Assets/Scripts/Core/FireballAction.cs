@@ -36,15 +36,15 @@ public class FireballAction : ICombatAction
 
         // Play fireball visual effect (placeholder - similar to attack lunge)
         // In the future, this could be replaced with a proper projectile animation
-        yield return ctx.Anim.PlayAttack(Source);
+        yield return ctx.AnimationService.PlayAttack(Source);
 
         // Play hit effect on target
-        yield return ctx.Anim.PlayHit(Target);
+        yield return ctx.AnimationService.PlayHit(Target);
 
         // Show damage UI with explicit HP values for animation
-        ctx.UI.ShowDamage(Target, Damage, TargetHPBefore, TargetHPAfter, TargetMaxHP, DamageType.Burn);
+        ctx.UIService.ShowDamage(Target, Damage, TargetHPBefore, TargetHPAfter, TargetMaxHP, DamageType.Burn);
 
         // Play fire/hit sound
-        ctx.SFX.PlayHitSound(Target);
+        ctx.SFXService.PlayHitSound(Target);
     }
 }

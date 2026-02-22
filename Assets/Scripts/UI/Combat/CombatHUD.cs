@@ -33,18 +33,16 @@ public class CombatHUD : MonoBehaviour
             return;
         }
 
-        if (_playerHUD != null)
+        if (_playerHUD)
         {
             _playerHUD.Initialize(player);
         }
 
-        if (_enemyHUD != null)
+        if (_enemyHUD)
         {
             _enemyHUD.Initialize(enemy);
         }
-
-        // Enable presentation mode for combat
-        EnablePresentationMode();
+        
 
         Log.Info("CombatHUD initialized", new
         {
@@ -53,43 +51,6 @@ public class CombatHUD : MonoBehaviour
         });
     }
 
-    /// <summary>
-    /// Enable presentation-driven mode for all health bars.
-    /// Health bars will only update from presentation events, not raw state changes.
-    /// </summary>
-    public void EnablePresentationMode()
-    {
-        if (_playerHUD != null)
-        {
-            _playerHUD.EnablePresentationMode();
-        }
-
-        if (_enemyHUD != null)
-        {
-            _enemyHUD.EnablePresentationMode();
-        }
-
-        Log.Info("CombatHUD: Presentation mode enabled");
-    }
-
-    /// <summary>
-    /// Disable presentation-driven mode for all health bars.
-    /// Health bars will respond to raw state changes again.
-    /// </summary>
-    public void DisablePresentationMode()
-    {
-        if (_playerHUD != null)
-        {
-            _playerHUD.DisablePresentationMode();
-        }
-
-        if (_enemyHUD != null)
-        {
-            _enemyHUD.DisablePresentationMode();
-        }
-
-        Log.Info("CombatHUD: Presentation mode disabled");
-    }
 
     /// <summary>
     /// Get the health bar for a specific unit.
@@ -100,13 +61,13 @@ public class CombatHUD : MonoBehaviour
             return null;
 
         // Check player HUD
-        if (_playerHUD != null && _playerHUD.GetUnit() == unit)
+        if (_playerHUD)
         {
             return _playerHUD.GetHealthBar();
         }
 
         // Check enemy HUD
-        if (_enemyHUD != null && _enemyHUD.GetUnit() == unit)
+        if (_enemyHUD)
         {
             return _enemyHUD.GetHealthBar();
         }
@@ -121,15 +82,13 @@ public class CombatHUD : MonoBehaviour
     {
         if (unit == null)
             return null;
-
-        // Check player HUD
-        if (_playerHUD != null && _playerHUD.GetUnit() == unit)
+        
+        if (_playerHUD)
         {
             return _playerHUD;
         }
-
-        // Check enemy HUD
-        if (_enemyHUD != null && _enemyHUD.GetUnit() == unit)
+        
+        if (_enemyHUD)
         {
             return _enemyHUD;
         }

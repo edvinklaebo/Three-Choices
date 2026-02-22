@@ -36,15 +36,15 @@ public class DamageAction : ICombatAction
         });
 
         // Play attack animation
-        yield return ctx.Anim.PlayAttack(Source);
+        yield return ctx.AnimationService.PlayAttack(Source);
 
         // Play hit animation
-        yield return ctx.Anim.PlayHit(Target);
+        yield return ctx.AnimationService.PlayHit(Target);
 
         // Show damage UI with explicit HP values for animation
-        ctx.UI.ShowDamage(Target, Amount, TargetHPBefore, TargetHPAfter, TargetMaxHP);
+        ctx.UIService.ShowDamage(Target, Amount, TargetHPBefore, TargetHPAfter, TargetMaxHP);
 
         // Play hit sound
-        ctx.SFX.PlayHitSound(Target);
+        ctx.SFXService.PlayHitSound(Target);
     }
 }

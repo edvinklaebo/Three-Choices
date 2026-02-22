@@ -13,15 +13,13 @@ public class UpgradeListener : MonoBehaviour
     private void OnEnable()
     {
         upgradePicked.OnRaised += Apply;
-        if (_fightStarted != null) 
-            _fightStarted.OnRaised += OnFightStarted;
+        _fightStarted.OnRaised += OnFightStarted;
     }
 
     private void OnDisable()
     {
         upgradePicked.OnRaised -= Apply;
-        if (_fightStarted != null) 
-            _fightStarted.OnRaised -= OnFightStarted;
+        _fightStarted.OnRaised -= OnFightStarted;
     }
 
     private void OnFightStarted(Unit player, int fightIndex)

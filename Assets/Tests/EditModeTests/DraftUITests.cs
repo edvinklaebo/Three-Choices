@@ -19,7 +19,7 @@ namespace Tests.EditModeTests
             _draftUI = _draftUIObject.AddComponent<DraftUI>();
             // Create mock draft buttons
             _draftUI.DraftButtons = new Button[3];
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 var btnObj = new GameObject($"Button{i}");
                 btnObj.transform.SetParent(_draftUIObject.transform);
@@ -36,8 +36,7 @@ namespace Tests.EditModeTests
                 _draftUI.DraftButtons[i] = btn;
             }
             
-            if(!_draftUI.DidAwake)
-                _draftUI.Awake();
+            _draftUI.Awake();
 
         }
 

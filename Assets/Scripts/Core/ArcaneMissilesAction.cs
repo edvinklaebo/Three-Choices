@@ -35,15 +35,15 @@ public class ArcaneMissilesAction : ICombatAction
         });
 
         // Play attack animation from source
-        yield return ctx.Anim.PlayAttack(Source);
+        yield return ctx.AnimationService.PlayAttack(Source);
 
         // Play hit effect on target
-        yield return ctx.Anim.PlayHit(Target);
+        yield return ctx.AnimationService.PlayHit(Target);
 
         // Show damage UI with arcane color
-        ctx.UI.ShowDamage(Target, Damage, TargetHPBefore, TargetHPAfter, TargetMaxHP, DamageType.Arcane);
+        ctx.UIService.ShowDamage(Target, Damage, TargetHPBefore, TargetHPAfter, TargetMaxHP, DamageType.Arcane);
 
         // Play hit sound
-        ctx.SFX.PlayHitSound(Target);
+        ctx.SFXService.PlayHitSound(Target);
     }
 }

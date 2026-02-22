@@ -7,27 +7,19 @@ using UnityEngine;
 /// </summary>
 public class UIService
 {
-    private IReadOnlyDictionary<Unit, UnitUIBinding> _bindings = new Dictionary<Unit, UnitUIBinding>();
+    private IDictionary<Unit, UnitUIBinding> _bindings = new Dictionary<Unit, UnitUIBinding>();
 
     /// <summary>
     ///     Provide the fully built unit → UI binding map.
     ///     Must be called once after <see cref="CombatView.BuildBindings" /> so all
     ///     lookups use direct references instead of repeated component searches.
     /// </summary>
-    public void SetBindings(IReadOnlyDictionary<Unit, UnitUIBinding> bindings)
+    public void SetBindings(IDictionary<Unit, UnitUIBinding> bindings)
     {
         var newBindings = bindings ?? new Dictionary<Unit, UnitUIBinding>();
-
-        // Collect health bar instances present in the new bindings so we do not
-        // unbind health bars that are being reused across fights on the same CombatView.
-        var reusedHealthBars = new HashSet<HealthBarUI>();
-        foreach (var b in newBindings.Values)
-            if (b.HealthBar != null)
-                reusedHealthBars.Add(b.HealthBar);
-
-        foreach (var binding in _bindings.Values)
-            if (binding.HealthBar != null && !reusedHealthBars.Contains(binding.HealthBar))
-                binding.HealthBar.Unbind();
+        
+        foreach (var binding in _bindings.Values) 
+            binding.HealthBar.Unbind();
 
         _bindings = newBindings;
     }
@@ -39,18 +31,8 @@ public class UIService
     public void ShowDamage(Unit target, int amount, int hpBefore, int hpAfter, int maxHP,
         DamageType damageType = DamageType.Physical)
     {
-        Log.Info("Showing damage UI with HP values", new
-        {
-            target = target.Name,
-            damage = amount,
-            type = damageType,
-            hpBefore,
-            hpAfter,
-            maxHP
-        });
-
         var worldPosition = GetUnitWorldPosition(target);
-        if (worldPosition.HasValue && FloatingTextPool.Instance != null)
+        if (worldPosition.HasValue && FloatingTextPool.Instance)
             FloatingTextPool.Instance.Spawn(amount, damageType, worldPosition.Value);
 
         // Animate health bar with explicit HP values
@@ -81,7 +63,7 @@ public class UIService
 
     /// <summary>
     ///     Animates the health bar for a unit from a specific old HP to a specific new HP.
-    ///     This allows proper animation even when the unit's state has already been modified.
+    ///     This allows proper animation even when the units state has already been modified.
     /// </summary>
     public void AnimateHealthBarToValue(Unit target, int hpBefore, int hpAfter)
     {
@@ -89,8 +71,8 @@ public class UIService
             return;
 
         var healthBar = GetHealthBar(target);
-        if (healthBar != null)
-            healthBar.AnimateToHealth(hpBefore, hpAfter);
+        if (healthBar)
+            healthBar.AnimateToHealth(target.Stats.MaxHP, hpBefore, hpAfter);
     }
 
     /// <summary>

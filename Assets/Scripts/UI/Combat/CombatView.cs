@@ -18,7 +18,6 @@ public class CombatView : MonoBehaviour
 
     public UnitView PlayerView => _playerView;
     public UnitView EnemyView => _enemyView;
-    public CombatHUD CombatHUD => _combatHUD;
 
     private void Awake()
     {
@@ -50,8 +49,6 @@ public class CombatView : MonoBehaviour
         // Initialize unit views
         _playerView.Initialize(player, isPlayer: true);
         _enemyView.Initialize(enemy, isPlayer: false);
-
-        // Initialize HUD
         _combatHUD.Initialize(player, enemy);
 
         // Show combat view when initialized
@@ -93,7 +90,7 @@ public class CombatView : MonoBehaviour
     ///     Returns an empty dictionary and logs a warning when either unit is null,
     ///     consistent with the fail-soft pattern used elsewhere in combat setup.
     /// </summary>
-    public IReadOnlyDictionary<Unit, UnitUIBinding> BuildBindings(Unit player, Unit enemy)
+    public IDictionary<Unit, UnitUIBinding> BuildBindings(Unit player, Unit enemy)
     {
         if (player == null || enemy == null)
         {
@@ -103,11 +100,11 @@ public class CombatView : MonoBehaviour
 
         return new Dictionary<Unit, UnitUIBinding>
         {
-            [player] = new UnitUIBinding(
+            [player] = new(
                 _playerView,
                 _combatHUD?.GetHealthBar(player),
                 _combatHUD?.GetHUDPanel(player)),
-            [enemy] = new UnitUIBinding(
+            [enemy] = new(
                 _enemyView,
                 _combatHUD?.GetHealthBar(enemy),
                 _combatHUD?.GetHUDPanel(enemy))
@@ -138,7 +135,7 @@ public class CombatView : MonoBehaviour
     /// </summary>
     public void Show()
     {
-        if (_canvasGroup != null)
+        if (_canvasGroup)
         {
             _canvasGroup.alpha = 1f;
             _canvasGroup.interactable = true;
@@ -152,10 +149,7 @@ public class CombatView : MonoBehaviour
     /// </summary>
     public void Hide()
     {
-        // Disable presentation mode when combat ends
-        if (_combatHUD != null) _combatHUD.DisablePresentationMode();
-
-        if (_canvasGroup != null)
+        if (_canvasGroup)
         {
             _canvasGroup.alpha = 0f;
             _canvasGroup.interactable = false;

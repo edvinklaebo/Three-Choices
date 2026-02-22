@@ -14,8 +14,6 @@ public class DraftUI : MonoBehaviour
     private UIFader _fader;
     private DraftOptionView[] _draftOptions;
 
-    public bool DidAwake { get; private set; }
-
     public void Awake()
     {
         var canvasGroup = GetComponent<CanvasGroup>();
@@ -26,8 +24,6 @@ public class DraftUI : MonoBehaviour
         _draftOptions = BuildOptions();
 
         _fader.Hide(animated: false);
-
-        DidAwake = true;
     }
 
     private void OnEnable()
@@ -44,7 +40,7 @@ public class DraftUI : MonoBehaviour
 
     private void OnShowRequested(List<UpgradeDefinition> draft)
     {
-        if (_upgradePicked == null)
+        if (!_upgradePicked)
             Log.Warning("DraftUI: _upgradePicked event channel is not assigned. Upgrade picks will not be broadcast.");
 
         Show(draft, u => _upgradePicked?.Raise(u));
@@ -52,7 +48,7 @@ public class DraftUI : MonoBehaviour
 
     private void OnHideRequested()
     {
-        Hide(animated: false);
+        Hide(animated: true);
     }
 
     public void Show(List<UpgradeDefinition> draft, Action<UpgradeDefinition> onPick, bool animated = true)

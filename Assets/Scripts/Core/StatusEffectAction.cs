@@ -35,19 +35,19 @@ public class StatusEffectAction : ICombatAction
         });
 
         // Play status VFX
-        yield return ctx.VFX.PlayStatus(Target, EffectName);
+        yield return ctx.VFXService.PlayStatus(Target, EffectName);
 
         // Show status UI
-        ctx.UI.ShowStatusEffect(Target, EffectName);
+        ctx.UIService.ShowStatusEffect(Target, EffectName);
 
         // Play status sound
-        ctx.SFX.PlayStatusSound(EffectName);
+        ctx.SFXService.PlayStatusSound(EffectName);
 
         // Show damage if applicable (e.g., poison tick, bleed, burn)
         if (Amount > 0 && TargetMaxHP > 0)
         {
             var damageType = GetDamageTypeForEffect(EffectName);
-            ctx.UI.ShowDamage(Target, Amount, TargetHPBefore, TargetHPAfter, TargetMaxHP, damageType);
+            ctx.UIService.ShowDamage(Target, Amount, TargetHPBefore, TargetHPAfter, TargetMaxHP, damageType);
         }
     }
 

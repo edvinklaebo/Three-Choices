@@ -7,10 +7,10 @@ using System.Collections;
 /// </summary>
 public class HealAction : ICombatAction
 {
-    public Unit Target { get; private set; }
-    public int Amount { get; private set; }
-    public int TargetHPBefore { get; private set; }
-    public int TargetHPAfter { get; private set; }
+    public Unit Target { get; }
+    public int Amount { get; }
+    public int TargetHPBefore { get; }
+    public int TargetHPAfter { get; }
     public int TargetMaxHP { get; private set; }
 
     public HealAction(Unit target, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP)
@@ -33,10 +33,11 @@ public class HealAction : ICombatAction
         });
 
         // Show healing UI with explicit HP values for animation
-        ctx.UI.ShowHealing(Target, Amount, TargetHPBefore, TargetHPAfter);
-        ctx.UI.AnimateHealthBarToValue(Target, TargetHPBefore, TargetHPAfter);
-        ctx.UI.UpdateHealthText(Target, TargetHPAfter, TargetMaxHP);
-
+        ctx.UIService.ShowHealing(Target, Amount, TargetHPBefore, TargetHPAfter);
+        ctx.UIService.AnimateHealthBarToValue(Target, TargetHPBefore, TargetHPAfter);
+        // Play hit sound
+        ctx.SFXService.PlayHealSound(Target);
+        
         // Brief pause to show healing effect
         yield return new UnityEngine.WaitForSeconds(0.2f);
     }

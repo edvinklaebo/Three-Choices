@@ -21,9 +21,9 @@ public class DeathAction : ICombatAction
         });
 
         // Play death animation
-        yield return ctx.Anim.PlayDeath(Target);
+        yield return ctx.AnimationService.PlayDeath(Target);
 
         // Play death sound
-        ctx.SFX.PlayDeathSound(Target);
+        ctx.SFXService.PlayDeathSound(Target);
     }
 }

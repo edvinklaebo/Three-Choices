@@ -4,16 +4,16 @@
 /// </summary>
 public class AnimationContext
 {
-    public AnimationService Anim { get; set; }
-    public UIService UI { get; set; }
-    public VFXService VFX { get; set; }
-    public SFXService SFX { get; set; }
+    public AnimationService AnimationService { get; }
+    public UIService UIService { get; }
+    public VFXService VFXService { get; }
+    public SFXService SFXService { get; }
 
-    public AnimationContext(AnimationService anim, UIService ui, VFXService vfx, SFXService sfx)
+    public AnimationContext(AnimationService animationService, UIService uiService, VFXService vfxService, SFXService sfxService)
     {
-        Anim = anim;
-        UI = ui;
-        VFX = vfx;
-        SFX = sfx;
+        AnimationService = animationService;
+        UIService = uiService;
+        VFXService = vfxService;
+        SFXService = sfxService;
     }
 }

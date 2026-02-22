@@ -231,7 +231,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 36311920}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a5e16a9f1b465a4baec1514b902ad57, type: 3}
   m_Name: 
@@ -1838,6 +1838,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c4aafdc060e22b04783f8511dd5af925, type: 2}
     - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
+      propertyPath: _combatView
+      value: 
+      objectReference: {fileID: 36311922}
+    - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
       propertyPath: _hideDraftUI
       value: 
       objectReference: {fileID: 11400000, guid: 3bbeea1401867024f886a81801a4274a, type: 2}
@@ -1858,13 +1862,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 620796518}
     - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
+      propertyPath: _animationRunner
+      value: 
+      objectReference: {fileID: 620796518}
+    - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
       propertyPath: requestNextFight
       value: 
       objectReference: {fileID: 11400000, guid: 18d1e828aba52d34c9d0ce104cc75a6f, type: 2}
     - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
       propertyPath: _servicesInstaller
       value: 
-      objectReference: {fileID: 620796519}
+      objectReference: {fileID: 0}
     - target: {fileID: 3127123330254231470, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
       propertyPath: combatEndedWithPlayerDeath
       value: 
@@ -1876,9 +1884,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1935682594972769654, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 620796518}
-    - targetCorrespondingSourceObject: {fileID: 1935682594972769654, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 620796519}
   m_SourcePrefab: {fileID: 100100000, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
 --- !u!1 &620796517 stripped
 GameObject:
@@ -1897,19 +1902,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 154ae69b4fb049e4bc9c6a53b3a6e30b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Ropa::CombatAnimationRunner
---- !u!114 &620796519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 620796517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d61e77a4e68d796439cc574490aa1307, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Ropa::CombatServicesInstaller
-  _combatView: {fileID: 36311922}
 --- !u!1 &637573338
 GameObject:
   m_ObjectHideFlags: 0
