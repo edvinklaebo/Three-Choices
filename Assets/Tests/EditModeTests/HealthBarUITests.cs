@@ -217,80 +217,6 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void PresentationMode_IgnoresStateChanges()
-        {
-            var go = new GameObject("TestHealthBar");
-            var slider = go.AddComponent<Slider>();
-            var healthBar = go.AddComponent<HealthBarUI>();
-
-            var unit = CreateUnit("Test", 100, 10, 5, 5);
-            healthBar.Initialize(unit);
-
-            // Enable presentation mode
-            healthBar.EnablePresentationMode();
-
-            // Change unit health via state change (should be ignored)
-            unit.ApplyDamage(null, 50);
-
-            Assert.AreEqual(50, unit.Stats.CurrentHP, "Unit should have 50 HP");
-
-            // Slider should still be at 1.0 because presentation mode ignores state changes
-            Assert.AreEqual(1.0f, slider.value, 0.01f, "Slider should remain at full health in presentation mode");
-
-            Object.DestroyImmediate(go);
-        }
-
-        [Test]
-        public void PresentationMode_RespondsToAnimateToCurrentHealth()
-        {
-            var go = new GameObject("TestHealthBar");
-            var slider = go.AddComponent<Slider>();
-            var healthBar = go.AddComponent<HealthBarUI>();
-
-            var unit = CreateUnit("Test", 100, 10, 5, 5);
-            healthBar.Initialize(unit);
-
-            // Enable presentation mode
-            healthBar.EnablePresentationMode();
-
-            // Simulate combat: change unit health via state change
-            // We modify Stats.CurrentHP directly to simulate CombatSystem's internal state changes
-            unit.Stats.CurrentHP = 50;
-
-            // Now trigger presentation update
-            healthBar.AnimateToCurrentHealth();
-
-            // Note: Slider won't update immediately due to lerping, but the target should be set
-            // We can't easily test the target value since it's private, so we just verify no errors
-
-            Object.DestroyImmediate(go);
-        }
-
-        [Test]
-        public void DisablePresentationMode_RespondsToStateChangesAgain()
-        {
-            var go = new GameObject("TestHealthBar");
-            var slider = go.AddComponent<Slider>();
-            var healthBar = go.AddComponent<HealthBarUI>();
-
-            var unit = CreateUnit("Test", 100, 10, 5, 5);
-            healthBar.Initialize(unit);
-
-            // Enable then disable presentation mode
-            healthBar.EnablePresentationMode();
-            healthBar.DisablePresentationMode();
-
-            // Now state changes should work again
-            unit.ApplyDamage(null, 50);
-
-            Assert.AreEqual(50, unit.Stats.CurrentHP, "Unit should have 50 HP");
-
-            // Note: Slider updates via lerp in Update(), but the HealthChanged event should have been processed
-
-            Object.DestroyImmediate(go);
-        }
-
-        [Test]
         public void AnimateToHealth_AnimatesFromOldToNewValue()
         {
             var go = new GameObject("TestHealthBar");
@@ -299,9 +225,6 @@ namespace Tests.EditModeTests
 
             var unit = CreateUnit("Test", 100, 10, 5, 5);
             healthBar.Initialize(unit);
-
-            // Enable presentation mode
-            healthBar.EnablePresentationMode();
 
             // Simulate combat: unit is damaged but we want to animate from old to new value
             // fromNormalized = 1.0 (100/100), toNormalized = 0.5 (50/100)
@@ -324,9 +247,6 @@ namespace Tests.EditModeTests
 
             var unit = CreateUnit("Test", 100, 10, 5, 5);
             healthBar.Initialize(unit);
-
-            // Enable presentation mode
-            healthBar.EnablePresentationMode();
 
             // Call with death scenario: from 0.1 to 0.0
             Assert.DoesNotThrow(() => healthBar.AnimateToHealth(0.1f, 0.0f));
