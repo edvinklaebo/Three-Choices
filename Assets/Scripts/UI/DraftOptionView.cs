@@ -12,9 +12,13 @@ public class DraftOptionView : MonoBehaviour
 
     private UpgradeDefinition _boundUpgrade;
     private Action<UpgradeDefinition> _onPick;
+    private bool _initialized;
 
     public void Awake()
     {
+        if (_initialized) return;
+        _initialized = true;
+
         if (_button == null) _button = GetComponent<Button>();
         if (_text == null) _text = GetComponentInChildren<Text>();
         if (_icon == null) _icon = GetComponentInChildren<Image>(true);
