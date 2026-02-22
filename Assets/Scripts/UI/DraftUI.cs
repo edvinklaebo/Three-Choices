@@ -14,8 +14,6 @@ public class DraftUI : MonoBehaviour
     private UIFader _fader;
     private DraftOptionView[] _draftOptions;
 
-    public bool DidAwake { get; private set; }
-
     public void Awake()
     {
         var canvasGroup = GetComponent<CanvasGroup>();
@@ -26,8 +24,6 @@ public class DraftUI : MonoBehaviour
         _draftOptions = BuildOptions();
 
         _fader.Hide(animated: false);
-
-        DidAwake = true;
     }
 
     private void OnEnable()

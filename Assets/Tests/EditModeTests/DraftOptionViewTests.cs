@@ -75,5 +75,25 @@ namespace Tests.EditModeTests
 
             Object.DestroyImmediate(upgrade);
         }
+
+        [Test]
+        public void Awake_CalledTwice_OnPickInvokedOnlyOnce()
+        {
+            // Simulate the runtime scenario where Unity auto-calls Awake via AddComponent
+            // and then BuildOptions also calls Awake explicitly.
+            _view.Awake(); // second call - should be a no-op due to _initialized guard
+
+            var callCount = 0;
+            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            upgrade.EditorInit("Guard Test", "Guard Test", UpgradeType.Stat, StatType.AttackPower, 1);
+
+            _view.Bind(upgrade, _ => callCount++);
+
+            _btnObj.GetComponent<Button>().onClick.Invoke();
+
+            Assert.AreEqual(1, callCount, "onPick should be invoked exactly once even when Awake is called multiple times");
+
+            Object.DestroyImmediate(upgrade);
+        }
     }
 }

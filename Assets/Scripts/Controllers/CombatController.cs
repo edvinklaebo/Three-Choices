@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CombatController : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class CombatController : MonoBehaviour
     [SerializeField] private FightStartedEventChannel _fightStarted;
     
     [Header("References")]
-    [SerializeField] private CombatAnimationRunner animationRunner;
+    [SerializeField] private CombatAnimationRunner _animationRunner;
     [SerializeField] private CombatServicesInstaller _servicesInstaller;
     [SerializeField] private EnemyFactory _enemyFactory;
     [SerializeField] private CombatSystemService _combatSystem;
@@ -20,7 +21,7 @@ public class CombatController : MonoBehaviour
     
     private void Awake()
     {
-        if (animationRunner == null)
+        if (_animationRunner == null)
             Log.Error("CombatController: animationRunner is not assigned. Assign it in the Inspector.");
         if (_servicesInstaller == null)
             Log.Error("CombatController: servicesInstaller is not assigned. Assign it in the Inspector.");
@@ -63,8 +64,8 @@ public class CombatController : MonoBehaviour
         // Prevent re-entrancy: if a previous fight is still animating (e.g. from a duplicate
         // _fightStarted event), wait until it finishes before initialising the next fight.
         // Safe from deadlock because Run() has no dependency on this coroutine completing.
-        if (animationRunner.IsRunning)
-            yield return animationRunner.WaitForCompletion();
+        if (_animationRunner.IsRunning)
+            yield return _animationRunner.WaitForCompletion();
 
         // Hide draft UI before combat animations start
         _hideDraftUI?.Raise();
@@ -86,11 +87,11 @@ public class CombatController : MonoBehaviour
         var actions = _combatSystem.RunFight(player, enemy);
 
         // Queue actions for animation
-        animationRunner.EnqueueRange(actions);
-        animationRunner.PlayAll(_servicesInstaller.Context);
+        _animationRunner.EnqueueRange(actions);
+        _animationRunner.PlayAll(_servicesInstaller.Context);
 
         // Wait for animations to complete
-        yield return animationRunner.WaitForCompletion();
+        yield return _animationRunner.WaitForCompletion();
 
         // Hide combat view before showing draft UI
         if (combatView) 
