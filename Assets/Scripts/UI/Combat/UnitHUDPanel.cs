@@ -46,7 +46,7 @@ public class UnitHUDPanel : MonoBehaviour
         // Initialize health bar
         if (_healthBar != null)
         {
-            _healthBar.Initialize(unit);
+            _healthBar.Bind(unit);
         }
 
         // Initialize status effect panel

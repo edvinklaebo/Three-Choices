@@ -8,8 +8,7 @@ namespace Tests.EditModeTests
 {
     public class UIServiceTests
     {
-        private static readonly BindingFlags NonPublicInstance =
-            BindingFlags.NonPublic | BindingFlags.Instance;
+        private const BindingFlags NonPublicInstance = BindingFlags.NonPublic | BindingFlags.Instance;
 
         private static Unit CreateUnit(string name, int hp = 100)
         {
@@ -76,7 +75,8 @@ namespace Tests.EditModeTests
             playerHBGo.AddComponent<Slider>();
             var playerHB = playerHBGo.AddComponent<HealthBarUI>();
             typeof(UnitHUDPanel).GetField("_healthBar", NonPublicInstance)?.SetValue(playerHUD, playerHB);
-
+            playerHB.Awake();
+            
             // Build EnemyHUD
             var enemyHUDGo = new GameObject("EnemyHUD");
             var enemyHUD = enemyHUDGo.AddComponent<UnitHUDPanel>();
@@ -85,6 +85,7 @@ namespace Tests.EditModeTests
             enemyHBGo.AddComponent<Slider>();
             var enemyHB = enemyHBGo.AddComponent<HealthBarUI>();
             typeof(UnitHUDPanel).GetField("_healthBar", NonPublicInstance)?.SetValue(enemyHUD, enemyHB);
+            enemyHB.Awake();
 
             typeof(CombatHUD).GetField("_playerHUD", NonPublicInstance)?.SetValue(combatHUD, playerHUD);
             typeof(CombatHUD).GetField("_enemyHUD", NonPublicInstance)?.SetValue(combatHUD, enemyHUD);
@@ -214,6 +215,30 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Player");
 
             Assert.DoesNotThrow(() => uiService.AnimateHealthBarToValue(unit, 100, 100));
+        }
+
+        [Test]
+        public void SetBindings_ReplacingBindings_DoesNotThrow()
+        {
+            var (root1, combatView1, _, _) = CreateCombatViewHierarchy();
+            var (root2, combatView2, _, _) = CreateCombatViewHierarchy();
+
+            var player1 = CreateUnit("Player1");
+            var enemy1 = CreateUnit("Enemy1");
+            var player2 = CreateUnit("Player2");
+            var enemy2 = CreateUnit("Enemy2");
+
+            combatView1.Initialize(player1, enemy1);
+            combatView2.Initialize(player2, enemy2);
+
+            var uiService = new UIService();
+            uiService.SetBindings(combatView1.BuildBindings(player1, enemy1));
+
+            // Replace bindings with new ones — old health bars should be unbound
+            Assert.DoesNotThrow(() => uiService.SetBindings(combatView2.BuildBindings(player2, enemy2)));
+
+            Object.DestroyImmediate(root1);
+            Object.DestroyImmediate(root2);
         }
     }
 }
