@@ -16,7 +16,8 @@ public class DraftOptionView : MonoBehaviour
 
     public void Awake()
     {
-        if (_initialized) return;
+        if (_initialized) 
+            return;
         _initialized = true;
 
         if (_button == null) _button = GetComponent<Button>();
