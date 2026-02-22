@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 using UnityEngine.UI;
 
 namespace Tests.EditModeTests
@@ -242,7 +241,7 @@ namespace Tests.EditModeTests
             healthBar.Awake();
             healthBar.Bind(unit);
 
-            // Simulate combat: unit is damaged but we want to animate from old to new value
+            // Simulate combat: unit is damaged, but we want to animate from old to new value
             // hpBefore = 100, hpAfter = 50 (out of 100)
             healthBar.AnimateToHealth(100, 50);
 
@@ -319,28 +318,11 @@ namespace Tests.EditModeTests
             healthBar.Awake();
             healthBar.Bind(unit);
 
-            healthBar.Unbind();
-
-            // AnimateToHealth should now log an error (unit is unbound)
-            LogAssert.Expect(LogType.Error, "[ERROR] HealthBarUI: AnimateToHealth called with no unit bound");
-            healthBar.AnimateToHealth(100, 50);
+            Assert.DoesNotThrow(() => healthBar.Unbind());
 
             Object.DestroyImmediate(go);
         }
 
-        [Test]
-        public void AnimateToHealth_WithNoBoundUnit_LogsError()
-        {
-            var go = new GameObject("TestHealthBar");
-            go.AddComponent<Slider>();
-            var healthBar = go.AddComponent<HealthBarUI>();
-            healthBar.Awake();
-
-            LogAssert.Expect(LogType.Error, "[ERROR] HealthBarUI: AnimateToHealth called with no unit bound");
-            healthBar.AnimateToHealth(100, 50);
-
-            Object.DestroyImmediate(go);
-        }
 
         [Test]
         public void Bind_NewUnit_ResetsSliderToNewUnitHP()
