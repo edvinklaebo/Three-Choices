@@ -16,6 +16,8 @@ public class CombatController : MonoBehaviour
     [SerializeField] private EnemyFactory _enemyFactory;
     [SerializeField] private CombatSystemService _combatSystem;
 
+    private bool _isFighting;
+    
     private void Awake()
     {
         if (animationRunner == null)
@@ -49,11 +51,15 @@ public class CombatController : MonoBehaviour
 
     private void HandleStartFight(Unit player, int fightIndex)
     {
+        if(_isFighting)
+            return;
+        
         StartCoroutine(StartFightCoroutine(player, fightIndex));
     }
 
     private IEnumerator StartFightCoroutine(Unit player, int fightIndex)
     {
+        _isFighting = true;
         // Prevent re-entrancy: if a previous fight is still animating (e.g. from a duplicate
         // _fightStarted event), wait until it finishes before initialising the next fight.
         // Safe from deadlock because Run() has no dependency on this coroutine completing.
@@ -102,5 +108,6 @@ public class CombatController : MonoBehaviour
         }
 
         fightEnded.Raise();
+        _isFighting = false;
     }
 }
