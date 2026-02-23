@@ -87,7 +87,6 @@ jobs:
           testMode: playmode
           projectPath: .
           artifactsPath: playmode-results
-          customParameters: -batchmode -nographics -force-opengl
 
       - name: Upload PlayMode results
         uses: actions/upload-artifact@v4
