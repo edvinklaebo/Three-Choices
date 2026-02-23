@@ -30,7 +30,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: Library
-          key: Library-${{ matrix.os }}-${{ hashFiles('Packages/manifest.json', 'ProjectSettings/ProjectVersion.txt') }}
+          key: Library-${{ matrix.os }}-${{ hashFiles('Packages/manifest.json') }}
           restore-keys: |
             Library-${{ matrix.os }}-
 

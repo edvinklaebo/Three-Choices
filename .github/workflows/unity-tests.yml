@@ -21,9 +21,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          key: Library-${{ runner.os }}-${{ hashFiles('Packages/manifest.json') }}
           restore-keys: |
-            Library-
+            Library-${{ runner.os }}-
 
       - name: Run EditMode tests
         uses: game-ci/unity-test-runner@v4
