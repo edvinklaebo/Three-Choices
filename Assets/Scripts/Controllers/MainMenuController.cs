@@ -36,7 +36,7 @@ public class MainMenuController : MonoBehaviour
         Application.Quit();
     }
 
-    public void OnContinueClicked()
+    private void OnContinueClicked()
     {
         if (_continueRunRequested != null)
             _continueRunRequested.Raise();
@@ -44,7 +44,7 @@ public class MainMenuController : MonoBehaviour
             Log.Error("MainMenuController: ContinueRunRequested event channel not assigned");
     }
 
-    public void OnNewGamePressed()
+    private static void OnNewGamePressed()
     {
         Log.Info("[MainMenu] New run requested.");
         GameEvents.NewRunRequested_Event?.Invoke();

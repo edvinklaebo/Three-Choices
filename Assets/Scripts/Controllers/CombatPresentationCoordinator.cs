@@ -52,7 +52,6 @@ public class CombatPresentationCoordinator : MonoBehaviour
         _hideDraftUI?.Raise();
 
         var combatView = _servicesInstaller.CombatView;
-
         if (combatView)
         {
             combatView.Initialize(result.Player, result.Enemy);
