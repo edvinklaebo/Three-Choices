@@ -105,8 +105,13 @@ public class CombatContext
     /// Runs the damage pipeline (e.g. crit), applies HP mutation, records a
     /// <see cref="DamageAction"/>, and raises post-damage events.
     /// The Mitigation phase is intentionally skipped — ability damage bypasses armor.
+    /// <para>
+    /// Pass <paramref name="onHitStatus"/> to queue a status effect scaled to the final damage dealt
+    /// (e.g. burn = 50% of final damage). The factory receives the resolved damage value and its
+    /// returned status is applied through the normal <see cref="CombatPhase.StatusApplication"/> phase.
+    /// </para>
     /// </summary>
-    public void DealDamage(Unit source, Unit target, int baseDamage)
+    public void DealDamage(Unit source, Unit target, int baseDamage, Func<int, IStatusEffect> onHitStatus = null)
     {
         if (target == null || target.IsDead) return;
 
@@ -122,6 +127,9 @@ public class CombatContext
         // No Mitigation phase — ability damage bypasses armor
 
         ctx.FinalDamage = ctx.ModifiedDamage;
+
+        if (onHitStatus != null)
+            ctx.PendingStatuses.Add(onHitStatus(ctx.FinalDamage));
 
         var hpBefore = target.Stats.CurrentHP;
         var maxHP = target.Stats.MaxHP;
