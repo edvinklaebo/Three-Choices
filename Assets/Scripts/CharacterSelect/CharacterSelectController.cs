@@ -16,10 +16,10 @@ public class CharacterSelectController : MonoBehaviour
 
     private void Awake()
     {
-        if(_collection == null)
+        if (_collection == null)
             throw new InvalidOperationException(nameof(_collection));
-        if(_view == null)
-           throw new InvalidOperationException(nameof(_view));
+        if (_view == null)
+            throw new InvalidOperationException(nameof(_view));
     }
     
     private void OnEnable()
