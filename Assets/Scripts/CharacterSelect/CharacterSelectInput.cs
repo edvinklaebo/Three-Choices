@@ -1,38 +1,41 @@
+using System;
 using UnityEngine;
 
 public class CharacterSelectInput : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private CharacterSelectController _controller;
+    [Header("References")] [SerializeField]
+    private CharacterSelectController _controller;
+
+    private void Awake()
+    {
+        if (_controller == null)
+            throw new InvalidOperationException("CharacterSelectInput requires a CharacterSelectController.");
+    }
 
     private void Update()
     {
-        if (_controller == null)
-            return;
-
-        if (Input.GetKeyDown(KeyCode.RightArrow)) 
+        if (Input.GetKeyDown(KeyCode.RightArrow))
             OnNextClicked();
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) 
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
             OnPreviousClicked();
 
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) 
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             OnConfirmClicked();
     }
 
-    // Button click handlers for UI
-    public void OnNextClicked()
+    private void OnNextClicked()
     {
-        _controller?.Next();
+        _controller.Next();
     }
 
-    public void OnPreviousClicked()
+    private void OnPreviousClicked()
     {
-        _controller?.Previous();
+        _controller.Previous();
     }
 
-    public void OnConfirmClicked()
+    private void OnConfirmClicked()
     {
-        _controller?.Confirm();
+        _controller.Confirm();
     }
 }
