@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CharacterSelectController : MonoBehaviour
 {
-    [Header("References")] 
+    [Header("References")]
     [SerializeField] private CharacterCollection _collection;
     [SerializeField] private CharacterSelectView _view;
 
@@ -11,7 +11,7 @@ public class CharacterSelectController : MonoBehaviour
 
     private CharacterDefinition _current => _collection?.GetByIndex(CurrentIndex);
 
-
+    
     private void Awake()
     {
         if (_collection == null)
@@ -21,7 +21,7 @@ public class CharacterSelectController : MonoBehaviour
             throw new InvalidOperationException(
                 $"CharacterSelectController requires a {nameof(CharacterSelectView)} assigned in the inspector.");
     }
-
+    
     private void OnEnable()
     {
         UpdateView();
@@ -61,7 +61,7 @@ public class CharacterSelectController : MonoBehaviour
 
     private void UpdateView()
     {
-        if (_view && _current)
+        if (_view && _current) 
             _view.DisplayCharacter(_current);
     }
 }
