@@ -49,6 +49,7 @@ public class CombatPresentationCoordinator : MonoBehaviour
         if (_animationRunner.IsRunning)
             yield return _animationRunner.WaitForCompletion();
 
+        _viewPresenter.Show(result);
         _hideDraftUI?.Raise();
 
         var combatView = _servicesInstaller.CombatView;
@@ -62,9 +63,6 @@ public class CombatPresentationCoordinator : MonoBehaviour
         _animationRunner.PlayAll(_servicesInstaller.Context);
 
         yield return _animationRunner.WaitForCompletion();
-
-        if (combatView)
-            combatView.Hide();
 
         _presentationComplete?.Raise(result.Player);
     }
