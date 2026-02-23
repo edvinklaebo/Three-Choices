@@ -11,7 +11,7 @@ public class CharacterCollection : ScriptableObject
     
     public CharacterDefinition GetByIndex(int index)
     {
-        if (Characters == null || Characters.Count == 0)
+        if (_characters == null || _characters.Count == 0)
             return null;
 
         return _characters[Mathf.Clamp(index, 0, _characters.Count - 1)];
