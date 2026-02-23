@@ -57,6 +57,7 @@ public class CombatOrchestrator : MonoBehaviour
         _isFighting = true;
 
         var enemy = _enemyFactory.Create(fightIndex);
+        
         CombatLogger.Instance.RegisterUnit(enemy);
 
         var actions = _combatSystem.RunFight(player, enemy);

@@ -14,14 +14,13 @@ public class CombatPresentationCoordinator : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private CombatAnimationRunner _animationRunner;
-    [SerializeField] private CombatServicesInstaller _servicesInstaller;
-
+    [SerializeField] private CombatViewPresenter _viewPresenter;
     private void Awake()
     {
         if (_animationRunner == null)
             Log.Error("CombatPresentationCoordinator: _animationRunner is not assigned.");
-        if (_servicesInstaller == null)
-            Log.Error("CombatPresentationCoordinator: _servicesInstaller is not assigned.");
+        if (_viewPresenter == null)
+            Log.Error("CombatPresentationCoordinator: _viewPresenter is not assigned.");
         if (_presentationComplete == null)
             Log.Error("CombatPresentationCoordinator: _presentationComplete is not assigned.");
     }
@@ -49,23 +48,15 @@ public class CombatPresentationCoordinator : MonoBehaviour
         if (_animationRunner.IsRunning)
             yield return _animationRunner.WaitForCompletion();
 
-        _hideDraftUI?.Raise();
-
-        var combatView = _servicesInstaller.CombatView;
-
-        if (combatView)
-        {
-            combatView.Initialize(result.Player, result.Enemy);
-            _servicesInstaller.Context?.UI.SetBindings(combatView.BuildBindings(result.Player, result.Enemy));
-        }
-
+        _viewPresenter.Show(result);
         _animationRunner.EnqueueRange(result.Actions);
-        _animationRunner.PlayAll(_servicesInstaller.Context);
+        _animationRunner.PlayAll(_viewPresenter.Context);
 
         yield return _animationRunner.WaitForCompletion();
 
-        if (combatView)
-            combatView.Hide();
+        _viewPresenter.Hide();
+
+        yield return _animationRunner.WaitForCompletion();
 
         _presentationComplete?.Raise(result.Player);
     }
