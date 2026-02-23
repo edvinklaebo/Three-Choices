@@ -15,6 +15,7 @@ public class CombatPresentationCoordinator : MonoBehaviour
     [Header("References")]
     [SerializeField] private CombatAnimationRunner _animationRunner;
     [SerializeField] private CombatViewPresenter _viewPresenter;
+    
     private void Awake()
     {
         if (_animationRunner == null)

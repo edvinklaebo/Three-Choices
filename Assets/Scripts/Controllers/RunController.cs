@@ -1,12 +1,17 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+///     Manages the run lifecycle: starting, continuing, and saving a run.
+///     Delegates player creation to <see cref="PlayerFactory" />, player setup to
+///     <see cref="PlayerInitializer" />, and fight progression to <see cref="RunProgressionService" />.
+/// </summary>
 public class RunController : MonoBehaviour
 {
     private const string GameOverScene = "GameOver";
     private const string DraftScene = "DraftScene";
 
-    [Header("Events")] 
+    [Header("Events")]
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel playerDiedEvent;
     [SerializeField] private VoidEventChannel combatEndedWithPlayerDeath;
@@ -15,18 +20,19 @@ public class RunController : MonoBehaviour
 
     [Header("References")] public Unit Player;
 
-    private int _fightIndex;
-
     public RunState CurrentRun { get; private set; }
+
+    private RunProgressionService _progressionService;
 
     public void Awake()
     {
         DontDestroyOnLoad(this);
+        _progressionService = new RunProgressionService(_fightStarted);
     }
 
     private void OnEnable()
     {
-        requestNextFight.OnRaised += HandleNextFight;
+        requestNextFight.OnRaised += _progressionService.HandleNextFight;
 
         if (combatEndedWithPlayerDeath != null)
             combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
@@ -38,7 +44,7 @@ public class RunController : MonoBehaviour
 
     private void OnDisable()
     {
-        requestNextFight.OnRaised -= HandleNextFight;
+        requestNextFight.OnRaised -= _progressionService.HandleNextFight;
 
         if (combatEndedWithPlayerDeath != null)
             combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
@@ -58,9 +64,9 @@ public class RunController : MonoBehaviour
             return;
         }
 
-        // Use the loaded player directly - it's already been restored by SaveService.Load()
-        InitializePlayer(CurrentRun.player);
-        _fightIndex = CurrentRun.fightIndex;
+        PlayerInitializer.Initialize(Player, CurrentRun.player, playerDiedEvent);
+        Player = CurrentRun.player;
+        _progressionService.SetRun(CurrentRun, Player);
 
         SceneManager.LoadScene(DraftScene);
     }
@@ -73,71 +79,24 @@ public class RunController : MonoBehaviour
             return;
         }
 
-        var newPlayer = CreatePlayerFromCharacter(character);
-        InitializePlayer(newPlayer);
+        var newPlayer = PlayerFactory.CreateFromCharacter(character);
+        PlayerInitializer.Initialize(Player, newPlayer, playerDiedEvent);
+        Player = newPlayer;
 
         CurrentRun = new RunState
         {
-            fightIndex = _fightIndex,
+            fightIndex = 0,
             player = Player
         };
+        _progressionService.SetRun(CurrentRun, Player);
 
         SaveService.Save(CurrentRun);
         SceneManager.LoadScene(DraftScene);
-    }
-
-    /// <summary>
-    ///     Initializes the player and subscribes to necessary events.
-    ///     This ensures consistent initialization whether loading or starting new.
-    /// </summary>
-    private void InitializePlayer(Unit player)
-    {
-        if (player == null)
-        {
-            Log.Error("[Run] Cannot initialize null player");
-            return;
-        }
-
-        CombatLogger.Instance.UnregisterUnit(Player);
-        Player = player;
-        CombatLogger.Instance.RegisterUnit(Player);
-        Player.Died += _ => playerDiedEvent.Raise();
-    }
-
-    private void HandleNextFight()
-    {
-        _fightStarted?.Raise(Player, _fightIndex);
-        
-        _fightIndex++;
-        
-        Save();
-    }
-
-    private void Save()
-    {
-        CurrentRun.fightIndex = _fightIndex;
-        CurrentRun.player = Player;
-        SaveService.Save(CurrentRun);
     }
 
     private static void OnCombatEndedWithPlayerDeath()
     {
         SaveService.Delete();
         SceneManager.LoadScene(GameOverScene);
-    }
-
-    private static Unit CreatePlayerFromCharacter(CharacterDefinition character)
-    {
-        return new Unit(character.DisplayName)
-        {
-            Stats = new Stats
-            {
-                Armor = character.Armor,
-                AttackPower = character.Attack,
-                CurrentHP = character.MaxHp,
-                MaxHP = character.MaxHp,
-                Speed = character.Speed
-            }
-        };
     }
 }
