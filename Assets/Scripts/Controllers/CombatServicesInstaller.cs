@@ -2,7 +2,7 @@ using UnityEngine;
 
 /// <summary>
 /// Bootstrapper that creates and wires all combat presentation services.
-/// Owns the AnimationContext so CombatController receives it ready-made.
+/// Owns the AnimationContext so CombatPresentationCoordinator receives it ready-made.
 /// </summary>
 public class CombatServicesInstaller : MonoBehaviour
 {
