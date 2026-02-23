@@ -171,7 +171,7 @@ namespace Tests.PlayModeTests
                 "Player Speed should match saved state");
 
             Assert.AreEqual(6, runController.CurrentRun.fightIndex,
-                "Fight index should be incremented once by CombatController.Start() raising requestNextFight");
+                "Fight index should be incremented once by CombatOrchestrator.Start() raising requestNextFight");
 
             Log.Info("[Test] Continue game loaded player state correctly");
             Log.Info($"[Test] Player: {runController.Player.Name}, " +

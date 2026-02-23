@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2592505298546333089}
-  - component: {fileID: 3127123330254231470}
+  - component: {fileID: 5739403852180641738}
+  - component: {fileID: 8318686798251256649}
+  - component: {fileID: 6528629112018228994}
   m_Layer: 0
   m_Name: CombatController
   m_TagString: Untagged
@@ -32,7 +34,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3127123330254231470
+--- !u!114 &5739403852180641738
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,12 +43,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 1935682594972769654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cb0876070876ef409d643ccf91b24fe, type: 3}
+  m_Script: {fileID: 11500000, guid: 907bad22a1e24a6287cae1e7e5d0c420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  requestNextFight: {fileID: 0}
-  fightEnded: {fileID: 0}
-  combatEndedWithPlayerDeath: {fileID: 0}
   _fightStarted: {fileID: 0}
-  animationRunner: {fileID: 0}
-  combatView: {fileID: 0}
+  _combatReady: {fileID: 0}
+  _requestNextFight: {fileID: 0}
+  _fightEnded: {fileID: 0}
+  _enemyFactory: {fileID: 0}
+  _combatSystem: {fileID: 0}
+--- !u!114 &8318686798251256649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935682594972769654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a858c59f5a20493db9781e3ecba07b09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _combatReady: {fileID: 0}
+  _presentationComplete: {fileID: 0}
+  _hideDraftUI: {fileID: 0}
+  _animationRunner: {fileID: 0}
+  _servicesInstaller: {fileID: 0}
+--- !u!114 &6528629112018228994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935682594972769654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b21e86c4bc7424fbd463fc9ea56c548, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _presentationComplete: {fileID: 0}
+  _fightEnded: {fileID: 0}
+  _combatEndedWithPlayerDeath: {fileID: 0}

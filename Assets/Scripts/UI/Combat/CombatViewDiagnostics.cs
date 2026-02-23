@@ -113,31 +113,26 @@ public class CombatViewDiagnostics : MonoBehaviour
             report.AppendLine("✓ TurnIndicatorUI found");
         }
 
-        // Check CombatController
-        var combatController = FindFirstObjectByType<CombatController>();
-        if (combatController == null)
-        {
-            report.AppendLine("⚠️  CombatController not found in scene\n");
-        }
+        // Check CombatOrchestrator
+        var combatOrchestrator = FindFirstObjectByType<CombatOrchestrator>();
+        if (combatOrchestrator == null)
+            report.AppendLine("⚠️  CombatOrchestrator not found in scene\n");
         else
-        {
-            report.AppendLine("✓ CombatController found");
-            
-            // Check if CombatView is wired
-            var viewField = typeof(CombatController).GetField("combatView",
-                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            var assignedView = viewField?.GetValue(combatController);
-            
-            if (assignedView == null)
-            {
-                report.AppendLine("  ⚠️  CombatView not assigned in CombatController");
-                report.AppendLine("     → Will auto-find but better to assign explicitly\n");
-            }
-            else
-            {
-                report.AppendLine("  ✓ CombatView assigned in CombatController");
-            }
-        }
+            report.AppendLine("✓ CombatOrchestrator found");
+
+        // Check CombatPresentationCoordinator
+        var presentationCoordinator = FindFirstObjectByType<CombatPresentationCoordinator>();
+        if (presentationCoordinator == null)
+            report.AppendLine("⚠️  CombatPresentationCoordinator not found in scene\n");
+        else
+            report.AppendLine("✓ CombatPresentationCoordinator found");
+
+        // Check GameFlowController
+        var gameFlowController = FindFirstObjectByType<GameFlowController>();
+        if (gameFlowController == null)
+            report.AppendLine("⚠️  GameFlowController not found in scene\n");
+        else
+            report.AppendLine("✓ GameFlowController found");
 
         report.AppendLine("\n=== END DIAGNOSTICS ===");
         

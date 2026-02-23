@@ -3,7 +3,7 @@ using UnityEngine;
 
 /// <summary>
 /// Injectable ScriptableObject implementation of ICombatSystem.
-/// Assign in the Inspector to decouple CombatController from the static CombatSystem.
+/// Assign in the Inspector to decouple CombatOrchestrator from the static CombatSystem.
 /// </summary>
 [CreateAssetMenu(menuName = "Systems/Combat System Service")]
 public class CombatSystemService : ScriptableObject, ICombatSystem
