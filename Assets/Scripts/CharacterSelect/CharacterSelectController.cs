@@ -7,11 +7,10 @@ public class CharacterSelectController : MonoBehaviour
     [SerializeField] private CharacterCollection _collection;
     [SerializeField] private CharacterSelectView _view;
 
-    public int CurrentIndex { get; private set; }
+    private CharacterSelectionModel _model;
 
-    private CharacterDefinition _current => _collection?.GetByIndex(CurrentIndex);
+    public int CurrentIndex => _model?.CurrentIndex ?? 0;
 
-    
     private void Awake()
     {
         if (_collection == null)
@@ -20,8 +19,10 @@ public class CharacterSelectController : MonoBehaviour
         if (_view == null)
             throw new InvalidOperationException(
                 $"CharacterSelectController requires a {nameof(CharacterSelectView)} assigned in the inspector.");
+
+        _model = new CharacterSelectionModel(_collection.Characters);
     }
-    
+
     private void OnEnable()
     {
         UpdateView();
@@ -29,39 +30,45 @@ public class CharacterSelectController : MonoBehaviour
 
     public void Next()
     {
-        if (_collection.Characters == null || _collection.Characters.Count == 0)
+        if (_model == null)
+        {
+            Log.Warning("[CharacterSelect] Next called before model was initialized.");
             return;
+        }
 
-        CurrentIndex = (CurrentIndex + 1) % _collection.Characters.Count;
-        Log.Info($"[CharacterSelect] Next → {_current.Id}");
+        _model.Next();
+        Log.Info($"[CharacterSelect] Next → {_model.Current.Id}");
         UpdateView();
     }
 
     public void Previous()
     {
-        if (_collection.Characters == null || _collection.Characters.Count == 0)
+        if (_model == null)
+        {
+            Log.Warning("[CharacterSelect] Previous called before model was initialized.");
             return;
+        }
 
-        CurrentIndex = (CurrentIndex - 1 + _collection.Characters.Count) % _collection.Characters.Count;
-        Log.Info($"[CharacterSelect] Prev → {_current.Id}");
+        _model.Previous();
+        Log.Info($"[CharacterSelect] Prev → {_model.Current.Id}");
         UpdateView();
     }
 
     public void Confirm()
     {
-        if (!_current)
+        if (_model == null || !_model.Current)
         {
             Log.Error("[CharacterSelect] Cannot confirm - no character selected");
             return;
         }
 
-        Log.Info($"[CharacterSelect] Confirmed {_current.Id}");
-        GameEvents.CharacterSelected_Event?.Invoke(_current);
+        Log.Info($"[CharacterSelect] Confirmed {_model.Current.Id}");
+        GameEvents.CharacterSelected_Event?.Invoke(_model.Current);
     }
 
     private void UpdateView()
     {
-        if (_view && _current) 
-            _view.DisplayCharacter(_current);
+        if (_view && _model != null && _model.Current)
+            _view.DisplayCharacter(_model.Current);
     }
 }
