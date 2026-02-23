@@ -23,13 +23,7 @@ jobs:
           path: /opt/unity
           key: UnityEditor-6000.3.6f1-linux-${{ runner.os }}
           restore-keys: |
-            UnityEditor-6000.3.6f1-linux-
-
-      - name: Setup Unity
-        uses: game-ci/unity-actions/setup-unity@v2
-        with:
-          version: 6000.3.6f1
-          cache: true
+            UnityEditor-6000.3.6f1-linux-${{ runner.os }}
 
       - name: Cache Library
         uses: actions/cache@v4
@@ -73,13 +67,7 @@ jobs:
           path: /opt/unity
           key: UnityEditor-6000.3.6f1-linux-${{ runner.os }}
           restore-keys: |
-            UnityEditor-6000.3.6f1-linux-
-
-      - name: Setup Unity
-        uses: game-ci/unity-actions/setup-unity@v2
-        with:
-          version: 6000.3.6f1
-          cache: true
+            UnityEditor-6000.3.6f1-linux-${{ runner.os }}
 
       - name: Cache Library
         uses: actions/cache@v4
