@@ -8,13 +8,17 @@ public static class Log
 {
     public static void Info(string message, object data = null)
     {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         Debug.Log(Format("INFO", message, data));
+#endif
         SentrySdk.AddBreadcrumb(message, "info", data: ToDict(data));
     }
 
     public static void Warning(string message, object data = null)
     {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         Debug.LogWarning(Format("WARN", message, data));
+#endif
         SentrySdk.AddBreadcrumb(message, "warn", data: ToDict(data));
     }
 
