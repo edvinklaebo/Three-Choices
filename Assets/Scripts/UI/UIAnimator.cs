@@ -23,7 +23,7 @@ public static class UIAnimator
         {
             elapsed += Time.deltaTime;
             var progress = Mathf.Clamp01(elapsed / duration);
-            progress = 1f - Mathf.Pow(1f - progress, 3f); // ease-out cubic
+            progress = 1f - Mathf.Pow(1f - progress, 3f);
             t.localScale = Vector3.Lerp(from, to, progress);
             yield return null;
         }

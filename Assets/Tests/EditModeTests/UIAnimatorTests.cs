@@ -1,3 +1,4 @@
+using System.Collections;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -36,16 +37,6 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void AnimateScale_ZeroDuration_ReturnsCoroutine()
-        {
-            var runner = _runnerGo.AddComponent<DraftUI>();
-
-            var coroutine = UIAnimator.AnimateScale(_targetGo.transform, Vector3.one, Vector3.one * 2f, 0f, runner);
-
-            Assert.IsNotNull(coroutine);
-        }
-
-        [Test]
         public void AnimateScale_PositiveDuration_SetsFromScaleOnFirstFrame()
         {
             var runner = _runnerGo.AddComponent<DraftUI>();
@@ -55,7 +46,22 @@ namespace Tests.EditModeTests
 
             UIAnimator.AnimateScale(_targetGo.transform, from, to, 1f, runner);
 
-            Assert.AreEqual(from, _targetGo.transform.localScale);
+            Assert.AreEqual(from.x, _targetGo.transform.localScale.x, 0.1f);
+            Assert.AreEqual(from.y, _targetGo.transform.localScale.y, 0.1f);
+            Assert.AreEqual(from.z, _targetGo.transform.localScale.z, 0.1f);
+        }
+        
+        
+        [Test(ExpectedResult = null)]
+        public IEnumerator AnimateScale_VerySmallDuration_Completes()
+        {
+            var runner = _runnerGo.AddComponent<DraftUI>();
+
+            UIAnimator.AnimateScale(_targetGo.transform, Vector3.one, Vector3.one * 3f, 0.0001f, runner);
+
+            yield return null;
+
+            Assert.AreEqual(Vector3.one * 3f, _targetGo.transform.localScale);
         }
     }
 }

@@ -7,7 +7,6 @@ public class CharacterSelectView : MonoBehaviour
 {
     [Header("References")] 
     [SerializeField] private Image _portraitImage;
-
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private StatsPanelUI _statsPanel;
     [SerializeField] private Transform _portraitTransform;
@@ -18,7 +17,6 @@ public class CharacterSelectView : MonoBehaviour
     
     private readonly List<StatViewData> _statsBuffer = new(4);
     private Vector3 _originalScale;
-
     private Coroutine _scaleRoutine;
 
     private void Awake()
