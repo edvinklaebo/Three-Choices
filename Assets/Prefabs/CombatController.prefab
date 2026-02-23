@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 5739403852180641738}
   - component: {fileID: 8318686798251256649}
   - component: {fileID: 6528629112018228994}
+  - component: {fileID: 1620537911629156761}
+  - component: {fileID: 8360034438436761351}
   m_Layer: 0
   m_Name: CombatController
   m_TagString: Untagged
@@ -46,12 +48,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 907bad22a1e24a6287cae1e7e5d0c420, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _fightStarted: {fileID: 0}
-  _combatReady: {fileID: 0}
-  _requestNextFight: {fileID: 0}
-  _fightEnded: {fileID: 0}
-  _enemyFactory: {fileID: 0}
-  _combatSystem: {fileID: 0}
+  _fightStarted: {fileID: 11400000, guid: aabb1122cc334455667788990011aabb, type: 2}
+  _combatReady: {fileID: 11400000, guid: 997dd6da580875146927ce4e3e44d9a5, type: 2}
+  _requestNextFight: {fileID: 11400000, guid: 18d1e828aba52d34c9d0ce104cc75a6f, type: 2}
+  _fightEnded: {fileID: 11400000, guid: 99bdd015575148c4db974cb5fe1b2ead, type: 2}
+  _enemyFactory: {fileID: 11400000, guid: 561938dbe00322349a6ffa95a0f18738, type: 2}
+  _combatSystem: {fileID: 11400000, guid: cffe750f0e6ea244085c476fe2df394e, type: 2}
 --- !u!114 &8318686798251256649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,11 +66,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a858c59f5a20493db9781e3ecba07b09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _combatReady: {fileID: 0}
-  _presentationComplete: {fileID: 0}
-  _hideDraftUI: {fileID: 0}
-  _animationRunner: {fileID: 0}
-  _servicesInstaller: {fileID: 0}
+  _combatReady: {fileID: 11400000, guid: 997dd6da580875146927ce4e3e44d9a5, type: 2}
+  _presentationComplete: {fileID: 11400000, guid: a8ef44d8372cbdf4396a0d8e7687acfe, type: 2}
+  _hideDraftUI: {fileID: 11400000, guid: 3bbeea1401867024f886a81801a4274a, type: 2}
+  _animationRunner: {fileID: 1620537911629156761}
+  _servicesInstaller: {fileID: 8360034438436761351}
 --- !u!114 &6528629112018228994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +83,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b21e86c4bc7424fbd463fc9ea56c548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _presentationComplete: {fileID: 0}
-  _fightEnded: {fileID: 0}
-  _combatEndedWithPlayerDeath: {fileID: 0}
+  _presentationComplete: {fileID: 11400000, guid: a8ef44d8372cbdf4396a0d8e7687acfe, type: 2}
+  _fightEnded: {fileID: 11400000, guid: 99bdd015575148c4db974cb5fe1b2ead, type: 2}
+  _combatEndedWithPlayerDeath: {fileID: 11400000, guid: 1044acb858714ffbb28024209733b59a, type: 2}
+--- !u!114 &1620537911629156761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935682594972769654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 154ae69b4fb049e4bc9c6a53b3a6e30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ropa::CombatAnimationRunner
+--- !u!114 &8360034438436761351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935682594972769654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d61e77a4e68d796439cc574490aa1307, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ropa::CombatServicesInstaller
+  _combatView: {fileID: 0}
