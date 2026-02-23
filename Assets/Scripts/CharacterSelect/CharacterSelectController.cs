@@ -7,10 +7,9 @@ public class CharacterSelectController : MonoBehaviour
     [SerializeField] private CharacterCollection _collection;
     [SerializeField] private CharacterSelectView _view;
 
-    public int CurrentIndex { get; private set; }
+    private CharacterSelectionModel _model;
 
-    private CharacterDefinition _current => _collection?.GetByIndex(CurrentIndex);
-
+    public int CurrentIndex => _model.CurrentIndex;
     
     private void Awake()
     {
@@ -20,48 +19,29 @@ public class CharacterSelectController : MonoBehaviour
         if (_view == null)
             throw new InvalidOperationException(
                 $"CharacterSelectController requires a {nameof(CharacterSelectView)} assigned in the inspector.");
+
+        _model = new CharacterSelectionModel(_collection.Characters);
     }
-    
+
     private void OnEnable()
     {
-        UpdateView();
+        _view.DisplayCharacter(_model.Current);
     }
 
     public void Next()
     {
-        if (_collection.Characters == null || _collection.Characters.Count == 0)
-            return;
-
-        CurrentIndex = (CurrentIndex + 1) % _collection.Characters.Count;
-        Log.Info($"[CharacterSelect] Next → {_current.Id}");
-        UpdateView();
+        _model.Next();
+        _view.DisplayCharacter(_model.Current);
     }
 
     public void Previous()
     {
-        if (_collection.Characters == null || _collection.Characters.Count == 0)
-            return;
-
-        CurrentIndex = (CurrentIndex - 1 + _collection.Characters.Count) % _collection.Characters.Count;
-        Log.Info($"[CharacterSelect] Prev → {_current.Id}");
-        UpdateView();
+        _model.Previous();
+        _view.DisplayCharacter(_model.Current);
     }
 
     public void Confirm()
     {
-        if (!_current)
-        {
-            Log.Error("[CharacterSelect] Cannot confirm - no character selected");
-            return;
-        }
-
-        Log.Info($"[CharacterSelect] Confirmed {_current.Id}");
-        GameEvents.CharacterSelected_Event?.Invoke(_current);
-    }
-
-    private void UpdateView()
-    {
-        if (_view && _current) 
-            _view.DisplayCharacter(_current);
+        GameEvents.CharacterSelected_Event?.Invoke(_model.Current);
     }
 }

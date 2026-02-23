@@ -82,46 +82,44 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void CharacterSelectController_Next_WrapsAround()
+        public void CharacterSelectionModel_Next_WrapsAround()
         {
             // Arrange
-            var go = new GameObject();
-            var controller = go.AddComponent<CharacterSelectController>();
-
-            // Use reflection to set the private _collection field
-            var collectionField = typeof(CharacterSelectController).GetField("_collection",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-            collectionField?.SetValue(controller, _testCollection);
+            var model = new CharacterSelectionModel(_testCollection.Characters);
 
             // Act
-            controller.Next(); // Index 1
-            controller.Next(); // Index 2
-            controller.Next(); // Should wrap to 0
+            model.Next(); // Index 1
+            model.Next(); // Index 2
+            model.Next(); // Should wrap to 0
 
             // Assert
-            Assert.AreEqual(0, controller.CurrentIndex);
-
-            Object.DestroyImmediate(go);
+            Assert.AreEqual(0, model.CurrentIndex);
         }
 
         [Test]
-        public void CharacterSelectController_Previous_WrapsAround()
+        public void CharacterSelectionModel_Previous_WrapsAround()
         {
             // Arrange
-            var go = new GameObject();
-            var controller = go.AddComponent<CharacterSelectController>();
-
-            var collectionField = typeof(CharacterSelectController).GetField("_collection",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-            collectionField?.SetValue(controller, _testCollection);
+            var model = new CharacterSelectionModel(_testCollection.Characters);
 
             // Act - Previous from index 0 should wrap to last
-            controller.Previous();
+            model.Previous();
 
             // Assert
-            Assert.AreEqual(2, controller.CurrentIndex);
+            Assert.AreEqual(2, model.CurrentIndex);
+        }
 
-            Object.DestroyImmediate(go);
+        [Test]
+        public void CharacterSelectionModel_Current_ReturnsCorrectCharacter()
+        {
+            // Arrange
+            var model = new CharacterSelectionModel(_testCollection.Characters);
+
+            // Act
+            model.Next(); // Move to index 1
+
+            // Assert
+            Assert.AreEqual("char_1", model.Current.Id);
         }
 
         [Test]
@@ -131,20 +129,20 @@ namespace Tests.EditModeTests
             var go = new GameObject();
             var controller = go.AddComponent<CharacterSelectController>();
 
-            var collectionField = typeof(CharacterSelectController).GetField("_collection",
+            var model = new CharacterSelectionModel(_testCollection.Characters);
+            var modelField = typeof(CharacterSelectController).GetField("_model",
                 BindingFlags.NonPublic | BindingFlags.Instance);
-            collectionField?.SetValue(controller, _testCollection);
+            modelField?.SetValue(controller, model);
 
             CharacterDefinition received = null;
             GameEvents.CharacterSelected_Event += c => received = c;
 
             // Act
-            controller.Next(); // Move to character 1
             controller.Confirm();
 
             // Assert
             Assert.NotNull(received);
-            Assert.AreEqual("char_1", received.Id);
+            Assert.AreEqual("char_0", received.Id);
 
             // Cleanup
             GameEvents.CharacterSelected_Event = null;
