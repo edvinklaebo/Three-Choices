@@ -1292,7 +1292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e526ec5eea36ef11641d6e133855d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Ropa::CharacterSelectController
-  _database: {fileID: 11400000, guid: d801aa37ab458df458204b22b5e59e7c, type: 2}
+  _collection: {fileID: 11400000, guid: d801aa37ab458df458204b22b5e59e7c, type: 2}
   _view: {fileID: 685321893}
 --- !u!1 &1852650735
 GameObject:
