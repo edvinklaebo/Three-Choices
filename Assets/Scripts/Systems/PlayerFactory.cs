@@ -5,9 +5,8 @@ public static class PlayerFactory
 {
     public static Unit CreateFromCharacter(CharacterDefinition character)
     {
-        if (character == null)
+        if (!character)
         {
-            Log.Error("[PlayerFactory] Cannot create player from null character");
             return null;
         }
 
