@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6528629112018228994}
   - component: {fileID: 1620537911629156761}
   - component: {fileID: 8360034438436761351}
+  - component: {fileID: 7126930277368023549}
   m_Layer: 0
   m_Name: CombatController
   m_TagString: Untagged
@@ -70,7 +71,7 @@ MonoBehaviour:
   _presentationComplete: {fileID: 11400000, guid: a8ef44d8372cbdf4396a0d8e7687acfe, type: 2}
   _hideDraftUI: {fileID: 11400000, guid: 3bbeea1401867024f886a81801a4274a, type: 2}
   _animationRunner: {fileID: 1620537911629156761}
-  _servicesInstaller: {fileID: 8360034438436761351}
+  _viewPresenter: {fileID: 7126930277368023549}
 --- !u!114 &6528629112018228994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,3 +112,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Ropa::CombatServicesInstaller
   _combatView: {fileID: 0}
+--- !u!114 &7126930277368023549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935682594972769654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78927b15e6601a5498f2e7a27ff0ac81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ropa::CombatViewPresenter
+  _hideDraftUI: {fileID: 11400000, guid: 3bbeea1401867024f886a81801a4274a, type: 2}
+  _servicesInstaller: {fileID: 8360034438436761351}

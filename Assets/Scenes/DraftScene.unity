@@ -1825,62 +1825,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5739403852180641738, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _fightEnded
-      value: 
-      objectReference: {fileID: 11400000, guid: 99bdd015575148c4db974cb5fe1b2ead, type: 2}
-    - target: {fileID: 5739403852180641738, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _combatReady
-      value: 
-      objectReference: {fileID: 11400000, guid: 997dd6da580875146927ce4e3e44d9a5, type: 2}
-    - target: {fileID: 5739403852180641738, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _combatSystem
-      value: 
-      objectReference: {fileID: 11400000, guid: cffe750f0e6ea244085c476fe2df394e, type: 2}
-    - target: {fileID: 5739403852180641738, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _enemyFactory
-      value: 
-      objectReference: {fileID: 11400000, guid: 561938dbe00322349a6ffa95a0f18738, type: 2}
-    - target: {fileID: 5739403852180641738, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _fightStarted
-      value: 
-      objectReference: {fileID: 11400000, guid: aabb1122cc334455667788990011aabb, type: 2}
-    - target: {fileID: 5739403852180641738, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _requestNextFight
-      value: 
-      objectReference: {fileID: 11400000, guid: 18d1e828aba52d34c9d0ce104cc75a6f, type: 2}
-    - target: {fileID: 6528629112018228994, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _fightEnded
-      value: 
-      objectReference: {fileID: 11400000, guid: 99bdd015575148c4db974cb5fe1b2ead, type: 2}
-    - target: {fileID: 6528629112018228994, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _presentationComplete
-      value: 
-      objectReference: {fileID: 11400000, guid: a8ef44d8372cbdf4396a0d8e7687acfe, type: 2}
-    - target: {fileID: 6528629112018228994, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _combatEndedWithPlayerDeath
-      value: 
-      objectReference: {fileID: 11400000, guid: 1044acb858714ffbb28024209733b59a, type: 2}
     - target: {fileID: 8318686798251256649, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _combatReady
+      propertyPath: _viewPresenter
       value: 
-      objectReference: {fileID: 11400000, guid: 997dd6da580875146927ce4e3e44d9a5, type: 2}
-    - target: {fileID: 8318686798251256649, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _hideDraftUI
-      value: 
-      objectReference: {fileID: 11400000, guid: 3bbeea1401867024f886a81801a4274a, type: 2}
-    - target: {fileID: 8318686798251256649, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _animationRunner
-      value: 
-      objectReference: {fileID: 620796518}
-    - target: {fileID: 8318686798251256649, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _servicesInstaller
-      value: 
-      objectReference: {fileID: 620796519}
-    - target: {fileID: 8318686798251256649, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _presentationComplete
-      value: 
-      objectReference: {fileID: 11400000, guid: a8ef44d8372cbdf4396a0d8e7687acfe, type: 2}
+      objectReference: {fileID: 620796520}
     - target: {fileID: 8360034438436761351, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
       propertyPath: _combatView
       value: 
@@ -1890,28 +1838,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
---- !u!114 &620796518 stripped
+--- !u!114 &620796520 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1620537911629156761, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7126930277368023549, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
   m_PrefabInstance: {fileID: 620796516}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 154ae69b4fb049e4bc9c6a53b3a6e30b, type: 3}
+  m_Script: {fileID: 11500000, guid: 78927b15e6601a5498f2e7a27ff0ac81, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Ropa::CombatAnimationRunner
---- !u!114 &620796519 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8360034438436761351, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-  m_PrefabInstance: {fileID: 620796516}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d61e77a4e68d796439cc574490aa1307, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Ropa::CombatServicesInstaller
+  m_EditorClassIdentifier: Ropa::CombatViewPresenter
 --- !u!1 &637573338
 GameObject:
   m_ObjectHideFlags: 0
