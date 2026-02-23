@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -78,32 +77,7 @@ public class CharacterSelectView : MonoBehaviour
         if (_scaleRoutine != null)
             StopCoroutine(_scaleRoutine);
 
-        _portraitTransform.localScale = _originalScale + Vector3.one * _scaleAmount;
-        _scaleRoutine = StartCoroutine(AnimateScale());
-    }
-
-    private IEnumerator AnimateScale()
-    {
-        if (_animationTime <= 0f)
-        {
-            _portraitTransform.localScale = _originalScale;
-            _scaleRoutine = null;
-            yield break;
-        }
-
-        var elapsed = 0f;
-        var startScale = _portraitTransform.localScale;
-
-        while (elapsed < _animationTime)
-        {
-            elapsed += Time.deltaTime;
-            var t = Mathf.Clamp01(elapsed / _animationTime);
-            t = 1f - Mathf.Pow(1f - t, 3f); // ease-out cubic
-            _portraitTransform.localScale = Vector3.Lerp(startScale, _originalScale, t);
-            yield return null;
-        }
-
-        _portraitTransform.localScale = _originalScale;
-        _scaleRoutine = null;
+        var from = _originalScale + Vector3.one * _scaleAmount;
+        _scaleRoutine = UIAnimator.AnimateScale(_portraitTransform, from, _originalScale, _animationTime, this);
     }
 }
