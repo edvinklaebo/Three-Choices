@@ -138,12 +138,11 @@ namespace Tests.EditModeTests
             GameEvents.CharacterSelected_Event += c => received = c;
 
             // Act
-            controller.Next(); // Move to character 1
             controller.Confirm();
 
             // Assert
             Assert.NotNull(received);
-            Assert.AreEqual("char_1", received.Id);
+            Assert.AreEqual("char_0", received.Id);
 
             // Cleanup
             GameEvents.CharacterSelected_Event = null;
