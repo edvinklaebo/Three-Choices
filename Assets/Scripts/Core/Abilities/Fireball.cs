@@ -3,11 +3,11 @@ using UnityEngine;
 
 /// <summary>
 ///     Fireball ability that triggers at turn start.
-///     Deals damage that can crit, then applies burn based on final damage.
+///     Deals damage that can crit, then applies burn based on final damage dealt.
 ///     Burn cannot crit and does not stack.
 /// </summary>
 [Serializable]
-public class Fireball : IAbility, ICombatListener, IActionCreator
+public class Fireball : IAbility
 {
     [SerializeField] private int _baseDamage;
     [SerializeField] private int _burnDuration;
@@ -22,49 +22,35 @@ public class Fireball : IAbility, ICombatListener, IActionCreator
         _burnDamagePercent = burnDamagePercent;
     }
 
-    public void RegisterHandlers(CombatContext context)
-    {
-    }
-
-    public void UnregisterHandlers(CombatContext context)
-    {
-    }
-
-    public void CreateActions(CombatContext context, Unit source, Unit target, int hpBefore, int hpAfter)
-    {
-        if (hpAfter >= hpBefore) 
-            return;
-        
-        var damage = hpBefore - hpAfter;
-        var maxHP = target.Stats.MaxHP;
-        context.AddAction(new FireballAction(source, target, damage, hpBefore, hpAfter, maxHP));
-    }
-
     /// <summary>
-    ///     This method is called from the ability triggering system, not during normal attack.
-    ///     For Fireball, this is triggered at turn start.
-    ///     Returns the damage dealt; the caller applies it via <see cref="DamagePipeline.Process"/>.
+    ///     Deals fireball damage and applies a burn status effect scaled to the damage dealt.
+    ///     A <see cref="FireballAction"/> is added for visual presentation.
     /// </summary>
-    public int OnCast(Unit self, Unit target)
+    public void OnCast(Unit self, Unit target, CombatContext context)
     {
         if (target == null || target.IsDead)
-            return 0;
+            return;
 
-        var ctx = new DamageContext(self, target, _baseDamage);
-        DamagePipeline.Process(ctx);
-        
-        var finalDamage = ctx.FinalValue;
+        var hpBefore = target.Stats.CurrentHP;
 
-        var burnDamage = Mathf.CeilToInt(finalDamage * _burnDamagePercent);
-        target.ApplyStatus(new Burn(_burnDuration, burnDamage));
+        context.DealDamage(self, target, _baseDamage);
 
-        Log.Info("Fireball burn applied", new
+        var hpAfter = target.Stats.CurrentHP;
+        var finalDamage = hpBefore - hpAfter;
+
+        if (finalDamage > 0)
         {
-            target = target.Name,
-            burnDamage,
-            burnDuration = _burnDuration
-        });
+            var burnDamage = Mathf.CeilToInt(finalDamage * _burnDamagePercent);
+            target.ApplyStatus(new Burn(_burnDuration, burnDamage));
 
-        return finalDamage;
+            context.AddAction(new FireballAction(self, target, finalDamage, hpBefore, hpAfter, target.Stats.MaxHP));
+
+            Log.Info("Fireball burn applied", new
+            {
+                target = target.Name,
+                burnDamage,
+                burnDuration = _burnDuration
+            });
+        }
     }
 }

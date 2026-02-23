@@ -101,6 +101,50 @@ public class CombatContext
     }
 
     /// <summary>
+    /// Deals ability damage from <paramref name="source"/> to <paramref name="target"/>.
+    /// Runs the damage pipeline (e.g. crit), applies HP mutation, records a
+    /// <see cref="DamageAction"/>, and raises post-damage events.
+    /// The Mitigation phase is intentionally skipped — ability damage bypasses armor.
+    /// </summary>
+    public void DealDamage(Unit source, Unit target, int baseDamage)
+    {
+        if (target == null || target.IsDead) return;
+
+        var ctx = new DamageContext(source, target, baseDamage);
+
+        ExecutePhase(CombatPhase.PreAction, ctx);
+        if (ctx.Cancelled) return;
+
+        DamagePipeline.Process(ctx);
+        ctx.ModifiedDamage = ctx.FinalValue;
+
+        ExecutePhase(CombatPhase.DamageCalculation, ctx);
+        // No Mitigation phase — ability damage bypasses armor
+
+        ctx.FinalDamage = ctx.ModifiedDamage;
+
+        var hpBefore = target.Stats.CurrentHP;
+        var maxHP = target.Stats.MaxHP;
+        target.ApplyDamage(source, ctx.FinalDamage);
+        var hpAfter = target.Stats.CurrentHP;
+
+        AddAction(new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP));
+
+        Raise(new OnHitEvent(source, target, ctx.FinalDamage));
+
+        ExecutePhase(CombatPhase.Healing, ctx);
+        ExecutePhase(CombatPhase.ResourceGain, ctx);
+        ApplyResourceGain(ctx);
+        ExecutePhase(CombatPhase.StatusApplication, ctx);
+        ApplyStatuses(ctx);
+        ExecutePhase(CombatPhase.PostResolve, ctx);
+        ApplyHealing(ctx);
+
+        if (target.IsDead && _actions.OfType<DeathAction>().All(a => a.Target != target))
+            AddAction(new DeathAction(target));
+    }
+
+    /// <summary>
     /// Resolve a full attack through all combat phases. This is the single point where
     /// HP is mutated and healing/statuses are applied.
     /// When <paramref name="effectId"/> is provided, a <see cref="StatusEffectAction"/> is

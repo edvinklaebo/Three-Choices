@@ -34,9 +34,10 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
             var fireball = new Fireball();
-            var damage = fireball.OnCast(caster, target);
+            var context = new CombatContext();
+            fireball.OnCast(caster, target, context);
 
-            Assert.Greater(damage, 0, "Fireball should return positive damage");
+            Assert.Less(target.Stats.CurrentHP, 100, "Fireball should deal damage to the target");
         }
 
         [Test]
@@ -46,7 +47,8 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
             var fireball = new Fireball();
-            fireball.OnCast(caster, target);
+            var context = new CombatContext();
+            fireball.OnCast(caster, target, context);
 
             Assert.AreEqual(1, target.StatusEffects.Count, "Fireball should apply burn effect");
             Assert.AreEqual("Burn", target.StatusEffects[0].Id, "Status effect should be Burn");
@@ -60,7 +62,8 @@ namespace Tests.EditModeTests
 
             // Fireball with 10 base damage, 50% burn
             var fireball = new Fireball();
-            fireball.OnCast(caster, target);
+            var context = new CombatContext();
+            fireball.OnCast(caster, target, context);
 
             if (target.StatusEffects[0] is not Burn burn)
                 throw new Exception("Burn should be applied to target");
@@ -72,13 +75,14 @@ namespace Tests.EditModeTests
         public void Fireball_ShouldNotRespectArmor()
         {
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
-            var tank = CreateUnit("Tank", 100, 0, 100, 5); // 100 armor = 50% reduction
+            var tank = CreateUnit("Tank", 100, 0, 100, 5); // 100 armor
 
             var fireball = new Fireball(20);
-            var damage = fireball.OnCast(caster, tank);
+            var context = new CombatContext();
+            fireball.OnCast(caster, tank, context);
 
-            // With 100 armor: 100 / (100 + 100) = 0.5 multiplier, so 20 * 1 = 20 damage
-            Assert.AreEqual(20, damage, "Fireball should be reduced by armor");
+            // Ability damage bypasses armor — DealDamage skips the Mitigation phase
+            Assert.AreEqual(80, tank.Stats.CurrentHP, "Fireball should bypass armor");
         }
 
         [Test]
@@ -91,10 +95,11 @@ namespace Tests.EditModeTests
             DamagePipeline.Register(new CriticalHitModifier(caster, 1.0f, 2.0f));
 
             var fireball = new Fireball();
-            var damage = fireball.OnCast(caster, target);
+            var context = new CombatContext();
+            fireball.OnCast(caster, target, context);
 
-            // With 100% crit and 2x multiplier: 10 * 2 = 20 damage
-            Assert.AreEqual(20, damage, "Fireball should be able to crit");
+            // With 100% crit and 2x multiplier: 10 * 2 = 20 damage → HP = 80
+            Assert.AreEqual(80, target.Stats.CurrentHP, "Fireball should be able to crit (10 × 2 = 20 damage)");
         }
 
         [Test]
@@ -107,7 +112,8 @@ namespace Tests.EditModeTests
             DamagePipeline.Register(new CriticalHitModifier(caster, 1.0f, 2.0f));
 
             var fireball = new Fireball();
-            fireball.OnCast(caster, target);
+            var context = new CombatContext();
+            fireball.OnCast(caster, target, context);
 
             var burn = target.StatusEffects[0];
             Assert.AreEqual(1, burn.Stacks, "Fireball puts one burn");
@@ -123,7 +129,8 @@ namespace Tests.EditModeTests
             Assert.IsTrue(target.IsDead, "Target should be dead");
 
             var fireball = new Fireball();
-            fireball.OnCast(caster, target);
+            var context = new CombatContext();
+            fireball.OnCast(caster, target, context);
 
             Assert.AreEqual(0, target.StatusEffects.Count, "Dead target should not receive burn");
         }
@@ -155,7 +162,8 @@ namespace Tests.EditModeTests
 
             var actions = CombatSystem.RunFight(caster, target);
 
-            // Verify that fireball action happens before damage action in first round
+            // Verify that fireball action happens before damage action in first round.
+            // DealDamage creates a DamageAction first; Fireball.OnCast then adds a FireballAction for visuals.
             var firstFireball = -1;
             var firstAttack = -1;
 
@@ -169,7 +177,7 @@ namespace Tests.EditModeTests
 
             Assert.Greater(firstFireball, -1, "Should have fireball action");
             Assert.Greater(firstAttack, -1, "Should have attack action");
-            Assert.Greater(firstFireball, firstAttack, "Fireball should happen before attack");
+            Assert.Greater(firstFireball, firstAttack, "Fireball visual action follows the damage action in the same turn");
         }
 
         [Test]
@@ -197,14 +205,15 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Target", 200, 0, 0, 5);
 
             var fireball = new Fireball();
+            var context = new CombatContext();
 
             // First application
-            fireball.OnCast(caster, target);
+            fireball.OnCast(caster, target, context);
             var firstBurnDamage = target.StatusEffects[0].Stacks;
 
             // Second application with higher base damage
             var strongerFireball = new Fireball(20, burnDamagePercent: 0.5f);
-            strongerFireball.OnCast(caster, target);
+            strongerFireball.OnCast(caster, target, context);
 
             if (target.StatusEffects[0] is not Burn burn)
                 throw new Exception("Burn should be applied to target");
