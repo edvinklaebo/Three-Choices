@@ -1,10 +1,9 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CharacterSelectController : MonoBehaviour
 {
-    [Header("References")]
+    [Header("References")] 
     [SerializeField] private CharacterCollection _collection;
     [SerializeField] private CharacterSelectView _view;
 
@@ -13,15 +12,16 @@ public class CharacterSelectController : MonoBehaviour
     private CharacterDefinition _current => _collection?.GetByIndex(CurrentIndex);
 
 
-
     private void Awake()
     {
-        if(_collection == null)
-            throw new InvalidOperationException(nameof(_collection));
-        if(_view == null)
-           throw new InvalidOperationException(nameof(_view));
+        if (_collection == null)
+            throw new InvalidOperationException(
+                $"CharacterSelectController requires a {nameof(CharacterCollection)} assigned in the inspector.");
+        if (_view == null)
+            throw new InvalidOperationException(
+                $"CharacterSelectController requires a {nameof(CharacterSelectView)} assigned in the inspector.");
     }
-    
+
     private void OnEnable()
     {
         UpdateView();
@@ -29,7 +29,7 @@ public class CharacterSelectController : MonoBehaviour
 
     public void Next()
     {
-        if (_collection == null || _collection.Characters == null || _collection.Characters.Count == 0)
+        if (_collection.Characters == null || _collection.Characters.Count == 0)
             return;
 
         CurrentIndex = (CurrentIndex + 1) % _collection.Characters.Count;
@@ -39,7 +39,7 @@ public class CharacterSelectController : MonoBehaviour
 
     public void Previous()
     {
-        if (_collection == null || _collection.Characters == null || _collection.Characters.Count == 0)
+        if (_collection.Characters == null || _collection.Characters.Count == 0)
             return;
 
         CurrentIndex = (CurrentIndex - 1 + _collection.Characters.Count) % _collection.Characters.Count;
@@ -49,7 +49,7 @@ public class CharacterSelectController : MonoBehaviour
 
     public void Confirm()
     {
-        if (_current == null)
+        if (!_current)
         {
             Log.Error("[CharacterSelect] Cannot confirm - no character selected");
             return;
@@ -61,6 +61,7 @@ public class CharacterSelectController : MonoBehaviour
 
     private void UpdateView()
     {
-        if (_view != null && _current != null) _view.DisplayCharacter(_current);
+        if (_view && _current)
+            _view.DisplayCharacter(_current);
     }
 }

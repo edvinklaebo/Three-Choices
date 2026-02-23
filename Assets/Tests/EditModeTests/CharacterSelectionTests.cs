@@ -42,14 +42,14 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void Database_HasThreeCharacters()
+        public void CharacterCollection_HasThreeCharacters()
         {
             // Assert
             Assert.AreEqual(3, _testCollection.Characters.Count);
         }
 
         [Test]
-        public void Database_GetByIndex_ReturnsCorrectCharacter()
+        public void CharacterCollection_GetByIndex_ReturnsCorrectCharacter()
         {
             // Act
             var character = _testCollection.GetByIndex(1);
@@ -60,7 +60,7 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void Database_GetByIndex_ClampsToValidRange()
+        public void CharacterCollection_GetByIndex_ClampsToValidRange()
         {
             // Act - Try to get index beyond range
             var character = _testCollection.GetByIndex(10);
@@ -71,7 +71,7 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void Database_GetByIndex_ClampsNegativeToZero()
+        public void CharacterCollection_GetByIndex_ClampsNegativeToZero()
         {
             // Act
             var character = _testCollection.GetByIndex(-1);
@@ -82,16 +82,16 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void Controller_Next_WrapsAround()
+        public void CharacterSelectController_Next_WrapsAround()
         {
             // Arrange
             var go = new GameObject();
             var controller = go.AddComponent<CharacterSelectController>();
 
-            // Use reflection to set the private _database field
-            var databaseField = typeof(CharacterSelectController).GetField("_collection",
+            // Use reflection to set the private _collection field
+            var collectionField = typeof(CharacterSelectController).GetField("_collection",
                 BindingFlags.NonPublic | BindingFlags.Instance);
-            databaseField?.SetValue(controller, _testCollection);
+            collectionField?.SetValue(controller, _testCollection);
 
             // Act
             controller.Next(); // Index 1
@@ -105,15 +105,15 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void Controller_Previous_WrapsAround()
+        public void CharacterSelectController_Previous_WrapsAround()
         {
             // Arrange
             var go = new GameObject();
             var controller = go.AddComponent<CharacterSelectController>();
 
-            var databaseField = typeof(CharacterSelectController).GetField("_collection",
+            var collectionField = typeof(CharacterSelectController).GetField("_collection",
                 BindingFlags.NonPublic | BindingFlags.Instance);
-            databaseField?.SetValue(controller, _testCollection);
+            collectionField?.SetValue(controller, _testCollection);
 
             // Act - Previous from index 0 should wrap to last
             controller.Previous();
@@ -125,15 +125,15 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void Controller_Confirm_FiresCharacterSelectedEvent()
+        public void CharacterSelectController_Confirm_FiresCharacterSelectedEvent()
         {
             // Arrange
             var go = new GameObject();
             var controller = go.AddComponent<CharacterSelectController>();
 
-            var databaseField = typeof(CharacterSelectController).GetField("_collection",
+            var collectionField = typeof(CharacterSelectController).GetField("_collection",
                 BindingFlags.NonPublic | BindingFlags.Instance);
-            databaseField?.SetValue(controller, _testCollection);
+            collectionField?.SetValue(controller, _testCollection);
 
             CharacterDefinition received = null;
             GameEvents.CharacterSelected_Event += c => received = c;
