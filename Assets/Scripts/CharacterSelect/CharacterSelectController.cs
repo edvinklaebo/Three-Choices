@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -11,6 +12,16 @@ public class CharacterSelectController : MonoBehaviour
 
     private CharacterDefinition _current => _collection?.GetByIndex(CurrentIndex);
 
+
+
+    private void Awake()
+    {
+        if(_collection == null)
+            throw new InvalidOperationException(nameof(_collection));
+        if(_view == null)
+           throw new InvalidOperationException(nameof(_view));
+    }
+    
     private void OnEnable()
     {
         UpdateView();
