@@ -37,7 +37,8 @@ namespace Tests.EditModeTests
             var context = new CombatContext();
             fireball.OnCast(caster, target, context);
 
-            Assert.Less(target.Stats.CurrentHP, 100, "Fireball should deal damage to the target");
+            // Fireball default: 10 base damage, target has 0 armor → 10 damage dealt
+            Assert.AreEqual(90, target.Stats.CurrentHP, "Fireball should deal 10 damage to the target");
         }
 
         [Test]
@@ -72,17 +73,18 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void Fireball_ShouldNotRespectArmor()
+        public void Fireball_ShouldRespectArmor()
         {
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
             var tank = CreateUnit("Tank", 100, 0, 100, 5); // 100 armor
 
             var fireball = new Fireball(20);
             var context = new CombatContext();
+            context.RegisterListener(new ArmorMitigationModifier());
             fireball.OnCast(caster, tank, context);
 
-            // Ability damage bypasses armor — DealDamage skips the Mitigation phase
-            Assert.AreEqual(80, tank.Stats.CurrentHP, "Fireball should bypass armor");
+            // Formula: 100 / (100 + 100) = 0.5 → CeilToInt(20 * 0.5) = 10 damage
+            Assert.AreEqual(90, tank.Stats.CurrentHP, "Fireball damage should be reduced by armor");
         }
 
         [Test]

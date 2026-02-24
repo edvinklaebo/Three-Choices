@@ -8,8 +8,8 @@ using UnityEngine;
 [Serializable]
 public class ArcaneMissiles : IAbility
 {
-    [SerializeField] private int _baseDamage = 5;
-    [SerializeField] private int _missileCount = 3;
+    [SerializeField] private int _baseDamage;
+    [SerializeField] private int _missileCount;
 
     public int Priority => 40;
 
