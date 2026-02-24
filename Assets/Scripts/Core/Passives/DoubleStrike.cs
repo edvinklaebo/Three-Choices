@@ -104,7 +104,7 @@ public class DoubleStrike : IPassive, ICombatListener
                 });
 
                 // Resolve the second hit through all combat phases — no direct HP mutation
-                _context.ResolveDamage(_owner, strikeData.Target, secondBaseDamage);
+                _context.DealDamage(_owner, strikeData.Target, secondBaseDamage);
             }
         }
         finally

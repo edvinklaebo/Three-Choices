@@ -13,21 +13,27 @@ public class CombatDamageResolver
 
     public CombatDamageResolver(CombatEventBus eventBus, CombatActionLog actionLog)
     {
-        _eventBus = eventBus;
-        _actionLog = actionLog;
+        _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+        _actionLog = actionLog ?? throw new ArgumentNullException(nameof(actionLog));
     }
 
     /// <summary>
-    /// Deals ability damage from <paramref name="source"/> to <paramref name="target"/>.
-    /// Runs the full damage pipeline (e.g. crit, armor mitigation), applies HP mutation,
-    /// records a <see cref="DamageAction"/>, and raises post-damage events.
+    /// Deals damage from <paramref name="source"/> to <paramref name="target"/> through all
+    /// combat phases. This is the single point where HP is mutated and healing/statuses are
+    /// applied.
     /// <para>
-    /// Pass <paramref name="onHitStatus"/> to queue a status effect scaled to the final damage dealt
-    /// (e.g. burn = 50% of final damage). The factory receives the resolved damage value and its
-    /// returned status is applied through the normal <see cref="CombatPhase.StatusApplication"/> phase.
+    /// Pass <paramref name="onHitStatus"/> to queue a status effect scaled to the final damage
+    /// dealt (e.g. burn = 50% of final damage). The factory receives the resolved damage value
+    /// and its returned status is applied through the normal
+    /// <see cref="CombatPhase.StatusApplication"/> phase.
+    /// </para>
+    /// <para>
+    /// Pass <paramref name="effectId"/> when damage originates from a status effect tick.
+    /// A <see cref="StatusEffectAction"/> is recorded instead of a <see cref="DamageAction"/>.
     /// </para>
     /// </summary>
-    public void DealDamage(Unit source, Unit target, int baseDamage, Func<int, IStatusEffect> onHitStatus = null)
+    public void DealDamage(Unit source, Unit target, int baseDamage,
+        Func<int, IStatusEffect> onHitStatus = null, string effectId = null)
     {
         if (target == null || target.IsDead) return;
 
@@ -52,52 +58,8 @@ public class CombatDamageResolver
         target.ApplyDamage(source, ctx.FinalDamage);
         var hpAfter = target.Stats.CurrentHP;
 
-        _actionLog.Add(new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP));
-
-        _eventBus.Raise(new OnHitEvent(source, target, ctx.FinalDamage));
-
-        ExecutePhase(CombatPhase.Healing, ctx);
-        ExecutePhase(CombatPhase.ResourceGain, ctx);
-        ApplyResourceGain(ctx);
-        ExecutePhase(CombatPhase.StatusApplication, ctx);
-        ApplyStatuses(ctx);
-        ExecutePhase(CombatPhase.PostResolve, ctx);
-        ApplyHealing(ctx);
-
-        if (target.IsDead && _actionLog.Actions.OfType<DeathAction>().All(a => a.Target != target))
-            _actionLog.Add(new DeathAction(target));
-    }
-
-    /// <summary>
-    /// Resolve a full attack through all combat phases. This is the single point where
-    /// HP is mutated and healing/statuses are applied.
-    /// When <paramref name="effectId"/> is provided, a <see cref="StatusEffectAction"/> is
-    /// recorded instead of a <see cref="DamageAction"/> (used for status effect ticks).
-    /// </summary>
-    public void ResolveDamage(Unit source, Unit target, int baseDamage, string effectId = null)
-    {
-        var ctx = new DamageContext(source, target, baseDamage);
-
-        ExecutePhase(CombatPhase.PreAction, ctx);
-        if (ctx.Cancelled) return;
-
-        // Run existing pipeline modifiers (e.g. Rage, Crit) during DamageCalculation
-        DamagePipeline.Process(ctx);
-        ctx.ModifiedDamage = ctx.FinalValue;
-
-        ExecutePhase(CombatPhase.DamageCalculation, ctx);
-        ExecutePhase(CombatPhase.Mitigation, ctx);
-
-        // Lock in the final damage value — single point of HP mutation
-        ctx.FinalDamage = ctx.ModifiedDamage;
-
-        var hpBefore = target.Stats.CurrentHP;
-        var maxHP = target.Stats.MaxHP;
-        target.ApplyDamage(source, ctx.FinalDamage);
-        var hpAfter = target.Stats.CurrentHP;
-
         _actionLog.Add(effectId != null
-            ? new StatusEffectAction(target, effectId, ctx.FinalDamage, hpBefore, hpAfter, maxHP)
+            ? (ICombatAction)new StatusEffectAction(target, effectId, ctx.FinalDamage, hpBefore, hpAfter, maxHP)
             : new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP));
 
         _eventBus.Raise(new OnHitEvent(source, target, ctx.FinalDamage));
@@ -112,8 +74,6 @@ public class CombatDamageResolver
         // PostResolve runs last (e.g. Lifesteal queues PendingHealing here), then ApplyHealing
         // runs so all accumulated healing from Healing + PostResolve phases is applied together.
         ExecutePhase(CombatPhase.PostResolve, ctx);
-
-        // Apply healing after PostResolve so listeners in PostResolve (e.g. Lifesteal) can queue healing first
         ApplyHealing(ctx);
 
         if (target.IsDead && _actionLog.Actions.OfType<DeathAction>().All(a => a.Target != target))
@@ -154,3 +114,4 @@ public class CombatDamageResolver
             context.Target.ApplyStatus(status);
     }
 }
+

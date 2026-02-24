@@ -57,24 +57,21 @@ public class CombatContext
     }
 
     /// <summary>
-    /// Deals ability damage from <paramref name="source"/> to <paramref name="target"/>.
-    /// Runs the full damage pipeline (e.g. crit, armor mitigation), applies HP mutation,
-    /// records a <see cref="DamageAction"/>, and raises post-damage events.
+    /// Deals damage from <paramref name="source"/> to <paramref name="target"/> through all
+    /// combat phases. This is the single point where HP is mutated and healing/statuses are
+    /// applied.
     /// <para>
-    /// Pass <paramref name="onHitStatus"/> to queue a status effect scaled to the final damage dealt
-    /// (e.g. burn = 50% of final damage). The factory receives the resolved damage value and its
-    /// returned status is applied through the normal <see cref="CombatPhase.StatusApplication"/> phase.
+    /// Pass <paramref name="onHitStatus"/> to queue a status effect scaled to the final damage
+    /// dealt (e.g. burn = 50% of final damage). The factory receives the resolved damage value
+    /// and its returned status is applied through the normal
+    /// <see cref="CombatPhase.StatusApplication"/> phase.
+    /// </para>
+    /// <para>
+    /// Pass <paramref name="effectId"/> when damage originates from a status effect tick.
+    /// A <see cref="StatusEffectAction"/> is recorded instead of a <see cref="DamageAction"/>.
     /// </para>
     /// </summary>
-    public void DealDamage(Unit source, Unit target, int baseDamage, Func<int, IStatusEffect> onHitStatus = null)
-        => _damageResolver.DealDamage(source, target, baseDamage, onHitStatus);
-
-    /// <summary>
-    /// Resolve a full attack through all combat phases. This is the single point where
-    /// HP is mutated and healing/statuses are applied.
-    /// When <paramref name="effectId"/> is provided, a <see cref="StatusEffectAction"/> is
-    /// recorded instead of a <see cref="DamageAction"/> (used for status effect ticks).
-    /// </summary>
-    public void ResolveDamage(Unit source, Unit target, int baseDamage, string effectId = null)
-        => _damageResolver.ResolveDamage(source, target, baseDamage, effectId);
+    public void DealDamage(Unit source, Unit target, int baseDamage,
+        Func<int, IStatusEffect> onHitStatus = null, string effectId = null)
+        => _damageResolver.DealDamage(source, target, baseDamage, onHitStatus, effectId);
 }
