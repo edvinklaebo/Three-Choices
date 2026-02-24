@@ -35,7 +35,8 @@ namespace Tests.EditModeTests
             var context = new CombatContext();
             arcaneMissiles.OnCast(caster, target, context);
 
-            Assert.Less(target.Stats.CurrentHP, 100, "Arcane Missiles should deal damage to the target");
+            // Default: 3 missiles × 5 damage = 15 total
+            Assert.AreEqual(85, target.Stats.CurrentHP, "Arcane Missiles should deal 15 damage (3 × 5)");
         }
 
         [Test]
