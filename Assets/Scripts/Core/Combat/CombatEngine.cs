@@ -170,22 +170,7 @@ public class CombatEngine
 
         foreach (var ability in source.Abilities)
         {
-            var hpBefore = target.Stats.CurrentHP;
-
-            // Trigger the ability — returns damage without applying HP mutation
-            var damage = ability.OnCast(source, target);
-
-            // Apply damage through context (handles action creation and death)
-            if (damage > 0)
-                _context.ResolveDamage(source, target, damage);
-
-            var hpAfter = target.Stats.CurrentHP;
-
-            // Let ability create its own actions if it implements IActionCreator
-            if (ability is IActionCreator actionCreator)
-            {
-                actionCreator.CreateActions(_context, source, target, hpBefore, hpAfter);
-            }
+            ability.OnCast(source, target, _context);
         }
     }
 
