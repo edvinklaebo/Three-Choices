@@ -101,6 +101,57 @@ public class CombatContext
     }
 
     /// <summary>
+    /// Deals ability damage from <paramref name="source"/> to <paramref name="target"/>.
+    /// Runs the full damage pipeline (e.g. crit, armor mitigation), applies HP mutation,
+    /// records a <see cref="DamageAction"/>, and raises post-damage events.
+    /// <para>
+    /// Pass <paramref name="onHitStatus"/> to queue a status effect scaled to the final damage dealt
+    /// (e.g. burn = 50% of final damage). The factory receives the resolved damage value and its
+    /// returned status is applied through the normal <see cref="CombatPhase.StatusApplication"/> phase.
+    /// </para>
+    /// </summary>
+    public void DealDamage(Unit source, Unit target, int baseDamage, Func<int, IStatusEffect> onHitStatus = null)
+    {
+        if (target == null || target.IsDead) return;
+
+        var ctx = new DamageContext(source, target, baseDamage);
+
+        ExecutePhase(CombatPhase.PreAction, ctx);
+        if (ctx.Cancelled) return;
+
+        DamagePipeline.Process(ctx);
+        ctx.ModifiedDamage = ctx.FinalValue;
+
+        ExecutePhase(CombatPhase.DamageCalculation, ctx);
+        ExecutePhase(CombatPhase.Mitigation, ctx);
+
+        ctx.FinalDamage = ctx.ModifiedDamage;
+
+        if (onHitStatus != null)
+            ctx.PendingStatuses.Add(onHitStatus(ctx.FinalDamage));
+
+        var hpBefore = target.Stats.CurrentHP;
+        var maxHP = target.Stats.MaxHP;
+        target.ApplyDamage(source, ctx.FinalDamage);
+        var hpAfter = target.Stats.CurrentHP;
+
+        AddAction(new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP));
+
+        Raise(new OnHitEvent(source, target, ctx.FinalDamage));
+
+        ExecutePhase(CombatPhase.Healing, ctx);
+        ExecutePhase(CombatPhase.ResourceGain, ctx);
+        ApplyResourceGain(ctx);
+        ExecutePhase(CombatPhase.StatusApplication, ctx);
+        ApplyStatuses(ctx);
+        ExecutePhase(CombatPhase.PostResolve, ctx);
+        ApplyHealing(ctx);
+
+        if (target.IsDead && _actions.OfType<DeathAction>().All(a => a.Target != target))
+            AddAction(new DeathAction(target));
+    }
+
+    /// <summary>
     /// Resolve a full attack through all combat phases. This is the single point where
     /// HP is mutated and healing/statuses are applied.
     /// When <paramref name="effectId"/> is provided, a <see cref="StatusEffectAction"/> is
