@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 016647b940488d54a8872878fac7a1a4
+guid: 273d55e3b2dc00f41a58cde84b36bc1d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8616583351192444039
-    second: bleed (2)_0
+      213: 4175635781820475758
+    second: Kyle_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bleed (2)_0
+      name: Kyle_0
       rect:
         serializedVersion: 2
         x: 99
         y: 0
-        width: 442
-        height: 571
+        width: 332
+        height: 631
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 97321ae381fbb6880800000000000000
-      internalID: -8616583351192444039
+      spriteID: e69e1debe96d2f930800000000000000
+      internalID: 4175635781820475758
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      bleed (2)_0: -8616583351192444039
+      Kyle_0: 4175635781820475758
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
