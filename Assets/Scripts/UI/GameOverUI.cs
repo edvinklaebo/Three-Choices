@@ -26,11 +26,12 @@ public class GameOverUI : MonoBehaviour
 
     private void Start()
     {
-        var bootstrap = FindFirstObjectOfType<RunStatsTrackerBootstrap>();
-        if (bootstrap != null)
-            _statsPanel?.Show(bootstrap.CurrentStats.ToViewData());
+        var stats = RunStatsTrackerBootstrap.Instance?.Stats;
+
+        if (stats != null)
+            _statsPanel.Show(stats.ToViewData());
         else
-            Log.Warning("GameOverUI: RunStatsTrackerBootstrap not found. Stats will not be displayed.");
+            Log.Warning("Stats tracker missing.");
     }
 
     private static void OnBackToMenuClicked()

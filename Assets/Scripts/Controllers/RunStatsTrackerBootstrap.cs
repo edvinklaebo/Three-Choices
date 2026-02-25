@@ -6,21 +6,26 @@ using UnityEngine;
 /// </summary>
 public class RunStatsTrackerBootstrap : MonoBehaviour
 {
+    public static RunStatsTracker Instance { get; private set; }
+
     [Header("Events")]
     [SerializeField] private CombatReadyEventChannel _combatReady;
     [SerializeField] private VoidEventChannel _fightEnded;
 
-    private RunStatsTracker _tracker;
     private Unit _currentPlayer;
     private Unit _currentEnemy;
 
-    public RunStats CurrentStats => _tracker.Stats;
-
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-        _tracker = new RunStatsTracker();
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
+        DontDestroyOnLoad(gameObject);
+        Instance = new RunStatsTracker();
+        
         if (_combatReady == null)
             Log.Warning("RunStatsTrackerBootstrap: _combatReady is not assigned.");
         if (_fightEnded == null)
@@ -49,31 +54,31 @@ public class RunStatsTrackerBootstrap : MonoBehaviour
 
     private void OnNewRunStarted(CharacterDefinition _)
     {
-        _tracker.UnregisterPlayer(_currentPlayer);
-        _tracker.UnregisterEnemy(_currentEnemy);
+        Instance.UnregisterPlayer(_currentPlayer);
+        Instance.UnregisterEnemy(_currentEnemy);
         _currentPlayer = null;
         _currentEnemy = null;
-        _tracker.Reset();
+        Instance.Reset();
     }
 
     private void OnCombatReady(CombatResult result)
     {
         if (_currentPlayer != result.Player)
         {
-            _tracker.UnregisterPlayer(_currentPlayer);
+            Instance.UnregisterPlayer(_currentPlayer);
             _currentPlayer = result.Player;
-            _tracker.RegisterPlayer(_currentPlayer);
+            Instance.RegisterPlayer(_currentPlayer);
         }
 
-        _tracker.UnregisterEnemy(_currentEnemy);
+        Instance.UnregisterEnemy(_currentEnemy);
         _currentEnemy = result.Enemy;
-        _tracker.RegisterEnemy(_currentEnemy);
+        Instance.RegisterEnemy(_currentEnemy);
     }
 
     private void OnFightEnded()
     {
-        _tracker.IncrementFightsCompleted();
-        _tracker.UnregisterEnemy(_currentEnemy);
+        Instance.IncrementFightsCompleted();
+        Instance.UnregisterEnemy(_currentEnemy);
         _currentEnemy = null;
     }
 }
