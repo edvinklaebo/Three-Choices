@@ -15,7 +15,7 @@ MonoBehaviour:
   id: ability_arcane_missiles
   displayName: Arcane Missiles
   description: 'Fire 3 missiles in quick successsion. '
-  icon: {fileID: 807068550116065343, guid: 42552d235824f7a4d81ebeec9e10a9b0, type: 3}
+  icon: {fileID: 7482667652216324306, guid: 249799d76409eaf45b54a48c5ffb27f2, type: 3}
   type: 1
   stat: 0
   amount: 0

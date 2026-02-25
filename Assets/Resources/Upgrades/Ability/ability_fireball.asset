@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::UpgradeDefinition
   id: ability_fireball
   displayName: Fireball
-  description: At the start of each turn, launch a fireball that deals damage and applies burn. The fireball can critically strike, but burn damage cannot crit.
-  icon: {fileID: 0}
+  description: At the start of each turn, launch a fireball that deals damage and
+    applies burn. The fireball can critically strike, but burn damage cannot crit.
+  icon: {fileID: 7482667652216324306, guid: a3dba13b97200b64cbe89a49ddded60f, type: 3}
   type: 1
   stat: 0
   amount: 0
