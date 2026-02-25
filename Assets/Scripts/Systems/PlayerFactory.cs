@@ -19,7 +19,8 @@ public static class PlayerFactory
                 CurrentHP = character.MaxHp,
                 MaxHP = character.MaxHp,
                 Speed = character.Speed
-            }
+            },
+            Portrait = character.Portrait
         };
     }
 }

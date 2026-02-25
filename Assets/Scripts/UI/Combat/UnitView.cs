@@ -32,7 +32,7 @@ public class UnitView : MonoBehaviour
     /// <summary>
     /// Initialize the unit view with a unit reference.
     /// </summary>
-    public void Initialize(Unit unit, bool isPlayer)
+    public void Initialize(Unit unit, bool isPlayer, Sprite portrait)
     {
         if (unit == null)
         {
@@ -53,6 +53,11 @@ public class UnitView : MonoBehaviour
         if (_spriteRenderer != null)
         {
             _spriteOriginalLocalPosition = _spriteRenderer.transform.localPosition;
+        }
+
+        if (portrait != null)
+        {
+            SetSprite(portrait);
         }
 
         // Set facing direction

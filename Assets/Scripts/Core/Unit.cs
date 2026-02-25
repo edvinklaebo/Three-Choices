@@ -8,6 +8,7 @@ public class Unit
 {
     public string Name;
     public Stats Stats;
+    public Sprite Portrait;
 
     public bool IsDead { get; private set; }
 
