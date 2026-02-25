@@ -114,15 +114,6 @@ public class CombatEngine
                 _context.RegisterListener(listener);
             }
         }
-
-        // Register abilities that implement ICombatListener
-        foreach (var ability in unit.Abilities)
-        {
-            if (ability is ICombatListener listener)
-            {
-                _context.RegisterListener(listener);
-            }
-        }
     }
 
     private void Attack(Unit source, Unit target)

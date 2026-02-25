@@ -59,7 +59,7 @@ public class CombatDamageResolver
         var hpAfter = target.Stats.CurrentHP;
 
         _actionLog.Add(effectId != null
-            ? (ICombatAction)new StatusEffectAction(target, effectId, ctx.FinalDamage, hpBefore, hpAfter, maxHP)
+            ? new StatusEffectAction(target, effectId, ctx.FinalDamage, hpBefore, hpAfter, maxHP)
             : new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP));
 
         _eventBus.Raise(new OnHitEvent(source, target, ctx.FinalDamage));
