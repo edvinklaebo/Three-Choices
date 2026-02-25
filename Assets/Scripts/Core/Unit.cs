@@ -8,6 +8,7 @@ public class Unit
 {
     public string Name;
     public Stats Stats;
+    public Sprite Portrait;
 
     public bool IsDead { get; private set; }
 
@@ -46,6 +47,7 @@ public class Unit
     public event Action<Unit, Unit, int> Damaged;
     public event Action<Unit, Unit, int> OnHit;
     public event Action<Unit, int, int> HealthChanged;
+    public event Action<Unit, int> Healed;
     public event Action<Unit> Died;
     public event Action<Unit, IStatusEffect, bool> StatusEffectApplied;
 
@@ -84,9 +86,13 @@ public class Unit
     {
         if (IsDead || amount <= 0)
             return;
-        
-        Stats.CurrentHP = Math.Min(Stats.MaxHP, Stats.CurrentHP + amount);
+
+        var actualHeal = Math.Min(Stats.MaxHP - Stats.CurrentHP, amount);
+        Stats.CurrentHP += actualHeal;
         HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
+
+        if (actualHeal > 0)
+            Healed?.Invoke(this, actualHeal);
     }
 
     public void ApplyStatus(IStatusEffect effect)

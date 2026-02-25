@@ -3109,6 +3109,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d36c6bcdf2381458b3e89181515adc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Ropa::StatsPanelUI
+--- !u!1 &1041368180
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1041368181}
+  - component: {fileID: 1041368182}
+  m_Layer: 0
+  m_Name: Score Tracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1041368181
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041368180}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 683, y: 649.7298, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1041368182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041368180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 492c28c2df1c11b4996466a39ea52fdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ropa::RunStatsTrackerBootstrap
+  _combatReady: {fileID: 11400000, guid: 997dd6da580875146927ce4e3e44d9a5, type: 2}
+  _fightEnded: {fileID: 11400000, guid: 99bdd015575148c4db974cb5fe1b2ead, type: 2}
 --- !u!1001 &1085858979
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5560,3 +5606,4 @@ SceneRoots:
   - {fileID: 885637172}
   - {fileID: 538174025}
   - {fileID: 36311921}
+  - {fileID: 1041368181}
