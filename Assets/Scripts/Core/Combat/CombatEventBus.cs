@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 /// <summary>
 /// Handles event subscription and dispatch for a single combat instance.
 /// </summary>
 public class CombatEventBus
 {
-    private readonly Dictionary<Type, List<Action<CombatEvent>>> _handlers = new();
+    private readonly Dictionary<Type, List<(Delegate Original, Action<CombatEvent> Wrapper)>> _handlers = new();
 
     /// <summary>
     /// Subscribe to a specific event type.
@@ -16,8 +15,8 @@ public class CombatEventBus
     {
         var type = typeof(TEvent);
         if (!_handlers.ContainsKey(type))
-            _handlers[type] = new List<Action<CombatEvent>>();
-        _handlers[type].Add(e => handler((TEvent)e));
+            _handlers[type] = new List<(Delegate, Action<CombatEvent>)>();
+        _handlers[type].Add((handler, e => handler((TEvent)e)));
     }
 
     /// <summary>
@@ -27,7 +26,7 @@ public class CombatEventBus
     {
         var type = typeof(TEvent);
         if (_handlers.TryGetValue(type, out var list))
-            list.RemoveAll(h => h.Target == handler.Target && h.Method == handler.Method);
+            list.RemoveAll(entry => entry.Original.Equals(handler));
     }
 
     /// <summary>
@@ -37,8 +36,11 @@ public class CombatEventBus
     {
         var type = typeof(TEvent);
         if (_handlers.TryGetValue(type, out var list))
-            foreach (var h in list.ToList())
-                h(evt);
+        {
+            var snapshot = list.ToArray();
+            foreach (var entry in snapshot)
+                entry.Wrapper(evt);
+        }
     }
 
     /// <summary>
