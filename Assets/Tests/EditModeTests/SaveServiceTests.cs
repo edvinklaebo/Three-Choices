@@ -42,7 +42,9 @@ namespace Tests.EditModeTests
             player.Abilities.Add(new Fireball());
 
             // Add passives
-            player.Passives.Add(new Thorns(player));
+            var thorns = new Thorns();
+            thorns.OnAttach(player);
+            player.Passives.Add(thorns);
             player.Passives.Add(new Lifesteal(player, 0.2f));
 
             // Add status effects

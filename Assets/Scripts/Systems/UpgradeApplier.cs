@@ -71,7 +71,9 @@ public static class UpgradeApplier
         {
             case "Thorns":
                 Log.Info("Passive Applied: Thorns");
-                unit.Passives.Add(new Thorns(unit));
+                var thorns = new Thorns();
+                thorns.OnAttach(unit);
+                unit.Passives.Add(thorns);
                 break;
 
             case "Rage":
