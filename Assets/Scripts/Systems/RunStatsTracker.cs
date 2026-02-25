@@ -41,16 +41,10 @@ public class RunStatsTracker
             Log.Warning("[RunStatsTracker] Cannot register null enemy");
             return;
         }
-
-        enemy.Died += OnEnemyDied;
     }
 
     public void UnregisterEnemy(Unit enemy)
     {
-        if (enemy == null)
-            return;
-
-        enemy.Died -= OnEnemyDied;
     }
 
     public void IncrementFightsCompleted()
@@ -71,10 +65,5 @@ public class RunStatsTracker
     private void OnPlayerHealed(Unit unit, int amount)
     {
         Stats.TotalHealingDone += amount;
-    }
-
-    private void OnEnemyDied(Unit enemy)
-    {
-        Stats.EnemiesKilled++;
     }
 }

@@ -86,19 +86,6 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void EnemiesKilled_IncrementsOnEnemyDeath()
-        {
-            var tracker = new RunStatsTracker();
-            var player = CreateUnit("Player");
-            var enemy = CreateUnit("Enemy", hp: 10);
-
-            tracker.RegisterEnemy(enemy);
-            enemy.ApplyDamage(player, 10);
-
-            Assert.AreEqual(1, tracker.Stats.EnemiesKilled);
-        }
-
-        [Test]
         public void FightsCompleted_IncreasesOnIncrement()
         {
             var tracker = new RunStatsTracker();
@@ -113,11 +100,9 @@ namespace Tests.EditModeTests
         {
             var tracker = new RunStatsTracker();
             var player = CreateUnit("Player");
-            var enemy = CreateUnit("Enemy", hp: 10);
 
             tracker.RegisterPlayer(player);
-            tracker.RegisterEnemy(enemy);
-            enemy.ApplyDamage(player, 10);
+            player.ApplyDamage(null, 10);
             tracker.IncrementFightsCompleted();
 
             tracker.Reset();
@@ -125,7 +110,6 @@ namespace Tests.EditModeTests
             Assert.AreEqual(0, tracker.Stats.TotalDamageDealt);
             Assert.AreEqual(0, tracker.Stats.TotalDamageTaken);
             Assert.AreEqual(0, tracker.Stats.TotalHealingDone);
-            Assert.AreEqual(0, tracker.Stats.EnemiesKilled);
             Assert.AreEqual(0, tracker.Stats.FightsCompleted);
         }
 
@@ -144,38 +128,23 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void UnregisterEnemy_StopsTrackingKills()
-        {
-            var tracker = new RunStatsTracker();
-            var player = CreateUnit("Player");
-            var enemy = CreateUnit("Enemy", hp: 10);
-
-            tracker.RegisterEnemy(enemy);
-            tracker.UnregisterEnemy(enemy);
-            enemy.ApplyDamage(player, 10);
-
-            Assert.AreEqual(0, tracker.Stats.EnemiesKilled);
-        }
-
-        [Test]
-        public void RunStats_ToViewData_ReturnsAllFiveStats()
+        public void RunStats_ToViewData_ReturnsFourStats()
         {
             var stats = new RunStats
             {
                 TotalDamageDealt = 100,
                 TotalDamageTaken = 50,
                 TotalHealingDone = 30,
-                EnemiesKilled = 5,
                 FightsCompleted = 3
             };
 
             var viewData = new System.Collections.Generic.List<StatViewData>(stats.ToViewData());
 
-            Assert.AreEqual(5, viewData.Count);
+            Assert.AreEqual(4, viewData.Count);
             Assert.AreEqual("Damage Dealt", viewData[0].Name);
             Assert.AreEqual(100, viewData[0].Value);
-            Assert.AreEqual("Enemies Killed", viewData[3].Name);
-            Assert.AreEqual(5, viewData[3].Value);
+            Assert.AreEqual("Fights Completed", viewData[3].Name);
+            Assert.AreEqual(3, viewData[3].Value);
         }
     }
 }
