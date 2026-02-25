@@ -1,5 +1,3 @@
-using System;
-
 /// <summary>
 /// Base class for all combat events
 /// </summary>
