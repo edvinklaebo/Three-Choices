@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -85,6 +86,34 @@ public class CombatView : MonoBehaviour
     }
 
     /// <summary>
+    ///     Build a deterministic mapping of units to their UI components.
+    ///     Call this once after <see cref="Initialize" /> and pass the result to
+    ///     <see cref="UIService.SetBindings" /> so all UI lookups use direct references.
+    ///     Returns an empty dictionary and logs a warning when either unit is null,
+    ///     consistent with the fail-soft pattern used elsewhere in combat setup.
+    /// </summary>
+    public IReadOnlyDictionary<Unit, UnitUIBinding> BuildBindings(Unit player, Unit enemy)
+    {
+        if (player == null || enemy == null)
+        {
+            Log.Warning("CombatView.BuildBindings: called with null unit — bindings not built");
+            return new Dictionary<Unit, UnitUIBinding>();
+        }
+
+        return new Dictionary<Unit, UnitUIBinding>
+        {
+            [player] = new(
+                _playerView,
+                _combatHUD?.GetHealthBar(player),
+                _combatHUD?.GetHUDPanel(player)),
+            [enemy] = new(
+                _enemyView,
+                _combatHUD?.GetHealthBar(enemy),
+                _combatHUD?.GetHUDPanel(enemy))
+        };
+    }
+
+    /// <summary>
     ///     Get the UnitView for a given Unit.
     ///     Used by AnimationService and UIService for unit lookups.
     /// </summary>
@@ -108,7 +137,7 @@ public class CombatView : MonoBehaviour
     /// </summary>
     public void Show()
     {
-        if (_canvasGroup != null)
+        if (_canvasGroup)
         {
             _canvasGroup.alpha = 1f;
             _canvasGroup.interactable = true;
@@ -122,10 +151,7 @@ public class CombatView : MonoBehaviour
     /// </summary>
     public void Hide()
     {
-        // Disable presentation mode when combat ends
-        if (_combatHUD != null) _combatHUD.DisablePresentationMode();
-
-        if (_canvasGroup != null)
+        if (_canvasGroup)
         {
             _canvasGroup.alpha = 0f;
             _canvasGroup.interactable = false;

@@ -19,6 +19,12 @@ public class CombatAnimationRunner : MonoBehaviour
     public bool IsRunning { get; private set; }
 
     /// <summary>
+    ///     Returns a yield instruction that waits until animation playback completes.
+    ///     Prefer this over polling <see cref="IsRunning"/> directly.
+    /// </summary>
+    public WaitUntil WaitForCompletion() => new WaitUntil(() => !IsRunning);
+
+    /// <summary>
     ///     Speed multiplier for animations. Higher values = faster playback.
     /// </summary>
     public float SpeedMultiplier
@@ -145,7 +151,7 @@ public class CombatAnimationRunner : MonoBehaviour
             }
             finally
             {
-                // Restore original time scale
+                // Restore original timescale
                 Time.timeScale = originalTimeScale;
             }
         }

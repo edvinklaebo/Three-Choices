@@ -10,7 +10,7 @@ public static class StatusEffectExamples
     public static void ApplyPoisonFromWeapon(Unit attacker, Unit target)
     {
         // Weapon applies 2 stacks of poison for 3 turns
-        target.ApplyStatus(new Poison(2, 3));
+        target.ApplyStatus(new Poison(2, 3, 2));
     }
 
     /// <summary>
@@ -21,7 +21,7 @@ public static class StatusEffectExamples
     {
         // When player has Poison passive, attackers get poisoned
         // See Assets/Scripts/Core/Poison.cs
-        defender.Passives.Add(new Poison(defender));
+        defender.Passives.Add(new PoisonUpgrade(defender));
         // Now whenever defender is hit, attacker receives 2 stacks for 3 turns
     }
 
@@ -31,7 +31,7 @@ public static class StatusEffectExamples
     public static void ApplyPoisonFromArtifact(Unit attacker, Unit target)
     {
         // Artifact adds 1 stack of poison for 2 turns on hit
-        target.ApplyStatus(new Poison(1, 2));
+        target.ApplyStatus(new Poison(1, 2, 3));
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ public static class StatusEffectExamples
     public static void ApplyPoisonFromSkill(Unit caster, Unit target)
     {
         // Skill applies 5 stacks of poison for 4 turns instead of direct damage
-        target.ApplyStatus(new Poison(5, 4));
+        target.ApplyStatus(new Poison(5, 4, 4));
     }
 
     /// <summary>

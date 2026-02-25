@@ -1,31 +1,24 @@
-public class Poison : Passive, IStatusEffect
+using System;
+using UnityEngine;
+
+[Serializable]
+public class Poison : IStatusEffect
 {
-    private readonly int passiveDuration;
-
-    private readonly int passiveStacks;
-
-    // Constructor for status effect usage
-    public Poison(int stacks, int duration)
+    public Poison(int stacks, int duration, int baseDamage)
     {
         Stacks = stacks;
         Duration = duration;
-    }
-
-    // Constructor for passive usage
-    public Poison(Unit owner, int stacks = 2, int duration = 3)
-    {
-        Owner = owner;
-        passiveStacks = stacks;
-        passiveDuration = duration;
-
-        owner.OnHit += ApplyPoison;
+        BaseDamage = baseDamage;
     }
 
     public string Id => "Poison";
-    public int Stacks { get; private set; }
-    public int Duration { get; private set; }
 
-    // IStatusEffect implementation
+    [field: SerializeField] public int Stacks { get; set; }
+
+    [field: SerializeField] public int Duration { get; set; }
+
+    [field: SerializeField] public int BaseDamage { get; set; }
+
     public void OnApply(Unit target)
     {
         Log.Info("Poison applied", new
@@ -36,7 +29,7 @@ public class Poison : Passive, IStatusEffect
         });
     }
 
-    public void OnTurnStart(Unit target)
+    public int OnTurnStart(Unit target)
     {
         Log.Info("Poison ticking", new
         {
@@ -46,20 +39,23 @@ public class Poison : Passive, IStatusEffect
             hpBefore = target.Stats.CurrentHP
         });
 
-        target.ApplyDirectDamage(Stacks);
+        var damage = Stacks;
         Duration--;
 
-        Log.Info("Poison damage applied", new
+        Log.Info("Poison damage calculated", new
         {
             target = target.Name,
-            hpAfter = target.Stats.CurrentHP,
+            damage,
             remainingDuration = Duration
         });
+
+        return damage;
     }
 
-    public void OnTurnEnd(Unit target)
+    public int OnTurnEnd(Unit target)
     {
         // No behavior on turn end
+        return 0;
     }
 
     public void OnExpire(Unit target)
@@ -70,25 +66,8 @@ public class Poison : Passive, IStatusEffect
         });
     }
 
-    public void AddStacks(int amount)
+    public void AddStacks(IStatusEffect effect)
     {
-        Stacks += amount;
-    }
-
-    // Passive behavior - applies poison when owner hits something
-    private void ApplyPoison(Unit target, int _)
-    {
-        if (target == null)
-            return;
-
-        Log.Info("Poison passive triggered", new
-        {
-            attacker = Owner.Name,
-            target = target.Name,
-            poisonStacks = passiveStacks,
-            poisonDuration = passiveDuration
-        });
-
-        target.ApplyStatus(new Poison(passiveStacks, passiveDuration));
+        Stacks += effect.Stacks;
     }
 }

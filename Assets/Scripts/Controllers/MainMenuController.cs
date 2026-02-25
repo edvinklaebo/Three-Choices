@@ -7,20 +7,23 @@ public class MainMenuController : MonoBehaviour
 {
     private const string CharacterSelectSceneName = "CharacterSelectScene";
 
+    [Header("Events")] 
+    [SerializeField] private VoidEventChannel _continueRunRequested;
+
+    [Header("References")] 
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private Button quitButton;
     [SerializeField] private Button continueButton;
     [SerializeField] private Button newGameButton;
 
-    private RunController runController;
 
     private void Awake()
     {
-        runController = FindFirstObjectByType<RunController>();
         quitButton.onClick.AddListener(OnQuitClicked);
         continueButton.onClick.AddListener(OnContinueClicked);
 
-        if (newGameButton != null) newGameButton.onClick.AddListener(OnNewGamePressed);
+        if (newGameButton != null)
+            newGameButton.onClick.AddListener(OnNewGamePressed);
     }
 
     private void Start()
@@ -33,15 +36,15 @@ public class MainMenuController : MonoBehaviour
         Application.Quit();
     }
 
-    public void OnContinueClicked()
+    private void OnContinueClicked()
     {
-        if (runController != null)
-            runController.ContinueRun();
+        if (_continueRunRequested != null)
+            _continueRunRequested.Raise();
         else
-            Log.Error("RunController not found when Continue was clicked");
+            Log.Error("MainMenuController: ContinueRunRequested event channel not assigned");
     }
 
-    public void OnNewGamePressed()
+    private static void OnNewGamePressed()
     {
         Log.Info("[MainMenu] New run requested.");
         GameEvents.NewRunRequested_Event?.Invoke();

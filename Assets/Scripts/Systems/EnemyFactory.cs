@@ -1,8 +1,10 @@
 using System;
+using UnityEngine;
 
-public static class EnemyFactory
+[CreateAssetMenu(menuName = "Game/Enemy Factory")]
+public class EnemyFactory : ScriptableObject, IEnemyFactory
 {
-    public static Unit Create(int fightIndex)
+    public Unit Create(int fightIndex)
     {
         try
         {

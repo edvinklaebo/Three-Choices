@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -6,23 +7,29 @@ using UnityEngine;
 /// </summary>
 public class UIService
 {
-    private CombatView _combatView;
+    private IReadOnlyDictionary<Unit, UnitUIBinding> _bindings = new Dictionary<Unit, UnitUIBinding>();
 
-    public void SetCombatView(CombatView combatView)
+    /// <summary>
+    ///     Provide the fully built unit → UI binding map.
+    ///     Must be called once after <see cref="CombatView.BuildBindings" /> so all
+    ///     lookups use direct references instead of repeated component searches.
+    /// </summary>
+    public void SetBindings(IReadOnlyDictionary<Unit, UnitUIBinding> bindings)
     {
-        _combatView = combatView;
-    }
+        var newBindings = bindings ?? new Dictionary<Unit, UnitUIBinding>();
 
-    public void ShowDamage(Unit target, int amount, DamageType damageType = DamageType.Physical)
-    {
-        Log.Info("Showing damage UI", new { target = target.Name, damage = amount, type = damageType });
+        // Collect health bar instances present in the new bindings so we do not
+        // unbind health bars that are being reused across fights on the same CombatView.
+        var reusedHealthBars = new HashSet<HealthBarUI>();
+        foreach (var b in newBindings.Values)
+            if (b.HealthBar != null)
+                reusedHealthBars.Add(b.HealthBar);
 
-        var worldPosition = GetUnitWorldPosition(target);
-        if (worldPosition.HasValue && FloatingTextPool.Instance != null)
-            FloatingTextPool.Instance.Spawn(amount, damageType, worldPosition.Value);
+        foreach (var binding in _bindings.Values)
+            if (binding.HealthBar != null && !reusedHealthBars.Contains(binding.HealthBar))
+                binding.HealthBar.Unbind();
 
-        // Animate health bar to current health value (fallback for non-combat or old callers)
-        AnimateHealthBar(target);
+        _bindings = newBindings;
     }
 
     /// <summary>
@@ -47,13 +54,13 @@ public class UIService
             FloatingTextPool.Instance.Spawn(amount, damageType, worldPosition.Value);
 
         // Animate health bar with explicit HP values
-        AnimateHealthBarToValue(target, hpBefore, hpAfter, maxHP);
+        AnimateHealthBarToValue(target, hpBefore, hpAfter);
 
         // Update HP text with explicit values
         UpdateHealthText(target, hpAfter, maxHP);
     }
 
-    public void ShowHealing(Unit target, int amount)
+    public void ShowHealing(Unit target, int amount, int hpBefore, int hpAfter)
     {
         Log.Info("Showing healing UI", new { target = target.Name, healing = amount });
 
@@ -62,7 +69,7 @@ public class UIService
             FloatingTextPool.Instance.Spawn(amount, DamageType.Heal, worldPosition.Value);
 
         // Animate health bar to current health value
-        AnimateHealthBar(target);
+        AnimateHealthBarToValue(target, hpBefore, hpAfter);
     }
 
     public void ShowStatusEffect(Unit target, string effectName)
@@ -73,34 +80,17 @@ public class UIService
     }
 
     /// <summary>
-    ///     Animates the health bar for a unit to its current health value.
-    ///     This ensures health bar animations are driven by presentation events, not raw state changes.
+    ///     Animates the health bar for a unit from a specific old HP to a specific new HP.
+    ///     This allows proper animation even when the unit's state has already been modified.
     /// </summary>
-    public void AnimateHealthBar(Unit target)
+    public void AnimateHealthBarToValue(Unit target, int hpBefore, int hpAfter)
     {
         if (target == null)
             return;
 
         var healthBar = GetHealthBar(target);
-        if (healthBar != null) healthBar.AnimateToCurrentHealth();
-    }
-
-    /// <summary>
-    ///     Animates the health bar for a unit from a specific old value to a specific new value.
-    ///     This allows proper animation even when the unit's state has already been modified.
-    /// </summary>
-    public void AnimateHealthBarToValue(Unit target, int hpBefore, int hpAfter, int maxHP)
-    {
-        if (target == null || maxHP <= 0)
-            return;
-
-        var healthBar = GetHealthBar(target);
         if (healthBar != null)
-        {
-            var fromNormalized = Mathf.Clamp01((float)hpBefore / maxHP);
-            var toNormalized = Mathf.Clamp01((float)hpAfter / maxHP);
-            healthBar.AnimateToHealth(fromNormalized, toNormalized);
-        }
+            healthBar.AnimateToHealth(hpBefore, hpAfter);
     }
 
     /// <summary>
@@ -121,9 +111,6 @@ public class UIService
     /// </summary>
     private Vector3? GetUnitWorldPosition(Unit target)
     {
-        if (_combatView == null)
-            return null;
-
         var unitView = GetUnitView(target);
         if (unitView != null)
             // Spawn above unit's center
@@ -132,44 +119,24 @@ public class UIService
         return null;
     }
 
-    /// <summary>
-    ///     Get the UnitView for a given Unit.
-    /// </summary>
     private UnitView GetUnitView(Unit target)
     {
-        if (_combatView == null)
-            return null;
-
-        return _combatView.GetUnitView(target);
+        return TryGetBinding(target, out var b) ? b.UnitView : null;
     }
 
-    /// <summary>
-    ///     Get the HealthBarUI for a given Unit.
-    /// </summary>
     private HealthBarUI GetHealthBar(Unit target)
     {
-        if (_combatView == null || target == null)
-            return null;
-
-        var combatHUD = _combatView.GetComponentInChildren<CombatHUD>();
-        if (combatHUD == null)
-            return null;
-
-        return combatHUD.GetHealthBar(target);
+        return TryGetBinding(target, out var b) ? b.HealthBar : null;
     }
 
-    /// <summary>
-    ///     Get the UnitHUDPanel for a given Unit.
-    /// </summary>
     private UnitHUDPanel GetHUDPanel(Unit target)
     {
-        if (_combatView == null || target == null)
-            return null;
+        return TryGetBinding(target, out var b) ? b.HUDPanel : null;
+    }
 
-        var combatHUD = _combatView.GetComponentInChildren<CombatHUD>();
-        if (combatHUD == null)
-            return null;
-
-        return combatHUD.GetHUDPanel(target);
+    private bool TryGetBinding(Unit target, out UnitUIBinding binding)
+    {
+        binding = null;
+        return target != null && _bindings.TryGetValue(target, out binding);
     }
 }

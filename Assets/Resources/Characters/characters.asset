@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de0d4327c36058cde967874a10305dc2, type: 3}
   m_Name: characters
   m_EditorClassIdentifier: Ropa::CharacterDatabase
-  Characters:
+  _characters:
   - {fileID: 11400000, guid: 9b9f39605f2ca8042acbda7c4c30e4b7, type: 2}
   - {fileID: 11400000, guid: b0bcb7eb81a34f3409eca26168313568, type: 2}
   - {fileID: 11400000, guid: b295621befb99ef4eb06d77db90bc355, type: 2}

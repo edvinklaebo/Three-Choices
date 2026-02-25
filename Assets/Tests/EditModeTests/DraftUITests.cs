@@ -36,9 +36,7 @@ namespace Tests.EditModeTests
                 _draftUI.DraftButtons[i] = btn;
             }
             
-            if(!_draftUI.didAwake)
-                _draftUI.Awake();
-
+            _draftUI.Awake();
         }
 
         [TearDown]
@@ -52,7 +50,7 @@ namespace Tests.EditModeTests
         public void Awake_CreatesCanvasGroup()
         {
             var canvasGroup = _draftUIObject.GetComponent<CanvasGroup>();
-            
+
             Assert.IsNotNull(canvasGroup, "CanvasGroup should be created in Awake");
         }
 
@@ -123,6 +121,7 @@ namespace Tests.EditModeTests
             // Show UI
             _draftUI.Show(draft, _ => { }, animated: false);
 
+            
             // Check that first 2 buttons are active and third is inactive
             Assert.IsTrue(_draftUI.DraftButtons[0].gameObject.activeSelf, "Button 0 should be active");
             Assert.IsTrue(_draftUI.DraftButtons[1].gameObject.activeSelf, "Button 1 should be active");

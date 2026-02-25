@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class DraftController : MonoBehaviour
 {
-    [SerializeField] private UpgradeEventChannel upgradePicked;
+    [Header("Events")]
+    [SerializeField] private DraftEventChannel _showDraft;
     [SerializeField] private VoidEventChannel fightEnded;
 
     private DraftSystem _draft;
@@ -28,6 +29,6 @@ public class DraftController : MonoBehaviour
     private void OfferDraft()
     {
         var draft = _draft.GenerateDraft(3);
-        DraftUI.Instance.Show(draft, u => upgradePicked.Raise(u));
+        _showDraft.Raise(draft);
     }
 }

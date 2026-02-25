@@ -1,31 +1,10 @@
 fileFormatVersion: 2
-guid: ddce68fcc19b56b45a3b04d6b2cb999a
+guid: 108facf79a1b92849b3fe34469cabb0b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5005990984189769374
-    second: poison_0
-  - first:
-      213: -887327768880906463
-    second: poison_1
-  - first:
-      213: 3296144372841241373
-    second: poison_2
-  - first:
-      213: 16603674079127399
-    second: poison_3
-  - first:
-      213: -3208200363666331675
-    second: poison_4
-  - first:
-      213: 4963051859535109326
-    second: poison_5
-  - first:
-      213: 1857658034762302972
-    second: poison_6
-  - first:
-      213: -5585360812121815564
-    second: poison_7
+      213: 4237362570047271773
+    second: thorns (2)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -58,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -67,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: poison_0
+      name: thorns (2)_0
       rect:
         serializedVersion: 2
-        x: 79
-        y: 9
-        width: 492
-        height: 612
+        x: 69
+        y: 39
+        width: 522
+        height: 552
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -136,162 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2698f8609b5278ab0800000000000000
-      internalID: -5005990984189769374
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: poison_1
-      rect:
-        serializedVersion: 2
-        x: 589
-        y: 349
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 12f738078149fa3f0800000000000000
-      internalID: -887327768880906463
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: poison_2
-      rect:
-        serializedVersion: 2
-        x: 49
-        y: 279
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d1bda97e7d14ebd20800000000000000
-      internalID: 3296144372841241373
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: poison_3
-      rect:
-        serializedVersion: 2
-        x: 569
-        y: 309
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 767e37f14fcfa3000800000000000000
-      internalID: 16603674079127399
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: poison_4
-      rect:
-        serializedVersion: 2
-        x: 29
-        y: 229
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5e7a36b54ce2a73d0800000000000000
-      internalID: -3208200363666331675
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: poison_5
-      rect:
-        serializedVersion: 2
-        x: 549
-        y: 199
-        width: 52
-        height: 52
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ecc9e61fe5d40e440800000000000000
-      internalID: 4963051859535109326
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: poison_6
-      rect:
-        serializedVersion: 2
-        x: 569
-        y: 249
-        width: 52
-        height: 52
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: cf5482ce32ab7c910800000000000000
-      internalID: 1857658034762302972
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: poison_7
-      rect:
-        serializedVersion: 2
-        x: 39
-        y: 169
-        width: 52
-        height: 52
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4f587131fefcc72b0800000000000000
-      internalID: -5585360812121815564
+      spriteID: d5334349ec22eca30800000000000000
+      internalID: 4237362570047271773
       vertices: []
       indices: 
       edges: []
@@ -300,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -310,14 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      poison_0: -5005990984189769374
-      poison_1: -887327768880906463
-      poison_2: 3296144372841241373
-      poison_3: 16603674079127399
-      poison_4: -3208200363666331675
-      poison_5: 4963051859535109326
-      poison_6: 1857658034762302972
-      poison_7: -5585360812121815564
+      thorns (2)_0: 4237362570047271773
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

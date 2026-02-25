@@ -23,7 +23,7 @@ namespace Tests.EditModeTests
         public void Bleed_DealsDamageAtTurnStart()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var bleed = new Bleed(5, 3);
+            var bleed = new Bleed(5, 3, 1);
 
             unit.ApplyStatus(bleed);
             unit.TickStatusesTurnStart();
@@ -35,7 +35,7 @@ namespace Tests.EditModeTests
         public void Bleed_ReducesDurationEachTick()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var bleed = new Bleed(5, 3);
+            var bleed = new Bleed(5, 3, 1);
 
             unit.ApplyStatus(bleed);
 
@@ -52,7 +52,7 @@ namespace Tests.EditModeTests
         public void Bleed_ExpiresWhenDurationReachesZero()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var bleed = new Bleed(5, 2);
+            var bleed = new Bleed(5, 2, 1);
 
             unit.ApplyStatus(bleed);
 
@@ -68,8 +68,8 @@ namespace Tests.EditModeTests
         public void ApplyStatus_StacksExistingBleed()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var bleed1 = new Bleed(3, 2);
-            var bleed2 = new Bleed(2, 2);
+            var bleed1 = new Bleed(3, 2, 1);
+            var bleed2 = new Bleed(2, 2, 1);
 
             unit.ApplyStatus(bleed1);
             unit.ApplyStatus(bleed2);
@@ -82,12 +82,12 @@ namespace Tests.EditModeTests
         public void Bleed_CanKillUnit()
         {
             var unit = CreateUnit("Test", 10, 0, 0, 5);
-            var bleed = new Bleed(15, 3);
+            var bleed = new Bleed(15, 3, 1);
 
             unit.ApplyStatus(bleed);
             unit.TickStatusesTurnStart();
 
-            Assert.IsTrue(unit.isDead, "Bleed should be able to kill the unit");
+            Assert.IsTrue(unit.IsDead, "Bleed should be able to kill the unit");
             Assert.LessOrEqual(unit.Stats.CurrentHP, 0, "HP should be 0 or negative");
         }
 
@@ -95,7 +95,7 @@ namespace Tests.EditModeTests
         public void Bleed_BypassesArmor()
         {
             var unit = CreateUnit("Tank", 100, 0, 1000, 5);
-            var bleed = new Bleed(10, 3);
+            var bleed = new Bleed(10, 3, 1);
 
             unit.ApplyStatus(bleed);
             unit.TickStatusesTurnStart();
@@ -109,7 +109,7 @@ namespace Tests.EditModeTests
             var bleeding = CreateUnit("Bleeding", 50, 10, 0, 10);
             var enemy = CreateUnit("Enemy", 100, 5, 0, 5);
 
-            bleeding.ApplyStatus(new Bleed(5, 10));
+            bleeding.ApplyStatus(new Bleed(5, 10, 1));
 
             CombatSystem.RunFight(bleeding, enemy);
 
@@ -125,11 +125,11 @@ namespace Tests.EditModeTests
             var bleeding = CreateUnit("Bleeding", 5, 100, 0, 10);
             var enemy = CreateUnit("Enemy", 10, 0, 0, 5);
 
-            bleeding.ApplyStatus(new Bleed(10, 3));
+            bleeding.ApplyStatus(new Bleed(10, 3, 1));
 
             CombatSystem.RunFight(bleeding, enemy);
 
-            Assert.IsTrue(bleeding.isDead, "Bleeding unit should die from bleed");
+            Assert.IsTrue(bleeding.IsDead, "Bleeding unit should die from bleed");
             Assert.AreEqual(10, enemy.Stats.CurrentHP,
                 "Enemy should take no damage because bleeding unit died before attacking");
         }
@@ -141,7 +141,7 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
             // Apply bleed passive to attacker
-            attacker.Passives.Add(new Bleed(attacker));
+            attacker.Passives.Add(new BleedUpgrade(attacker));
 
             // Attacker hits defender
             defender.ApplyDamage(attacker, 10);
@@ -160,7 +160,7 @@ namespace Tests.EditModeTests
             var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
             var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
-            attacker.Passives.Add(new Bleed(attacker));
+            attacker.Passives.Add(new BleedUpgrade(attacker));
 
             // First hit
             defender.ApplyDamage(attacker, 10);
@@ -179,7 +179,7 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Defender", 20, 0, 0, 5);
 
             // Attacker has bleed passive
-            attacker.Passives.Add(new Bleed(attacker, 3, 5));
+            attacker.Passives.Add(new BleedUpgrade(attacker, 3, 5));
 
             CombatSystem.RunFight(attacker, defender);
 
@@ -196,16 +196,16 @@ namespace Tests.EditModeTests
         public void Bleed_And_Poison_CanCoexist()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var bleed = new Bleed(3, 3);
-            var poison = new Poison(2, 2);
+            var bleed = new Bleed(3, 3, 1);
+            var poison = new Poison(2, 2, 1);
 
             unit.ApplyStatus(bleed);
             unit.ApplyStatus(poison);
 
             Assert.AreEqual(2, unit.StatusEffects.Count, "Should have both bleed and poison");
-            
+
             unit.TickStatusesTurnStart();
-            
+
             Assert.AreEqual(95, unit.Stats.CurrentHP, "Should take 5 damage total (3 from bleed + 2 from poison)");
         }
     }

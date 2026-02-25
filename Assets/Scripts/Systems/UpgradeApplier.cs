@@ -11,7 +11,7 @@ public static class UpgradeApplier
                 break;
 
             case UpgradeType.Ability:
-                ApplyAbility(upgrade);
+                ApplyAbility(upgrade, unit);
                 break;
 
             case UpgradeType.Passive:
@@ -48,12 +48,18 @@ public static class UpgradeApplier
         }
     }
 
-    private static void ApplyAbility(UpgradeDefinition upgrade)
+    private static void ApplyAbility(UpgradeDefinition upgrade, Unit unit)
     {
         switch (upgrade.AbilityId)
         {
-            case "1":
-                throw new NotImplementedException();
+            case "Fireball":
+                Log.Info("Ability Applied: Fireball");
+                unit.Abilities.Add(new Fireball());
+                break;
+            case "Arcane Missiles":
+                Log.Info("Ability Applied: Arcane Missiles");
+                unit.Abilities.Add(new ArcaneMissiles());
+                break;
             default:
                 throw new ArgumentOutOfRangeException(upgrade.AbilityId);
         }
@@ -80,12 +86,17 @@ public static class UpgradeApplier
 
             case "Poison":
                 Log.Info("Passive Applied: Poison");
-                unit.Passives.Add(new Poison(unit));
+                unit.Passives.Add(new PoisonUpgrade(unit));
                 break;
-            
+
             case "Bleed":
                 Log.Info("Passive Applied: Bleed");
-                unit.Passives.Add(new Bleed(unit));
+                unit.Passives.Add(new BleedUpgrade(unit));
+                break;
+
+            case "DoubleStrike":
+                Log.Info("Passive Applied: DoubleStrike");
+                unit.Passives.Add(new DoubleStrike(unit, 0.25f, 0.75f));
                 break;
 
             default:

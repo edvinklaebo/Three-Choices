@@ -1,60 +1,46 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class Lifesteal : Passive
+[Serializable]
+public class Lifesteal : IPassive, ICombatListener
 {
-    private readonly List<HealData> _pendingHeals = new();
-    private readonly float percent;
+    [SerializeField] private float percent;
+    private Unit _owner;
+
+    public int Priority => 200; // Late priority - after damage is dealt
 
     public Lifesteal(Unit owner, float percent)
     {
-        Owner = owner;
         this.percent = percent;
-
-        owner.OnHit += OnDamageDealt;
+        OnAttach(owner);
     }
 
-    private void OnDamageDealt(Unit target, int damage)
+    public void OnAttach(Unit owner)
     {
-        var heal = Mathf.CeilToInt(damage * percent);
-
-        // Track HP before healing
-        var hpBefore = Owner.Stats.CurrentHP;
-        var maxHP = Owner.Stats.MaxHP;
-
-        // Apply healing to state
-        Owner.Heal(heal);
-
-        // Track HP after healing
-        var hpAfter = Owner.Stats.CurrentHP;
-
-        // Store heal data for action queue
-        _pendingHeals.Add(new HealData(heal, hpBefore, hpAfter, maxHP));
+        _owner = owner;
     }
 
-    /// <summary>
-    ///     Get and clear all pending heals that need to be shown as actions.
-    /// </summary>
-    public List<HealData> ConsumePendingHeals()
+    public void OnDetach(Unit owner)
     {
-        var heals = new List<HealData>(_pendingHeals);
-        _pendingHeals.Clear();
-        return heals;
+        _owner = null;
     }
 
-    public readonly struct HealData
+    public void RegisterHandlers(CombatContext context)
     {
-        public readonly int Amount;
-        public readonly int HPBefore;
-        public readonly int HPAfter;
-        public readonly int MaxHP;
+        context.On<DamagePhaseEvent>(OnDamagePhase);
+    }
 
-        public HealData(int amount, int hpBefore, int hpAfter, int maxHP)
-        {
-            Amount = amount;
-            HPBefore = hpBefore;
-            HPAfter = hpAfter;
-            MaxHP = maxHP;
-        }
+    public void UnregisterHandlers(CombatContext context)
+    {
+        context.Off<DamagePhaseEvent>(OnDamagePhase);
+    }
+
+    private void OnDamagePhase(DamagePhaseEvent evt)
+    {
+        if (evt.Phase != CombatPhase.PostResolve) return;
+        if (evt.Context.Source != _owner) return;
+
+        var healAmount = Mathf.CeilToInt(evt.Context.FinalDamage * percent);
+        evt.Context.PendingHealing += healAmount;
     }
 }

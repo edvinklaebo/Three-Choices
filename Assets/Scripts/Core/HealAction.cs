@@ -33,8 +33,8 @@ public class HealAction : ICombatAction
         });
 
         // Show healing UI with explicit HP values for animation
-        ctx.UI.ShowHealing(Target, Amount);
-        ctx.UI.AnimateHealthBarToValue(Target, TargetHPBefore, TargetHPAfter, TargetMaxHP);
+        ctx.UI.ShowHealing(Target, Amount, TargetHPBefore, TargetHPAfter);
+        ctx.UI.AnimateHealthBarToValue(Target, TargetHPBefore, TargetHPAfter);
         ctx.UI.UpdateHealthText(Target, TargetHPAfter, TargetMaxHP);
 
         // Brief pause to show healing effect

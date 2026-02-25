@@ -1,39 +1,53 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DraftUI : MonoBehaviour
 {
-    public static DraftUI Instance;
     public Button[] DraftButtons;
 
-    private const float FadeDuration = 0.3f;
+    [SerializeField] private VoidEventChannel _onHideRequested;
+    [SerializeField] private DraftEventChannel _onShowRequested;
+    [SerializeField] private UpgradeEventChannel _upgradePicked;
 
-    private List<UpgradeDefinition> _currentDraft;
-    private Action<UpgradeDefinition> _onPick;
-    private CanvasGroup _canvasGroup;
+    private UIFader _fader;
+    private DraftOptionView[] _draftOptions;
 
     public void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Log.Warning($"Duplicate {nameof(DraftUI)} detected. Destroying this instance.");
-            Destroy(gameObject);
-            return;
-        }
+        var canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        _fader = new UIFader(canvasGroup, this);
 
-        Instance = this;
+        _draftOptions = BuildOptions();
 
-        // Get or add CanvasGroup for fade animation
-        _canvasGroup = GetComponent<CanvasGroup>();
-        if (_canvasGroup == null)
-        {
-            _canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        }
+        _fader.Hide(animated: false);
+    }
 
-        // Start hidden (no animation in Awake)
+    private void OnEnable()
+    {
+        if (_onHideRequested != null) _onHideRequested.OnRaised += OnHideRequested;
+        if (_onShowRequested != null) _onShowRequested.OnRaised += OnShowRequested;
+    }
+
+    private void OnDisable()
+    {
+        if (_onHideRequested != null) _onHideRequested.OnRaised -= OnHideRequested;
+        if (_onShowRequested != null) _onShowRequested.OnRaised -= OnShowRequested;
+    }
+
+    private void OnShowRequested(List<UpgradeDefinition> draft)
+    {
+        if (_upgradePicked == null)
+            Log.Warning("DraftUI: _upgradePicked event channel is not assigned. Upgrade picks will not be broadcast.");
+
+        Show(draft, u => _upgradePicked?.Raise(u));
+    }
+
+    private void OnHideRequested()
+    {
         Hide(animated: false);
     }
 
@@ -57,132 +71,58 @@ public class DraftUI : MonoBehaviour
             return;
         }
 
-        _currentDraft = draft;
-        _onPick = onPick;
+        // Rebuild option views if DraftButtons were assigned after Awake
+        if (_draftOptions == null || _draftOptions.Length != DraftButtons.Length)
+            _draftOptions = BuildOptions();
 
-        // Make UI visible
         gameObject.SetActive(true);
-        
-        if (animated)
-        {
-            StartCoroutine(FadeIn());
-        }
-        else
-        {
-            _canvasGroup.alpha = 1f;
-            _canvasGroup.interactable = true;
-            _canvasGroup.blocksRaycasts = true;
-        }
+        _fader.Show(animated);
 
-        for (var i = 0; i < DraftButtons.Length; i++)
+        for (var i = 0; i < _draftOptions.Length; i++)
         {
-            var btn = DraftButtons[i];
+            var option = _draftOptions[i];
 
-            if (btn == null)
+            if (option == null)
             {
-                Log.Warning("Null button reference in DraftButtons array", new { index = i });
+                Log.Warning("Null option in DraftButtons array", new { index = i });
                 continue;
             }
 
             if (i >= draft.Count)
             {
-                btn.gameObject.SetActive(false);
+                option.gameObject.SetActive(false);
                 continue;
             }
 
-            btn.gameObject.SetActive(true);
+            option.gameObject.SetActive(true);
 
             var upgrade = draft[i];
-
-            // --- Tooltip ---
-            var tooltip = btn.GetComponent<TooltipTrigger>();
-            tooltip.Content = _currentDraft[i].Description;
-            tooltip.Label = _currentDraft[i].DisplayName;
-
-            // --- Text ---
-            var text = btn.GetComponentInChildren<Text>();
-            if (text != null)
-                text.text = upgrade.DisplayName;
-            else
-                Log.Warning("Draft button missing Text component", new { index = i });
-
-            // --- Icon (NEW) ---
-            var icon = btn.GetComponentInChildren<Image>(true);
-            if (icon != null && upgrade.Icon != null)
-            {
-                icon.sprite = upgrade.Icon;
-                icon.enabled = true;
-            }
-            else if (icon != null)
-            {
-                icon.enabled = false; // avoids stale sprites
-            }
-
-            var index = i; // closure safety
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(() => Pick(index));
+            option.Bind(upgrade, onPick);
         }
-    }
-
-    private void Pick(int index)
-    {
-        if (_currentDraft == null || index < 0 || index >= _currentDraft.Count)
-            return;
-
-        var picked = _currentDraft[index];
-        _onPick?.Invoke(picked);
     }
 
     public void Hide(bool animated = true)
     {
         Log.Info("DraftUI.Hide invoked", new { animated });
-
-        if (animated)
-        {
-            StartCoroutine(FadeOut());
-        }
-        else
-        {
-            _canvasGroup.alpha = 0f;
-            _canvasGroup.interactable = false;
-            _canvasGroup.blocksRaycasts = false;
-        }
+        _fader.Hide(animated);
     }
 
-    private IEnumerator FadeIn()
+    private DraftOptionView[] BuildOptions()
     {
-        _canvasGroup.alpha = 0f;
-        _canvasGroup.interactable = false;
-        _canvasGroup.blocksRaycasts = false;
+        if (DraftButtons == null) return Array.Empty<DraftOptionView>();
 
-        float elapsed = 0f;
-
-        while (elapsed < FadeDuration)
+        var options = new DraftOptionView[DraftButtons.Length];
+        for (var i = 0; i < DraftButtons.Length; i++)
         {
-            elapsed += Time.deltaTime;
-            _canvasGroup.alpha = Mathf.Lerp(0f, 1f, elapsed / FadeDuration);
-            yield return null;
+            if (DraftButtons[i] == null) continue;
+            var view = DraftButtons[i].GetComponent<DraftOptionView>();
+            if (view == null)
+            {
+                view = DraftButtons[i].gameObject.AddComponent<DraftOptionView>();
+                view.Awake();
+            }
+            options[i] = view;
         }
-
-        _canvasGroup.alpha = 1f;
-        _canvasGroup.interactable = true;
-        _canvasGroup.blocksRaycasts = true;
-    }
-
-    private IEnumerator FadeOut()
-    {
-        _canvasGroup.interactable = false;
-        _canvasGroup.blocksRaycasts = false;
-
-        float elapsed = 0f;
-
-        while (elapsed < FadeDuration)
-        {
-            elapsed += Time.deltaTime;
-            _canvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / FadeDuration);
-            yield return null;
-        }
-
-        _canvasGroup.alpha = 0f;
+        return options;
     }
 }

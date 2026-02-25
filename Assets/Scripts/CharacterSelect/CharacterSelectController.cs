@@ -1,70 +1,47 @@
+using System;
 using UnityEngine;
 
 public class CharacterSelectController : MonoBehaviour
 {
-    [SerializeField] private CharacterDatabase _database;
+    [Header("References")]
+    [SerializeField] private CharacterCollection _collection;
     [SerializeField] private CharacterSelectView _view;
 
-    private RunController _runController;
+    private CharacterSelectionModel _model;
 
-    public int CurrentIndex { get; private set; }
-
-    private CharacterDefinition _current => _database?.GetByIndex(CurrentIndex);
-
+    public int CurrentIndex => _model.CurrentIndex;
+    
     private void Awake()
     {
-        // Cache RunController reference to avoid repeated scene searches
-        _runController = FindFirstObjectByType<RunController>();
-        if (_runController == null)
-            Log.Error("[CharacterSelect] RunController not found in scene");
+        if (_collection == null)
+            throw new InvalidOperationException(
+                $"CharacterSelectController requires a {nameof(CharacterCollection)} assigned in the inspector.");
+        if (_view == null)
+            throw new InvalidOperationException(
+                $"CharacterSelectController requires a {nameof(CharacterSelectView)} assigned in the inspector.");
+
+        _model = new CharacterSelectionModel(_collection.Characters);
     }
 
     private void OnEnable()
     {
-        UpdateView();
+        _view.DisplayCharacter(_model.Current);
     }
 
     public void Next()
     {
-        if (_database == null || _database.Characters == null || _database.Characters.Count == 0)
-            return;
-
-        CurrentIndex = (CurrentIndex + 1) % _database.Characters.Count;
-        Log.Info($"[CharacterSelect] Next → {_current.Id}");
-        UpdateView();
+        _model.Next();
+        _view.DisplayCharacter(_model.Current);
     }
 
     public void Previous()
     {
-        if (_database == null || _database.Characters == null || _database.Characters.Count == 0)
-            return;
-
-        CurrentIndex = (CurrentIndex - 1 + _database.Characters.Count) % _database.Characters.Count;
-        Log.Info($"[CharacterSelect] Prev → {_current.Id}");
-        UpdateView();
+        _model.Previous();
+        _view.DisplayCharacter(_model.Current);
     }
 
     public void Confirm()
     {
-        if (_current == null)
-        {
-            Log.Error("[CharacterSelect] Cannot confirm - no character selected");
-            return;
-        }
-
-        Log.Info($"[CharacterSelect] Confirmed {_current.Id}");
-        GameEvents.CharacterSelected_Event?.Invoke(_current);
-
-        if (_runController != null)
-            _runController.StartNewRun(_current);
-        else if (Application.isPlaying)
-            Log.Error("[CharacterSelect] RunController not found");
-        else
-            Log.Info("[CharacterSelect] RunController not found");
-    }
-
-    private void UpdateView()
-    {
-        if (_view != null && _current != null) _view.DisplayCharacter(_current);
+        GameEvents.CharacterSelected_Event?.Invoke(_model.Current);
     }
 }

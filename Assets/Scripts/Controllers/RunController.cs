@@ -1,54 +1,77 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+///     Manages the run lifecycle: starting, continuing, and saving a run.
+///     Delegates player creation to <see cref="PlayerFactory" />, player setup to
+///     <see cref="PlayerInitializer" />, and fight progression to <see cref="RunProgressionService" />.
+/// </summary>
 public class RunController : MonoBehaviour
 {
+    private const string GameOverScene = "GameOver";
+    private const string DraftScene = "DraftScene";
+
+    [Header("Events")]
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private VoidEventChannel playerDiedEvent;
     [SerializeField] private VoidEventChannel combatEndedWithPlayerDeath;
+    [SerializeField] private VoidEventChannel _continueRunRequested;
+    [SerializeField] private FightStartedEventChannel _fightStarted;
 
-    public Unit Player;
-
-    public int _fightIndex = 1;
+    [Header("References")] public Unit Player;
 
     public RunState CurrentRun { get; private set; }
+
+    private RunProgressionService _progressionService;
 
     public void Awake()
     {
         DontDestroyOnLoad(this);
+        _progressionService = new RunProgressionService(_fightStarted);
     }
 
     private void OnEnable()
     {
-        requestNextFight.OnRaised += HandleNextFight;
-        playerDiedEvent.OnRaised += OnPlayerDied;
+        requestNextFight.OnRaised += _progressionService.HandleNextFight;
 
-        if (combatEndedWithPlayerDeath != null) combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
+        if (combatEndedWithPlayerDeath != null)
+            combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
+        if (_continueRunRequested != null)
+            _continueRunRequested.OnRaised += ContinueRun;
+
+        GameEvents.CharacterSelected_Event += StartNewRun;
     }
 
     private void OnDisable()
     {
-        requestNextFight.OnRaised -= HandleNextFight;
-        playerDiedEvent.OnRaised -= OnPlayerDied;
+        requestNextFight.OnRaised -= _progressionService.HandleNextFight;
 
-        if (combatEndedWithPlayerDeath != null) combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
+        if (combatEndedWithPlayerDeath != null)
+            combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
+        if (_continueRunRequested != null)
+            _continueRunRequested.OnRaised -= ContinueRun;
+
+        GameEvents.CharacterSelected_Event -= StartNewRun;
     }
 
-    public void ContinueRun()
+    private void ContinueRun()
     {
         CurrentRun = SaveService.Load();
-        Player = new Unit(CurrentRun.player.Name)
-        {
-            Stats = CurrentRun.player.Stats
-        };
-        _fightIndex = CurrentRun.fightIndex;
 
-        Player.Died += _ => playerDiedEvent.Raise();
-        SceneManager.LoadScene("DraftScene");
-        // Note: requestNextFight will be raised by CombatController.Start() when DraftScene loads
+        if (CurrentRun?.player == null)
+        {
+            Log.Error("[Run] Failed to load saved run - save data is invalid or corrupted");
+            return;
+        }
+
+        PlayerInitializer.Initialize(Player, CurrentRun.player, playerDiedEvent);
+        Player = CurrentRun.player;
+        _progressionService.SetRun(CurrentRun, Player);
+
+        SceneManager.LoadScene(DraftScene);
     }
 
-    public void StartNewRun(CharacterDefinition character)
+    private void StartNewRun(CharacterDefinition character)
     {
         if (character == null)
         {
@@ -56,61 +79,24 @@ public class RunController : MonoBehaviour
             return;
         }
 
-        Log.Info($"[Run] Starting run with {character.DisplayName}");
-        SceneManager.LoadScene("DraftScene");
-        Player = CreatePlayerFromCharacter(character);
-        Player.Died += _ => playerDiedEvent.Raise();
+        var newPlayer = PlayerFactory.CreateFromCharacter(character);
+        PlayerInitializer.Initialize(Player, newPlayer, playerDiedEvent);
+        Player = newPlayer;
 
         CurrentRun = new RunState
         {
-            fightIndex = _fightIndex,
+            fightIndex = 0,
             player = Player
         };
+        _progressionService.SetRun(CurrentRun, Player);
 
         SaveService.Save(CurrentRun);
-        // Note: requestNextFight will be raised by CombatController.Start() when DraftScene loads
-    }
-
-    private void HandleNextFight()
-    {
-        _fightIndex++;
-        Save();
-    }
-
-    private void Save()
-    {
-        CurrentRun.fightIndex = _fightIndex;
-        CurrentRun.player = Player;
-        SaveService.Save(CurrentRun);
-    }
-
-    private static void OnPlayerDied()
-    {
-        // Player died event - for immediate notifications
-        // Game over logic is now handled by OnCombatEndedWithPlayerDeath
-        // to allow death animation to complete
-        Log.Info("Player died - waiting for death animation to complete");
+        SceneManager.LoadScene(DraftScene);
     }
 
     private static void OnCombatEndedWithPlayerDeath()
     {
-        Log.Info("Combat ended with player death - loading game over scene");
         SaveService.Delete();
-        SceneManager.LoadScene("GameOver");
-    }
-
-    private static Unit CreatePlayerFromCharacter(CharacterDefinition character)
-    {
-        return new Unit(character.DisplayName)
-        {
-            Stats = new Stats
-            {
-                Armor = character.Armor,
-                AttackPower = character.Attack,
-                CurrentHP = character.MaxHp,
-                MaxHP = character.MaxHp,
-                Speed = character.Speed
-            }
-        };
+        SceneManager.LoadScene(GameOverScene);
     }
 }

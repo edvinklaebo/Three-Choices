@@ -115,7 +115,7 @@ namespace Tests.EditModeTests
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
 
-            upgrade.EditorInit("A", "A", UpgradeType.Ability, "Fireball");
+            upgrade.EditorInit("A", "A", UpgradeType.Ability, "Turd blaster");
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 UpgradeApplier.Apply(upgrade, _unit));

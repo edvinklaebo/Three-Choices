@@ -23,7 +23,7 @@ namespace Tests.EditModeTests
         public void Poison_DealsDamageAtTurnStart()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var poison = new Poison(5, 3);
+            var poison = new Poison(5, 3, 1);
 
             unit.ApplyStatus(poison);
             unit.TickStatusesTurnStart();
@@ -35,7 +35,7 @@ namespace Tests.EditModeTests
         public void Poison_ReducesDurationEachTick()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var poison = new Poison(5, 3);
+            var poison = new Poison(5, 3, 1);
 
             unit.ApplyStatus(poison);
 
@@ -52,7 +52,7 @@ namespace Tests.EditModeTests
         public void Poison_ExpiresWhenDurationReachesZero()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var poison = new Poison(5, 2);
+            var poison = new Poison(5, 2, 1);
 
             unit.ApplyStatus(poison);
 
@@ -68,8 +68,8 @@ namespace Tests.EditModeTests
         public void ApplyStatus_StacksExistingPoison()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var poison1 = new Poison(3, 2);
-            var poison2 = new Poison(2, 2);
+            var poison1 = new Poison(3, 2, 1);
+            var poison2 = new Poison(2, 2, 1);
 
             unit.ApplyStatus(poison1);
             unit.ApplyStatus(poison2);
@@ -82,12 +82,12 @@ namespace Tests.EditModeTests
         public void Poison_CanKillUnit()
         {
             var unit = CreateUnit("Test", 10, 0, 0, 5);
-            var poison = new Poison(15, 3);
+            var poison = new Poison(15, 3, 1);
 
             unit.ApplyStatus(poison);
             unit.TickStatusesTurnStart();
 
-            Assert.IsTrue(unit.isDead, "Poison should be able to kill the unit");
+            Assert.IsTrue(unit.IsDead, "Poison should be able to kill the unit");
             Assert.LessOrEqual(unit.Stats.CurrentHP, 0, "HP should be 0 or negative");
         }
 
@@ -95,7 +95,7 @@ namespace Tests.EditModeTests
         public void Poison_BypassesArmor()
         {
             var unit = CreateUnit("Tank", 100, 0, 1000, 5);
-            var poison = new Poison(10, 3);
+            var poison = new Poison(10, 3, 1);
 
             unit.ApplyStatus(poison);
             unit.TickStatusesTurnStart();
@@ -109,7 +109,7 @@ namespace Tests.EditModeTests
             var poisoned = CreateUnit("Poisoned", 50, 10, 0, 10);
             var enemy = CreateUnit("Enemy", 100, 5, 0, 5);
 
-            poisoned.ApplyStatus(new Poison(5, 10));
+            poisoned.ApplyStatus(new Poison(5, 10, 1));
 
             CombatSystem.RunFight(poisoned, enemy);
 
@@ -125,26 +125,26 @@ namespace Tests.EditModeTests
             var poisoned = CreateUnit("Poisoned", 5, 100, 0, 10);
             var enemy = CreateUnit("Enemy", 10, 0, 0, 5);
 
-            poisoned.ApplyStatus(new Poison(10, 3));
+            poisoned.ApplyStatus(new Poison(10, 3, 5));
 
-            CombatSystem.RunFight(poisoned, enemy);
+            CombatSystem.RunFight(enemy, poisoned);
 
-            Assert.IsTrue(poisoned.isDead, "Poisoned unit should die from poison");
+            Assert.IsTrue(poisoned.IsDead, "Poisoned unit should die from poison");
             Assert.AreEqual(10, enemy.Stats.CurrentHP,
                 "Enemy should take no damage because poisoned unit died before attacking");
         }
 
         [Test]
-        public void ApplyDirectDamage_DoesNotTriggerDamagedEvent()
+        public void ApplyDamage_TriggerDamagedEvent()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
             var damagedTriggered = false;
 
-            unit.Damaged += (source, damage) => damagedTriggered = true;
-            unit.ApplyDirectDamage(10);
+            unit.Damaged += (_, _, _) => damagedTriggered = true;
+            unit.ApplyDamage(unit, 10);
 
-            Assert.IsFalse(damagedTriggered, "Direct damage should not trigger Damaged event");
-            Assert.AreEqual(90, unit.Stats.CurrentHP, "HP should still be reduced");
+            Assert.IsTrue(damagedTriggered, "Damage should trigger Damaged event");
+            Assert.AreEqual(90, unit.Stats.CurrentHP, "HP should be reduced");
         }
 
         [Test]
@@ -154,13 +154,13 @@ namespace Tests.EditModeTests
             var healthChangedTriggered = false;
             var recordedHP = -1;
 
-            unit.HealthChanged += (u, current, max) =>
+            unit.HealthChanged += (_, current, _) =>
             {
                 healthChangedTriggered = true;
                 recordedHP = current;
             };
 
-            unit.ApplyDirectDamage(10);
+            unit.ApplyDamage(unit, 10);
 
             Assert.IsTrue(healthChangedTriggered, "Direct damage should trigger HealthChanged event");
             Assert.AreEqual(90, recordedHP, "Event should report correct HP");
@@ -170,7 +170,7 @@ namespace Tests.EditModeTests
         public void MultipleStatusEffects_CanCoexist()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
-            var poison = new Poison(5, 3);
+            var poison = new Poison(5, 3, 1);
             var mockEffect = new MockStatusEffect("Burn", 2, 2);
 
             unit.ApplyStatus(poison);
@@ -198,7 +198,7 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
             // Apply poison passive to attacker
-            attacker.Passives.Add(new Poison(attacker));
+            attacker.Passives.Add(new PoisonUpgrade(attacker));
 
             // Attacker hits defender
             defender.ApplyDamage(attacker, 10);
@@ -217,7 +217,7 @@ namespace Tests.EditModeTests
             var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
             var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
-            attacker.Passives.Add(new Poison(attacker));
+            attacker.Passives.Add(new PoisonUpgrade(attacker));
 
             // First hit
             defender.ApplyDamage(attacker, 10);
@@ -236,7 +236,7 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Defender", 20, 0, 0, 5);
 
             // Attacker has poison passive
-            attacker.Passives.Add(new Poison(attacker, 3, 5));
+            attacker.Passives.Add(new PoisonUpgrade(attacker, 3, 5));
 
             CombatSystem.RunFight(attacker, defender);
 
@@ -263,28 +263,33 @@ namespace Tests.EditModeTests
             public string Id { get; }
             public int Stacks { get; private set; }
             public int Duration { get; private set; }
+            public int BaseDamage { get; private set; }
 
             public void OnApply(Unit target)
             {
             }
 
-            public void OnTurnStart(Unit target)
+            public int OnTurnStart(Unit target)
             {
                 Duration--;
+                return 0;
             }
 
-            public void OnTurnEnd(Unit target)
+            public int OnTurnEnd(Unit target)
             {
                 TurnEndCalled = true;
+                return 0;
             }
 
             public void OnExpire(Unit target)
             {
             }
 
-            public void AddStacks(int amount)
+            public void AddStacks(IStatusEffect effect)
             {
-                Stacks += amount;
+                Stacks += effect.Stacks;
+                BaseDamage += effect.BaseDamage;
+                Duration += effect.Duration;
             }
         }
     }

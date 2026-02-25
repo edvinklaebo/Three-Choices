@@ -1,29 +1,27 @@
-public class Bleed : Passive, IStatusEffect
+using System;
+using UnityEngine;
+
+/// <summary>
+///     Bleed status effect that deals damage over time based on stacks.
+///     Bypasses armor. Stacks accumulate when re-applied.
+/// </summary>
+[Serializable]
+public class Bleed : IStatusEffect
 {
-    private readonly int passiveDuration;
-
-    private readonly int passiveStacks;
-
-    // Constructor for status effect usage
-    public Bleed(int stacks, int duration)
+    public Bleed(int stacks, int duration, int baseDamage)
     {
         Stacks = stacks;
         Duration = duration;
-    }
-
-    // Constructor for passive usage
-    public Bleed(Unit owner, int stacks = 2, int duration = 3)
-    {
-        Owner = owner;
-        passiveStacks = stacks;
-        passiveDuration = duration;
-
-        owner.OnHit += ApplyBleed;
+        BaseDamage = baseDamage;
     }
 
     public string Id => "Bleed";
-    public int Stacks { get; private set; }
-    public int Duration { get; private set; }
+
+    [field: SerializeField] public int Stacks { get; set; }
+
+    [field: SerializeField] public int Duration { get; set; }
+
+    [field: SerializeField] public int BaseDamage { get; set; }
 
     public void OnApply(Unit target)
     {
@@ -35,7 +33,7 @@ public class Bleed : Passive, IStatusEffect
         });
     }
 
-    public void OnTurnStart(Unit target)
+    public int OnTurnStart(Unit target)
     {
         Log.Info("Bleed ticking", new
         {
@@ -45,20 +43,23 @@ public class Bleed : Passive, IStatusEffect
             hpBefore = target.Stats.CurrentHP
         });
 
-        target.ApplyDirectDamage(Stacks);
+        var damage = Stacks;
         Duration--;
 
-        Log.Info("Bleed damage applied", new
+        Log.Info("Bleed damage calculated", new
         {
             target = target.Name,
-            hpAfter = target.Stats.CurrentHP,
+            damage,
             remainingDuration = Duration
         });
+
+        return damage;
     }
 
-    public void OnTurnEnd(Unit target)
+    public int OnTurnEnd(Unit target)
     {
         // No behavior on turn end
+        return 0;
     }
 
     public void OnExpire(Unit target)
@@ -69,25 +70,10 @@ public class Bleed : Passive, IStatusEffect
         });
     }
 
-    public void AddStacks(int amount)
+    public void AddStacks(IStatusEffect effect)
     {
-        Stacks += amount;
-    }
-
-    // Passive behavior - applies bleed when owner hits something
-    private void ApplyBleed(Unit target, int _)
-    {
-        if (target == null)
-            return;
-
-        Log.Info("Bleed passive triggered", new
-        {
-            attacker = Owner.Name,
-            target = target.Name,
-            bleedStacks = passiveStacks,
-            bleedDuration = passiveDuration
-        });
-
-        target.ApplyStatus(new Bleed(passiveStacks, passiveDuration));
+        Stacks += effect.Stacks;
+        Duration = effect.Duration;
+        BaseDamage = effect.BaseDamage;
     }
 }

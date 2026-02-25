@@ -2,36 +2,38 @@ using UnityEngine;
 
 public class UpgradeListener : MonoBehaviour
 {
+    [Header("Events")]
     [SerializeField] private UpgradeEventChannel upgradePicked;
     [SerializeField] private VoidEventChannel requestNextFight;
-    [SerializeField] private RunController runController;
+    [SerializeField] private FightStartedEventChannel _fightStarted;
+    [SerializeField] private VoidEventChannel _hideDraft;
 
-    private void Start()
-    {
-        runController = FindFirstObjectByType<RunController>();
-    }
+    private Unit _player;
 
     private void OnEnable()
     {
         upgradePicked.OnRaised += Apply;
+        if (_fightStarted != null) 
+            _fightStarted.OnRaised += OnFightStarted;
     }
 
     private void OnDisable()
     {
         upgradePicked.OnRaised -= Apply;
+        if (_fightStarted != null) 
+            _fightStarted.OnRaised -= OnFightStarted;
+    }
+
+    private void OnFightStarted(Unit player, int fightIndex)
+    {
+        _player = player;
     }
 
     private void Apply(UpgradeDefinition upgrade)
     {
-        Log.Info("Applying upgrade ", upgrade);
+        _hideDraft?.Raise();
 
-        // Hide draft UI immediately when upgrade is picked
-        if (DraftUI.Instance != null)
-        {
-            DraftUI.Instance.Hide(animated: true);
-        }
-
-        UpgradeApplier.Apply(upgrade, runController.Player);
+        UpgradeApplier.Apply(upgrade, _player);
 
         requestNextFight.Raise();
     }

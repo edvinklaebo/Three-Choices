@@ -1,3 +1,4 @@
+using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -44,7 +45,8 @@ namespace Tests.EditModeTests
             var iconPrefab = new GameObject("IconPrefab");
             var icon = iconPrefab.AddComponent<StatusEffectIcon>();
 
-            var field = typeof(StatusEffectPanel).GetField("_iconPrefab", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var field = typeof(StatusEffectPanel).GetField("_iconPrefab",
+                BindingFlags.NonPublic | BindingFlags.Instance);
             field?.SetValue(panel, icon);
 
             var unit = CreateUnit("Test", 100);
@@ -67,14 +69,15 @@ namespace Tests.EditModeTests
             var iconPrefab = new GameObject("IconPrefab");
             var icon = iconPrefab.AddComponent<StatusEffectIcon>();
 
-            var field = typeof(StatusEffectPanel).GetField("_iconPrefab", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var field = typeof(StatusEffectPanel).GetField("_iconPrefab",
+                BindingFlags.NonPublic | BindingFlags.Instance);
             field?.SetValue(panel, icon);
 
             var unit = CreateUnit("Test", 100);
-            
+
             // Add some status effects
-            unit.ApplyStatus(new Poison(5, 3));
-            unit.ApplyStatus(new Bleed(3, 2));
+            unit.ApplyStatus(new Poison(5, 3, 1));
+            unit.ApplyStatus(new Bleed(3, 2, 1));
 
             panel.Initialize(unit);
 
