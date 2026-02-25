@@ -27,7 +27,7 @@ namespace Tests.EditModeTests
             var unitView = go.AddComponent<UnitView>();
 
             var unit = CreateUnit("TestUnit", 100, 10, 5, 5);
-            unitView.Initialize(unit, isPlayer: true);
+            unitView.Initialize(unit, isPlayer: true, null);
 
             Assert.AreEqual(unit, unitView.Unit);
             Assert.IsTrue(unitView.IsPlayer);
@@ -42,7 +42,7 @@ namespace Tests.EditModeTests
             var unitView = go.AddComponent<UnitView>();
 
             var unit = CreateUnit("Player", 100, 10, 5, 5);
-            unitView.Initialize(unit, isPlayer: true);
+            unitView.Initialize(unit, isPlayer: true, null);
 
             Assert.IsTrue(unitView.IsPlayer);
 
@@ -56,7 +56,7 @@ namespace Tests.EditModeTests
             var unitView = go.AddComponent<UnitView>();
 
             var unit = CreateUnit("Enemy", 80, 8, 3, 4);
-            unitView.Initialize(unit, isPlayer: false);
+            unitView.Initialize(unit, isPlayer: false, null);
 
             Assert.IsFalse(unitView.IsPlayer);
 
@@ -77,7 +77,7 @@ namespace Tests.EditModeTests
             field.SetValue(unitView, idlePointGo.transform);
 
             var unit = CreateUnit("TestUnit", 100, 10, 5, 5);
-            unitView.Initialize(unit, isPlayer: true);
+            unitView.Initialize(unit, isPlayer: true, null);
 
             Assert.AreEqual(new Vector3(5, 0, 0), unitView.transform.position);
 
@@ -100,6 +100,30 @@ namespace Tests.EditModeTests
             Assert.AreEqual(idlePointGo.transform, unitView.IdlePoint);
 
             // Cleanup: idlePointGo is a child of go and will be destroyed with parent
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void Initialize_WithPortrait_SetsSprite()
+        {
+            var go = new GameObject("TestUnitView");
+            var unitView = go.AddComponent<UnitView>();
+
+            var spriteGo = new GameObject("Sprite");
+            spriteGo.transform.SetParent(go.transform);
+            var spriteRenderer = spriteGo.AddComponent<SpriteRenderer>();
+
+            var field = typeof(UnitView).GetField("_spriteRenderer", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            field.SetValue(unitView, spriteRenderer);
+
+            var texture = new Texture2D(1, 1);
+            var portrait = Sprite.Create(texture, new Rect(0, 0, 1, 1), Vector2.zero);
+
+            var unit = CreateUnit("Player", 100, 10, 5, 5);
+            unitView.Initialize(unit, isPlayer: true, portrait);
+
+            Assert.AreEqual(portrait, spriteRenderer.sprite);
+
             Object.DestroyImmediate(go);
         }
 
