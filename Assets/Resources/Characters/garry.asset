@@ -18,4 +18,4 @@ MonoBehaviour:
   Attack: 64
   Armor: 67
   Speed: 23
-  Portrait: {fileID: -2097036616757315214, guid: 280559b628214e84e9a288b5184b1360, type: 3}
+  Portrait: {fileID: 21300000, guid: 280559b628214e84e9a288b5184b1360, type: 3}
