@@ -1,5 +1,3 @@
-using System;
-
 /// <summary>
 /// Base class for all combat events
 /// </summary>
@@ -33,7 +31,7 @@ public abstract class CombatEvent
 }
 
 /// <summary>
-/// Raised for each phase of a <see cref="CombatContext.ResolveDamage"/> call.
+/// Raised for each phase of a <see cref="CombatContext.DealDamage"/> call.
 /// Listeners filter by <see cref="CombatEvent.Phase"/> and mutate <see cref="Context"/> instead of units directly.
 /// <see cref="CombatEvent.Source"/> and <see cref="CombatEvent.Target"/> mirror <see cref="Context"/>.Source/Target.
 /// </summary>

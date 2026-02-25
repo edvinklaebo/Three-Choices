@@ -4,7 +4,7 @@
 /// </summary>
 public enum DamageSource
 {
-    /// <summary>Normal melee/ranged attack resolved through <see cref="CombatContext.ResolveDamage"/>.</summary>
+    /// <summary>Normal melee/ranged attack resolved through <see cref="CombatContext.DealDamage"/>.</summary>
     Attack,
 
     /// <summary>Damage dealt by a status effect tick (e.g. Poison, Burn, Bleed).</summary>

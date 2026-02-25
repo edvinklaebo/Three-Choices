@@ -114,15 +114,6 @@ public class CombatEngine
                 _context.RegisterListener(listener);
             }
         }
-
-        // Register abilities that implement ICombatListener
-        foreach (var ability in unit.Abilities)
-        {
-            if (ability is ICombatListener listener)
-            {
-                _context.RegisterListener(listener);
-            }
-        }
     }
 
     private void Attack(Unit source, Unit target)
@@ -131,7 +122,7 @@ public class CombatEngine
         _context.Raise(new BeforeAttackEvent(source, target));
 
         // Pass raw AttackPower — armor reduction is applied in the Mitigation phase by ArmorMitigationModifier
-        _context.ResolveDamage(source, target, source.Stats.AttackPower);
+        _context.DealDamage(source, target, source.Stats.AttackPower);
 
         // Raise AfterAttackEvent after full resolution so post-resolution effects (e.g. DoubleStrike) can react
         _context.Raise(new AfterAttackEvent(source, target));
@@ -149,7 +140,7 @@ public class CombatEngine
             var damage = effect.OnTurnStart(source);
 
             if (damage > 0)
-                _context.ResolveDamage(null, source, damage, effect.Id);
+                _context.DealDamage(null, source, damage, effectId: effect.Id);
 
             // Remove expired effects
             if (effect.Duration <= 0)
@@ -186,7 +177,7 @@ public class CombatEngine
             var damage = effect.OnTurnEnd(source);
 
             if (damage > 0)
-                _context.ResolveDamage(null, source, damage, effect.Id);
+                _context.DealDamage(null, source, damage, effectId: effect.Id);
 
             // Remove expired effects
             if (effect.Duration <= 0)

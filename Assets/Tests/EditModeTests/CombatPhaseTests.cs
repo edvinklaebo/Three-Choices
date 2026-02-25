@@ -33,7 +33,7 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Defender", 100, 0);
             var context = new CombatContext();
 
-            context.ResolveDamage(source, target, 20);
+            context.DealDamage(source, target, 20);
 
             Assert.AreEqual(80, target.Stats.CurrentHP, "Target should take 20 damage");
         }
@@ -45,7 +45,7 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Defender", 100, 0);
             var context = new CombatContext();
 
-            context.ResolveDamage(source, target, 20);
+            context.DealDamage(source, target, 20);
 
             var damageActions = context.Actions.OfType<DamageAction>().ToList();
             Assert.AreEqual(1, damageActions.Count, "Should create exactly one DamageAction");
@@ -59,7 +59,7 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Defender", 50, 0);
             var context = new CombatContext();
 
-            context.ResolveDamage(source, target, 100);
+            context.DealDamage(source, target, 100);
 
             Assert.IsTrue(target.IsDead, "Target should be dead");
             var deathActions = context.Actions.OfType<DeathAction>().ToList();
@@ -76,7 +76,7 @@ namespace Tests.EditModeTests
             var phasesObserved = new List<CombatPhase>();
             context.On<DamagePhaseEvent>(evt => phasesObserved.Add(evt.Phase));
 
-            context.ResolveDamage(source, target, 10);
+            context.DealDamage(source, target, 10);
 
             // DamageApplication is intentionally not raised as an event — HP is mutated inline
             // inside ResolveAttack to guarantee a single, controlled mutation point.
@@ -101,7 +101,7 @@ namespace Tests.EditModeTests
             var phasesInOrder = new List<CombatPhase>();
             context.On<DamagePhaseEvent>(evt => phasesInOrder.Add(evt.Phase));
 
-            context.ResolveDamage(source, target, 10);
+            context.DealDamage(source, target, 10);
 
             // DamageApplication is applied inline (not raised as an event), so it is absent from this list.
             Assert.AreEqual(CombatPhase.PreAction, phasesInOrder[0], "PreAction should fire first");
@@ -132,7 +132,7 @@ namespace Tests.EditModeTests
                 }
             });
 
-            context.ResolveDamage(source, target, 10);
+            context.DealDamage(source, target, 10);
 
             Assert.AreEqual(source, observedSource, "Context.Source should be the attacker");
             Assert.AreEqual(target, observedTarget, "Context.Target should be the defender");
@@ -148,7 +148,7 @@ namespace Tests.EditModeTests
                     eventTarget = evt.Target;
                 }
             });
-            context.ResolveDamage(source, target, 5);
+            context.DealDamage(source, target, 5);
             Assert.AreEqual(source, eventSource, "Event.Source should mirror Context.Source");
             Assert.AreEqual(target, eventTarget, "Event.Target should mirror Context.Target");
         }
@@ -167,7 +167,7 @@ namespace Tests.EditModeTests
                     evt.Context.ModifiedDamage *= 2;
             });
 
-            context.ResolveDamage(source, target, 10);
+            context.DealDamage(source, target, 10);
 
             Assert.AreEqual(80, target.Stats.CurrentHP, "ModifiedDamage doubled in Mitigation should result in 20 damage");
         }
@@ -185,7 +185,7 @@ namespace Tests.EditModeTests
                     evt.Context.Cancelled = true;
             });
 
-            context.ResolveDamage(source, target, 10);
+            context.DealDamage(source, target, 10);
 
             Assert.AreEqual(100, target.Stats.CurrentHP, "Cancelled attack should not deal damage");
             Assert.IsEmpty(context.Actions.OfType<DamageAction>(), "No DamageAction should be created for cancelled attack");
@@ -206,7 +206,7 @@ namespace Tests.EditModeTests
                     evt.Context.PendingHealing = 5;
             });
 
-            context.ResolveDamage(source, target, 10);
+            context.DealDamage(source, target, 10);
 
             Assert.AreEqual(85, source.Stats.CurrentHP, "Source should be healed by PendingHealing amount");
             var healActions = context.Actions.OfType<HealAction>().ToList();
@@ -229,7 +229,7 @@ namespace Tests.EditModeTests
                     evt.Context.PendingStatuses.Add(bleed);
             });
 
-            context.ResolveDamage(source, target, 10);
+            context.DealDamage(source, target, 10);
 
             Assert.AreEqual(1, target.StatusEffects.Count, "Target should have 1 status effect");
             Assert.AreEqual("Bleed", target.StatusEffects[0].Id, "Applied status should be Bleed");
@@ -278,7 +278,7 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Target", 100, 0);
             var context = new CombatContext();
 
-            context.ResolveDamage(source, target, 15);
+            context.DealDamage(source, target, 15);
 
             Assert.AreEqual(85, target.Stats.CurrentHP, "ApplyDamage should reduce target HP by the amount");
         }
