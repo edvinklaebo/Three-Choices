@@ -98,7 +98,9 @@ public static class UpgradeApplier
 
             case "DoubleStrike":
                 Log.Info("Passive Applied: DoubleStrike");
-                unit.Passives.Add(new DoubleStrike(unit, 0.25f, 0.75f));
+                var doubleStrike = new DoubleStrike(0.25f, 0.75f);
+                doubleStrike.OnAttach(unit);
+                unit.Passives.Add(doubleStrike);
                 break;
 
             default:

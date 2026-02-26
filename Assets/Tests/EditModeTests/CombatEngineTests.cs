@@ -63,7 +63,8 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Target", 100, 0, 5);
 
             // Add double strike with 100% chance
-            var doubleStrike = new DoubleStrike(attacker, 1.0f, 0.75f);
+            var doubleStrike = new DoubleStrike(1.0f, 0.75f);
+            doubleStrike.OnAttach(attacker);
             attacker.Passives.Add(doubleStrike);
 
             var engine = new CombatEngine();
@@ -82,7 +83,8 @@ namespace Tests.EditModeTests
 
             // Add both passives with defined priorities
             var lifesteal = new Lifesteal(attacker, 0.2f); // Priority 200
-            var doubleStrike = new DoubleStrike(attacker, 1.0f, 0.75f); // Priority 210
+            var doubleStrike = new DoubleStrike(1.0f, 0.75f); // ExtraAttackHandler Priority 210
+            doubleStrike.OnAttach(attacker);
             attacker.Passives.Add(lifesteal);
             attacker.Passives.Add(doubleStrike);
 
