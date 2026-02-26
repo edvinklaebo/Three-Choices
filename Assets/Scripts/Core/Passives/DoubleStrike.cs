@@ -7,7 +7,7 @@ public class DoubleStrike : IPassive, ICombatHandlerProvider
 {
     [SerializeField] private float triggerChance;
     [SerializeField] private float damageMultiplier;
-    private Unit _owner;
+    
     private List<DoubleStrikeData> _pendingStrikes = new();
     private bool _suspended;
 
@@ -19,14 +19,12 @@ public class DoubleStrike : IPassive, ICombatHandlerProvider
 
     public void OnAttach(Unit owner)
     {
-        _owner = owner;
         owner.OnHit += TryTrigger;
     }
 
     public void OnDetach(Unit owner)
     {
         owner.OnHit -= TryTrigger;
-        _owner = null;
     }
 
     public ICombatListener CreateCombatHandler(Unit owner) => new ExtraAttackHandler(owner, this);
@@ -53,8 +51,6 @@ public class DoubleStrike : IPassive, ICombatHandlerProvider
     /// </summary>
     public List<DoubleStrikeData> ConsumePendingStrikes()
     {
-        if (_pendingStrikes == null)
-            return new List<DoubleStrikeData>();
         var strikes = new List<DoubleStrikeData>(_pendingStrikes);
         _pendingStrikes.Clear();
         return strikes;

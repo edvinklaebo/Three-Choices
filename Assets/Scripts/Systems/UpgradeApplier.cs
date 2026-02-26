@@ -93,7 +93,9 @@ public static class UpgradeApplier
 
             case "Bleed":
                 Log.Info("Passive Applied: Bleed");
-                unit.Passives.Add(new BleedUpgrade(unit));
+                var bleed = new BleedUpgrade(unit);
+                bleed.OnAttach(unit);
+                unit.Passives.Add(bleed);
                 break;
 
             case "DoubleStrike":

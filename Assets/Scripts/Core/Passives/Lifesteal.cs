@@ -7,7 +7,7 @@ public class Lifesteal : IPassive, ICombatListener
     [SerializeField] private float percent;
     private Unit _owner;
 
-    public int Priority => 200; // Late priority - after damage is dealt
+    public int Priority => 250; // Late priority - after damage is dealt
 
     public Lifesteal(Unit owner, float percent)
     {
