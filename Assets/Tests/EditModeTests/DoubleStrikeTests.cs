@@ -27,7 +27,8 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Target", 100, 0, 5);
 
             // Add double strike with 100% chance for testing
-            var doubleStrike = new DoubleStrike(attacker, 1.0f, 0.75f);
+            var doubleStrike = new DoubleStrike(1.0f, 0.75f);
+            doubleStrike.OnAttach(attacker);
             attacker.Passives.Add(doubleStrike);
 
             // Run combat
@@ -51,7 +52,8 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Target", 200, 0, 5);
 
             // Add double strike with 100% chance
-            var doubleStrike = new DoubleStrike(attacker, 1.0f, 0.75f);
+            var doubleStrike = new DoubleStrike(1.0f, 0.75f);
+            doubleStrike.OnAttach(attacker);
             attacker.Passives.Add(doubleStrike);
 
             // Run combat multiple times to check for crit variance
@@ -70,7 +72,8 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Target", 35, 0, 5);
 
             // Add both double strike and lifesteal
-            var doubleStrike = new DoubleStrike(attacker, 1.0f, 0.75f);
+            var doubleStrike = new DoubleStrike(1.0f, 0.75f);
+            doubleStrike.OnAttach(attacker);
             var lifesteal = new Lifesteal(attacker, 0.2f);
             attacker.Passives.Add(doubleStrike);
             attacker.Passives.Add(lifesteal);
@@ -95,7 +98,8 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Target", 100, 0, 5);
 
             // Add double strike with 0% chance
-            var doubleStrike = new DoubleStrike(attacker, 0.0f, 0.75f);
+            var doubleStrike = new DoubleStrike(0.0f, 0.75f);
+            doubleStrike.OnAttach(attacker);
             attacker.Passives.Add(doubleStrike);
 
             // Run combat
@@ -125,7 +129,8 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Target", 50, 0, 5); // Low HP to die from first hit
 
             // Add double strike with 100% chance
-            var doubleStrike = new DoubleStrike(attacker, 1.0f, 0.75f);
+            var doubleStrike = new DoubleStrike(1.0f, 0.75f);
+            doubleStrike.OnAttach(attacker);
             attacker.Passives.Add(doubleStrike);
 
             // Run combat
@@ -146,7 +151,8 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Target", 100, 0, 5);
 
             // Add double strike with 100% chance
-            var doubleStrike = new DoubleStrike(attacker, 1.0f, 0.75f);
+            var doubleStrike = new DoubleStrike(1.0f, 0.75f);
+            doubleStrike.OnAttach(attacker);
             attacker.Passives.Add(doubleStrike);
 
             // Manually trigger OnHit to queue a strike
@@ -172,7 +178,8 @@ namespace Tests.EditModeTests
             defender.Stats.Armor = 50; // 50 armor = 67% damage multiplier
 
             // Add double strike with 100% chance
-            var doubleStrike = new DoubleStrike(attacker, 1.0f, 0.75f);
+            var doubleStrike = new DoubleStrike(1.0f, 0.75f);
+            doubleStrike.OnAttach(attacker);
             attacker.Passives.Add(doubleStrike);
 
             // Run combat

@@ -259,7 +259,8 @@ namespace Tests.EditModeTests
             var attacker = CreateUnit("Striker", 100, 20);
             var defender = CreateUnit("Target", 100, 0);
 
-            var doubleStrike = new DoubleStrike(attacker, 1.0f, 0.75f);
+            var doubleStrike = new DoubleStrike(1.0f, 0.75f);
+            doubleStrike.OnAttach(attacker);
             attacker.Passives.Add(doubleStrike);
 
             // Subscribe BEFORE running fight to capture phases from both hits
