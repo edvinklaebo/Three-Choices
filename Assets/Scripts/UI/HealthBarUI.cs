@@ -22,8 +22,6 @@ public class HealthBarUI : MonoBehaviour
     [SerializeField] private Slider _slider;
     [SerializeField] private float _animationDuration = 0.25f;
 
-    private bool _sliderConfigured;
-
     private Unit _unit;
     private Coroutine _animation;
 
@@ -55,6 +53,19 @@ public class HealthBarUI : MonoBehaviour
 
         var maxHP = _unit.Stats.MaxHP;
         _slider.value = NormalizeHP(_unit.Stats.CurrentHP, maxHP);
+    }
+
+    /// <summary>
+    ///     Immediately sets the slider to the specified HP value without animation.
+    ///     Use this to initialize the display to a specific HP value (e.g. pre-combat state).
+    /// </summary>
+    public void SnapToHealth(int currentHP, int maxHP)
+    {
+        if (!_slider)
+            return;
+
+        StopActiveAnimation();
+        _slider.value = NormalizeHP(currentHP, maxHP);
     }
 
     /// <summary>
