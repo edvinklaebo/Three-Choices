@@ -141,8 +141,10 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
             // Apply bleed passive to attacker
-            attacker.Passives.Add(new BleedUpgrade(attacker));
-
+            var bleedUpgrade = new BleedUpgrade(attacker);
+            bleedUpgrade.OnAttach(attacker);
+            attacker.Passives.Add(bleedUpgrade);
+            
             // Attacker hits defender
             defender.ApplyDamage(attacker, 10);
 
@@ -160,7 +162,9 @@ namespace Tests.EditModeTests
             var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
             var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
-            attacker.Passives.Add(new BleedUpgrade(attacker));
+            var bleedUpgrade = new BleedUpgrade(attacker);
+            bleedUpgrade.OnAttach(attacker);
+            attacker.Passives.Add(bleedUpgrade);
 
             // First hit
             defender.ApplyDamage(attacker, 10);
