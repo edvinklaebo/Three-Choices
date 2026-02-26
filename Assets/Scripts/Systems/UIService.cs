@@ -33,6 +33,24 @@ public class UIService
     }
 
     /// <summary>
+    ///     Immediately sets the health bar slider and HP text to the specified values without animation.
+    ///     Used to initialize the display to the pre-combat state before animations begin.
+    /// </summary>
+    public void InitializeHealthDisplay(Unit target, int currentHP, int maxHP)
+    {
+        if (target == null)
+            return;
+
+        var healthBar = GetHealthBar(target);
+        if (healthBar != null)
+            healthBar.SnapToHealth(currentHP, maxHP);
+
+        var hudPanel = GetHUDPanel(target);
+        if (hudPanel != null)
+            hudPanel.UpdateHealthText(currentHP, maxHP);
+    }
+
+    /// <summary>
     ///     Show damage with explicit HP values for proper health bar animation.
     ///     This overload is used by DamageAction to animate from old HP to new HP.
     /// </summary>
