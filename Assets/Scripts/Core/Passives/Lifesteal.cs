@@ -12,7 +12,6 @@ public class Lifesteal : IPassive, ICombatListener
     public Lifesteal(Unit owner, float percent)
     {
         this.percent = percent;
-        OnAttach(owner);
     }
 
     public void OnAttach(Unit owner)

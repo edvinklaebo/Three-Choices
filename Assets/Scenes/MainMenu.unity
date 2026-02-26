@@ -438,11 +438,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3568f4080101364bbdf42d06bc1cbc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _continueRunRequested: {fileID: 11400000, guid: bbcc1122dd334455667788990011bbcc, type: 2}
   mainMenuPanel: {fileID: 1171537831}
   quitButton: {fileID: 1480659221}
   continueButton: {fileID: 1547953907}
   newGameButton: {fileID: 1573924195}
-  _continueRunRequested: {fileID: 11400000, guid: bbcc1122dd334455667788990011bbcc, type: 2}
 --- !u!1 &514786250
 GameObject:
   m_ObjectHideFlags: 0
