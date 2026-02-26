@@ -9,9 +9,12 @@ public class DoubleStrike : IPassive, ICombatHandlerProvider
     [SerializeField] private float damageMultiplier;
     
     private List<DoubleStrikeData> _pendingStrikes = new();
-    private bool _suspended;
+    private CombatContext _context;
+    private bool _isProcessingStrikes; // Prevent recursive double strikes
 
-    public DoubleStrike(float triggerChance, float damageMultiplier)
+    public int Priority => 210; // Late priority - after damage is dealt, after lifesteal
+
+    public DoubleStrike(Unit owner, float triggerChance, float damageMultiplier)
     {
         this.triggerChance = triggerChance;
         this.damageMultiplier = damageMultiplier;
@@ -27,20 +30,48 @@ public class DoubleStrike : IPassive, ICombatHandlerProvider
         owner.OnHit -= TryTrigger;
     }
 
-    public ICombatListener CreateCombatHandler(Unit owner) => new ExtraAttackHandler(owner, this);
+    public void RegisterHandlers(CombatContext context)
+    {
+        _context = context;
+        context.On<AfterAttackEvent>(OnAfterAttack);
+    }
 
-    /// <summary>Suspends strike queuing during second-hit processing (called by <see cref="ExtraAttackHandler"/>).</summary>
-    internal void Suspend() => _suspended = true;
+    public void UnregisterHandlers(CombatContext context)
+    {
+        _context = null;
+        context.Off<AfterAttackEvent>(OnAfterAttack);
+    }
 
-    /// <summary>Resumes strike queuing after second-hit processing (called by <see cref="ExtraAttackHandler"/>).</summary>
-    internal void Resume() => _suspended = false;
-
-    private void TryTrigger(Unit self, Unit target, int damage)
+    private void OnDamageDealt(Unit self, Unit target, int damage)
     {
         if (_suspended)
             return;
 
-        if (UnityEngine.Random.value >= triggerChance)
+        // Roll for double strike trigger
+        var roll = UnityEngine.Random.value;
+        
+        if (roll < triggerChance)
+        {
+            Log.Info("Double Strike triggered", new
+            {
+                attacker = _owner.Name,
+                target = target.Name,
+                originalDamage = damage,
+                damageMultiplier,
+                roll,
+                triggerChance
+            });
+
+            // Queue the second strike
+            _pendingStrikes ??= new List<DoubleStrikeData>();
+            _pendingStrikes.Add(new DoubleStrikeData(target, damageMultiplier));
+        }
+    }
+
+    private void OnAfterAttack(AfterAttackEvent evt)
+    {
+        // Only process if we're the attacker
+        if (evt.Source != _owner)
             return;
 
         _pendingStrikes.Add(new DoubleStrikeData(target, damageMultiplier));
