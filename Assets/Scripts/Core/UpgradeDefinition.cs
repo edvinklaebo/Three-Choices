@@ -11,7 +11,8 @@ public enum StatType
 [CreateAssetMenu(menuName = "Upgrades/Upgrade")]
 public class UpgradeDefinition : ScriptableObject
 {
-    [Header("Identity")] [SerializeField] private string id;
+    [Header("Identity")] 
+    [SerializeField] private string id;
     [SerializeField] private string displayName;
     [TextArea] [SerializeField] private string description;
     [SerializeField] private Sprite icon;
