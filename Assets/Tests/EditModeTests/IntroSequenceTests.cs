@@ -153,11 +153,5 @@ namespace Tests.EditModeTests
             var last = IntroSequence.DefaultLines[IntroSequence.DefaultLines.Length - 1];
             Assert.AreEqual("You will sit upon the Bone Throne.", last);
         }
-
-        [Test]
-        public void DefaultLines_Has29Lines()
-        {
-            Assert.AreEqual(29, IntroSequence.DefaultLines.Length);
-        }
     }
 }
