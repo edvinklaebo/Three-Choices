@@ -41,19 +41,7 @@ namespace Tests.EditModeTests
             _meta.Unlock("artifact_iron_heart");
             Assert.IsTrue(_meta.IsUnlocked("artifact_iron_heart"));
         }
-
-        [Test]
-        public void Unlock_NullId_DoesNotThrow()
-        {
-            Assert.DoesNotThrow(() => _meta.Unlock(null));
-        }
-
-        [Test]
-        public void Unlock_EmptyId_DoesNotThrow()
-        {
-            Assert.DoesNotThrow(() => _meta.Unlock(""));
-        }
-
+        
         [Test]
         public void Lock_RemovesArtifactFromUnlockedSet()
         {

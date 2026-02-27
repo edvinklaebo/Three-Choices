@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: artifact_berserker_mask
   _displayName: Berserker Mask
-  _description: Grants Rage: deal more damage as HP decreases.
+  _description: Unlocks the rage Passive.
   _icon: {fileID: 0}
   _rarity: 25
   _tags: 128

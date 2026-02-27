@@ -153,7 +153,7 @@ namespace Tests.EditModeTests
         public void Passive_Rage_LogsCorrectly()
         {
             var artifact = CreatePassiveArtifact("Rage", ArtifactTag.Rage);
-            LogAssert.Expect(UnityEngine.LogType.Log, "[INFO] [ArtifactApplier] Passive applied: Rage to Hero");
+            LogAssert.Expect(LogType.Log, "[INFO] [ArtifactApplier] Passive applied: Rage to Hero");
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
         }
 
