@@ -155,9 +155,9 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void DefaultLines_Has25Lines()
+        public void DefaultLines_Has29Lines()
         {
-            Assert.AreEqual(25, IntroSequence.DefaultLines.Length);
+            Assert.AreEqual(29, IntroSequence.DefaultLines.Length);
         }
     }
 }

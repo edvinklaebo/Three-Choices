@@ -5,7 +5,9 @@ public class IntroSequence
     public static readonly string[] DefaultLines =
     {
         "The world once feared necromancers.",
-        "Kings burned them.\nPriests hunted them.\nCities drove them into the wastelands.",
+        "Kings burned them.",
+        "Priests hunted them.",
+        "Cities drove them into the wastelands.",
         "But death is patient.",
         "And the dead are many.",
         "In time, the necromancers returned.",
@@ -13,7 +15,9 @@ public class IntroSequence
         "As entertainers.",
         "They built arenas from bone and stone.",
         "There, disputes are settled the old way.",
-        "Steel.\nMagic.\nAnd the dead.",
+        "Steel.",
+        "Magic.",
+        "And the dead.",
         "Each necromancer brings a champion.",
         "A warrior rebuilt from the remains of the fallen.",
         "The strongest rise through the tournament.",

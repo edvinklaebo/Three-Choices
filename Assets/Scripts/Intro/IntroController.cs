@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class IntroController : MonoBehaviour
 {
     private const string MainMenuSceneName = "MainMenu";
+    private const float FadeDuration = 1f;
 
     [Header("UI References")]
     [SerializeField] private TMP_Text _narrativeText;
@@ -30,10 +31,8 @@ public class IntroController : MonoBehaviour
 
         _sequence = new IntroSequence(IntroSequence.DefaultLines);
         _sequence.OnLineShown += UpdateText;
-        _sequence.OnComplete += LoadMainMenu;
 
-        _narrativeText.text = string.Empty;
-
+        SetTextAlpha(0f);
         StartCoroutine(PlaySequence());
     }
 
@@ -48,10 +47,12 @@ public class IntroController : MonoBehaviour
         while (!_sequence.IsComplete)
         {
             _sequence.ShowNext();
-
-            if (!_sequence.IsComplete)
-                yield return new WaitForSeconds(_lineDelay);
+            yield return FadeText(0f, 1f);
+            yield return new WaitForSeconds(_lineDelay);
+            yield return FadeText(1f, 0f);
         }
+
+        LoadMainMenu();
     }
 
     private void UpdateText(string line)
@@ -60,11 +61,30 @@ public class IntroController : MonoBehaviour
             _narrativeText.text = line;
     }
 
+    private void SetTextAlpha(float alpha)
+    {
+        var color = _narrativeText.color;
+        color.a = alpha;
+        _narrativeText.color = color;
+    }
+
+    private IEnumerator FadeText(float from, float to)
+    {
+        var t = 0f;
+        while (t < FadeDuration)
+        {
+            t += Time.deltaTime;
+            SetTextAlpha(Mathf.Lerp(from, to, Mathf.Clamp01(t / FadeDuration)));
+            yield return null;
+        }
+        SetTextAlpha(to);
+    }
+
     private void SkipIntro()
     {
         _skipping = true;
         StopAllCoroutines();
-        _sequence.Skip();
+        LoadMainMenu();
     }
 
     private static void LoadMainMenu()
