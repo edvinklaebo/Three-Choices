@@ -40,7 +40,7 @@ namespace Tests.EditModeTests
         public void Setup()
         {
             var savePath = Path.Combine(Path.GetTempPath(), $"artifact_test_{System.Guid.NewGuid()}.json");
-            _meta = new ArtifactMetaProgression(savePath);
+            _meta = new ArtifactMetaProgression(new JsonArtifactProgressionPersistence(savePath));
         }
 
         [TearDown]
@@ -53,7 +53,7 @@ namespace Tests.EditModeTests
         {
             var a = ScriptableObject.CreateInstance<ArtifactDefinition>();
             a.EditorInit(id, id, "desc", Rarity.Common, ArtifactTag.None,
-                ArtifactEffectType.PercentStatBoost, StatType.Armor, 10, "", lockedByDefault);
+                ArtifactEffectType.AddArtifact, StatType.Armor, 10, "", lockedByDefault);
             return a;
         }
 

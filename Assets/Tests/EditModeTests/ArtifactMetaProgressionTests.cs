@@ -12,7 +12,7 @@ namespace Tests.EditModeTests
         public void Setup()
         {
             _savePath = Path.Combine(Path.GetTempPath(), $"artifact_meta_test_{System.Guid.NewGuid()}.json");
-            _meta = new ArtifactMetaProgression(_savePath);
+            _meta = new ArtifactMetaProgression(new JsonArtifactProgressionPersistence(_savePath));
         }
 
         [TearDown]
@@ -85,7 +85,7 @@ namespace Tests.EditModeTests
             _meta.Unlock("artifact_war_gauntlet");
             _meta.Save();
 
-            var loaded = new ArtifactMetaProgression(_savePath);
+            var loaded = new ArtifactMetaProgression(new JsonArtifactProgressionPersistence(_savePath));
             loaded.Load();
 
             Assert.IsTrue(loaded.IsUnlocked("artifact_iron_heart"));
@@ -106,7 +106,7 @@ namespace Tests.EditModeTests
             _meta.Unlock("artifact_iron_heart");
             _meta.Save();
 
-            var loaded = new ArtifactMetaProgression(_savePath);
+            var loaded = new ArtifactMetaProgression(new JsonArtifactProgressionPersistence(_savePath));
             var result = loaded.Load();
 
             Assert.IsTrue(result);
@@ -145,7 +145,7 @@ namespace Tests.EditModeTests
             Assert.IsTrue(File.Exists(_savePath),
                 "Unlock should auto-save to disk");
 
-            var loaded = new ArtifactMetaProgression(_savePath);
+            var loaded = new ArtifactMetaProgression(new JsonArtifactProgressionPersistence(_savePath));
             loaded.Load();
             Assert.IsTrue(loaded.IsUnlocked("artifact_iron_heart"));
         }
@@ -155,7 +155,7 @@ namespace Tests.EditModeTests
         {
             _meta.Save();
 
-            var loaded = new ArtifactMetaProgression(_savePath);
+            var loaded = new ArtifactMetaProgression(new JsonArtifactProgressionPersistence(_savePath));
             loaded.Load();
 
             Assert.AreEqual(0, loaded.GetUnlockedIds().Count);
@@ -167,7 +167,7 @@ namespace Tests.EditModeTests
             _meta.Unlock("artifact_iron_heart");
             _meta.Save();
 
-            var loaded = new ArtifactMetaProgression(_savePath);
+            var loaded = new ArtifactMetaProgression(new JsonArtifactProgressionPersistence(_savePath));
             loaded.Load();
             loaded.Unlock("artifact_war_gauntlet");
 
