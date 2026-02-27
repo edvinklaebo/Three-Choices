@@ -39,7 +39,6 @@ public class RunStatsTracker
         if (enemy == null)
         {
             Log.Warning("[RunStatsTracker] Cannot register null enemy");
-            return;
         }
     }
 
