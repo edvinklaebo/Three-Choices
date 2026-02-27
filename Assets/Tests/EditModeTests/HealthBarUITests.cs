@@ -271,6 +271,48 @@ namespace Tests.EditModeTests
         }
 
         [Test]
+        public void SnapToHealth_SetsSliderImmediately_RegardlessOfBoundUnitHP()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+            healthBar.Awake();
+
+            // Simulate post-combat state: unit's CurrentHP has already been reduced to 0
+            var unit = CreateUnit("Test", 100, 10, 5, 5);
+            unit.Stats.CurrentHP = 0;
+            healthBar.Bind(unit);
+
+            Assert.AreEqual(0f, slider.value, 0.01f, "Slider should be 0 after binding unit with 0 HP");
+
+            // Snap to the pre-combat HP (e.g. enemy started at full health)
+            healthBar.SnapToHealth(100, 100);
+
+            Assert.AreEqual(1.0f, slider.value, 0.01f, "Slider should snap to 1.0 (100/100) immediately");
+
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void SnapToHealth_WithPartialHP_SetsCorrectNormalizedValue()
+        {
+            var go = new GameObject("TestHealthBar");
+            var slider = go.AddComponent<Slider>();
+            var healthBar = go.AddComponent<HealthBarUI>();
+            healthBar.Awake();
+
+            var unit = CreateUnit("Test", 100, 10, 5, 5);
+            unit.Stats.CurrentHP = 0;
+            healthBar.Bind(unit);
+
+            healthBar.SnapToHealth(75, 100);
+
+            Assert.AreEqual(0.75f, slider.value, 0.01f, "Slider should snap to 0.75 (75/100)");
+
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
         public void Bind_SetsSliderToCurrentNormalizedHP()
         {
             var go = new GameObject("TestHealthBar");

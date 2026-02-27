@@ -4,10 +4,10 @@
 /// </summary>
 public class AnimationContext
 {
-    public AnimationService Anim { get; set; }
-    public UIService UI { get; set; }
-    public VFXService VFX { get; set; }
-    public SFXService SFX { get; set; }
+    public AnimationService Anim { get; }
+    public UIService UI { get; }
+    public VFXService VFX { get; }
+    public SFXService SFX { get; }
 
     public AnimationContext(AnimationService anim, UIService ui, VFXService vfx, SFXService sfx)
     {

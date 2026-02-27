@@ -13,7 +13,6 @@ public class PoisonUpgrade : IPassive
         _stacks = stacks;
         _duration = duration;
         _baseDamage = baseDamage;
-        OnAttach(owner);
     }
 
     public void OnAttach(Unit owner)

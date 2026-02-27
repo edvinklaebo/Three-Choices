@@ -30,6 +30,7 @@ namespace Tests.EditModeTests
 
             // Add lifesteal passive (20% healing)
             var lifesteal = new Lifesteal(attacker, 0.2f);
+            lifesteal.OnAttach(attacker);
             attacker.Passives.Add(lifesteal);
 
             var initialHP = attacker.Stats.CurrentHP;
@@ -51,6 +52,7 @@ namespace Tests.EditModeTests
 
             // Add lifesteal passive (20% healing)
             var lifesteal = new Lifesteal(attacker, 0.2f);
+            lifesteal.OnAttach(attacker);
             attacker.Passives.Add(lifesteal);
 
             // Run combat to get actions
@@ -80,6 +82,7 @@ namespace Tests.EditModeTests
 
             // Add lifesteal passive (20% healing)
             var lifesteal = new Lifesteal(attacker, 0.2f);
+            lifesteal.OnAttach(attacker);
             attacker.Passives.Add(lifesteal);
 
             var initialHP = attacker.Stats.CurrentHP;
@@ -104,6 +107,7 @@ namespace Tests.EditModeTests
 
             // Add lifesteal passive (20% healing)
             var lifesteal = new Lifesteal(attacker, 0.2f);
+            lifesteal.OnAttach(attacker);
             attacker.Passives.Add(lifesteal);
 
             // Run combat - attacker deals 10 damage per hit
@@ -129,6 +133,7 @@ namespace Tests.EditModeTests
 
             // Add lifesteal passive (20% healing)
             var lifesteal = new Lifesteal(attacker, 0.2f);
+            lifesteal.OnAttach(attacker);
             attacker.Passives.Add(lifesteal);
 
             // Run combat - attacker deals 7 damage per hit
@@ -154,6 +159,7 @@ namespace Tests.EditModeTests
 
             // Add lifesteal passive (20% healing)
             var lifesteal = new Lifesteal(attacker, 0.2f);
+            lifesteal.OnAttach(attacker);
             attacker.Passives.Add(lifesteal);
 
             // Run combat
@@ -172,6 +178,7 @@ namespace Tests.EditModeTests
 
             // Add lifesteal passive (20% healing)
             var lifesteal = new Lifesteal(attacker, 0.2f);
+            lifesteal.OnAttach(attacker);
             attacker.Passives.Add(lifesteal);
 
             // Run combat

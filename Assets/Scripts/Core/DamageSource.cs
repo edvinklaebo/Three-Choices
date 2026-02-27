@@ -1,5 +1,5 @@
 /// <summary>
-/// Identifies the origin of damage applied via <see cref="CombatContext.ApplyDamage"/>.
+/// Identifies the origin of damage applied via <see cref="CombatContext.DealDamage"/>.
 /// Used to determine which <see cref="ICombatAction"/> is created for the damage event.
 /// </summary>
 public enum DamageSource

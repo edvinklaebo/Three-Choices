@@ -13,7 +13,6 @@ public class Rage : IPassive, IDamageModifier
     public Rage(Unit owner)
     {
         _owner = owner;
-        OnAttach(owner);
     }
 
     public int Priority => 200; // Late-stage multiplier

@@ -13,9 +13,6 @@ public class StatusEffectIcon : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _durationText;
     [SerializeField] private Image _durationRing;
 
-    private string _effectId;
-    private int _stacks;
-    private int _duration;
 
     private void Awake()
     {
@@ -30,10 +27,6 @@ public class StatusEffectIcon : MonoBehaviour
     /// </summary>
     public void SetEffect(string effectId, int stacks, int duration)
     {
-        _effectId = effectId;
-        _stacks = stacks;
-        _duration = duration;
-
         // Set icon sprite (placeholder - would load from resources/data)
         if (_iconImage != null)
         {

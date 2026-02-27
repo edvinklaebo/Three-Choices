@@ -6,7 +6,7 @@ using System.Collections;
 /// </summary>
 public class DeathAction : ICombatAction
 {
-    public Unit Target { get; set; }
+    public Unit Target { get; }
 
     public DeathAction(Unit target)
     {

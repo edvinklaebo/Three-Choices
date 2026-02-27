@@ -106,13 +106,13 @@ public class CombatEngine
 
     private void RegisterListeners(Unit unit)
     {
-        // Register passives that implement ICombatListener
         foreach (var passive in unit.Passives)
         {
             if (passive is ICombatListener listener)
-            {
                 _context.RegisterListener(listener);
-            }
+
+            if (passive is ICombatHandlerProvider provider)
+                _context.RegisterListener(provider.CreateCombatHandler(unit));
         }
     }
 

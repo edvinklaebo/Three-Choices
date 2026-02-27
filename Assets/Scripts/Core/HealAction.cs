@@ -7,11 +7,11 @@ using System.Collections;
 /// </summary>
 public class HealAction : ICombatAction
 {
-    public Unit Target { get; private set; }
-    public int Amount { get; private set; }
-    public int TargetHPBefore { get; private set; }
-    public int TargetHPAfter { get; private set; }
-    public int TargetMaxHP { get; private set; }
+    public Unit Target { get; }
+    public int Amount { get; }
+    public int TargetHPBefore { get; }
+    public int TargetHPAfter { get; }
+    public int TargetMaxHP { get; }
 
     public HealAction(Unit target, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP)
     {

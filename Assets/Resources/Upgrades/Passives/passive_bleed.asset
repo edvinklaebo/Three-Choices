@@ -15,7 +15,7 @@ MonoBehaviour:
   id: passive_bleed
   displayName: Bleed
   description: Takes physical damage over time.
-  icon: {fileID: 21300000, guid: 44334ab0f1fd4bb6bd580c4c23f2a5f9, type: 3}
+  icon: {fileID: -8616583351192444039, guid: 016647b940488d54a8872878fac7a1a4, type: 3}
   type: 2
   stat: 0
   amount: 0

@@ -78,27 +78,36 @@ public static class UpgradeApplier
 
             case "Rage":
                 Log.Info("Passive Applied: Rage");
-                DamagePipeline.Register(new Rage(unit));
+                var rage = new Rage(unit);
+                DamagePipeline.Register(rage);
                 break;
 
             case "Lifesteal":
                 Log.Info("Passive Applied: Lifesteal");
-                unit.Passives.Add(new Lifesteal(unit, 0.2f));
+                var ls = new Lifesteal(unit, 0.2f);
+                ls.OnAttach(unit);
+                unit.Passives.Add(ls);
                 break;
 
             case "Poison":
                 Log.Info("Passive Applied: Poison");
-                unit.Passives.Add(new PoisonUpgrade(unit));
+                var poison = new PoisonUpgrade(unit);
+                poison.OnAttach(unit);
+                unit.Passives.Add(poison);
                 break;
 
             case "Bleed":
                 Log.Info("Passive Applied: Bleed");
-                unit.Passives.Add(new BleedUpgrade(unit));
+                var bleed = new BleedUpgrade(unit);
+                bleed.OnAttach(unit);
+                unit.Passives.Add(bleed);
                 break;
 
             case "DoubleStrike":
                 Log.Info("Passive Applied: DoubleStrike");
-                unit.Passives.Add(new DoubleStrike(unit, 0.25f, 0.75f));
+                var doubleStrike = new DoubleStrike(0.25f, 0.75f);
+                doubleStrike.OnAttach(unit);
+                unit.Passives.Add(doubleStrike);
                 break;
 
             default:

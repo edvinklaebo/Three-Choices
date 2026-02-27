@@ -1,5 +1,3 @@
-using UnityEngine;
-
 /// <summary>
 /// Service for sound effects during combat.
 /// Placeholder implementation for combat animation system.

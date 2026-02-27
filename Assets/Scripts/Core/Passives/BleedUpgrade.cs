@@ -16,7 +16,6 @@ public class BleedUpgrade : IPassive
         this.stacks = stacks;
         this.duration = duration;
         this.baseDamage = baseDamage;
-        OnAttach(owner);
     }
 
     public void OnAttach(Unit owner)
@@ -29,19 +28,8 @@ public class BleedUpgrade : IPassive
         owner.OnHit -= ApplyBleed;
     }
 
-    private void ApplyBleed(Unit self, Unit target, int _)
+    private void ApplyBleed(Unit attacker, Unit target, int _)
     {
-        if (target == null)
-            return;
-
-        Log.Info("Bleed passive triggered", new
-        {
-            target = target.Name,
-            bleedStacks = stacks,
-            bleedDuration = duration,
-            bleedBaseDamage = baseDamage
-        });
-
-        target.ApplyStatus(new Bleed(stacks, duration, baseDamage));
+        target?.ApplyStatus(new Bleed(stacks, duration, baseDamage));
     }
 }

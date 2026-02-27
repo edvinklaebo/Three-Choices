@@ -12,7 +12,7 @@ public class UpgradePool : ScriptableObject, IUpgradeRepository
 
     private void OnEnable()
     {
-        var upgrades = Resources.LoadAll<UpgradeDefinition>("Upgrades");
+        var upgrades = Resources.LoadAll<UpgradeDefinition>(nameof(Upgrades));
 
         Upgrades = new List<UpgradeDefinition>(upgrades);
     }
