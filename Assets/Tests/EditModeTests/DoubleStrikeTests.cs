@@ -75,6 +75,7 @@ namespace Tests.EditModeTests
             var doubleStrike = new DoubleStrike(1.0f, 0.75f);
             doubleStrike.OnAttach(attacker);
             var lifesteal = new Lifesteal(attacker, 0.2f);
+            lifesteal.OnAttach(attacker);
             attacker.Passives.Add(doubleStrike);
             attacker.Passives.Add(lifesteal);
 
