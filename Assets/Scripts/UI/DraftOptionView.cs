@@ -32,7 +32,7 @@ public class DraftOptionView : MonoBehaviour
     {
         if (upgrade == null)
         {
-            Log.Error("Bind called with null upgrade", new { name = gameObject.name });
+            Log.Error("Bind called with null upgrade", new { gameObject.name });
             return;
         }
 

@@ -7,12 +7,12 @@ using System.Collections;
 /// </summary>
 public class DamageAction : ICombatAction
 {
-    public Unit Source { get; set; }
-    public Unit Target { get; set; }
-    public int Amount { get; set; }
-    public int TargetHPBefore { get; set; }
-    public int TargetHPAfter { get; set; }
-    public int TargetMaxHP { get; set; }
+    public Unit Source { get; }
+    public Unit Target { get; }
+    public int Amount { get; }
+    public int TargetHPBefore { get; }
+    public int TargetHPAfter { get; }
+    public int TargetMaxHP { get; }
 
     public DamageAction(Unit source, Unit target, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP)
     {

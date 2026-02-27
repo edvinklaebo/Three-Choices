@@ -12,6 +12,8 @@ public class AnimationService
 
     private const float RETURN_DURATION = 0.2f;
     private const float HIT_REACT_DURATION = 0.15f;
+    private const float DEATH_DURATION = 0.5f;
+    
     private CombatView _combatView;
 
     public void SetCombatView(CombatView combatView)
@@ -57,41 +59,14 @@ public class AnimationService
             // Simple hit reaction - shake/flash would go here
             yield return new WaitForSeconds(HIT_REACT_DURATION);
         else
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(RETURN_DURATION);
     }
 
     public IEnumerator PlayDeath(Unit target)
     {
         Log.Info("Playing death animation", new { target = target.Name });
 
-        var unitView = GetUnitView(target);
-        if (unitView != null)
-            // Simple fade or scale down - placeholder
-            yield return new WaitForSeconds(0.5f);
-        else
-            yield return new WaitForSeconds(0.5f);
-    }
-
-    /// <summary>
-    ///     Move transform to target position over duration.
-    ///     Simple linear interpolation.
-    /// </summary>
-    private IEnumerator LungeToPoint(Transform transform, Vector3 targetPosition, float duration)
-    {
-        var startPosition = transform.position;
-        var elapsed = 0f;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            var t = elapsed / duration;
-
-            transform.position = Vector3.Lerp(startPosition, targetPosition, t);
-
-            yield return null;
-        }
-
-        transform.position = targetPosition;
+        yield return new WaitForSeconds(DEATH_DURATION);
     }
 
     /// <summary>
