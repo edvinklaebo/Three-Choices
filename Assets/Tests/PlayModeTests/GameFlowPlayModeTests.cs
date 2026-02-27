@@ -71,7 +71,7 @@ namespace Tests.PlayModeTests
                     var skipButton = Object.FindFirstObjectByType<Button>();
                     skipButton.onClick.Invoke();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     // ignored
                 }
