@@ -22,9 +22,6 @@ public static class ArtifactApplier
             case ArtifactEffectType.AddArtifact:
                 ApplyArtifact(artifact, player);
                 break;
-            case ArtifactEffectType.AddAbility:
-                ApplyAbility(artifact, player);
-                break;
             default:
                 throw new ArgumentOutOfRangeException(artifact.EffectType.ToString());
         }
@@ -84,23 +81,6 @@ public static class ArtifactApplier
         unit.Passives.Add(passive);
 
         Log.Info($"[ArtifactApplier] Artifact passive applied: {artifact.AbilityId} to {unit.Name}");
-    }
-
-    private static void ApplyAbility(ArtifactDefinition artifact, Unit unit)
-    {
-        switch (artifact.AbilityId)
-        {
-            case "Fireball":
-                unit.Abilities.Add(new Fireball());
-                break;
-            case "Arcane Missiles":
-                unit.Abilities.Add(new ArcaneMissiles());
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(artifact.AbilityId);
-        }
-
-        Log.Info($"[ArtifactApplier] Ability applied: {artifact.AbilityId} to {unit.Name}");
     }
 }
 

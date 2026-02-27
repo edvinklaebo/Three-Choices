@@ -39,14 +39,6 @@ namespace Tests.EditModeTests
             return a;
         }
 
-        private ArtifactDefinition CreateAbilityArtifact(string abilityId, ArtifactTag tag = ArtifactTag.None)
-        {
-            var a = ScriptableObject.CreateInstance<ArtifactDefinition>();
-            a.EditorInit("test", "Test", "desc", Rarity.Common, tag,
-                ArtifactEffectType.AddAbility, StatType.MaxHP, 0, abilityId, false);
-            return a;
-        }
-
         // ---- NULL GUARD ----
 
         [Test]
@@ -108,35 +100,6 @@ namespace Tests.EditModeTests
         public void Artifact_Unknown_Throws()
         {
             var artifact = CreateArtifactPassive("GodMode");
-            Assert.Throws<ArgumentOutOfRangeException>(() => ArtifactApplier.ApplyToPlayer(artifact, _unit));
-        }
-
-        // ---- ABILITIES ----
-
-        [Test]
-        public void Ability_Fireball_AddsAbilityToUnit()
-        {
-            var artifact = CreateAbilityArtifact("Fireball", ArtifactTag.Fireball);
-            ArtifactApplier.ApplyToPlayer(artifact, _unit);
-
-            Assert.AreEqual(1, _unit.Abilities.Count);
-            Assert.IsInstanceOf<Fireball>(_unit.Abilities[0]);
-        }
-
-        [Test]
-        public void Ability_ArcaneMissiles_AddsAbilityToUnit()
-        {
-            var artifact = CreateAbilityArtifact("Arcane Missiles", ArtifactTag.ArcaneMissiles);
-            ArtifactApplier.ApplyToPlayer(artifact, _unit);
-
-            Assert.AreEqual(1, _unit.Abilities.Count);
-            Assert.IsInstanceOf<ArcaneMissiles>(_unit.Abilities[0]);
-        }
-
-        [Test]
-        public void Ability_Unknown_Throws()
-        {
-            var artifact = CreateAbilityArtifact("Teleportation");
             Assert.Throws<ArgumentOutOfRangeException>(() => ArtifactApplier.ApplyToPlayer(artifact, _unit));
         }
 

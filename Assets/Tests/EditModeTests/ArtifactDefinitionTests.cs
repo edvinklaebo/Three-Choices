@@ -75,13 +75,6 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void EffectType_AddAbility_ReturnsCorrectValue()
-        {
-            var artifact = CreateArtifact(effectType: ArtifactEffectType.AddAbility);
-            Assert.AreEqual(ArtifactEffectType.AddAbility, artifact.EffectType);
-        }
-
-        [Test]
         public void Stat_ReturnsCorrectValue()
         {
             var artifact = CreateArtifact(stat: StatType.AttackPower);
