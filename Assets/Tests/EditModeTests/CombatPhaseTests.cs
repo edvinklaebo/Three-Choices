@@ -243,6 +243,7 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Victim", 100, 0);
 
             var lifesteal = new Lifesteal(attacker, 0.2f);
+            lifesteal.OnAttach(attacker);
             attacker.Passives.Add(lifesteal);
 
             var actions = CombatSystem.RunFight(attacker, defender);

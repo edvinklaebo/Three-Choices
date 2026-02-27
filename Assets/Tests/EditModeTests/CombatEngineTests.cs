@@ -45,6 +45,7 @@ namespace Tests.EditModeTests
 
             // Add lifesteal passive
             var lifesteal = new Lifesteal(attacker, 0.2f);
+            lifesteal.OnAttach(attacker);
             attacker.Passives.Add(lifesteal);
 
             var engine = new CombatEngine();
@@ -85,6 +86,7 @@ namespace Tests.EditModeTests
             var lifesteal = new Lifesteal(attacker, 0.2f); // Priority 200
             var doubleStrike = new DoubleStrike(1.0f, 0.75f); // ExtraAttackHandler Priority 210
             doubleStrike.OnAttach(attacker);
+            lifesteal.OnAttach(attacker);
             attacker.Passives.Add(lifesteal);
             attacker.Passives.Add(doubleStrike);
 

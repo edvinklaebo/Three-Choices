@@ -198,7 +198,9 @@ namespace Tests.EditModeTests
             var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
             // Apply poison passive to attacker
-            attacker.Passives.Add(new PoisonUpgrade(attacker));
+            var poisonUpgrade = new PoisonUpgrade(attacker);
+            poisonUpgrade.OnAttach(attacker);
+            attacker.Passives.Add(poisonUpgrade);
 
             // Attacker hits defender
             defender.ApplyDamage(attacker, 10);
@@ -217,7 +219,9 @@ namespace Tests.EditModeTests
             var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
             var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
-            attacker.Passives.Add(new PoisonUpgrade(attacker));
+            var poisonUpgrade = new PoisonUpgrade(attacker);
+            poisonUpgrade.OnAttach(attacker);
+            attacker.Passives.Add(poisonUpgrade);
 
             // First hit
             defender.ApplyDamage(attacker, 10);

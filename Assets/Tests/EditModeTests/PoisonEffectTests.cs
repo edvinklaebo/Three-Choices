@@ -109,7 +109,9 @@ namespace Tests.EditModeTests
             var attacker = CreateUnit("Attacker", 100, 1, 0, 5);
             var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
-            attacker.Passives.Add(new PoisonUpgrade(attacker));
+            var poisonUpgrade = new PoisonUpgrade(attacker);
+            poisonUpgrade.OnAttach(attacker);
+            attacker.Passives.Add(poisonUpgrade);
 
             defender.ApplyDamage(attacker, 10);
 
@@ -126,7 +128,10 @@ namespace Tests.EditModeTests
             var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
             var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
-            attacker.Passives.Add(new PoisonUpgrade(attacker));
+
+            var poisonUpgrade = new PoisonUpgrade(attacker);
+            poisonUpgrade.OnAttach(attacker);
+            attacker.Passives.Add(poisonUpgrade);
 
             defender.ApplyDamage(attacker, 10);
             Assert.AreEqual(2, defender.StatusEffects[0].Stacks);
@@ -142,7 +147,9 @@ namespace Tests.EditModeTests
             var attacker = CreateUnit("Attacker", 100, 1, 0, 5);
             var defender = CreateUnit("Defender", 100, 0, 0, 5);
 
-            attacker.Passives.Add(new PoisonUpgrade(attacker, stacks: 5, duration: 6, baseDamage: 3));
+            var poisonUpgrade = new PoisonUpgrade(attacker, stacks: 5, duration: 6, baseDamage: 3);
+            poisonUpgrade.OnAttach(attacker);
+            attacker.Passives.Add(poisonUpgrade);
 
             defender.ApplyDamage(attacker, 10);
 
