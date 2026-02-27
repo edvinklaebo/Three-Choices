@@ -98,7 +98,7 @@ namespace Tests.EditModeTests
         {
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
             artifact.EditorInit("test", "Lucky Horseshoe", "desc", Rarity.Uncommon, ArtifactTag.None,
-                ArtifactEffectType.AddPassive, StatType.MaxHP, 0, "CritChance", false);
+                ArtifactEffectType.AddArtifact, StatType.MaxHP, 0, "CritChance", false);
 
             ArtifactApplier.ApplyToPlayer(artifact, _owner);
 

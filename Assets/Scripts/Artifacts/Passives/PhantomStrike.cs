@@ -15,6 +15,8 @@ public class PhantomStrike : IPassive
 
     [NonSerialized] private Unit _owner;
 
+    public int Priority => 100;
+
     public PhantomStrike(int hitsPerTrigger = 5, float damagePercent = 0.5f)
     {
         _hitsPerTrigger = hitsPerTrigger;

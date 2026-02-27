@@ -84,7 +84,7 @@ namespace Tests.EditModeTests
         {
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
             artifact.EditorInit("test", "Poison Tipped Darts", "desc", Rarity.Uncommon, ArtifactTag.Poison,
-                ArtifactEffectType.AddPassive, StatType.MaxHP, 0, "PoisonAmplifier", false);
+                ArtifactEffectType.AddArtifact, StatType.MaxHP, 0, "PoisonAmplifier", false);
 
             ArtifactApplier.ApplyToPlayer(artifact, _owner);
 

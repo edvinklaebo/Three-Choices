@@ -11,7 +11,7 @@ namespace Tests.EditModeTests
             string description = "A test artifact.",
             Rarity rarity = Rarity.Common,
             ArtifactTag tags = ArtifactTag.None,
-            ArtifactEffectType effectType = ArtifactEffectType.StatBoost,
+            ArtifactEffectType effectType = ArtifactEffectType.AddArtifact,
             StatType stat = StatType.MaxHP,
             int amount = 10,
             string abilityId = "",
@@ -68,17 +68,10 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void EffectType_StatBoost_ReturnsCorrectValue()
+        public void EffectType_AddArtifact_ReturnsCorrectValue()
         {
-            var artifact = CreateArtifact(effectType: ArtifactEffectType.StatBoost);
-            Assert.AreEqual(ArtifactEffectType.StatBoost, artifact.EffectType);
-        }
-
-        [Test]
-        public void EffectType_AddPassive_ReturnsCorrectValue()
-        {
-            var artifact = CreateArtifact(effectType: ArtifactEffectType.AddPassive);
-            Assert.AreEqual(ArtifactEffectType.AddPassive, artifact.EffectType);
+            var artifact = CreateArtifact(effectType: ArtifactEffectType.AddArtifact);
+            Assert.AreEqual(ArtifactEffectType.AddArtifact, artifact.EffectType);
         }
 
         [Test]

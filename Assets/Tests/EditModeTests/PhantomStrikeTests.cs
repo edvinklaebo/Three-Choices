@@ -120,7 +120,7 @@ namespace Tests.EditModeTests
         {
             var artifact = UnityEngine.ScriptableObject.CreateInstance<ArtifactDefinition>();
             artifact.EditorInit("test", "Crown of Echoes", "desc", Rarity.Epic, ArtifactTag.None,
-                ArtifactEffectType.AddPassive, StatType.MaxHP, 0, "PhantomStrike", false);
+                ArtifactEffectType.AddArtifact, StatType.MaxHP, 0, "PhantomStrike", false);
 
             ArtifactApplier.ApplyToPlayer(artifact, _owner);
 

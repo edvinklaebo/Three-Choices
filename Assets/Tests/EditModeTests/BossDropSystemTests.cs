@@ -53,7 +53,7 @@ namespace Tests.EditModeTests
         {
             var a = ScriptableObject.CreateInstance<ArtifactDefinition>();
             a.EditorInit(id, id, "desc", Rarity.Common, ArtifactTag.None,
-                ArtifactEffectType.StatBoost, StatType.MaxHP, 10, "", lockedByDefault);
+                ArtifactEffectType.PercentStatBoost, StatType.Armor, 10, "", lockedByDefault);
             return a;
         }
 

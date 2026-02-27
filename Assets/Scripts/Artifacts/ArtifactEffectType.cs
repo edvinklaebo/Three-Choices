@@ -1,7 +1,6 @@
 public enum ArtifactEffectType
 {
-    StatBoost,
-    AddPassive,
-    AddAbility,
-    PercentStatBoost
+    AddArtifact = 1,
+    AddAbility = 2,
+    PercentStatBoost = 3
 }

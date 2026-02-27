@@ -14,6 +14,8 @@ public class PoisonAmplifier : IPassive
     [SerializeField] private int _bonusDuration;
     [SerializeField] private int _bonusBaseDamage;
 
+    public int Priority => 100;
+
     public PoisonAmplifier(int bonusStacks = 2, int bonusDuration = 3, int bonusBaseDamage = 2)
     {
         _bonusStacks = bonusStacks;

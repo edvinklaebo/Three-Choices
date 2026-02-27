@@ -104,7 +104,7 @@ namespace Tests.EditModeTests
         {
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
             artifact.EditorInit("test", "Hourglass", "desc", Rarity.Epic, ArtifactTag.None,
-                ArtifactEffectType.AddPassive, StatType.MaxHP, 0, "DeathShield", false);
+                ArtifactEffectType.AddArtifact, StatType.MaxHP, 0, "DeathShield", false);
 
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 

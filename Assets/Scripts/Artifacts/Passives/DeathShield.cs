@@ -3,7 +3,10 @@ using UnityEngine;
 
 /// <summary>
 /// Hourglass of Persistence effect.
-/// The first time the owner would die, they are revived with a percentage of their max HP instead.
+/// Subscribes to <see cref="Unit.Dying"/> (before death) and cancels the first fatal hit,
+/// restoring the unit to a percentage of max HP.
+/// Because it uses <see cref="IPassive.Priority"/> = 0, it is attached (and subscribes) before
+/// all other passives, ensuring it intercepts death before any other Dying subscriber.
 /// Triggers only once per run.
 /// </summary>
 [Serializable]
@@ -14,6 +17,9 @@ public class DeathShield : IPassive
 
     [NonSerialized] private Unit _owner;
 
+    /// <summary>Runs first among passives so death is cancelled before other subscribers see it.</summary>
+    public int Priority => 0;
+
     public DeathShield(float revivePercent = 0.5f)
     {
         _revivePercent = revivePercent;
@@ -22,31 +28,32 @@ public class DeathShield : IPassive
     public void OnAttach(Unit owner)
     {
         _owner = owner;
-        owner.Died += OnDied;
+        owner.Dying += OnDying;
     }
 
     public void OnDetach(Unit owner)
     {
-        owner.Died -= OnDied;
+        owner.Dying -= OnDying;
         _owner = null;
     }
 
-    private void OnDied(Unit unit)
+    private void OnDying(Unit unit, DyingEventArgs args)
     {
-        if (_triggered)
+        // Check args.Cancelled defensively: a future higher-priority passive (Priority < 0) might
+        // also intercept death. Respecting an existing cancellation avoids overwriting its ReviveHp.
+        if (_triggered || args.Cancelled)
             return;
 
         _triggered = true;
-        var reviveHp = Mathf.CeilToInt(unit.Stats.MaxHP * _revivePercent);
+        args.Cancelled = true;
+        args.ReviveHp = Mathf.CeilToInt(unit.Stats.MaxHP * _revivePercent);
 
-        Log.Info("[DeathShield] Reviving on first death", new
+        Log.Info("[DeathShield] Death cancelled, reviving", new
         {
             unit = unit.Name,
-            reviveHp,
+            reviveHp = args.ReviveHp,
             maxHP = unit.Stats.MaxHP
         });
-
-        unit.Revive(reviveHp);
     }
 
     /// <summary>True when the death shield has already been consumed.</summary>

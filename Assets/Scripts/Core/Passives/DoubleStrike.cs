@@ -11,6 +11,8 @@ public class DoubleStrike : IPassive, ICombatHandlerProvider
     private List<DoubleStrikeData> _pendingStrikes = new();
     private bool _suspended;
 
+    public int Priority => 100;
+
     public DoubleStrike(float triggerChance, float damageMultiplier)
     {
         this.triggerChance = triggerChance;
