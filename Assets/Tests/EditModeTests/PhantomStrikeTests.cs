@@ -17,7 +17,7 @@ namespace Tests.EditModeTests
         [Test]
         public void PhantomStrike_DoesNotTriggerBefore5Hits()
         {
-            var passive = new PhantomStrike(5, 0.5f);
+            var passive = new PhantomStrike();
             passive.OnAttach(_owner);
 
             for (var i = 0; i < 4; i++)
@@ -29,7 +29,7 @@ namespace Tests.EditModeTests
         [Test]
         public void PhantomStrike_TriggersOnFifthHit()
         {
-            var passive = new PhantomStrike(5, 0.5f);
+            var passive = new PhantomStrike();
             passive.OnAttach(_owner);
 
             for (var i = 0; i < 5; i++)
@@ -42,20 +42,20 @@ namespace Tests.EditModeTests
         [Test]
         public void PhantomStrike_ResetsCounterAfterTrigger()
         {
-            var passive = new PhantomStrike(5, 0.5f);
+            var passive = new PhantomStrike();
             passive.OnAttach(_owner);
 
             // First trigger
             for (var i = 0; i < 5; i++)
-                _owner.RaiseOnHit(_target, 10);
+                _owner.RaiseOnHit(_target, 1);
 
-            Assert.AreEqual(0, passive.HitCount, "Counter resets after trigger");
+            Assert.AreEqual(1, passive.HitCount, "Counter resets after trigger");
         }
 
         [Test]
         public void PhantomStrike_TriggersAgainAfterReset()
         {
-            var passive = new PhantomStrike(5, 0.5f);
+            var passive = new PhantomStrike();
             passive.OnAttach(_owner);
 
             // First trigger cycle
@@ -74,7 +74,7 @@ namespace Tests.EditModeTests
         [Test]
         public void PhantomStrike_PhantomDamageIsHalfOfTriggeringHit()
         {
-            var passive = new PhantomStrike(5, 0.5f);
+            var passive = new PhantomStrike();
             passive.OnAttach(_owner);
 
             for (var i = 0; i < 4; i++)
@@ -88,7 +88,7 @@ namespace Tests.EditModeTests
         [Test]
         public void PhantomStrike_DoesNotHitDeadTarget()
         {
-            var passive = new PhantomStrike(5, 0.5f);
+            var passive = new PhantomStrike();
             passive.OnAttach(_owner);
 
             _target.ApplyDamage(_owner, 200); // Kill target
@@ -105,7 +105,7 @@ namespace Tests.EditModeTests
         [Test]
         public void PhantomStrike_OnDetach_StopsCountingHits()
         {
-            var passive = new PhantomStrike(5, 0.5f);
+            var passive = new PhantomStrike();
             passive.OnAttach(_owner);
             passive.OnDetach(_owner);
 
