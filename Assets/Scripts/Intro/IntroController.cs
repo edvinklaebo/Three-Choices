@@ -61,25 +61,6 @@ public class IntroController : MonoBehaviour
             _narrativeText.text = line;
     }
 
-    private void SetTextAlpha(float alpha)
-    {
-        var color = _narrativeText.color;
-        color.a = alpha;
-        _narrativeText.color = color;
-    }
-
-    private IEnumerator FadeText(float from, float to)
-    {
-        var t = 0f;
-        while (t < FadeDuration)
-        {
-            t += Time.deltaTime;
-            SetTextAlpha(Mathf.Lerp(from, to, Mathf.Clamp01(t / FadeDuration)));
-            yield return null;
-        }
-        SetTextAlpha(to);
-    }
-
     private void SkipIntro()
     {
         _skipping = true;

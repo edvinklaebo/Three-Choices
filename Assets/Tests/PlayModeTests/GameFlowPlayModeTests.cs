@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using NUnit.Framework;
 using TMPro;
@@ -5,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace Tests.PlayModeTests
 {
@@ -15,7 +17,7 @@ namespace Tests.PlayModeTests
     public class GameFlowPlayModeTests
     {
         private const float MaxWaitTime = 10f;
-        private const float FrameWait = 0.1f;
+        private const float FrameWait = 0.5f;
 
         [UnitySetUp]
         public IEnumerator Setup()
@@ -64,6 +66,16 @@ namespace Tests.PlayModeTests
             var waitTime = 0f;
             while (SceneManager.GetActiveScene().name != "MainMenu" && waitTime < MaxWaitTime)
             {
+                try
+                {
+                    var skipButton = Object.FindFirstObjectByType<Button>();
+                    skipButton.onClick.Invoke();
+                }
+                catch (Exception e)
+                {
+                    // ignored
+                }
+
                 yield return new WaitForSeconds(FrameWait);
                 waitTime += FrameWait;
             }
