@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public static class ArtifactApplier
 {
@@ -17,6 +18,9 @@ public static class ArtifactApplier
         {
             case ArtifactEffectType.StatBoost:
                 ApplyStat(artifact, player);
+                break;
+            case ArtifactEffectType.PercentStatBoost:
+                ApplyPercentStat(artifact, player);
                 break;
             case ArtifactEffectType.AddPassive:
                 ApplyPassive(artifact, player);
@@ -51,6 +55,34 @@ public static class ArtifactApplier
         }
 
         Log.Info($"[ArtifactApplier] Stat applied: {artifact.Stat} +{artifact.Amount} to {unit.Name}");
+    }
+
+    private static void ApplyPercentStat(ArtifactDefinition artifact, Unit unit)
+    {
+        var multiplier = 1f + artifact.Amount / 100f;
+
+        switch (artifact.Stat)
+        {
+            case StatType.MaxHP:
+                var hpGain = Mathf.CeilToInt(unit.Stats.MaxHP * (multiplier - 1f));
+                unit.Stats.MaxHP += hpGain;
+                unit.Stats.CurrentHP += hpGain;
+                break;
+            case StatType.AttackPower:
+                unit.Stats.AttackPower = Mathf.CeilToInt(unit.Stats.AttackPower * multiplier);
+                break;
+            case StatType.Armor:
+                unit.Stats.Armor = Mathf.CeilToInt(unit.Stats.Armor * multiplier);
+                break;
+            case StatType.Speed:
+                unit.Stats.Speed = Mathf.CeilToInt(unit.Stats.Speed * multiplier);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(artifact.Stat.ToString(),
+                    $"[ArtifactApplier.ApplyPercentStat] Unsupported stat '{artifact.Stat}' on artifact '{artifact.Id}'");
+        }
+
+        Log.Info($"[ArtifactApplier] Percent stat applied: {artifact.Stat} x{multiplier} to {unit.Name}");
     }
 
     private static void ApplyPassive(ArtifactDefinition artifact, Unit unit)
@@ -88,6 +120,26 @@ public static class ArtifactApplier
                 bleed.OnAttach(unit);
                 unit.Passives.Add(bleed);
                 break;
+            case "PhantomStrike":
+                var phantom = new PhantomStrike();
+                phantom.OnAttach(unit);
+                unit.Passives.Add(phantom);
+                break;
+            case "DeathShield":
+                var shield = new DeathShield();
+                shield.OnAttach(unit);
+                unit.Passives.Add(shield);
+                break;
+            case "CritChance":
+                var crit = new CritChancePassive(artifact.Amount / 100f);
+                crit.OnAttach(unit);
+                unit.Passives.Add(crit);
+                break;
+            case "PoisonAmplifier":
+                var amp = new PoisonAmplifier();
+                amp.OnAttach(unit);
+                unit.Passives.Add(amp);
+                break;
             default:
                 throw new ArgumentOutOfRangeException(artifact.AbilityId);
         }
@@ -112,3 +164,4 @@ public static class ArtifactApplier
         Log.Info($"[ArtifactApplier] Ability applied: {artifact.AbilityId} to {unit.Name}");
     }
 }
+

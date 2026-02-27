@@ -50,6 +50,8 @@ public class Unit
     public event Action<Unit> Died;
     public event Action<Unit, IStatusEffect, bool> StatusEffectApplied;
 
+    private const int MinReviveHp = 1;
+
     private void Die()
     {
         if (IsDead)
@@ -58,6 +60,22 @@ public class Unit
         IsDead = true;
 
         Died?.Invoke(this);
+    }
+
+    /// <summary>
+    /// Revives a dead unit with the specified HP.
+    /// Does nothing if the unit is still alive.
+    /// </summary>
+    public void Revive(int hp)
+    {
+        if (!IsDead)
+            return;
+
+        IsDead = false;
+        Stats.CurrentHP = Math.Max(MinReviveHp, Math.Min(hp, Stats.MaxHP));
+        HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
+
+        Log.Info($"[Unit] {Name} revived with {Stats.CurrentHP} HP");
     }
 
     public void RaiseOnHit(Unit target, int damage)
