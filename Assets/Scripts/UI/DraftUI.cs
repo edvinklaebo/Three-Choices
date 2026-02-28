@@ -10,6 +10,7 @@ public class DraftUI : MonoBehaviour
     [SerializeField] private VoidEventChannel _onHideRequested;
     [SerializeField] private DraftEventChannel _onShowRequested;
     [SerializeField] private UpgradeEventChannel _upgradePicked;
+    [SerializeField] private ArtifactRewardEventChannel _artifactPicked;
 
     private UIFader _fader;
     private DraftOptionView[] _draftOptions;
@@ -38,12 +39,20 @@ public class DraftUI : MonoBehaviour
         if (_onShowRequested != null) _onShowRequested.OnRaised -= OnShowRequested;
     }
 
-    private void OnShowRequested(List<UpgradeDefinition> draft)
+    private void OnShowRequested(List<DraftOption> draft)
     {
-        if (_upgradePicked == null)
-            Log.Warning("DraftUI: _upgradePicked event channel is not assigned. Upgrade picks will not be broadcast.");
+        if (_upgradePicked == null && _artifactPicked == null)
+            Log.Warning("DraftUI: neither _upgradePicked nor _artifactPicked event channel is assigned. Picks will not be broadcast.");
 
-        Show(draft, u => _upgradePicked?.Raise(u));
+        Show(draft, OnOptionPicked);
+    }
+
+    private void OnOptionPicked(DraftOption option)
+    {
+        if (option.IsArtifact)
+            _artifactPicked?.Raise(option.Artifact);
+        else
+            _upgradePicked?.Raise(option.Upgrade);
     }
 
     private void OnHideRequested()
@@ -51,7 +60,7 @@ public class DraftUI : MonoBehaviour
         Hide(animated: false);
     }
 
-    public void Show(List<UpgradeDefinition> draft, Action<UpgradeDefinition> onPick, bool animated = true)
+    public void Show(List<DraftOption> draft, Action<DraftOption> onPick, bool animated = true)
     {
         Log.Info("DraftUI.Show invoked", new
         {
@@ -96,8 +105,8 @@ public class DraftUI : MonoBehaviour
 
             option.gameObject.SetActive(true);
 
-            var upgrade = draft[i];
-            option.Bind(upgrade, onPick);
+            var draftOption = draft[i];
+            option.Bind(draftOption, onPick);
         }
     }
 

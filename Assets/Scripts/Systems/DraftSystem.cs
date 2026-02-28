@@ -7,58 +7,71 @@ using Random = UnityEngine.Random;
 public class DraftSystem
 {
     private readonly IRarityRoller _rarityRoller;
-    private readonly IUpgradeRepository _repository;
+    private readonly IUpgradeRepository _upgradeRepository;
+    private readonly IArtifactRepository _artifactRepository;
 
-    public DraftSystem(IUpgradeRepository repository) : this(repository, new RarityRoller())
+    public DraftSystem(IUpgradeRepository upgradeRepository)
+        : this(upgradeRepository, null, new RarityRoller())
     {
     }
 
-    public DraftSystem(IUpgradeRepository repository, IRarityRoller rarityRoller)
+    public DraftSystem(IUpgradeRepository upgradeRepository, IRarityRoller rarityRoller)
+        : this(upgradeRepository, null, rarityRoller)
     {
-        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+    }
+
+    public DraftSystem(IUpgradeRepository upgradeRepository, IArtifactRepository artifactRepository)
+        : this(upgradeRepository, artifactRepository, new RarityRoller())
+    {
+    }
+
+    public DraftSystem(IUpgradeRepository upgradeRepository, IArtifactRepository artifactRepository,
+        IRarityRoller rarityRoller)
+    {
+        _upgradeRepository = upgradeRepository ?? throw new ArgumentNullException(nameof(upgradeRepository));
+        _artifactRepository = artifactRepository;
         _rarityRoller = rarityRoller ?? throw new ArgumentNullException(nameof(rarityRoller));
 
         Log.Info("DraftSystem initialized", new
         {
-            repositoryType = repository.GetType().Name,
+            upgradeRepositoryType = upgradeRepository.GetType().Name,
+            hasArtifactRepository = artifactRepository != null,
             rarityRollerType = rarityRoller.GetType().Name
         });
     }
 
-    public List<UpgradeDefinition> GenerateDraft(int count)
+    public List<DraftOption> GenerateDraft(int count)
     {
         Log.Info("GenerateDraft called", new { count });
 
         try
         {
-            var allUpgrades = _repository.GetAll();
-            Log.Info("Upgrade pool retrieved", new { poolSize = allUpgrades.Count });
+            var pool = BuildPool();
+            Log.Info("Draft pool retrieved", new { poolSize = pool.Count });
 
-            var result = new List<UpgradeDefinition>();
+            var result = new List<DraftOption>();
 
             // Roll rarity first
             var rolledRarity = _rarityRoller.RollRarity();
 
             for (var i = 0; i < count; i++)
             {
-                // Filter available upgrades by rarity (exclude already drafted ones)
-                var availableUpgrades = allUpgrades
-                    .Where(u => !result.Contains(u))
+                var available = pool
+                    .Where(o => !result.Contains(o))
                     .ToList();
 
-                if (availableUpgrades.Count == 0)
+                if (available.Count == 0)
                 {
-                    if(Application.isPlaying)
-                        Log.Warning("No more upgrades available", new { round = i });
+                    if (Application.isPlaying)
+                        Log.Warning("No more draft options available", new { round = i });
                     break;
                 }
 
-                // Try to get upgrade of rolled rarity, fallback to lower rarities if needed
-                var selected = SelectUpgradeByRarity(availableUpgrades, rolledRarity);
+                var selected = SelectOptionByRarity(available, rolledRarity);
 
                 if (selected == null)
                 {
-                    Log.Warning("No upgrade found for any rarity", new { round = i });
+                    Log.Warning("No option found for any rarity", new { round = i });
                     break;
                 }
 
@@ -68,7 +81,7 @@ public class DraftSystem
                     selected = selected.DisplayName,
                     rarity = selected.GetRarity(),
                     rolledRarity,
-                    remainingPool = availableUpgrades.Count - 1
+                    remainingPool = available.Count - 1
                 });
 
                 result.Add(selected);
@@ -77,7 +90,7 @@ public class DraftSystem
             Log.Info("Draft generated", new
             {
                 draftSize = result.Count,
-                selectedUpgrades = string.Join(",", result.ConvertAll(u => u.DisplayName))
+                selectedOptions = string.Join(",", result.ConvertAll(o => o.DisplayName))
             });
 
             return result;
@@ -89,22 +102,36 @@ public class DraftSystem
         }
     }
 
-    private UpgradeDefinition SelectUpgradeByRarity(List<UpgradeDefinition> availableUpgrades, Rarity targetRarity)
+    private List<DraftOption> BuildPool()
     {
-        // Try target rarity first
-        var pool = availableUpgrades.Where(u => u.GetRarity() == targetRarity).ToList();
+        var upgrades = _upgradeRepository.GetAll();
+        var pool = new List<DraftOption>(upgrades.Count);
+        for (var i = 0; i < upgrades.Count; i++)
+            pool.Add(new DraftOption(upgrades[i]));
+
+        if (_artifactRepository != null)
+        {
+            var artifacts = _artifactRepository.GetAll();
+            for (var i = 0; i < artifacts.Count; i++)
+                pool.Add(new DraftOption(artifacts[i]));
+        }
+
+        return pool;
+    }
+
+    private DraftOption SelectOptionByRarity(List<DraftOption> available, Rarity targetRarity)
+    {
+        var pool = available.Where(o => o.GetRarity() == targetRarity).ToList();
 
         if (pool.Count > 0) return pool[Random.Range(0, pool.Count)];
 
-        // Fallback to next lower rarity
         var fallbackRarity = GetNextLowerRarity(targetRarity);
         if (fallbackRarity.HasValue)
         {
             Log.Info("Rarity fallback", new { from = targetRarity, to = fallbackRarity.Value });
-            return SelectUpgradeByRarity(availableUpgrades, fallbackRarity.Value);
+            return SelectOptionByRarity(available, fallbackRarity.Value);
         }
 
-        // If no rarity match found, return null
         return null;
     }
 

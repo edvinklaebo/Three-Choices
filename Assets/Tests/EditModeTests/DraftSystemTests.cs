@@ -21,6 +21,18 @@ namespace Tests.EditModeTests
         }
     }
 
+    public class MockArtifactRepository : IArtifactRepository
+    {
+        private readonly IReadOnlyList<ArtifactDefinition> _artifacts;
+
+        public MockArtifactRepository(List<ArtifactDefinition> artifacts)
+        {
+            _artifacts = artifacts;
+        }
+
+        public IReadOnlyList<ArtifactDefinition> GetAll() => _artifacts;
+    }
+
     public class MockRarityRoller : IRarityRoller
     {
         private readonly Queue<Rarity> _rarities;
@@ -47,6 +59,14 @@ namespace Tests.EditModeTests
                 BindingFlags.NonPublic | BindingFlags.Instance);
             field?.SetValue(upgrade, rarityWeight);
             return upgrade;
+        }
+
+        private ArtifactDefinition CreateArtifact(string id, string name, Rarity rarity = Rarity.Common)
+        {
+            var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
+            artifact.EditorInit(id, name, string.Empty, rarity, ArtifactTag.None, ArtifactEffectType.AddArtifact,
+                false);
+            return artifact;
         }
 
         [Test]
@@ -166,6 +186,66 @@ namespace Tests.EditModeTests
             Assert.AreEqual("Epic1", draft[0].DisplayName);
             Assert.AreEqual("Rare1", draft[1].DisplayName);
             Assert.AreEqual("Uncommon1", draft[2].DisplayName);
+        }
+
+        [Test]
+        public void GenerateDraft_IncludesArtifactsWhenRepositoryProvided()
+        {
+            var upgrades = new List<UpgradeDefinition> { CreateUpgrade("UpgradeA") };
+            var artifacts = new List<ArtifactDefinition>
+            {
+                CreateArtifact("artifact_1", "ArtifactA")
+            };
+
+            var upgradeRepo = new MockUpgradeRepository(upgrades);
+            var artifactRepo = new MockArtifactRepository(artifacts);
+            var draftSystem = new DraftSystem(upgradeRepo, artifactRepo);
+
+            var draft = draftSystem.GenerateDraft(2);
+
+            Assert.AreEqual(2, draft.Count);
+            Assert.IsTrue(draft.Any(o => o.DisplayName == "UpgradeA" && !o.IsArtifact));
+            Assert.IsTrue(draft.Any(o => o.DisplayName == "ArtifactA" && o.IsArtifact));
+        }
+
+        [Test]
+        public void GenerateDraft_ArtifactOption_IsArtifactIsTrue()
+        {
+            var upgrades = new List<UpgradeDefinition>();
+            var artifacts = new List<ArtifactDefinition>
+            {
+                CreateArtifact("artifact_test", "TestArtifact", Rarity.Rare)
+            };
+
+            var upgradeRepo = new MockUpgradeRepository(upgrades);
+            var artifactRepo = new MockArtifactRepository(artifacts);
+            var rarityRoller = new MockRarityRoller(Rarity.Rare);
+            var draftSystem = new DraftSystem(upgradeRepo, artifactRepo, rarityRoller);
+
+            var draft = draftSystem.GenerateDraft(1);
+
+            Assert.AreEqual(1, draft.Count);
+            Assert.IsTrue(draft[0].IsArtifact);
+            Assert.AreEqual("TestArtifact", draft[0].DisplayName);
+            Assert.AreEqual(Rarity.Rare, draft[0].GetRarity());
+        }
+
+        [Test]
+        public void GenerateDraft_WithoutArtifactRepository_OnlyIncludesUpgrades()
+        {
+            var upgrades = new List<UpgradeDefinition>
+            {
+                CreateUpgrade("UpgradeA"),
+                CreateUpgrade("UpgradeB")
+            };
+
+            var repository = new MockUpgradeRepository(upgrades);
+            var draftSystem = new DraftSystem(repository);
+
+            var draft = draftSystem.GenerateDraft(2);
+
+            Assert.AreEqual(2, draft.Count);
+            Assert.IsTrue(draft.All(o => !o.IsArtifact));
         }
     }
 }
