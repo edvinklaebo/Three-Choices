@@ -25,25 +25,14 @@ public static class ArtifactApplier
 
     private static void ApplyArtifact(ArtifactDefinition artifact, Unit unit)
     {
-        IPassive passive;
-
-        switch (artifact.AbilityId)
+        IPassive passive = artifact.AbilityId switch
         {
-            case "PhantomStrike":
-                passive = new PhantomStrike();
-                break;
-            case "DeathShield":
-                passive = new DeathShield();
-                break;
-            case "CritChance":
-                passive = new CritChancePassive(artifact.Amount / 100f);
-                break;
-            case "PoisonAmplifier":
-                passive = new PoisonAmplifier();
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(artifact.AbilityId);
-        }
+            "PhantomStrike"     => new PhantomStrike(),
+            "DeathShield"       => new DeathShield(),
+            "CritChance"        => new CritChancePassive(artifact.Amount / 100f),
+            "PoisonAmplifier"   => new PoisonAmplifier(),
+            _ => throw new ArgumentOutOfRangeException(artifact.AbilityId)
+        };
 
         passive.OnAttach(unit);
         unit.Passives.Add(passive);
