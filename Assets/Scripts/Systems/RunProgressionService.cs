@@ -51,6 +51,10 @@ public class RunProgressionService
             if (boss != null)
                 _bossFightStarted?.Raise(boss);
         }
+        else
+        {
+            _fightStarted?.Raise(_player, _fightIndex);
+        }
 
         _fightStarted?.Raise(_player, _fightIndex);
         _fightIndex++;

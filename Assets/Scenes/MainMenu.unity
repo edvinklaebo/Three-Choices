@@ -593,13 +593,13 @@ PrefabInstance:
       value: RunController
       objectReference: {fileID: 0}
     - target: {fileID: 5933365456025743668, guid: 070a7ff31b4edcb48acf97319b3496b9, type: 3}
-      propertyPath: playerDiedEvent
+      propertyPath: _bossRegistry
       value: 
-      objectReference: {fileID: 11400000, guid: c4aafdc060e22b04783f8511dd5af925, type: 2}
+      objectReference: {fileID: 11400000, guid: 2d5ae8153bb3ac54194677a505cdab96, type: 2}
     - target: {fileID: 5933365456025743668, guid: 070a7ff31b4edcb48acf97319b3496b9, type: 3}
-      propertyPath: requestNextFight
+      propertyPath: _bossFightStarted
       value: 
-      objectReference: {fileID: 11400000, guid: 18d1e828aba52d34c9d0ce104cc75a6f, type: 2}
+      objectReference: {fileID: 11400000, guid: fd5a85d0f46fce6468b58b5ab00a372e, type: 2}
     - target: {fileID: 6150234712964606771, guid: 070a7ff31b4edcb48acf97319b3496b9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
