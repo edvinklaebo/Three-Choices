@@ -1,73 +1,50 @@
 using UnityEngine;
 
 /// <summary>
-///     Listens for <see cref="BossFightEventChannel"/> to track the active boss,
-///     then resolves and broadcasts the artifact reward via <see cref="ArtifactRewardEventChannel"/>
-///     when the boss fight ends.
+///     Listens for boss fight end and presents a rarity-weighted artifact draft
+///     via a <see cref="DraftEventChannel"/> so the player can choose their boss reward.
 /// </summary>
 public class BossRewardController : MonoBehaviour
 {
     [Header("Events")]
-    [SerializeField] private BossFightEventChannel _bossFightStarted;
     [SerializeField] private VoidEventChannel _bossFightEnded;
-    [SerializeField] private ArtifactRewardEventChannel _artifactReward;
+    [SerializeField] private DraftEventChannel _showDraft;
 
-    private BossRewardResolver _resolver;
-    private BossDefinition _activeBoss;
+    private DraftSystem _draftSystem;
 
     private void Awake()
     {
-        _resolver = new BossRewardResolver();
-
-        if (_bossFightStarted == null)
-            Log.Error("BossRewardController: _bossFightStarted is not assigned.");
         if (_bossFightEnded == null)
             Log.Error("BossRewardController: _bossFightEnded is not assigned.");
-        if (_artifactReward == null)
-            Log.Error("BossRewardController: _artifactReward is not assigned.");
+        if (_showDraft == null)
+            Log.Error("BossRewardController: _showDraft is not assigned.");
+
+        _draftSystem = new DraftSystem(ScriptableObject.CreateInstance<ArtifactPool>());
     }
 
     private void OnEnable()
     {
-        if (_bossFightStarted != null)
-            _bossFightStarted.OnRaised += OnBossFightStarted;
         if (_bossFightEnded != null)
             _bossFightEnded.OnRaised += OnBossFightEnded;
     }
 
     private void OnDisable()
     {
-        if (_bossFightStarted != null)
-            _bossFightStarted.OnRaised -= OnBossFightStarted;
         if (_bossFightEnded != null)
             _bossFightEnded.OnRaised -= OnBossFightEnded;
     }
 
-    private void OnBossFightStarted(BossDefinition boss)
-    {
-        _activeBoss = boss;
-    }
-
     private void OnBossFightEnded()
     {
-        if (_activeBoss == null)
+        var draft = _draftSystem.GenerateDraft(3);
+
+        if (draft.Count == 0)
         {
-            Log.Warning("[BossRewardController] Boss fight ended but no active boss was tracked.");
+            Log.Warning("[BossRewardController] No artifact options available for boss reward draft.");
             return;
         }
 
-        var reward = _resolver.ResolveReward(_activeBoss);
-
-        if (reward == null)
-        {
-            Log.Warning($"[BossRewardController] Boss '{_activeBoss.Id}' has no artifact reward assigned.");
-        }
-        else
-        {
-            Log.Info($"[BossRewardController] Rewarding artifact '{reward.Id}' from boss '{_activeBoss.Id}'");
-            _artifactReward?.Raise(reward);
-        }
-
-        _activeBoss = null;
+        Log.Info($"[BossRewardController] Presenting artifact draft with {draft.Count} option(s).");
+        _showDraft?.Raise(draft);
     }
 }

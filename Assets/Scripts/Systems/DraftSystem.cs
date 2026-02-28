@@ -25,16 +25,28 @@ public class DraftSystem
     {
     }
 
+    /// <summary>Creates an artifact-only draft system (for boss rewards).</summary>
+    public DraftSystem(IArtifactRepository artifactRepository)
+        : this(null, artifactRepository, new RarityRoller())
+    {
+    }
+
+    /// <summary>Creates an artifact-only draft system (for boss rewards) with a custom rarity roller.</summary>
+    public DraftSystem(IArtifactRepository artifactRepository, IRarityRoller rarityRoller)
+        : this(null, artifactRepository, rarityRoller)
+    {
+    }
+
     public DraftSystem(IUpgradeRepository upgradeRepository, IArtifactRepository artifactRepository,
         IRarityRoller rarityRoller)
     {
-        _upgradeRepository = upgradeRepository ?? throw new ArgumentNullException(nameof(upgradeRepository));
+        _upgradeRepository = upgradeRepository;
         _artifactRepository = artifactRepository;
         _rarityRoller = rarityRoller ?? throw new ArgumentNullException(nameof(rarityRoller));
 
         Log.Info("DraftSystem initialized", new
         {
-            upgradeRepositoryType = upgradeRepository.GetType().Name,
+            hasUpgradeRepository = upgradeRepository != null,
             hasArtifactRepository = artifactRepository != null,
             rarityRollerType = rarityRoller.GetType().Name
         });
@@ -104,10 +116,14 @@ public class DraftSystem
 
     private List<DraftOption> BuildPool()
     {
-        var upgrades = _upgradeRepository.GetAll();
-        var pool = new List<DraftOption>(upgrades.Count);
-        for (var i = 0; i < upgrades.Count; i++)
-            pool.Add(new DraftOption(upgrades[i]));
+        var pool = new List<DraftOption>();
+
+        if (_upgradeRepository != null)
+        {
+            var upgrades = _upgradeRepository.GetAll();
+            for (var i = 0; i < upgrades.Count; i++)
+                pool.Add(new DraftOption(upgrades[i]));
+        }
 
         if (_artifactRepository != null)
         {

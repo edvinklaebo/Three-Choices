@@ -247,5 +247,43 @@ namespace Tests.EditModeTests
             Assert.AreEqual(2, draft.Count);
             Assert.IsTrue(draft.All(o => o.Source is UpgradeDefinition));
         }
+
+        [Test]
+        public void GenerateDraft_ArtifactOnlyConstructor_OnlyIncludesArtifacts()
+        {
+            var artifacts = new List<ArtifactDefinition>
+            {
+                CreateArtifact("art_1", "ArtifactA"),
+                CreateArtifact("art_2", "ArtifactB"),
+                CreateArtifact("art_3", "ArtifactC")
+            };
+
+            var artifactRepo = new MockArtifactRepository(artifacts);
+            var draftSystem = new DraftSystem(artifactRepo);
+
+            var draft = draftSystem.GenerateDraft(3);
+
+            Assert.AreEqual(3, draft.Count);
+            Assert.IsTrue(draft.All(o => o.Source is ArtifactDefinition));
+        }
+
+        [Test]
+        public void GenerateDraft_ArtifactOnlyConstructor_DoesNotSelectSameArtifactTwice()
+        {
+            var artifacts = new List<ArtifactDefinition>
+            {
+                CreateArtifact("art_1", "ArtifactA"),
+                CreateArtifact("art_2", "ArtifactB"),
+                CreateArtifact("art_3", "ArtifactC")
+            };
+
+            var artifactRepo = new MockArtifactRepository(artifacts);
+            var draftSystem = new DraftSystem(artifactRepo);
+
+            var draft = draftSystem.GenerateDraft(3);
+
+            Assert.AreEqual(3, draft.Count);
+            Assert.AreEqual(3, draft.Distinct().Count());
+        }
     }
 }
