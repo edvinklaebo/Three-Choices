@@ -49,6 +49,8 @@ MonoBehaviour:
   combatEndedWithPlayerDeath: {fileID: 11400000, guid: 1044acb858714ffbb28024209733b59a, type: 2}
   _continueRunRequested: {fileID: 11400000, guid: bbcc1122dd334455667788990011bbcc, type: 2}
   _fightStarted: {fileID: 11400000, guid: aabb1122cc334455667788990011aabb, type: 2}
+  _bossFightStarted: {fileID: 11400000, guid: fd5a85d0f46fce6468b58b5ab00a372e, type: 2}
+  _bossRegistry: {fileID: 11400000, guid: 2d5ae8153bb3ac54194677a505cdab96, type: 2}
   Player:
     Name: 
     Stats:
@@ -57,4 +59,10 @@ MonoBehaviour:
       AttackPower: 0
       Armor: 0
       Speed: 0
-    isDead: 0
+    Portrait: {fileID: 0}
+    Abilities: []
+    Passives: []
+    StatusEffects: []
+  references:
+    version: 2
+    RefIds: []

@@ -1825,10 +1825,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8318686798251256649, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-      propertyPath: _viewPresenter
+    - target: {fileID: 5739403852180641738, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
+      propertyPath: _bossFightStarted
       value: 
-      objectReference: {fileID: 620796520}
+      objectReference: {fileID: 11400000, guid: fd5a85d0f46fce6468b58b5ab00a372e, type: 2}
     - target: {fileID: 8360034438436761351, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
       propertyPath: _combatView
       value: 
@@ -1838,17 +1838,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
---- !u!114 &620796520 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7126930277368023549, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
-  m_PrefabInstance: {fileID: 620796516}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78927b15e6601a5498f2e7a27ff0ac81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Ropa::CombatViewPresenter
 --- !u!1 &637573338
 GameObject:
   m_ObjectHideFlags: 0

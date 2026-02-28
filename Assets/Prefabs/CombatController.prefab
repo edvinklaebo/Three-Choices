@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 1620537911629156761}
   - component: {fileID: 8360034438436761351}
   - component: {fileID: 7126930277368023549}
+  - component: {fileID: 3547369287322532599}
+  - component: {fileID: 2784248382820372015}
   m_Layer: 0
   m_Name: CombatController
   m_TagString: Untagged
@@ -53,6 +55,7 @@ MonoBehaviour:
   _combatReady: {fileID: 11400000, guid: 997dd6da580875146927ce4e3e44d9a5, type: 2}
   _requestNextFight: {fileID: 11400000, guid: 18d1e828aba52d34c9d0ce104cc75a6f, type: 2}
   _fightEnded: {fileID: 11400000, guid: 99bdd015575148c4db974cb5fe1b2ead, type: 2}
+  _bossFightStarted: {fileID: 11400000, guid: fd5a85d0f46fce6468b58b5ab00a372e, type: 2}
   _enemyFactory: {fileID: 11400000, guid: 561938dbe00322349a6ffa95a0f18738, type: 2}
   _combatSystem: {fileID: 11400000, guid: cffe750f0e6ea244085c476fe2df394e, type: 2}
 --- !u!114 &8318686798251256649
@@ -86,7 +89,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   _presentationComplete: {fileID: 11400000, guid: a8ef44d8372cbdf4396a0d8e7687acfe, type: 2}
   _fightEnded: {fileID: 11400000, guid: 99bdd015575148c4db974cb5fe1b2ead, type: 2}
+  _bossFightEnded: {fileID: 0}
   _combatEndedWithPlayerDeath: {fileID: 11400000, guid: 1044acb858714ffbb28024209733b59a, type: 2}
+  _bossFightStarted: {fileID: 0}
 --- !u!114 &1620537911629156761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,3 +131,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::CombatViewPresenter
   _hideDraftUI: {fileID: 11400000, guid: 3bbeea1401867024f886a81801a4274a, type: 2}
   _servicesInstaller: {fileID: 8360034438436761351}
+--- !u!114 &3547369287322532599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935682594972769654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2f52bdeb3adc614cbfa7dbd16d3f564, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ropa::BossController
+--- !u!114 &2784248382820372015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1935682594972769654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5729ae37d29ad004792b091df442e92e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Ropa::BossRewardController
+  _bossFightStarted: {fileID: 11400000, guid: fd5a85d0f46fce6468b58b5ab00a372e, type: 2}
+  _bossFightEnded: {fileID: 11400000, guid: 5a1888c2060c53944ae84ab4178030ea, type: 2}
+  _artifactReward: {fileID: 11400000, guid: f0f1221c6b55d15468cd6fc3c5ada622, type: 2}
