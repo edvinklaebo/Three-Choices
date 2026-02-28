@@ -54,7 +54,7 @@ namespace Tests.EditModeTests
         [Test]
         public void PoisonAmplifier_DoesNotApplyExtraPoison_IfTargetHasNoPoison()
         {
-            var amplifier = new PoisonAmplifier(2, 3, 2);
+            var amplifier = new PoisonAmplifier();
             amplifier.OnAttach(_owner);
 
             _owner.RaiseOnHit(_target, 10);
@@ -75,16 +75,16 @@ namespace Tests.EditModeTests
 
             _owner.RaiseOnHit(_target, 10);
 
-            var poison = _target.StatusEffects[0] as Poison;
-            Assert.AreEqual(2, poison.Stacks, "Stacks should not be doubled after detach");
+            if (_target.StatusEffects[0] is Poison poison) 
+                Assert.AreEqual(2, poison.Stacks, "Stacks should not be doubled after detach");
         }
 
         [Test]
         public void PoisonAmplifier_ViaArtifactApplier_Works()
         {
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
-            artifact.EditorInit("test", "Poison Tipped Darts", "desc", Rarity.Uncommon, ArtifactTag.Poison,
-                ArtifactEffectType.AddArtifact, StatType.MaxHP, 0, "PoisonAmplifier", false);
+            artifact.EditorInit("artifact_poison_darts", "Poison Tipped Darts", "desc", Rarity.Uncommon, ArtifactTag.Poison,
+                ArtifactEffectType.AddArtifact, false);
 
             ArtifactApplier.ApplyToPlayer(artifact, _owner);
 

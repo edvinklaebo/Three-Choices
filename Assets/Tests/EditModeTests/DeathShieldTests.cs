@@ -16,7 +16,7 @@ namespace Tests.EditModeTests
         [Test]
         public void DeathShield_PreventsFirstDeath()
         {
-            var shield = new DeathShield(0.5f);
+            var shield = new DeathShield();
             shield.OnAttach(_unit);
 
             _unit.ApplyDamage(null, 100);
@@ -27,7 +27,7 @@ namespace Tests.EditModeTests
         [Test]
         public void DeathShield_RevivesWithHalfMaxHP()
         {
-            var shield = new DeathShield(0.5f);
+            var shield = new DeathShield();
             shield.OnAttach(_unit);
 
             _unit.ApplyDamage(null, 100);
@@ -38,7 +38,7 @@ namespace Tests.EditModeTests
         [Test]
         public void DeathShield_OnlyTriggersOnce()
         {
-            var shield = new DeathShield(0.5f);
+            var shield = new DeathShield();
             shield.OnAttach(_unit);
 
             // First death - revived
@@ -53,7 +53,7 @@ namespace Tests.EditModeTests
         [Test]
         public void DeathShield_TriggeredFlag_SetAfterUse()
         {
-            var shield = new DeathShield(0.5f);
+            var shield = new DeathShield();
             shield.OnAttach(_unit);
 
             Assert.IsFalse(shield.Triggered);
@@ -77,7 +77,7 @@ namespace Tests.EditModeTests
         [Test]
         public void DeathShield_DoesNotTrigger_WhenUnitSurvives()
         {
-            var shield = new DeathShield(0.5f);
+            var shield = new DeathShield();
             shield.OnAttach(_unit);
 
             _unit.ApplyDamage(null, 50);
@@ -90,7 +90,7 @@ namespace Tests.EditModeTests
         [Test]
         public void DeathShield_OnDetach_DoesNotRevive()
         {
-            var shield = new DeathShield(0.5f);
+            var shield = new DeathShield();
             shield.OnAttach(_unit);
             shield.OnDetach(_unit);
 
@@ -103,8 +103,8 @@ namespace Tests.EditModeTests
         public void DeathShield_ViaArtifactApplier_WorksCorrectly()
         {
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
-            artifact.EditorInit("test", "Hourglass", "desc", Rarity.Epic, ArtifactTag.None,
-                ArtifactEffectType.AddArtifact, StatType.MaxHP, 0, "DeathShield", false);
+            artifact.EditorInit("artifact_hourglass", "Hourglass", "desc", Rarity.Epic, ArtifactTag.None,
+                ArtifactEffectType.AddArtifact,false);
 
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 

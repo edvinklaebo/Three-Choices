@@ -15,9 +15,7 @@ public class DeathShield : IPassive
     [SerializeField] private float _revivePercent;
     [SerializeField] private bool _triggered;
 
-    [NonSerialized] private Unit _owner;
-
-    /// <summary>Runs first among passives so death is cancelled before other subscribers see it.</summary>
+    /// <summary>Runs first among passives so death is canceled before other subscribers see it.</summary>
     public int Priority => 0;
 
     public DeathShield(float revivePercent = 0.5f)
@@ -27,14 +25,12 @@ public class DeathShield : IPassive
 
     public void OnAttach(Unit owner)
     {
-        _owner = owner;
         owner.Dying += OnDying;
     }
 
     public void OnDetach(Unit owner)
     {
         owner.Dying -= OnDying;
-        _owner = null;
     }
 
     private void OnDying(Unit unit, DyingEventArgs args)

@@ -13,7 +13,7 @@ public class RandomArtifactSelector : IArtifactSelector
             var index = Random.Range(0, available.Count);
             result[i] = available[index];
             // Swap-with-last O(n) removal instead of O(n²) shift
-            available[index] = available[available.Count - 1];
+            available[index] = available[^1];
             available.RemoveAt(available.Count - 1);
         }
 

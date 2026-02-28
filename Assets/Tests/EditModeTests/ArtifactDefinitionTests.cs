@@ -12,14 +12,10 @@ namespace Tests.EditModeTests
             Rarity rarity = Rarity.Common,
             ArtifactTag tags = ArtifactTag.None,
             ArtifactEffectType effectType = ArtifactEffectType.AddArtifact,
-            StatType stat = StatType.MaxHP,
-            int amount = 10,
-            string abilityId = "",
             bool lockedByDefault = false)
         {
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
-            artifact.EditorInit(id, displayName, description, rarity, tags, effectType, stat, amount, abilityId,
-                lockedByDefault);
+            artifact.EditorInit(id, displayName, description, rarity, tags, effectType, lockedByDefault);
             return artifact;
         }
 
@@ -72,27 +68,6 @@ namespace Tests.EditModeTests
         {
             var artifact = CreateArtifact(effectType: ArtifactEffectType.AddArtifact);
             Assert.AreEqual(ArtifactEffectType.AddArtifact, artifact.EffectType);
-        }
-
-        [Test]
-        public void Stat_ReturnsCorrectValue()
-        {
-            var artifact = CreateArtifact(stat: StatType.AttackPower);
-            Assert.AreEqual(StatType.AttackPower, artifact.Stat);
-        }
-
-        [Test]
-        public void Amount_ReturnsCorrectValue()
-        {
-            var artifact = CreateArtifact(amount: 25);
-            Assert.AreEqual(25, artifact.Amount);
-        }
-
-        [Test]
-        public void AbilityId_ReturnsCorrectValue()
-        {
-            var artifact = CreateArtifact(abilityId: "Fireball");
-            Assert.AreEqual("Fireball", artifact.AbilityId);
         }
 
         [Test]

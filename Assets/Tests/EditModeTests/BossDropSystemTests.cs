@@ -53,7 +53,7 @@ namespace Tests.EditModeTests
         {
             var a = ScriptableObject.CreateInstance<ArtifactDefinition>();
             a.EditorInit(id, id, "desc", Rarity.Common, ArtifactTag.None,
-                ArtifactEffectType.AddArtifact, StatType.Armor, 10, "", lockedByDefault);
+                ArtifactEffectType.AddArtifact, lockedByDefault);
             return a;
         }
 
@@ -153,21 +153,21 @@ namespace Tests.EditModeTests
         [Test]
         public void GetBossDrop_NullRepository_ThrowsOnConstruction()
         {
-            Assert.Throws<System.ArgumentNullException>(() => new BossDropSystem(null, _meta));
+            Assert.Throws<System.ArgumentNullException>(() => { _ = new BossDropSystem(null, _meta); });
         }
 
         [Test]
         public void GetBossDrop_NullMetaProgression_ThrowsOnConstruction()
         {
             var repo = new MockArtifactRepository(new List<ArtifactDefinition>());
-            Assert.Throws<System.ArgumentNullException>(() => new BossDropSystem(repo, null));
+            Assert.Throws<System.ArgumentNullException>(() => { _ = new BossDropSystem(repo, null); });
         }
 
         [Test]
         public void GetBossDrop_NullSelector_ThrowsOnConstruction()
         {
             var repo = new MockArtifactRepository(new List<ArtifactDefinition>());
-            Assert.Throws<System.ArgumentNullException>(() => new BossDropSystem(repo, _meta, null));
+            Assert.Throws<System.ArgumentNullException>(() => { _ = new BossDropSystem(repo, _meta, null); });
         }
 
         [Test]
