@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 ///     Determines whether a fight is a boss fight and selects an appropriate boss
@@ -37,11 +37,11 @@ public class BossManager
 
         if (bosses == null || bosses.Count == 0)
         {
-            Log.Error("[BossManager] No bosses registered in BossRegistry");
+            //Log.Error("[BossManager] No bosses registered in BossRegistry");
             return null;
         }
 
-        int tier = fightIndex / BossFightInterval;
+        var tier = fightIndex / BossFightInterval;
         var candidates = new List<BossDefinition>(bosses.Count);
 
         for (var i = 0; i < bosses.Count; i++)
@@ -52,7 +52,7 @@ public class BossManager
 
         if (candidates.Count == 0)
         {
-            Log.Warning($"[BossManager] No bosses with DifficultyRating <= {tier}. Falling back to lowest-rated boss.");
+            Log.Info($"[BossManager] No bosses with DifficultyRating <= {tier}. Falling back to lowest-rated boss.");
             candidates = FindLowestRatedBosses(bosses);
         }
 

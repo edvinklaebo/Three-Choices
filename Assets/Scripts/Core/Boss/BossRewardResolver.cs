@@ -10,7 +10,7 @@ public class BossRewardResolver
     {
         if (boss == null)
         {
-            Log.Error("[BossRewardResolver] Cannot resolve reward for null boss");
+            //Log.Error("[BossRewardResolver] Cannot resolve reward for null boss");
             return null;
         }
 

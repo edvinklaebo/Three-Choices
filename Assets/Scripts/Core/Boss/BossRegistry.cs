@@ -9,7 +9,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Game/Boss/Boss Registry")]
 public class BossRegistry : ScriptableObject
 {
-    [SerializeField] private List<BossDefinition> _bosses = new List<BossDefinition>();
+    [SerializeField] private List<BossDefinition> _bosses = new();
 
     public IReadOnlyList<BossDefinition> Bosses => _bosses;
 

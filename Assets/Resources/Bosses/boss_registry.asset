@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be12e301a77ef6c4eb3d695e70705172, type: 3}
+  m_Name: boss_registry
+  m_EditorClassIdentifier: Ropa::BossRegistry
+  _bosses:
+  - {fileID: 11400000, guid: 03f11044fcca0554092d6e7f7cf3831d, type: 2}
+  - {fileID: 11400000, guid: 92d038665567842479c03373b1290343, type: 2}
+  - {fileID: 11400000, guid: a3711776b06805f48842896d3ba09b88, type: 2}
+  - {fileID: 11400000, guid: e30229415d0f88f4d9732c3b0028383d, type: 2}
+  - {fileID: 11400000, guid: 358b78b9bd307e349bf44497ce77243c, type: 2}
