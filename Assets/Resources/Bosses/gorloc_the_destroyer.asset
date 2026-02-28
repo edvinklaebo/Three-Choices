@@ -17,4 +17,10 @@ MonoBehaviour:
   _prefab: {fileID: 0}
   _phases: []
   _artifactReward: {fileID: 11400000, guid: 26ddafa772cb4441a767cdfbe3bdac42, type: 2}
+  _stats:
+    MaxHP: 1000
+    CurrentHP: 1000
+    AttackPower: 12
+    Armor: 200
+    Speed: 100
   _difficultyRating: 1

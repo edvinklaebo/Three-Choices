@@ -80,7 +80,7 @@ public class CombatOrchestrator : MonoBehaviour
 
     private Unit CreateEnemy(int fightIndex)
     {
-        if (_pendingBoss != null)
+        if (_pendingBoss)
         {
             var boss = new Boss(_pendingBoss);
             Log.Info("[CombatOrchestrator] Boss fight — using Boss unit", new
