@@ -21,18 +21,6 @@ namespace Tests.EditModeTests
         }
     }
 
-    public class MockArtifactRepository : IArtifactRepository
-    {
-        private readonly IReadOnlyList<ArtifactDefinition> _artifacts;
-
-        public MockArtifactRepository(List<ArtifactDefinition> artifacts)
-        {
-            _artifacts = artifacts;
-        }
-
-        public IReadOnlyList<ArtifactDefinition> GetAll() => _artifacts;
-    }
-
     public class MockRarityRoller : IRarityRoller
     {
         private readonly Queue<Rarity> _rarities;
