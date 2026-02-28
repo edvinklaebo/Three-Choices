@@ -11,6 +11,8 @@ public class BleedUpgrade : IPassive
     [SerializeField] private int duration;
     [SerializeField] private int baseDamage;
 
+    public int Priority => 100;
+
     public BleedUpgrade(Unit owner, int stacks = 2, int duration = 3, int baseDamage = 2)
     {
         this.stacks = stacks;

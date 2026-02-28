@@ -8,6 +8,8 @@ public class PoisonUpgrade : IPassive
     [SerializeField] private int _duration;
     [SerializeField] private int _baseDamage;
 
+    public int Priority => 100;
+
     public PoisonUpgrade(Unit owner, int stacks = 2, int duration = 3, int baseDamage = 2)
     {
         _stacks = stacks;
