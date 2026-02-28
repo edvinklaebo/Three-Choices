@@ -37,13 +37,14 @@ public class RunProgressionService
     /// <summary>
     ///     Raises the fight-started event with the current fight index, raises the boss-fight event
     ///     when the fight is a boss fight, increments the index, and saves state.
+    ///     On boss fights the <see cref="BossFightEventChannel"/> is raised <em>before</em>
+    ///     <see cref="FightStartedEventChannel"/> so that subscribers such as
+    ///     <see cref="CombatOrchestrator"/> can prepare the boss unit before the fight begins.
     ///     The saved <c>fightIndex</c> records the next fight to play, so the run resumes correctly on reload.
     ///     Subscribe this to the <c>requestNextFight</c> event channel.
     /// </summary>
     public void HandleNextFight()
     {
-        _fightStarted?.Raise(_player, _fightIndex);
-
         if (_bossManager != null && _bossManager.IsBossFight(_fightIndex))
         {
             var boss = _bossManager.GetBoss(_fightIndex);
@@ -51,6 +52,7 @@ public class RunProgressionService
                 _bossFightStarted?.Raise(boss);
         }
 
+        _fightStarted?.Raise(_player, _fightIndex);
         _fightIndex++;
         Save();
     }

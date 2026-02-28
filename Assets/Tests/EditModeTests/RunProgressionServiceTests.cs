@@ -197,6 +197,30 @@ namespace Tests.EditModeTests
             Object.DestroyImmediate(channel);
             Object.DestroyImmediate(bossChannel);
         }
+
+        [Test]
+        public void HandleNextFight_RaisesBossEvent_BeforeFightStartedEvent()
+        {
+            var channel = CreateChannel();
+            var bossChannel = CreateBossChannel();
+            var boss = CreateBoss("big_boss");
+            var service = new RunProgressionService(channel, CreateBossManager(boss), bossChannel);
+            var run = CreateRun(fightIndex: 10);
+            service.SetRun(run, run.player);
+
+            var order = new System.Collections.Generic.List<string>();
+            bossChannel.OnRaised += _ => order.Add("boss");
+            channel.OnRaised += (_, _) => order.Add("fight");
+
+            service.HandleNextFight();
+
+            Assert.AreEqual(2, order.Count);
+            Assert.AreEqual("boss", order[0], "BossFightEvent must fire before FightStartedEvent");
+            Assert.AreEqual("fight", order[1]);
+
+            Object.DestroyImmediate(channel);
+            Object.DestroyImmediate(bossChannel);
+        }
     }
 }
 

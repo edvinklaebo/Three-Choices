@@ -4,12 +4,13 @@ using UnityEngine;
 ///     MonoBehaviour that manages the runtime behavior of a boss.
 ///     Must be attached to the boss prefab referenced in <see cref="BossDefinition.Prefab"/>.
 ///     Call <see cref="Initialize"/> after spawning the boss, passing the relevant definition.
-///     Connect a boss <see cref="Unit"/> health-changed callback to <see cref="OnHealthChanged"/>.
+///     Pass the <see cref="Boss"/> unit to auto-wire HP changes to phase transitions.
 /// </summary>
 public class BossController : MonoBehaviour
 {
     private BossDefinition _definition;
     private int _currentPhase;
+    private Boss _bossUnit;
 
     /// <summary>The active boss definition after <see cref="Initialize"/> has been called.</summary>
     public BossDefinition Definition => _definition;
@@ -20,8 +21,10 @@ public class BossController : MonoBehaviour
     /// <summary>
     ///     Sets up the boss with the given definition and enters the first phase.
     ///     Must be called immediately after the boss prefab is instantiated.
+    ///     Pass <paramref name="bossUnit"/> to automatically trigger phase transitions
+    ///     as the unit's HP changes during combat playback.
     /// </summary>
-    public void Initialize(BossDefinition definition)
+    public void Initialize(BossDefinition definition, Boss bossUnit = null)
     {
         if (definition == null)
         {
@@ -36,14 +39,37 @@ public class BossController : MonoBehaviour
         }
 
         _definition = definition;
+
+        if (_bossUnit != null && _bossUnit != bossUnit)
+            _bossUnit.HealthChanged -= OnUnitHealthChanged;
+
+        _bossUnit = bossUnit;
+
+        if (_bossUnit != null)
+            _bossUnit.HealthChanged += OnUnitHealthChanged;
+
         ValidatePhaseOrder(definition);
         EnterPhase(0);
+    }
+
+    private void OnDestroy()
+    {
+        if (_bossUnit != null)
+            _bossUnit.HealthChanged -= OnUnitHealthChanged;
+    }
+
+    private void OnUnitHealthChanged(Unit unit, int currentHp, int maxHp)
+    {
+        if (maxHp <= 0)
+            return;
+        OnHealthChanged((float)currentHp / maxHp * 100f);
     }
 
     /// <summary>
     ///     Called when the boss unit's HP changes.
     ///     <paramref name="hpPercent"/> must be in the range 0–100.
     ///     Triggers phase transitions when HP falls below the next phase's threshold.
+    ///     This is called automatically when a <see cref="Boss"/> unit is passed to <see cref="Initialize"/>.
     /// </summary>
     public void OnHealthChanged(float hpPercent)
     {

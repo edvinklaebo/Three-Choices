@@ -26,6 +26,9 @@ public class BossDefinition : ScriptableObject
     [Header("Reward")]
     [SerializeField] private ArtifactDefinition _artifactReward;
 
+    [Header("Stats")]
+    [SerializeField] private Stats _stats = new Stats();
+
     [Header("Difficulty")]
     [SerializeField] private int _difficultyRating = 1;
 
@@ -34,17 +37,20 @@ public class BossDefinition : ScriptableObject
     public GameObject Prefab => _prefab;
     public BossPhaseDefinition[] Phases => _phases;
     public ArtifactDefinition ArtifactReward => _artifactReward;
+    public Stats Stats => _stats;
     public int DifficultyRating => _difficultyRating;
 
 #if UNITY_EDITOR
     public void EditorInit(string id, string displayName, int difficultyRating,
-        ArtifactDefinition artifactReward = null, BossPhaseDefinition[] phases = null)
+        ArtifactDefinition artifactReward = null, BossPhaseDefinition[] phases = null,
+        Stats stats = null)
     {
         _id = id;
         _displayName = displayName;
         _difficultyRating = difficultyRating;
         _artifactReward = artifactReward;
         _phases = phases ?? System.Array.Empty<BossPhaseDefinition>();
+        _stats = stats ?? new Stats();
     }
 #endif
 }
