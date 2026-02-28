@@ -204,12 +204,12 @@ namespace Tests.EditModeTests
             var draft = draftSystem.GenerateDraft(2);
 
             Assert.AreEqual(2, draft.Count);
-            Assert.IsTrue(draft.Any(o => o.DisplayName == "UpgradeA" && !o.IsArtifact));
-            Assert.IsTrue(draft.Any(o => o.DisplayName == "ArtifactA" && o.IsArtifact));
+            Assert.IsTrue(draft.Any(o => o.DisplayName == "UpgradeA" && o.Source is UpgradeDefinition));
+            Assert.IsTrue(draft.Any(o => o.DisplayName == "ArtifactA" && o.Source is ArtifactDefinition));
         }
 
         [Test]
-        public void GenerateDraft_ArtifactOption_IsArtifactIsTrue()
+        public void GenerateDraft_ArtifactOption_SourceIsArtifactDefinition()
         {
             var upgrades = new List<UpgradeDefinition>();
             var artifacts = new List<ArtifactDefinition>
@@ -225,7 +225,7 @@ namespace Tests.EditModeTests
             var draft = draftSystem.GenerateDraft(1);
 
             Assert.AreEqual(1, draft.Count);
-            Assert.IsTrue(draft[0].IsArtifact);
+            Assert.IsTrue(draft[0].Source is ArtifactDefinition);
             Assert.AreEqual("TestArtifact", draft[0].DisplayName);
             Assert.AreEqual(Rarity.Rare, draft[0].GetRarity());
         }
@@ -245,7 +245,7 @@ namespace Tests.EditModeTests
             var draft = draftSystem.GenerateDraft(2);
 
             Assert.AreEqual(2, draft.Count);
-            Assert.IsTrue(draft.All(o => !o.IsArtifact));
+            Assert.IsTrue(draft.All(o => o.Source is UpgradeDefinition));
         }
     }
 }

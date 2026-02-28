@@ -2,29 +2,21 @@ using System;
 using UnityEngine;
 
 /// <summary>
-/// Unified draft item that can represent either an <see cref="UpgradeDefinition"/> or an
-/// <see cref="ArtifactDefinition"/>. Use <see cref="IsArtifact"/> to distinguish between the two.
+/// Unified draft item wrapping any <see cref="IDraftable"/> definition (Upgrade, Artifact, etc.).
+/// Adding a new draftable type requires only that it implements <see cref="IDraftable"/> —
+/// no changes to this class are needed.
 /// </summary>
 public class DraftOption
 {
-    public UpgradeDefinition Upgrade { get; }
-    public ArtifactDefinition Artifact { get; }
+    public IDraftable Source { get; }
 
-    public bool IsArtifact => Artifact != null;
+    public string DisplayName => Source.DisplayName;
+    public string Description => Source.Description;
+    public Sprite Icon => Source.Icon;
+    public Rarity GetRarity() => Source.GetRarity();
 
-    public string DisplayName => IsArtifact ? Artifact.DisplayName : Upgrade.DisplayName;
-    public string Description => IsArtifact ? Artifact.Description : Upgrade.Description;
-    public Sprite Icon => IsArtifact ? Artifact.Icon : Upgrade.Icon;
-
-    public Rarity GetRarity() => IsArtifact ? Artifact.Rarity : Upgrade.GetRarity();
-
-    public DraftOption(UpgradeDefinition upgrade)
+    public DraftOption(IDraftable source)
     {
-        Upgrade = upgrade ?? throw new ArgumentNullException(nameof(upgrade));
-    }
-
-    public DraftOption(ArtifactDefinition artifact)
-    {
-        Artifact = artifact ?? throw new ArgumentNullException(nameof(artifact));
+        Source = source ?? throw new ArgumentNullException(nameof(source));
     }
 }

@@ -103,10 +103,8 @@ namespace Tests.EditModeTests
             // Cleanup
             foreach (var option in draft)
             {
-                if (option.IsArtifact)
-                    Object.DestroyImmediate(option.Artifact);
-                else
-                    Object.DestroyImmediate(option.Upgrade);
+                if (option.Source is UnityEngine.Object obj)
+                    Object.DestroyImmediate(obj);
             }
         }
 

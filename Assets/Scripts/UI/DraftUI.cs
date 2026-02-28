@@ -49,10 +49,19 @@ public class DraftUI : MonoBehaviour
 
     private void OnOptionPicked(DraftOption option)
     {
-        if (option.IsArtifact)
-            _artifactPicked?.Raise(option.Artifact);
-        else
-            _upgradePicked?.Raise(option.Upgrade);
+        switch (option.Source)
+        {
+            case UpgradeDefinition upgrade:
+                _upgradePicked?.Raise(upgrade);
+                break;
+            case ArtifactDefinition artifact:
+                _artifactPicked?.Raise(artifact);
+                break;
+            default:
+                Log.Warning("DraftUI: unhandled IDraftable type picked",
+                    new { type = option.Source.GetType().Name });
+                break;
+        }
     }
 
     private void OnHideRequested()

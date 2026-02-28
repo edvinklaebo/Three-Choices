@@ -9,7 +9,7 @@ public enum StatType
 }
 
 [CreateAssetMenu(menuName = "Upgrades/Upgrade")]
-public class UpgradeDefinition : ScriptableObject
+public class UpgradeDefinition : ScriptableObject, IDraftable
 {
     [Header("Identity")] 
     [SerializeField] private string id;
