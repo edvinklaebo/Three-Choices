@@ -15,11 +15,8 @@ MonoBehaviour:
   _id: artifact_vampiric_fang
   _displayName: Vampiric Fang
   _description: 20% of damage dealt is healed as life.
-  _icon: {fileID: 0}
+  _icon: {fileID: -2413806693520163455, guid: c3ecc98bcf6cfd74597b296ec6b1abd7, type: 3}
   _rarity: 50
   _tags: 8
   _effectType: 1
-  _stat: 0
-  _amount: 0
-  _abilityId: Lifesteal
   _lockedByDefault: 0

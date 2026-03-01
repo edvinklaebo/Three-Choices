@@ -1,5 +1,4 @@
 using System;
-using Core.Passives;
 
 public static class ArtifactApplier
 {

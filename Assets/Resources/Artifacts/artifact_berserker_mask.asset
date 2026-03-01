@@ -15,11 +15,8 @@ MonoBehaviour:
   _id: artifact_berserker_mask
   _displayName: Berserker Mask
   _description: Unlocks the rage Passive.
-  _icon: {fileID: 0}
+  _icon: {fileID: -2413806693520163455, guid: c3ecc98bcf6cfd74597b296ec6b1abd7, type: 3}
   _rarity: 25
   _tags: 128
   _effectType: 1
-  _stat: 0
-  _amount: 0
-  _abilityId: Rage
   _lockedByDefault: 1
