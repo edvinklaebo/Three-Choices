@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Artifacts/Artifact")]
-public class ArtifactDefinition : ScriptableObject
+public class ArtifactDefinition : ScriptableObject, IDraftable
 {
     [Header("Identity")]
     [SerializeField] private string _id;
@@ -25,6 +25,7 @@ public class ArtifactDefinition : ScriptableObject
     public string Description => _description;
     public Sprite Icon => _icon;
     public Rarity Rarity => _rarity;
+    public Rarity GetRarity() => _rarity;
     public ArtifactTag Tags => _tags;
     public ArtifactEffectType EffectType => _effectType;
     public bool LockedByDefault => _lockedByDefault;

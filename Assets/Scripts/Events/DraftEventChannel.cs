@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Events/Draft Event")]
 public class DraftEventChannel : ScriptableObject
 {
-    public event Action<List<UpgradeDefinition>> OnRaised;
+    public event Action<List<DraftOption>> OnRaised;
 
-    public void Raise(List<UpgradeDefinition> draft)
+    public void Raise(List<DraftOption> draft)
     {
         OnRaised?.Invoke(draft);
     }

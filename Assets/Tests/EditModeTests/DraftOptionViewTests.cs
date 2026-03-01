@@ -38,8 +38,9 @@ namespace Tests.EditModeTests
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
             upgrade.EditorInit("Power Up", "Power Up", UpgradeType.Stat, StatType.AttackPower, 5);
+            var option = new DraftOption(upgrade);
 
-            _view.Bind(upgrade, null);
+            _view.Bind(option, null);
 
             Assert.AreEqual("Power Up", _text.text);
 
@@ -51,8 +52,9 @@ namespace Tests.EditModeTests
         {
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
             upgrade.EditorInit("tough-id", "Extra Armor", UpgradeType.Stat, StatType.Armor, 3);
+            var option = new DraftOption(upgrade);
 
-            _view.Bind(upgrade, null);
+            _view.Bind(option, null);
 
             Assert.AreEqual("Extra Armor", _tooltip.Label);
             Assert.AreEqual(upgrade.Description, _tooltip.Content);
@@ -61,17 +63,18 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void Bind_OnClick_InvokesOnPickWithUpgrade()
+        public void Bind_OnClick_InvokesOnPickWithOption()
         {
-            UpgradeDefinition received = null;
+            DraftOption received = null;
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
             upgrade.EditorInit("Quick Strike", "Quick Strike", UpgradeType.Stat, StatType.AttackPower, 2);
+            var option = new DraftOption(upgrade);
 
-            _view.Bind(upgrade, u => received = u);
+            _view.Bind(option, o => received = o);
 
             _btnObj.GetComponent<Button>().onClick.Invoke();
 
-            Assert.AreEqual(upgrade, received, "onPick should be invoked with the bound upgrade");
+            Assert.AreEqual(option, received, "onPick should be invoked with the bound option");
 
             Object.DestroyImmediate(upgrade);
         }
@@ -86,14 +89,46 @@ namespace Tests.EditModeTests
             var callCount = 0;
             var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
             upgrade.EditorInit("Guard Test", "Guard Test", UpgradeType.Stat, StatType.AttackPower, 1);
+            var option = new DraftOption(upgrade);
 
-            _view.Bind(upgrade, _ => callCount++);
+            _view.Bind(option, _ => callCount++);
 
             _btnObj.GetComponent<Button>().onClick.Invoke();
 
             Assert.AreEqual(1, callCount, "onPick should be invoked exactly once even when Awake is called multiple times");
 
             Object.DestroyImmediate(upgrade);
+        }
+
+        [Test]
+        public void Bind_ArtifactOption_SetsButtonText()
+        {
+            var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
+            artifact.EditorInit("artifact_test", "Crown of Echoes", "A powerful crown", Rarity.Rare,
+                ArtifactTag.None, ArtifactEffectType.AddArtifact, false);
+            var option = new DraftOption(artifact);
+
+            _view.Bind(option, null);
+
+            Assert.AreEqual("Crown of Echoes", _text.text);
+
+            Object.DestroyImmediate(artifact);
+        }
+
+        [Test]
+        public void Bind_ArtifactOption_SetsTooltip()
+        {
+            var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
+            artifact.EditorInit("artifact_test", "Hourglass", "Shields you from death", Rarity.Epic,
+                ArtifactTag.None, ArtifactEffectType.AddArtifact, false);
+            var option = new DraftOption(artifact);
+
+            _view.Bind(option, null);
+
+            Assert.AreEqual("Hourglass", _tooltip.Label);
+            Assert.AreEqual("Shields you from death", _tooltip.Content);
+
+            Object.DestroyImmediate(artifact);
         }
     }
 }

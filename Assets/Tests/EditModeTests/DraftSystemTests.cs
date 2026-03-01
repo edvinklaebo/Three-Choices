@@ -49,6 +49,14 @@ namespace Tests.EditModeTests
             return upgrade;
         }
 
+        private ArtifactDefinition CreateArtifact(string id, string name, Rarity rarity = Rarity.Common)
+        {
+            var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
+            artifact.EditorInit(id, name, string.Empty, rarity, ArtifactTag.None, ArtifactEffectType.AddArtifact,
+                false);
+            return artifact;
+        }
+
         [Test]
         public void GenerateDraft_ReturnsCorrectNumberOfUpgrades()
         {
@@ -166,6 +174,104 @@ namespace Tests.EditModeTests
             Assert.AreEqual("Epic1", draft[0].DisplayName);
             Assert.AreEqual("Rare1", draft[1].DisplayName);
             Assert.AreEqual("Uncommon1", draft[2].DisplayName);
+        }
+
+        [Test]
+        public void GenerateDraft_IncludesArtifactsWhenRepositoryProvided()
+        {
+            var upgrades = new List<UpgradeDefinition> { CreateUpgrade("UpgradeA") };
+            var artifacts = new List<ArtifactDefinition>
+            {
+                CreateArtifact("artifact_1", "ArtifactA")
+            };
+
+            var upgradeRepo = new MockUpgradeRepository(upgrades);
+            var artifactRepo = new MockArtifactRepository(artifacts);
+            var draftSystem = new DraftSystem(upgradeRepo, artifactRepo);
+
+            var draft = draftSystem.GenerateDraft(2);
+
+            Assert.AreEqual(2, draft.Count);
+            Assert.IsTrue(draft.Any(o => o.DisplayName == "UpgradeA" && o.Source is UpgradeDefinition));
+            Assert.IsTrue(draft.Any(o => o.DisplayName == "ArtifactA" && o.Source is ArtifactDefinition));
+        }
+
+        [Test]
+        public void GenerateDraft_ArtifactOption_SourceIsArtifactDefinition()
+        {
+            var upgrades = new List<UpgradeDefinition>();
+            var artifacts = new List<ArtifactDefinition>
+            {
+                CreateArtifact("artifact_test", "TestArtifact", Rarity.Rare)
+            };
+
+            var upgradeRepo = new MockUpgradeRepository(upgrades);
+            var artifactRepo = new MockArtifactRepository(artifacts);
+            var rarityRoller = new MockRarityRoller(Rarity.Rare);
+            var draftSystem = new DraftSystem(upgradeRepo, artifactRepo, rarityRoller);
+
+            var draft = draftSystem.GenerateDraft(1);
+
+            Assert.AreEqual(1, draft.Count);
+            Assert.IsTrue(draft[0].Source is ArtifactDefinition);
+            Assert.AreEqual("TestArtifact", draft[0].DisplayName);
+            Assert.AreEqual(Rarity.Rare, draft[0].GetRarity());
+        }
+
+        [Test]
+        public void GenerateDraft_WithoutArtifactRepository_OnlyIncludesUpgrades()
+        {
+            var upgrades = new List<UpgradeDefinition>
+            {
+                CreateUpgrade("UpgradeA"),
+                CreateUpgrade("UpgradeB")
+            };
+
+            var repository = new MockUpgradeRepository(upgrades);
+            var draftSystem = new DraftSystem(repository);
+
+            var draft = draftSystem.GenerateDraft(2);
+
+            Assert.AreEqual(2, draft.Count);
+            Assert.IsTrue(draft.All(o => o.Source is UpgradeDefinition));
+        }
+
+        [Test]
+        public void GenerateDraft_ArtifactOnlyConstructor_OnlyIncludesArtifacts()
+        {
+            var artifacts = new List<ArtifactDefinition>
+            {
+                CreateArtifact("art_1", "ArtifactA"),
+                CreateArtifact("art_2", "ArtifactB"),
+                CreateArtifact("art_3", "ArtifactC")
+            };
+
+            var artifactRepo = new MockArtifactRepository(artifacts);
+            var draftSystem = new DraftSystem(artifactRepo);
+
+            var draft = draftSystem.GenerateDraft(3);
+
+            Assert.AreEqual(3, draft.Count);
+            Assert.IsTrue(draft.All(o => o.Source is ArtifactDefinition));
+        }
+
+        [Test]
+        public void GenerateDraft_ArtifactOnlyConstructor_DoesNotSelectSameArtifactTwice()
+        {
+            var artifacts = new List<ArtifactDefinition>
+            {
+                CreateArtifact("art_1", "ArtifactA"),
+                CreateArtifact("art_2", "ArtifactB"),
+                CreateArtifact("art_3", "ArtifactC")
+            };
+
+            var artifactRepo = new MockArtifactRepository(artifacts);
+            var draftSystem = new DraftSystem(artifactRepo);
+
+            var draft = draftSystem.GenerateDraft(3);
+
+            Assert.AreEqual(3, draft.Count);
+            Assert.AreEqual(3, draft.Distinct().Count());
         }
     }
 }

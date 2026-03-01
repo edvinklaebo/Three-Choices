@@ -1340,6 +1340,7 @@ MonoBehaviour:
   _onHideRequested: {fileID: 11400000, guid: 3bbeea1401867024f886a81801a4274a, type: 2}
   _onShowRequested: {fileID: 11400000, guid: a1b2c3d4e5f601a7c9d8e7f6b5a4c3d2, type: 2}
   _upgradePicked: {fileID: 11400000, guid: 5ea338fefd7e28e40a34d9cc9e153e2a, type: 2}
+  _artifactPicked: {fileID: 0}
 --- !u!225 &433785263
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1825,7 +1826,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2784248382820372015, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
+      propertyPath: _showDraft
+      value: 
+      objectReference: {fileID: 11400000, guid: a1b2c3d4e5f601a7c9d8e7f6b5a4c3d2, type: 2}
     - target: {fileID: 5739403852180641738, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
+      propertyPath: _bossFightStarted
+      value: 
+      objectReference: {fileID: 11400000, guid: fd5a85d0f46fce6468b58b5ab00a372e, type: 2}
+    - target: {fileID: 6528629112018228994, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
+      propertyPath: _bossFightEnded
+      value: 
+      objectReference: {fileID: 11400000, guid: 5a1888c2060c53944ae84ab4178030ea, type: 2}
+    - target: {fileID: 6528629112018228994, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
       propertyPath: _bossFightStarted
       value: 
       objectReference: {fileID: 11400000, guid: fd5a85d0f46fce6468b58b5ab00a372e, type: 2}
@@ -3164,6 +3177,10 @@ PrefabInstance:
       propertyPath: upgradePicked
       value: 
       objectReference: {fileID: 11400000, guid: 5ea338fefd7e28e40a34d9cc9e153e2a, type: 2}
+    - target: {fileID: -3270932877066738787, guid: 1ee38493f2930b34388a77cd9c6aa287, type: 3}
+      propertyPath: artifactPicked
+      value: 
+      objectReference: {fileID: 11400000, guid: f0f1221c6b55d15468cd6fc3c5ada622, type: 2}
     - target: {fileID: -3270932877066738787, guid: 1ee38493f2930b34388a77cd9c6aa287, type: 3}
       propertyPath: requestNextFight
       value: 
