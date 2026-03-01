@@ -4,6 +4,7 @@ public class UpgradeListener : MonoBehaviour
 {
     [Header("Events")]
     [SerializeField] private UpgradeEventChannel upgradePicked;
+    [SerializeField] private ArtifactRewardEventChannel artifactPicked;
     [SerializeField] private VoidEventChannel requestNextFight;
     [SerializeField] private FightStartedEventChannel _fightStarted;
     [SerializeField] private VoidEventChannel _hideDraft;
@@ -12,14 +13,16 @@ public class UpgradeListener : MonoBehaviour
 
     private void OnEnable()
     {
-        upgradePicked.OnRaised += Apply;
+        if (upgradePicked != null) upgradePicked.OnRaised += ApplyUpgrade;
+        if (artifactPicked != null) artifactPicked.OnRaised += ApplyArtifact;
         if (_fightStarted != null) 
             _fightStarted.OnRaised += OnFightStarted;
     }
 
     private void OnDisable()
     {
-        upgradePicked.OnRaised -= Apply;
+        if (upgradePicked != null) upgradePicked.OnRaised -= ApplyUpgrade;
+        if (artifactPicked != null) artifactPicked.OnRaised -= ApplyArtifact;
         if (_fightStarted != null) 
             _fightStarted.OnRaised -= OnFightStarted;
     }
@@ -29,12 +32,21 @@ public class UpgradeListener : MonoBehaviour
         _player = player;
     }
 
-    private void Apply(UpgradeDefinition upgrade)
+    private void ApplyUpgrade(UpgradeDefinition upgrade)
+    {
+        UpgradeApplier.Apply(upgrade, _player);
+        CompletePick();
+    }
+
+    private void ApplyArtifact(ArtifactDefinition artifact)
+    {
+        ArtifactApplier.ApplyToPlayer(artifact, _player);
+        CompletePick();
+    }
+
+    private void CompletePick()
     {
         _hideDraft?.Raise();
-
-        UpgradeApplier.Apply(upgrade, _player);
-
         requestNextFight.Raise();
     }
 }

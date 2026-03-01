@@ -10,6 +10,8 @@ public class Thorns : IPassive
 {
     [NonSerialized] private bool _isReflecting;
 
+    public int Priority => 100;
+
     public void OnAttach(Unit owner)
     {
         owner.Damaged += OnDamaged;

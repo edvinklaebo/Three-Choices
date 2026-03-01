@@ -16,6 +16,11 @@ namespace Tests.EditModeTests
             return ScriptableObject.CreateInstance<FightStartedEventChannel>();
         }
 
+        private BossFightEventChannel CreateBossChannel()
+        {
+            return ScriptableObject.CreateInstance<BossFightEventChannel>();
+        }
+
         private static RunState CreateRun(int fightIndex = 0)
         {
             return new RunState
@@ -23,6 +28,21 @@ namespace Tests.EditModeTests
                 fightIndex = fightIndex,
                 player = new Unit("Hero") { Stats = new Stats { MaxHP = 100, CurrentHP = 100 } }
             };
+        }
+
+        private static BossManager CreateBossManager(params BossDefinition[] bosses)
+        {
+            var registry = ScriptableObject.CreateInstance<BossRegistry>();
+            foreach (var boss in bosses)
+                registry.EditorAddBoss(boss);
+            return new BossManager(registry);
+        }
+
+        private static BossDefinition CreateBoss(string id, int difficultyRating = 1)
+        {
+            var boss = ScriptableObject.CreateInstance<BossDefinition>();
+            boss.EditorInit(id, id, difficultyRating);
+            return boss;
         }
 
         [Test]
@@ -92,5 +112,115 @@ namespace Tests.EditModeTests
 
             Object.DestroyImmediate(channel);
         }
+
+        // ── Boss fight integration ─────────────────────────────────────────────
+
+        [Test]
+        public void HandleNextFight_RaisesBossEvent_WhenFightIndexIsBossFight()
+        {
+            var channel = CreateChannel();
+            var bossChannel = CreateBossChannel();
+            var boss = CreateBoss("big_boss");
+            var service = new RunProgressionService(channel, CreateBossManager(boss), bossChannel);
+            var run = CreateRun(fightIndex: 10);
+            service.SetRun(run, run.player);
+
+            BossDefinition receivedBoss = null;
+            bossChannel.OnRaised += b => receivedBoss = b;
+
+            service.HandleNextFight();
+
+            Assert.IsNotNull(receivedBoss, "Boss fight event should fire at fight index 10");
+
+            Object.DestroyImmediate(channel);
+            Object.DestroyImmediate(bossChannel);
+        }
+
+        [Test]
+        public void HandleNextFight_DoesNotRaiseBossEvent_WhenFightIndexIsNotBossFight()
+        {
+            var channel = CreateChannel();
+            var bossChannel = CreateBossChannel();
+            var boss = CreateBoss("big_boss");
+            var service = new RunProgressionService(channel, CreateBossManager(boss), bossChannel);
+            var run = CreateRun(fightIndex: 5);
+            service.SetRun(run, run.player);
+
+            var bossEventFired = false;
+            bossChannel.OnRaised += _ => bossEventFired = true;
+
+            service.HandleNextFight();
+
+            Assert.IsFalse(bossEventFired, "Boss fight event should NOT fire for non-boss fight");
+
+            Object.DestroyImmediate(channel);
+            Object.DestroyImmediate(bossChannel);
+        }
+
+        [Test]
+        public void HandleNextFight_DoesNotRaiseBossEvent_WhenNoBossManagerProvided()
+        {
+            var channel = CreateChannel();
+            var bossChannel = CreateBossChannel();
+            var service = new RunProgressionService(channel, bossManager: null, bossFightStarted: bossChannel);
+            var run = CreateRun(fightIndex: 10);
+            service.SetRun(run, run.player);
+
+            var bossEventFired = false;
+            bossChannel.OnRaised += _ => bossEventFired = true;
+
+            service.HandleNextFight();
+
+            Assert.IsFalse(bossEventFired, "No boss event should fire without a BossManager");
+
+            Object.DestroyImmediate(channel);
+            Object.DestroyImmediate(bossChannel);
+        }
+
+        [Test]
+        public void HandleNextFight_RaisesNormalFightEvent_EvenOnBossFight()
+        {
+            var channel = CreateChannel();
+            var bossChannel = CreateBossChannel();
+            var boss = CreateBoss("big_boss");
+            var service = new RunProgressionService(channel, CreateBossManager(boss), bossChannel);
+            var run = CreateRun(fightIndex: 10);
+            service.SetRun(run, run.player);
+
+            var normalFightFired = false;
+            channel.OnRaised += (_, _) => normalFightFired = true;
+
+            service.HandleNextFight();
+
+            Assert.IsTrue(normalFightFired, "FightStarted event must always fire, even on boss fights");
+
+            Object.DestroyImmediate(channel);
+            Object.DestroyImmediate(bossChannel);
+        }
+
+        [Test]
+        public void HandleNextFight_RaisesBossEvent_BeforeFightStartedEvent()
+        {
+            var channel = CreateChannel();
+            var bossChannel = CreateBossChannel();
+            var boss = CreateBoss("big_boss");
+            var service = new RunProgressionService(channel, CreateBossManager(boss), bossChannel);
+            var run = CreateRun(fightIndex: 10);
+            service.SetRun(run, run.player);
+
+            var order = new System.Collections.Generic.List<string>();
+            bossChannel.OnRaised += _ => order.Add("boss");
+            channel.OnRaised += (_, _) => order.Add("fight");
+
+            service.HandleNextFight();
+
+            Assert.AreEqual(2, order.Count);
+            Assert.AreEqual("boss", order[0], "BossFightEvent must fire before FightStartedEvent");
+            Assert.AreEqual("fight", order[1]);
+
+            Object.DestroyImmediate(channel);
+            Object.DestroyImmediate(bossChannel);
+        }
     }
 }
+

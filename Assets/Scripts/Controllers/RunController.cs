@@ -17,6 +17,10 @@ public class RunController : MonoBehaviour
     [SerializeField] private VoidEventChannel combatEndedWithPlayerDeath;
     [SerializeField] private VoidEventChannel _continueRunRequested;
     [SerializeField] private FightStartedEventChannel _fightStarted;
+    [SerializeField] private BossFightEventChannel _bossFightStarted;
+
+    [Header("Boss")]
+    [SerializeField] private BossRegistry _bossRegistry;
 
     [Header("References")] public Unit Player;
 
@@ -27,7 +31,8 @@ public class RunController : MonoBehaviour
     public void Awake()
     {
         DontDestroyOnLoad(this);
-        _progressionService = new RunProgressionService(_fightStarted);
+        BossManager bossManager = _bossRegistry != null ? new BossManager(_bossRegistry) : null;
+        _progressionService = new RunProgressionService(_fightStarted, bossManager, _bossFightStarted);
     }
 
     private void OnEnable()

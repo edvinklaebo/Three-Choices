@@ -350,7 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c17ea29d3ffad874c99006c37ef4d627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: MainMenu
+  nextScene: IntroScene
   progressBar: {fileID: 1246181878}
   minDisplayTime: 1.5
   logo: {fileID: 44209554}

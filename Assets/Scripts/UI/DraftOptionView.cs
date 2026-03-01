@@ -10,8 +10,8 @@ public class DraftOptionView : MonoBehaviour
     [SerializeField] private Image _icon;
     [SerializeField] private TooltipTrigger _tooltip;
 
-    private UpgradeDefinition _boundUpgrade;
-    private Action<UpgradeDefinition> _onPick;
+    private DraftOption _boundOption;
+    private Action<DraftOption> _onPick;
     private bool _initialized;
 
     public void Awake()
@@ -28,35 +28,35 @@ public class DraftOptionView : MonoBehaviour
         _button.onClick.AddListener(OnClicked);
     }
 
-    public void Bind(UpgradeDefinition upgrade, Action<UpgradeDefinition> onPick)
+    public void Bind(DraftOption option, Action<DraftOption> onPick)
     {
-        if (upgrade == null)
+        if (option == null)
         {
-            Log.Error("Bind called with null upgrade", new { gameObject.name });
+            Log.Error("Bind called with null option", new { gameObject.name });
             return;
         }
 
-        _boundUpgrade = upgrade;
+        _boundOption = option;
         _onPick = onPick;
 
         if (_tooltip != null)
         {
-            _tooltip.Label = upgrade.DisplayName;
-            _tooltip.Content = upgrade.Description;
+            _tooltip.Label = option.DisplayName;
+            _tooltip.Content = option.Description;
         }
 
         if (_text != null)
-            _text.text = upgrade.DisplayName;
+            _text.text = option.DisplayName;
 
         if (_icon != null)
         {
-            _icon.sprite = upgrade.Icon;
-            _icon.enabled = upgrade.Icon != null;
+            _icon.sprite = option.Icon;
+            _icon.enabled = option.Icon != null;
         }
     }
 
     private void OnClicked()
     {
-        _onPick?.Invoke(_boundUpgrade);
+        _onPick?.Invoke(_boundOption);
     }
 }

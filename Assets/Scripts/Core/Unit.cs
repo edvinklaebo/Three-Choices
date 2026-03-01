@@ -22,10 +22,14 @@ public class Unit
 
     /// <summary>
     ///     Re-attaches all passives to this unit. Should be called after deserialization.
+    ///     Passives are attached in priority order (lowest value first) so high-priority effects
+    ///     subscribe to events before lower-priority ones.
     /// </summary>
     public void RestorePlayerState()
     {
         Log.Info($"[Unit] Restoring player state for {Name}");
+
+        Passives.Sort((a, b) => a.Priority.CompareTo(b.Priority));
 
         foreach (var passive in Passives)
         {
@@ -47,17 +51,51 @@ public class Unit
     public event Action<Unit, Unit, int> OnHit;
     public event Action<Unit, int, int> HealthChanged;
     public event Action<Unit, int> Healed;
+    /// <summary>
+    /// Raised before the unit dies. Subscribers can cancel the death by setting
+    /// <see cref="DyingEventArgs.Cancelled"/> and providing a <see cref="DyingEventArgs.ReviveHp"/>.
+    /// </summary>
+    public event Action<Unit, DyingEventArgs> Dying;
     public event Action<Unit> Died;
     public event Action<Unit, IStatusEffect, bool> StatusEffectApplied;
+
+    private const int MinReviveHp = 1;
 
     private void Die()
     {
         if (IsDead)
             return;
 
+        var args = new DyingEventArgs();
+        Dying?.Invoke(this, args);
+
+        if (args.Cancelled)
+        {
+            Stats.CurrentHP = Math.Max(MinReviveHp, Math.Min(args.ReviveHp, Stats.MaxHP));
+            HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
+            Log.Info($"[Unit] {Name} death cancelled, restored to {Stats.CurrentHP} HP");
+            return;
+        }
+
         IsDead = true;
 
         Died?.Invoke(this);
+    }
+
+    /// <summary>
+    /// Revives a dead unit with the specified HP.
+    /// Does nothing if the unit is still alive.
+    /// </summary>
+    public void Revive(int hp)
+    {
+        if (!IsDead)
+            return;
+
+        IsDead = false;
+        Stats.CurrentHP = Math.Max(MinReviveHp, Math.Min(hp, Stats.MaxHP));
+        HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
+
+        Log.Info($"[Unit] {Name} revived with {Stats.CurrentHP} HP");
     }
 
     public void RaiseOnHit(Unit target, int damage)

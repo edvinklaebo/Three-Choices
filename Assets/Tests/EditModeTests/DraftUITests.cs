@@ -2,7 +2,6 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Tests.EditModeTests
 {
@@ -85,11 +84,11 @@ namespace Tests.EditModeTests
         public void Show_WithoutAnimation_SetsCanvasGroupToVisible()
         {
             // Create a mock draft
-            var draft = new List<UpgradeDefinition>
+            var draft = new List<DraftOption>
             {
-                ScriptableObject.CreateInstance<UpgradeDefinition>(),
-                ScriptableObject.CreateInstance<UpgradeDefinition>(),
-                ScriptableObject.CreateInstance<UpgradeDefinition>()
+                new DraftOption(ScriptableObject.CreateInstance<UpgradeDefinition>()),
+                new DraftOption(ScriptableObject.CreateInstance<UpgradeDefinition>()),
+                new DraftOption(ScriptableObject.CreateInstance<UpgradeDefinition>())
             };
 
             // Show without animation
@@ -102,26 +101,30 @@ namespace Tests.EditModeTests
             Assert.IsTrue(_draftUIObject.activeSelf, "GameObject should be active after Show");
 
             // Cleanup
-            foreach (var upgrade in draft)
-                Object.DestroyImmediate(upgrade);
+            foreach (var option in draft)
+            {
+                if (option.Source is UnityEngine.Object obj)
+                    Object.DestroyImmediate(obj);
+            }
         }
 
         [Test]
         public void Show_ConfiguresButtonsCorrectly()
         {
-            var draft = new List<UpgradeDefinition>
+            var upgrade0 = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            upgrade0.EditorInit("Upgrade A", "Upgrade A", UpgradeType.Stat, StatType.AttackPower, 5);
+            var upgrade1 = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            upgrade1.EditorInit("Upgrade B", "Upgrade B", UpgradeType.Stat, StatType.AttackPower, 5);
+
+            var draft = new List<DraftOption>
             {
-                ScriptableObject.CreateInstance<UpgradeDefinition>(),
-                ScriptableObject.CreateInstance<UpgradeDefinition>()
+                new DraftOption(upgrade0),
+                new DraftOption(upgrade1)
             };
 
-            draft.First().EditorInit("Upgrade A", "Upgrade A", UpgradeType.Stat, StatType.AttackPower, 5);
-            draft.Last().EditorInit("Upgrade B", "Upgrade B", UpgradeType.Stat, StatType.AttackPower, 5);
-            
             // Show UI
             _draftUI.Show(draft, _ => { }, animated: false);
 
-            
             // Check that first 2 buttons are active and third is inactive
             Assert.IsTrue(_draftUI.DraftButtons[0].gameObject.activeSelf, "Button 0 should be active");
             Assert.IsTrue(_draftUI.DraftButtons[1].gameObject.activeSelf, "Button 1 should be active");
@@ -134,8 +137,26 @@ namespace Tests.EditModeTests
             Assert.AreEqual("Upgrade B", text1.text, "Button 1 text should match upgrade name");
 
             // Cleanup
-            foreach (var upgrade in draft)
-                Object.DestroyImmediate(upgrade);
+            Object.DestroyImmediate(upgrade0);
+            Object.DestroyImmediate(upgrade1);
+        }
+
+        [Test]
+        public void Show_WithArtifactOption_ConfiguresButtonCorrectly()
+        {
+            var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
+            artifact.EditorInit("artifact_test", "Crown of Echoes", "A powerful crown", Rarity.Rare,
+                ArtifactTag.None, ArtifactEffectType.AddArtifact, false);
+
+            var draft = new List<DraftOption> { new DraftOption(artifact) };
+
+            _draftUI.Show(draft, _ => { }, animated: false);
+
+            Assert.IsTrue(_draftUI.DraftButtons[0].gameObject.activeSelf, "Button 0 should be active");
+            var text0 = _draftUI.DraftButtons[0].GetComponentInChildren<Text>();
+            Assert.AreEqual("Crown of Echoes", text0.text, "Button should display artifact name");
+
+            Object.DestroyImmediate(artifact);
         }
     }
 }
