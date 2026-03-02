@@ -6,8 +6,8 @@
 [Serializable]
 public class NullPassive : IPassive
 {
-    public int Priority { get; } = 100;
-    
+    public int Priority => 100;
+
     public void OnAttach(Unit owner)
     {
         //throw new System.NotImplementedException();
