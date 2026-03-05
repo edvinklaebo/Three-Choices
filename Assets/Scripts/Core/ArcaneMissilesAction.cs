@@ -34,8 +34,8 @@ public class ArcaneMissilesAction : ICombatAction
             hpAfter = TargetHPAfter
         });
 
-        // Play attack animation from source
-        yield return ctx.Anim.PlayAttack(Source);
+        // Animate projectile from source center to target center (no lunge)
+        yield return ctx.Anim.PlayProjectile(Source, Target);
 
         // Play hit effect on target
         yield return ctx.Anim.PlayHit(Target);
