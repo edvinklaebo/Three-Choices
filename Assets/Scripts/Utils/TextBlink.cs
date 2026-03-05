@@ -1,28 +1,35 @@
 using TMPro;
 using UnityEngine;
 
-public class TextBlink : MonoBehaviour
+[RequireComponent(typeof(TMP_Text))]
+public class TMPTextPulse : MonoBehaviour
 {
     private static readonly int FaceDilate = Shader.PropertyToID("_FaceDilate");
-    [SerializeField] private TMP_Text text;
-    [SerializeField] private float speed = 3f; // How fast it pulses
+
+    [SerializeField] private float speed = 3f;
     [SerializeField] private float minDilate;
     [SerializeField] private float maxDilate = 0.5f;
 
+    private TMP_Text text;
+    private Material material;
+
     private void Awake()
     {
-        if (text == null)
-            text = GetComponent<TMP_Text>();
+        text = GetComponent<TMP_Text>();
+        material = text.fontMaterial;
     }
 
     private void Update()
     {
-        if (text == null)
-            return;
+        var t = (Mathf.Sin(Time.time * speed) + 1f) * 0.5f;
+        var dilate = Mathf.Lerp(minDilate, maxDilate, t);
 
-        // Pulse the dilate property with a sine wave
-        var dilate = Mathf.Lerp(minDilate, maxDilate, (Mathf.Sin(Time.time * speed) + 1f) / 2f);
+        material.SetFloat(FaceDilate, dilate);
+    }
 
-        text.fontMaterial.SetFloat(FaceDilate, dilate);
+    private void OnValidate()
+    {
+        if (maxDilate < minDilate)
+            maxDilate = minDilate;
     }
 }
