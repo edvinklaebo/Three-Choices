@@ -72,6 +72,7 @@ public class CombatContext
     /// </para>
     /// </summary>
     public void DealDamage(Unit source, Unit target, int baseDamage,
-        Func<int, IStatusEffect> onHitStatus = null, string effectId = null)
-        => _damageResolver.DealDamage(source, target, baseDamage, onHitStatus, effectId);
+        Func<int, IStatusEffect> onHitStatus = null, string effectId = null,
+        IActionCreator actionCreator = null)
+        => _damageResolver.DealDamage(source, target, baseDamage, onHitStatus, effectId, actionCreator);
 }

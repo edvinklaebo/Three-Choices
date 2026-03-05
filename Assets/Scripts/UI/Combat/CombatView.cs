@@ -14,10 +14,14 @@ public class CombatView : MonoBehaviour
     [SerializeField] private TurnIndicatorUI _turnIndicator;
     [SerializeField] private FloatingTextPool _floatingTextPool;
 
+    [Header("Projectiles")]
+    [SerializeField] private Transform _fireballProjectile;
+
     private CanvasGroup _canvasGroup;
 
     public UnitView PlayerView => _playerView;
     public UnitView EnemyView => _enemyView;
+    public Transform FireballProjectile => _fireballProjectile;
 
     private void Awake()
     {

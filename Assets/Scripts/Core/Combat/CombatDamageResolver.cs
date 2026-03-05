@@ -33,7 +33,8 @@ public class CombatDamageResolver
     /// </para>
     /// </summary>
     public void DealDamage(Unit source, Unit target, int baseDamage,
-        Func<int, IStatusEffect> onHitStatus = null, string effectId = null)
+        Func<int, IStatusEffect> onHitStatus = null, string effectId = null,
+        IActionCreator actionCreator = null)
     {
         if (target == null || target.IsDead) return;
 
@@ -60,7 +61,9 @@ public class CombatDamageResolver
 
         _actionLog.Add(effectId != null
             ? new StatusEffectAction(target, effectId, ctx.FinalDamage, hpBefore, hpAfter, maxHP)
-            : new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP));
+            : actionCreator != null
+                ? actionCreator.CreateAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP)
+                : new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP));
 
         _eventBus.Raise(new OnHitEvent(source, target, ctx.FinalDamage));
 
