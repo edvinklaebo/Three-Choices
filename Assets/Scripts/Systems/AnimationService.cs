@@ -16,7 +16,7 @@ public class AnimationService
     private const float PROJECTILE_DURATION = 0.4f;
 
     private CombatView _combatView;
-    private Transform _fireballProjectile;
+    private Transform _projectile;
 
     public void SetCombatView(CombatView combatView)
     {
@@ -24,12 +24,12 @@ public class AnimationService
     }
 
     /// <summary>
-    ///     Provide the fireball projectile Transform to animate during <see cref="PlayFireball"/>.
+    ///     Provide the projectile Transform to animate during <see cref="PlayProjectile"/>.
     ///     The object should start inactive; this service activates and deactivates it automatically.
     /// </summary>
-    public void SetFireballProjectile(Transform fireballProjectile)
+    public void SetProjectile(Transform projectile)
     {
-        _fireballProjectile = fireballProjectile;
+        _projectile = projectile;
     }
 
     public IEnumerator PlayAttack(Unit source)
@@ -62,17 +62,17 @@ public class AnimationService
     }
 
     /// <summary>
-    ///     Animate the fireball projectile from the source unit's center to the target unit's center.
+    ///     Animate a projectile from the source unit's center to the target unit's center.
     ///     Falls back to a simple delay when the projectile Transform is not configured in the scene.
     /// </summary>
-    public IEnumerator PlayFireball(Unit source, Unit target)
+    public IEnumerator PlayProjectile(Unit source, Unit target)
     {
-        Log.Info("Playing fireball animation", new { source = source.Name, target = target.Name });
+        Log.Info("Playing projectile animation", new { source = source.Name, target = target.Name });
 
         var sourceView = GetUnitView(source);
         var targetView = GetUnitView(target);
 
-        if (sourceView == null || targetView == null || _fireballProjectile == null)
+        if (sourceView == null || targetView == null || _projectile == null)
         {
             yield return new WaitForSeconds(PROJECTILE_DURATION);
             yield break;
@@ -81,19 +81,19 @@ public class AnimationService
         var startPos = sourceView.transform.position;
         var endPos = targetView.transform.position;
 
-        _fireballProjectile.gameObject.SetActive(true);
-        _fireballProjectile.position = startPos;
+        _projectile.gameObject.SetActive(true);
+        _projectile.position = startPos;
 
         var elapsed = 0f;
         while (elapsed < PROJECTILE_DURATION)
         {
             elapsed += Time.deltaTime;
             var t = Mathf.Clamp01(elapsed / PROJECTILE_DURATION);
-            _fireballProjectile.position = Vector3.Lerp(startPos, endPos, t);
+            _projectile.position = Vector3.Lerp(startPos, endPos, t);
             yield return null;
         }
 
-        _fireballProjectile.gameObject.SetActive(false);
+        _projectile.gameObject.SetActive(false);
     }
 
     public IEnumerator PlayHit(Unit target)

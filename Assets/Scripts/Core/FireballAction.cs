@@ -36,7 +36,7 @@ public class FireballAction : ICombatAction
         });
 
         // Animate projectile from source center to target center (no lunge)
-        yield return ctx.Anim.PlayFireball(Source, Target);
+        yield return ctx.Anim.PlayProjectile(Source, Target);
 
         // Play hit reaction on target
         yield return ctx.Anim.PlayHit(Target);
