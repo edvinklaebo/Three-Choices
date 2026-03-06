@@ -15,11 +15,8 @@ MonoBehaviour:
   _id: artifact_heart_of_oak
   _displayName: Heart of the Oak
   _description: Increase your armor by 50%.
-  _icon: {fileID: 0}
+  _icon: {fileID: -2413806693520163455, guid: c3ecc98bcf6cfd74597b296ec6b1abd7, type: 3}
   _rarity: 25
   _tags: 0
   _effectType: 3
-  _stat: 2
-  _amount: 50
-  _abilityId: 
   _lockedByDefault: 1

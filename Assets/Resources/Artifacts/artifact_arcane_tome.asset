@@ -15,7 +15,7 @@ MonoBehaviour:
   _id: artifact_arcane_tome
   _displayName: Arcane Tome
   _description: Grants the Arcane Missiles ability.
-  _icon: {fileID: 0}
+  _icon: {fileID: -2413806693520163455, guid: c3ecc98bcf6cfd74597b296ec6b1abd7, type: 3}
   _rarity: 25
   _tags: 2
   _effectType: 1

@@ -15,11 +15,8 @@ MonoBehaviour:
   _id: artifact_iron_heart
   _displayName: Iron Heart
   _description: Increases max HP by 20.
-  _icon: {fileID: 0}
+  _icon: {fileID: -2413806693520163455, guid: c3ecc98bcf6cfd74597b296ec6b1abd7, type: 3}
   _rarity: 100
   _tags: 0
   _effectType: 0
-  _stat: 0
-  _amount: 20
-  _abilityId: 
   _lockedByDefault: 0

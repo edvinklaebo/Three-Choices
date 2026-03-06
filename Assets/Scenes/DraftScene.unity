@@ -1340,7 +1340,7 @@ MonoBehaviour:
   _onHideRequested: {fileID: 11400000, guid: 3bbeea1401867024f886a81801a4274a, type: 2}
   _onShowRequested: {fileID: 11400000, guid: a1b2c3d4e5f601a7c9d8e7f6b5a4c3d2, type: 2}
   _upgradePicked: {fileID: 11400000, guid: 5ea338fefd7e28e40a34d9cc9e153e2a, type: 2}
-  _artifactPicked: {fileID: 0}
+  _artifactPicked: {fileID: 11400000, guid: f0f1221c6b55d15468cd6fc3c5ada622, type: 2}
 --- !u!225 &433785263
 CanvasGroup:
   m_ObjectHideFlags: 0

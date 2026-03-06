@@ -15,11 +15,8 @@ MonoBehaviour:
   _id: artifact_thorn_armor
   _displayName: Thorn Armor
   _description: Reflects a portion of damage taken back to the attacker.
-  _icon: {fileID: 0}
+  _icon: {fileID: -2413806693520163455, guid: c3ecc98bcf6cfd74597b296ec6b1abd7, type: 3}
   _rarity: 50
   _tags: 64
   _effectType: 1
-  _stat: 0
-  _amount: 0
-  _abilityId: Thorns
   _lockedByDefault: 0

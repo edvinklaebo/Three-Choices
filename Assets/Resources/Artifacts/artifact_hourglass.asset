@@ -14,12 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: artifact_hourglass
   _displayName: Hourglass of Persistence
-  _description: The first time you would die, instead revive with 50% of your max HP.
-  _icon: {fileID: 0}
+  _description: The first time you would die, instead revive with 50% of your max
+    HP.
+  _icon: {fileID: -2413806693520163455, guid: c3ecc98bcf6cfd74597b296ec6b1abd7, type: 3}
   _rarity: 10
   _tags: 0
   _effectType: 1
-  _stat: 0
-  _amount: 0
-  _abilityId: DeathShield
   _lockedByDefault: 1

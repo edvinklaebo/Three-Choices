@@ -15,11 +15,8 @@ MonoBehaviour:
   _id: artifact_blazing_torch
   _displayName: Blazing Torch
   _description: Grants the Fireball ability.
-  _icon: {fileID: 0}
+  _icon: {fileID: -2413806693520163455, guid: c3ecc98bcf6cfd74597b296ec6b1abd7, type: 3}
   _rarity: 25
   _tags: 1
   _effectType: 2
-  _stat: 0
-  _amount: 0
-  _abilityId: Fireball
   _lockedByDefault: 1
