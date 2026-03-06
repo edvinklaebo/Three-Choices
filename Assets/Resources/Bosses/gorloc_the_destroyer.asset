@@ -18,9 +18,9 @@ MonoBehaviour:
   _phases: []
   _artifactReward: {fileID: 11400000, guid: 26ddafa772cb4441a767cdfbe3bdac42, type: 2}
   _stats:
-    MaxHP: 1000
-    CurrentHP: 1000
+    MaxHP: 333
+    CurrentHP: 333
     AttackPower: 12
-    Armor: 200
+    Armor: 100
     Speed: 100
   _difficultyRating: 1
