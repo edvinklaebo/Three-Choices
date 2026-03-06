@@ -12,13 +12,15 @@ public class ArcaneMissiles : IAbility, IActionCreator
 {
     [SerializeField] private int _baseDamage;
     [SerializeField] private int _missileCount;
+    [SerializeField] private Sprite _projectileSprite;
 
     public int Priority => 40;
 
-    public ArcaneMissiles(int baseDamage = 5, int missileCount = 3)
+    public ArcaneMissiles(int baseDamage = 5, int missileCount = 3, Sprite projectileSprite = null)
     {
         _baseDamage = baseDamage;
         _missileCount = missileCount;
+        _projectileSprite = projectileSprite;
     }
 
     public void OnCast(Unit self, Unit target, CombatContext context)
@@ -36,5 +38,5 @@ public class ArcaneMissiles : IAbility, IActionCreator
     }
 
     public ICombatAction CreateAction(Unit source, Unit target, int finalDamage, int hpBefore, int hpAfter, int maxHP)
-        => new ArcaneMissilesAction(source, target, finalDamage, hpBefore, hpAfter, maxHP);
+        => new ArcaneMissilesAction(source, target, finalDamage, hpBefore, hpAfter, maxHP, _projectileSprite);
 }

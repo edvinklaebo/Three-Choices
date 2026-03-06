@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// Represents an Arcane Missiles ability action in combat.
@@ -12,8 +13,9 @@ public class ArcaneMissilesAction : ICombatAction
     public int TargetHPBefore { get; }
     public int TargetHPAfter { get; }
     public int TargetMaxHP { get; }
+    public Sprite Sprite { get; }
 
-    public ArcaneMissilesAction(Unit source, Unit target, int damage, int targetHPBefore, int targetHPAfter, int targetMaxHP)
+    public ArcaneMissilesAction(Unit source, Unit target, int damage, int targetHPBefore, int targetHPAfter, int targetMaxHP, Sprite sprite = null)
     {
         Source = source;
         Target = target;
@@ -21,6 +23,7 @@ public class ArcaneMissilesAction : ICombatAction
         TargetHPBefore = targetHPBefore;
         TargetHPAfter = targetHPAfter;
         TargetMaxHP = targetMaxHP;
+        Sprite = sprite;
     }
 
     public IEnumerator Play(AnimationContext ctx)
@@ -35,7 +38,7 @@ public class ArcaneMissilesAction : ICombatAction
         });
 
         // Animate projectile from source center to target center (no lunge)
-        yield return ctx.Anim.PlayProjectile(Source, Target);
+        yield return ctx.Anim.PlayProjectile(Source, Target, Sprite);
 
         // Play hit effect on target
         yield return ctx.Anim.PlayHit(Target);

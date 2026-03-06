@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// Represents a Fireball ability action in combat.
@@ -13,8 +14,9 @@ public class FireballAction : ICombatAction
     public int TargetHPBefore { get; }
     public int TargetHPAfter { get; }
     public int TargetMaxHP { get; }
+    public Sprite Sprite { get; }
 
-    public FireballAction(Unit source, Unit target, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP)
+    public FireballAction(Unit source, Unit target, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP, Sprite sprite = null)
     {
         Source = source;
         Target = target;
@@ -22,6 +24,7 @@ public class FireballAction : ICombatAction
         TargetHPBefore = targetHPBefore;
         TargetHPAfter = targetHPAfter;
         TargetMaxHP = targetMaxHP;
+        Sprite = sprite;
     }
 
     public IEnumerator Play(AnimationContext ctx)
@@ -36,7 +39,7 @@ public class FireballAction : ICombatAction
         });
 
         // Animate projectile from source center to target center (no lunge)
-        yield return ctx.Anim.PlayProjectile(Source, Target);
+        yield return ctx.Anim.PlayProjectile(Source, Target, Sprite);
 
         // Play hit reaction on target
         yield return ctx.Anim.PlayHit(Target);

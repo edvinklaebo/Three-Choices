@@ -14,14 +14,16 @@ public class Fireball : IAbility, IActionCreator
     [SerializeField] private int _baseDamage;
     [SerializeField] private int _burnDuration;
     [SerializeField] private float _burnDamagePercent;
+    [SerializeField] private Sprite _projectileSprite;
 
     public int Priority => 50;
 
-    public Fireball(int baseDamage = 10, int burnDuration = 3, float burnDamagePercent = 0.5f)
+    public Fireball(int baseDamage = 10, int burnDuration = 3, float burnDamagePercent = 0.5f, Sprite projectileSprite = null)
     {
         _baseDamage = baseDamage;
         _burnDuration = burnDuration;
         _burnDamagePercent = burnDamagePercent;
+        _projectileSprite = projectileSprite;
     }
 
     public void OnCast(Unit self, Unit target, CombatContext context)
@@ -35,5 +37,5 @@ public class Fireball : IAbility, IActionCreator
     }
 
     public ICombatAction CreateAction(Unit source, Unit target, int finalDamage, int hpBefore, int hpAfter, int maxHP)
-        => new FireballAction(source, target, finalDamage, hpBefore, hpAfter, maxHP);
+        => new FireballAction(source, target, finalDamage, hpBefore, hpAfter, maxHP, _projectileSprite);
 }

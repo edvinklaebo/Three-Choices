@@ -27,6 +27,8 @@ public class UpgradeDefinition : ScriptableObject, IDraftable
     [Header("Ability Upgrade")] [SerializeField]
     private string abilityId;
 
+    [SerializeField] private Sprite projectileSprite;
+
     [Header("Draft / Balance")] [Min(1)] [SerializeField]
     private int rarityWeight = 100;
 
@@ -40,6 +42,7 @@ public class UpgradeDefinition : ScriptableObject, IDraftable
     public StatType Stat => stat;
     public int Amount => amount;
     public string AbilityId => abilityId;
+    public Sprite ProjectileSprite => projectileSprite;
 
     public int RarityWeight => rarityWeight;
 
