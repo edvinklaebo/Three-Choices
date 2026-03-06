@@ -14,8 +14,6 @@ public class CombatView : MonoBehaviour
     [SerializeField] private TurnIndicatorUI _turnIndicator;
     [SerializeField] private FloatingTextPool _floatingTextPool;
 
-    private CanvasGroup _canvasGroup;
-
     public UnitView PlayerView => _playerView;
     public UnitView EnemyView => _enemyView;
 
@@ -26,10 +24,6 @@ public class CombatView : MonoBehaviour
         if (_enemyView == null) Log.Error("CombatView: EnemyView not assigned");
 
         if (_combatHUD == null) Log.Error("CombatView: CombatHUD not assigned");
-
-        // Get or add CanvasGroup for show/hide functionality
-        _canvasGroup = GetComponent<CanvasGroup>();
-        if (_canvasGroup == null) _canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
         // Start hidden
         Hide();
@@ -137,12 +131,7 @@ public class CombatView : MonoBehaviour
     /// </summary>
     public void Show()
     {
-        if (_canvasGroup)
-        {
-            _canvasGroup.alpha = 1f;
-            _canvasGroup.interactable = true;
-            _canvasGroup.blocksRaycasts = true;
-        }
+        gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -151,11 +140,6 @@ public class CombatView : MonoBehaviour
     /// </summary>
     public void Hide()
     {
-        if (_canvasGroup)
-        {
-            _canvasGroup.alpha = 0f;
-            _canvasGroup.interactable = false;
-            _canvasGroup.blocksRaycasts = false;
-        }
+        gameObject.SetActive(false);
     }
 }

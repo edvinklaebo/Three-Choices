@@ -92,5 +92,44 @@ namespace Tests.EditModeTests
 
             Object.DestroyImmediate(go);
         }
+
+        [Test]
+        public void Awake_StartsHidden()
+        {
+            var go = new GameObject("TestCombatView");
+            go.AddComponent<CombatView>();
+
+            Assert.IsFalse(go.activeSelf, "CombatView should be hidden (inactive) after Awake.");
+
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void Show_ActivatesGameObject()
+        {
+            var go = new GameObject("TestCombatView");
+            var combatView = go.AddComponent<CombatView>();
+
+            // Awake hides the object; Show should re-activate it
+            combatView.Show();
+
+            Assert.IsTrue(go.activeSelf, "CombatView.Show() should activate the GameObject.");
+
+            Object.DestroyImmediate(go);
+        }
+
+        [Test]
+        public void Hide_DeactivatesGameObject()
+        {
+            var go = new GameObject("TestCombatView");
+            var combatView = go.AddComponent<CombatView>();
+
+            combatView.Show();
+            combatView.Hide();
+
+            Assert.IsFalse(go.activeSelf, "CombatView.Hide() should deactivate the GameObject.");
+
+            Object.DestroyImmediate(go);
+        }
     }
 }
