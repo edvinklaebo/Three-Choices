@@ -149,7 +149,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 0, 10);
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
-            caster.Abilities.Add(new ArcaneMissiles(baseDamage: 5, missileCount: 2));
+            caster.Abilities.Add(new ArcaneMissiles(baseDamage: 50, missileCount: 2));
 
             var actions = CombatSystem.RunFight(caster, target);
 

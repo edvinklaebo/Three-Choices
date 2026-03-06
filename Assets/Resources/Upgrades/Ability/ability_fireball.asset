@@ -21,4 +21,5 @@ MonoBehaviour:
   stat: 0
   amount: 0
   abilityId: Fireball
-  rarityWeight: 25
+  projectileSprite: {fileID: 21300000, guid: 827cd4e177baf6645bc39967e1841bd6, type: 3}
+  rarityWeight: 100
