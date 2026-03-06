@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: artifact_war_gauntlet
   _displayName: War Gauntlet
-  _description: Increases attack power by 10.
+  _description: Attacks apply Vulnerable, increasing damage done by 50%.
   _icon: {fileID: -2413806693520163455, guid: c3ecc98bcf6cfd74597b296ec6b1abd7, type: 3}
   _rarity: 50
   _tags: 0

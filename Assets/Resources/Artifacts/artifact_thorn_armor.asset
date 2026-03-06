@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: artifact_thorn_armor
   _displayName: Thorn Armor
-  _description: Reflects a portion of damage taken back to the attacker.
+  _description: Thorn damage is doubled, can no longer deal non-Thorn damage.
   _icon: {fileID: -2413806693520163455, guid: c3ecc98bcf6cfd74597b296ec6b1abd7, type: 3}
   _rarity: 50
   _tags: 64

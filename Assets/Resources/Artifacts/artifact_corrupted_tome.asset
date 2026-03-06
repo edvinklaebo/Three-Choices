@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46ed21eba43e45a8ae921f4bd53ee5a6, type: 3}
-  m_Name: artifact_arcane_tome
+  m_Name: artifact_corrupted_tome
   m_EditorClassIdentifier: 
-  _id: artifact_arcane_tome
-  _displayName: Arcane Tome
-  _description: Grants the Arcane Missiles ability.
+  _id: artifact_corrupted_tome
+  _displayName: Corruped Tome
+  _description: Arcane damage can inflict poision stacks, but deals no damage.
   _icon: {fileID: -2413806693520163455, guid: c3ecc98bcf6cfd74597b296ec6b1abd7, type: 3}
   _rarity: 25
   _tags: 2

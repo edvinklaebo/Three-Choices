@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: artifact_twin_blades
   _displayName: Twin Blades
-  _description: Chance to strike twice on attack.
+  _description: Double strikes are now guaranteed.
   _icon: {fileID: -2413806693520163455, guid: c3ecc98bcf6cfd74597b296ec6b1abd7, type: 3}
   _rarity: 50
   _tags: 4
