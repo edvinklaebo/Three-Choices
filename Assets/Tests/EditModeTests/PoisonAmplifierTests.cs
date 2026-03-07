@@ -83,7 +83,7 @@ namespace Tests.EditModeTests
         public void PoisonAmplifier_ViaArtifactApplier_Works()
         {
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
-            artifact.EditorInit("artifact_poison_darts", "Poison Tipped Darts", "desc", Rarity.Uncommon, ArtifactTag.Poison,
+            artifact.EditorInit(ArtifactId.PoisonDarts, "Poison Tipped Darts", "desc", Rarity.Uncommon, ArtifactTag.Poison,
                 ArtifactEffectType.AddArtifact, false);
 
             ArtifactApplier.ApplyToPlayer(artifact, _owner);

@@ -31,10 +31,10 @@ namespace Tests.EditModeTests
             DamagePipeline.Clear();
         }
 
-        private ArtifactDefinition CreateArtifactPassive(string id)
+        private ArtifactDefinition CreateArtifactPassive(ArtifactId artifactId)
         {
             var a = ScriptableObject.CreateInstance<ArtifactDefinition>();
-            a.EditorInit(id, "Test", "desc", Rarity.Common, ArtifactTag.None,
+            a.EditorInit(artifactId, "Test", "desc", Rarity.Common, ArtifactTag.None,
                 ArtifactEffectType.AddArtifact, false);
             return a;
         }
@@ -50,7 +50,7 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyToPlayer_NullPlayer_Throws()
         {
-            var artifact = CreateArtifactPassive("artifact_crown_of_echoes");
+            var artifact = CreateArtifactPassive(ArtifactId.CrownOfEchoes);
             Assert.Throws<ArgumentNullException>(() => ArtifactApplier.ApplyToPlayer(artifact, null));
         }
 
@@ -59,7 +59,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_PhantomStrike_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive("artifact_crown_of_echoes");
+            var artifact = CreateArtifactPassive(ArtifactId.CrownOfEchoes);
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -69,7 +69,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_DeathShield_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive("artifact_hourglass");
+            var artifact = CreateArtifactPassive(ArtifactId.Hourglass);
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -79,7 +79,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_CritChance_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive("artifact_lucky_horseshoe");
+            var artifact = CreateArtifactPassive(ArtifactId.LuckyHorseshoe);
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -89,7 +89,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_PoisonAmplifier_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive("artifact_poison_darts");
+            var artifact = CreateArtifactPassive(ArtifactId.PoisonDarts);
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -99,7 +99,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_Unknown_Throws()
         {
-            var artifact = CreateArtifactPassive("GodMode");
+            var artifact = CreateArtifactPassive((ArtifactId)999);
             Assert.Throws<ArgumentOutOfRangeException>(() => ArtifactApplier.ApplyToPlayer(artifact, _unit));
         }
 
@@ -118,8 +118,8 @@ namespace Tests.EditModeTests
         [Test]
         public void MultipleArtifacts_AccumulateEffects()
         {
-            var phantom = CreateArtifactPassive("artifact_crown_of_echoes");
-            var shield = CreateArtifactPassive("artifact_hourglass");
+            var phantom = CreateArtifactPassive(ArtifactId.CrownOfEchoes);
+            var shield = CreateArtifactPassive(ArtifactId.Hourglass);
 
             ArtifactApplier.ApplyToPlayer(phantom, _unit);
             ArtifactApplier.ApplyToPlayer(shield, _unit);

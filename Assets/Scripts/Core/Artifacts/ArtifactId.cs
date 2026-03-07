@@ -1,0 +1,20 @@
+public enum ArtifactId
+{
+    BerserkerMask,
+    BlazingTorch,
+    BloodRitual,
+    CorruptedTome,
+    CrownOfEchoes,
+    HeartOfOak,
+    Hourglass,
+    IronHeart,
+    LuckyHorseshoe,
+    PoisonDarts,
+    PoisonedBlade,
+    Quickboots,
+    SteelScales,
+    ThornArmor,
+    TwinBlades,
+    VampiricFang,
+    WarGauntlet
+}
