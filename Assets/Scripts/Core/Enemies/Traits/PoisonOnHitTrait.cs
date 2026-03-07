@@ -2,6 +2,7 @@ using UnityEngine;
 
 /// <summary>
 ///     Trait that applies poison stacks to any unit this enemy hits.
+///     Delegates to <see cref="PoisonUpgrade"/> so the behaviour stays in one place.
 ///     Create via the asset menu: Game/Enemies/Traits/Poison On Hit.
 /// </summary>
 [CreateAssetMenu(menuName = "Game/Enemies/Traits/Poison On Hit")]
@@ -13,14 +14,9 @@ public class PoisonOnHitTrait : EnemyTraitDefinition
 
     public override void Apply(Unit unit)
     {
-        var stacks = _poisonStacks;
-        var duration = _poisonDuration;
-        var baseDamage = _poisonBaseDamage;
-
-        unit.OnHit += (attacker, target, damage) =>
-        {
-            target.ApplyStatus(new Poison(stacks, duration, baseDamage));
-        };
+        var passive = new PoisonUpgrade(unit, _poisonStacks, _poisonDuration, _poisonBaseDamage);
+        unit.Passives.Add(passive);
+        passive.OnAttach(unit);
     }
 
 #if UNITY_EDITOR
