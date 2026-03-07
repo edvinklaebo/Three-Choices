@@ -8,12 +8,14 @@ namespace Tests.EditModeTests
         public void Setup()
         {
             SaveService.Delete();
+            GameEvents.ClearAll();
         }
 
         [TearDown]
         public void Cleanup()
         {
             SaveService.Delete();
+            GameEvents.ClearAll();
         }
 
         [Test]
@@ -80,6 +82,35 @@ namespace Tests.EditModeTests
             Assert.AreEqual(5, loaded.fightIndex);
             Assert.AreEqual(80, loaded.player.Stats.CurrentHP);
             Assert.AreEqual(10, loaded.player.Stats.AttackPower);
+        }
+
+        [Test]
+        public void ReturnToMainMenu_Event_CanBeRaisedAndReceived()
+        {
+            // Arrange
+            var wasCalled = false;
+            GameEvents.ReturnToMainMenu_Event += () => wasCalled = true;
+
+            // Act
+            GameEvents.ReturnToMainMenu_Event?.Invoke();
+
+            // Assert
+            Assert.IsTrue(wasCalled, "ReturnToMainMenu_Event should notify all subscribers when raised");
+        }
+
+        [Test]
+        public void ClearAll_RemovesReturnToMainMenuSubscribers()
+        {
+            // Arrange
+            var wasCalled = false;
+            GameEvents.ReturnToMainMenu_Event += () => wasCalled = true;
+
+            // Act
+            GameEvents.ClearAll();
+            GameEvents.ReturnToMainMenu_Event?.Invoke();
+
+            // Assert
+            Assert.IsFalse(wasCalled, "ClearAll should remove all ReturnToMainMenu_Event subscribers");
         }
     }
 }

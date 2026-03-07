@@ -51,6 +51,7 @@ public class PauseMenuBootstrap : MonoBehaviour
         AddTitle(menuContent.transform, "PAUSED");
         
         CreateButton(menuContent.transform, "Resume", PauseMenuUI.OnResumeClicked);
+        CreateButton(menuContent.transform, "Main Menu", PauseMenuUI.OnMainMenuClicked);
         CreateButton(menuContent.transform, "Settings", pauseMenuUI.OnSettingsClicked);
         CreateButton(menuContent.transform, "Quit", PauseMenuUI.OnQuitClicked);
 

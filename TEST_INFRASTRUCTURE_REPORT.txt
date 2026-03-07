@@ -1,0 +1,201 @@
+================================================================================
+THREE-CHOICES UNITY PROJECT - TEST INFRASTRUCTURE REPORT
+================================================================================
+
+PROJECT DETAILS:
+  - Unity Version: 6000.3.6f1
+  - Project Path: /home/runner/work/Three-Choices/Three-Choices
+  - Test Framework: Unity Test Framework (com.unity.test-framework 1.6.0)
+
+================================================================================
+CI/CD TEST CONFIGURATION
+================================================================================
+
+CI Workflows Found:
+  1. .github/workflows/unity-tests.yml
+     - Runs on: ubuntu-latest (GitHub Actions)
+     - Has two test jobs: EditMode Tests and PlayMode Tests
+     - Uses: game-ci/unity-test-runner@v4
+
+Test Runner Configuration (from unity-tests.yml):
+  EditMode Tests:
+    - testMode: editmode
+    - projectPath: .
+    - artifactsPath: editmode-results
+    - Results uploaded to artifacts on completion
+
+  PlayMode Tests:
+    - testMode: playmode
+    - projectPath: .
+    - artifactsPath: playmode-results
+    - Results uploaded to artifacts on completion
+
+Build Configuration:
+  - .github/workflows/unity-build.yml
+    - Builds for: Windows64, Linux64, macOS, Android, WebGL
+    - Includes post-build deployment to itch.io
+
+================================================================================
+EDITMODE TESTS STRUCTURE
+================================================================================
+
+Test Assembly: EditModeTests
+  - Assembly File: Assets/Tests/EditModeTests/EditModeTests.asmdef
+  - Test Platform: Editor (includePlatforms: ["Editor"])
+  - References:
+    * UnityEngine.TestRunner
+    * UnityEditor.TestRunner
+    * Unity.TextMeshPro
+    * Ropa (custom assembly)
+  - Precompiled References: nunit.framework.dll
+  - Define Constraints: UNITY_INCLUDE_TESTS
+
+Test Files: 57 EditMode test files found
+  - ArcaneMissilesTests.cs
+  - ArtifactApplierTests.cs
+  - ArtifactDefinitionTests.cs
+  - ArtifactMetaProgressionTests.cs
+  - BleedEffectTests.cs
+  - BossDropSystemTests.cs
+  - BossManagerTests.cs
+  - BossRewardResolverTests.cs
+  - BossUnitTests.cs
+  - BurnEffectTests.cs
+  - CharacterSelectionTests.cs
+  - CombatActionLogTests.cs
+  - CombatAnimationSystemTests.cs
+  - CombatEngineTests.cs
+  - CombatEventBusTests.cs
+  - CombatLogPanelTests.cs
+  - CombatLoggerTests.cs
+  - CombatPhaseTests.cs
+  - CombatResultTests.cs
+  - CombatSystemTests.cs
+  - CombatViewPresenterTests.cs
+  - CombatViewTests.cs
+  - CritChanceTests.cs
+  - DeathShieldTests.cs
+  - DoubleStrikeTests.cs
+  - DraftOptionViewTests.cs
+  - DraftSystemTests.cs
+  - DraftUITests.cs
+  - EnemyFactoryTests.cs
+  - FireballAbilityTests.cs
+  - HealthBarUITests.cs
+  - IntroSequenceTests.cs
+  - LifestealTests.cs
+  - MainMenuControllerTests.cs
+  - MetaProgressionSystemTests.cs
+  - ModifierSystemTests.cs
+  - MonsterNameTests.cs
+  - PauseManagerTests.cs
+  - PhantomStrikeTests.cs
+  - PlayerFactoryTests.cs
+  - PoisonAmplifierTests.cs
+  - PoisonEffectTests.cs
+  - RarityRollerTests.cs
+  - RunProgressionServiceTests.cs
+  - RunStatsTrackerTests.cs
+  - SaveServiceTests.cs
+  - StatPanelTests.cs
+  - StatusEffectPanelTests.cs
+  - StatusEffectTests.cs
+  - ThornsTests.cs
+  - TooltipTests.cs
+  - UIAnimatorTests.cs
+  - UIFaderTests.cs
+  - UIServiceTests.cs
+  - UnitViewTests.cs
+  - UpgradeApplierTests.cs
+  - UpgradeDefinitionTests.cs
+
+Test Categories Covered:
+  - Combat System (Engine, Phase, Animation, Events, Log)
+  - Combat UI (View, Presenter, Animation, Log Panel)
+  - Status Effects (Poison, Bleed, Burn, Thorns, Lifesteal, etc.)
+  - Abilities (Fireball, Arcane Missiles, Phantom Strike, etc.)
+  - Artifact System (Definition, Application, Meta Progression)
+  - Boss System (Manager, Rewards, Units, Drop System)
+  - Character/Enemy Factories
+  - Draft System (System, UI, Options)
+  - UI Components (Fader, Animator, Service, Tooltips, Panels)
+  - Meta Progression System
+  - Run Progression and Stats
+  - Save Service
+  - Main Menu Controller
+  - Pause Manager
+
+================================================================================
+ENVIRONMENT DETAILS
+================================================================================
+
+System Information:
+  - OS: Linux (ubuntu-latest in CI)
+  - Docker: Available (version 28.0.4)
+  - Test Framework: NUnit
+  - Architecture: Editor/Standalone
+
+Dependencies:
+  - com.unity.test-framework: 1.6.0
+  - Test framework uses NUnit for assertions
+  - All tests compile with UNITY_INCLUDE_TESTS define
+
+================================================================================
+RUN TEST ATTEMPT RESULTS
+================================================================================
+
+Local Execution Attempts:
+
+1. Direct Unity Execution:
+   ✗ Unity executable not found in PATH
+   - Not available in this environment
+
+2. Docker/Container Execution:
+   - Docker available but authentication required for Unity image
+   - Expected command: game-ci/unity:ubuntu-6000.3.6f1-linux-il2cpp
+   - Container images require authentication or licensing
+
+================================================================================
+RECOMMENDED EXECUTION METHODS
+================================================================================
+
+For CI/CD Pipeline (Verified in Repository):
+  - Use: game-ci/unity-test-runner GitHub Action (v4)
+  - Configuration: .github/workflows/unity-tests.yml
+  - Trigger: Push to develop branch or Pull Request to develop
+
+For Local Development:
+  1. Install Unity Editor 6000.3.6f1
+  2. Open project with Unity
+  3. Window > General > Test Runner
+  4. Select EditMode tab
+  5. Click "Run All"
+
+Alternative Local Methods:
+  1. Command Line with Unity:
+     unity -projectPath . -runTests -testMode editmode -logFile -
+  
+  2. Docker with authentication:
+     docker run --rm -v $(pwd):/root/project \
+       ghcr.io/game-ci/unity:ubuntu-6000.3.6f1-linux-il2cpp \
+       /opt/Unity/Editor/Unity -projectPath . -runTests -testMode editmode
+
+================================================================================
+SUMMARY
+================================================================================
+
+✓ Test Infrastructure Status: COMPLETE AND CONFIGURED
+✓ CI/CD Pipeline: GitHub Actions with game-ci/unity-test-runner@v4
+✓ Test Suite: 57 EditMode test files covering core game systems
+✓ Test Framework: Unity Test Framework 1.6.0 with NUnit
+✓ Assembly Configuration: Properly configured with dependencies
+
+LIMITATIONS IN CURRENT ENVIRONMENT:
+✗ Unity Editor not available on system
+✗ Docker image requires authentication
+✗ Cannot execute tests directly in this environment
+
+The project has a well-structured test infrastructure configured for GitHub
+Actions CI/CD that automatically runs EditMode tests on push to develop branch
+and pull requests.
+

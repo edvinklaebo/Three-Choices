@@ -10,6 +10,7 @@ public class RunController : MonoBehaviour
 {
     private const string GameOverScene = "GameOver";
     private const string DraftScene = "DraftScene";
+    private const string MainMenuScene = "MainMenu";
 
     [Header("Events")]
     [SerializeField] private VoidEventChannel requestNextFight;
@@ -45,6 +46,7 @@ public class RunController : MonoBehaviour
             _continueRunRequested.OnRaised += ContinueRun;
 
         GameEvents.CharacterSelected_Event += StartNewRun;
+        GameEvents.ReturnToMainMenu_Event += HandleReturnToMainMenu;
     }
 
     private void OnDisable()
@@ -57,6 +59,7 @@ public class RunController : MonoBehaviour
             _continueRunRequested.OnRaised -= ContinueRun;
 
         GameEvents.CharacterSelected_Event -= StartNewRun;
+        GameEvents.ReturnToMainMenu_Event -= HandleReturnToMainMenu;
     }
 
     private void ContinueRun()
@@ -103,5 +106,11 @@ public class RunController : MonoBehaviour
     {
         SaveService.Delete();
         SceneManager.LoadScene(GameOverScene);
+    }
+
+    private void HandleReturnToMainMenu()
+    {
+        GameEvents.ReturnToMainMenu_Event -= HandleReturnToMainMenu;
+        Destroy(gameObject);
     }
 }
