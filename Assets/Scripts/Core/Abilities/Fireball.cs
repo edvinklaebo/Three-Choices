@@ -16,6 +16,8 @@ public class Fireball : IAbility, IActionCreator
     [SerializeField] private float _burnDamagePercent;
     [SerializeField] private Sprite _projectileSprite;
 
+    public const int DamagePerStack = 5;
+
     public int Priority => 50;
 
     public Fireball(int baseDamage = 10, int burnDuration = 3, float burnDamagePercent = 0.5f, Sprite projectileSprite = null)

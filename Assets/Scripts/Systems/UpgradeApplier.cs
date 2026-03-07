@@ -2,9 +2,6 @@ using System;
 
 public static class UpgradeApplier
 {
-    private const int FireballDamagePerStack = 5;
-    private const int ArcaneMissilesDamagePerStack = 1;
-
     public static void Apply(UpgradeDefinition upgrade, Unit unit)
     {
         switch (upgrade.Type)
@@ -59,7 +56,7 @@ public static class UpgradeApplier
                 Log.Info("Ability Applied: Fireball");
                 var existingFireball = FindAbility<Fireball>(unit);
                 if (existingFireball != null)
-                    existingFireball.AddDamage(FireballDamagePerStack);
+                    existingFireball.AddDamage(Fireball.DamagePerStack);
                 else
                     unit.Abilities.Add(new Fireball(projectileSprite: upgrade.ProjectileSprite));
                 break;
@@ -67,7 +64,7 @@ public static class UpgradeApplier
                 Log.Info("Ability Applied: Arcane Missiles");
                 var existingMissiles = FindAbility<ArcaneMissiles>(unit);
                 if (existingMissiles != null)
-                    existingMissiles.AddDamage(ArcaneMissilesDamagePerStack);
+                    existingMissiles.AddDamage(ArcaneMissiles.DamagePerStack);
                 else
                     unit.Abilities.Add(new ArcaneMissiles(projectileSprite: upgrade.ProjectileSprite));
                 break;

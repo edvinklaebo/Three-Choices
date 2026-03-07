@@ -14,6 +14,8 @@ public class ArcaneMissiles : IAbility, IActionCreator
     [SerializeField] private int _missileCount;
     [SerializeField] private Sprite _projectileSprite;
 
+    public const int DamagePerStack = 1;
+
     public int Priority => 40;
 
     public ArcaneMissiles(int baseDamage = 5, int missileCount = 3, Sprite projectileSprite = null)
