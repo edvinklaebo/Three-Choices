@@ -10,9 +10,27 @@ using UnityEngine.Events;
 /// </summary>
 public class PauseMenuBootstrap : MonoBehaviour
 {
+    private static PauseMenuBootstrap _instance;
+
     [SerializeField] private bool _createUIAtStart = true;
     [SerializeField] private Canvas  canvas;
-    
+
+    private void Awake()
+    {
+        if (_instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (_instance == this)
+            _instance = null;
+    }
+
     private void Start()
     {
         if (_createUIAtStart)
