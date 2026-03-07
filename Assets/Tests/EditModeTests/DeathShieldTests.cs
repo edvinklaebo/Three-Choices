@@ -103,7 +103,7 @@ namespace Tests.EditModeTests
         public void DeathShield_ViaArtifactApplier_WorksCorrectly()
         {
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
-            artifact.EditorInit("artifact_hourglass", "Hourglass", "desc", Rarity.Epic, ArtifactTag.None,
+            artifact.EditorInit(ArtifactId.Hourglass, "Hourglass", "desc", Rarity.Epic, ArtifactTag.None,
                 ArtifactEffectType.AddArtifact,false);
 
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
