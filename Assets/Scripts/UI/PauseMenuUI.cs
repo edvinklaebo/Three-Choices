@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Handles pause menu UI display and user interactions.
@@ -6,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class PauseMenuUI : MonoBehaviour
 {
+    private const string MainMenuScene = "MainMenu";
+
     [SerializeField] private GameObject _pauseMenuPanel;
     [SerializeField] private GameObject _settingsPanel;
 
@@ -42,7 +45,13 @@ public class PauseMenuUI : MonoBehaviour
         }
     }
 
-    // Button callbacks
+    public static void OnMainMenuClicked()
+    {
+        PauseManager.Resume();
+        GameEvents.ReturnToMainMenu_Event?.Invoke();
+        SceneManager.LoadScene(MainMenuScene);
+    }
+
     public static void OnResumeClicked()
     {
         PauseManager.Resume();

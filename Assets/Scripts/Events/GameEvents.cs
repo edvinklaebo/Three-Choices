@@ -8,6 +8,7 @@ public static class GameEvents
 {
     public static Action NewRunRequested_Event;
     public static Action<CharacterDefinition> CharacterSelected_Event;
+    public static Action ReturnToMainMenu_Event;
 
     /// <summary>
     ///     Clear all event subscribers. Call during scene cleanup if needed.
@@ -16,5 +17,6 @@ public static class GameEvents
     {
         NewRunRequested_Event = null;
         CharacterSelected_Event = null;
+        ReturnToMainMenu_Event = null;
     }
 }

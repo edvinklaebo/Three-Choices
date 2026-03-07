@@ -36,6 +36,7 @@ public class GameOverUI : MonoBehaviour
 
     private static void OnBackToMenuClicked()
     {
+        GameEvents.ReturnToMainMenu_Event?.Invoke();
         SceneManager.LoadScene(MainMenuScene);
     }
 }
