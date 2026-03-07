@@ -15,9 +15,10 @@ MonoBehaviour:
   id: passive_thorns
   displayName: Thorns
   description: Deal damage equal to half your armour to attackers.
-  icon: {fileID: 4237362570047271773, guid: 108facf79a1b92849b3fe34469cabb0b, type: 3}
+  icon: {fileID: 21300000, guid: 108facf79a1b92849b3fe34469cabb0b, type: 3}
   type: 2
   stat: 0
   amount: 0
   abilityId: Thorns
+  projectileSprite: {fileID: 0}
   rarityWeight: 25

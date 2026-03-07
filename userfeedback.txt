@@ -1,0 +1,3 @@
+User feedback:
+- Add melee spell quickstrike.
+- Add melee spell shieldblock.
