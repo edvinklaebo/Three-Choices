@@ -9,14 +9,14 @@ using Random = UnityEngine.Random;
 /// Crits deal 2× damage.
 /// </summary>
 [Serializable]
-public class CritChancePassive : IPassive, IDamageModifier
+public class CritChance : IPassive, IArtifact, IDamageModifier
 {
     private const float CritMultiplier = 2f;
 
     [SerializeField] private float _critChance;
     [NonSerialized] private Unit _owner;
 
-    public CritChancePassive(float critChance)
+    public CritChance(float critChance)
     {
         _critChance += Mathf.Clamp01(critChance);
     }

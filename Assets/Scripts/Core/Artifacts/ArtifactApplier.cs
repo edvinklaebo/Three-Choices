@@ -23,34 +23,34 @@ public static class ArtifactApplier
         }
     }
 
-    private static void ApplyArtifact(ArtifactDefinition artifact, Unit unit)
+    private static void ApplyArtifact(ArtifactDefinition artifactDefinition, Unit unit)
     {
-        IPassive passive = artifact.Id switch
+        IArtifact artifact = artifactDefinition.Id switch
         {
-            "artifact_crown_of_echoes"    => new PhantomStrike(),
-            "artifact_hourglass"          => new DeathShield(),
-            "artifact_poison_darts"       => new PoisonAmplifier(),
-            "artifact_arcane_tome"        => new NullPassive(),
             "artifact_berserker_mask"     => new NullPassive(),
             "artifact_blazing_torch"      => new NullPassive(),
             "artifact_blood_ritual"       => new NullPassive(),
+            "artifact_corrupted_tome"     => new NullPassive(),
+            "artifact_crown_of_echoes"    => new PhantomStrike(),
             "artifact_heart_of_oak"       => new NullPassive(),
+            "artifact_hourglass"          => new DeathShield(),
             "artifact_iron_heart"         => new NullPassive(),
-            "artifact_lucky_horseshoe"    => new CritChancePassive(10f),
-            "artifact_poisoned_blade"     => new NullPassive(),
+            "artifact_lucky_horseshoe"    => new CritChance(10f),
+            "artifact_poison_darts"       => new PoisonAmplifier(),
+            "artifact_poisoned_blade"     => new PoisonAmplifier(),
             "artifact_quickboots"         => new NullPassive(),
             "artifact_steel_scales"       => new NullPassive(),
             "artifact_thorn_armor"        => new NullPassive(),
             "artifact_twin_blades"        => new NullPassive(),
             "artifact_vampiric_fang"      => new NullPassive(),
             "artifact_war_gauntlet"       => new NullPassive(),
-            _ => throw new ArgumentOutOfRangeException(artifact.Id)
+            _ => throw new ArgumentOutOfRangeException(artifactDefinition.Id)
         };
 
-        passive.OnAttach(unit);
-        unit.Passives.Add(passive);
+        artifact.OnAttach(unit);
+        unit.Artifacts.Add(artifact);
 
-        Log.Info($"[ArtifactApplier] Artifact passive applied: {artifact.Id} to {unit.Name}");
+        Log.Info($"[ArtifactApplier] Artifact passive applied: {artifactDefinition.Id} to {unit.Name}");
     }
 }
 

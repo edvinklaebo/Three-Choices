@@ -124,8 +124,8 @@ namespace Tests.EditModeTests
 
             ArtifactApplier.ApplyToPlayer(artifact, _owner);
 
-            Assert.AreEqual(1, _owner.Passives.Count);
-            Assert.IsInstanceOf<PhantomStrike>(_owner.Passives[0]);
+            Assert.AreEqual(1, _owner.Artifacts.Count);
+            Assert.IsInstanceOf<PhantomStrike>(_owner.Artifacts[0]);
         }
     }
 }

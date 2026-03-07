@@ -10,7 +10,7 @@ using UnityEngine;
 /// Triggers only once per run.
 /// </summary>
 [Serializable]
-public class DeathShield : IPassive
+public class DeathShield : IArtifact
 {
     [SerializeField] private float _revivePercent;
     [SerializeField] private bool _triggered;
