@@ -15,6 +15,7 @@ public class ArtifactDefinition : ScriptableObject, IDraftable
 
     [Header("Effect")]
     [SerializeField] private ArtifactEffectType _effectType;
+    [SerializeField] private ArtifactId _artifactId;
 
     [Header("Meta-Progression")]
     [SerializeField] private bool _lockedByDefault = true;
@@ -28,6 +29,7 @@ public class ArtifactDefinition : ScriptableObject, IDraftable
     public Rarity GetRarity() => _rarity;
     public ArtifactTag Tags => _tags;
     public ArtifactEffectType EffectType => _effectType;
+    public ArtifactId ArtifactId => _artifactId;
     public bool LockedByDefault => _lockedByDefault;
 
 #if UNITY_EDITOR
@@ -35,6 +37,18 @@ public class ArtifactDefinition : ScriptableObject, IDraftable
         Rarity rarity, ArtifactTag tags, ArtifactEffectType effectType, bool lockedByDefault = true)
     {
         _id = id;
+        _displayName = displayName;
+        _description = description;
+        _rarity = rarity;
+        _tags = tags;
+        _effectType = effectType;
+        _lockedByDefault = lockedByDefault;
+    }
+
+    public void EditorInit(ArtifactId artifactId, string displayName, string description,
+        Rarity rarity, ArtifactTag tags, ArtifactEffectType effectType, bool lockedByDefault = true)
+    {
+        _artifactId = artifactId;
         _displayName = displayName;
         _description = description;
         _rarity = rarity;

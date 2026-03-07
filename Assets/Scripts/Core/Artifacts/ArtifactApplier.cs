@@ -25,26 +25,26 @@ public static class ArtifactApplier
 
     private static void ApplyArtifact(ArtifactDefinition artifactDefinition, Unit unit)
     {
-        IArtifact artifact = artifactDefinition.Id switch
+        IArtifact artifact = artifactDefinition.ArtifactId switch
         {
-            "artifact_berserker_mask"     => new NullPassive(),
-            "artifact_blazing_torch"      => new NullPassive(),
-            "artifact_blood_ritual"       => new NullPassive(),
-            "artifact_corrupted_tome"     => new NullPassive(),
-            "artifact_crown_of_echoes"    => new PhantomStrike(),
-            "artifact_heart_of_oak"       => new NullPassive(),
-            "artifact_hourglass"          => new DeathShield(),
-            "artifact_iron_heart"         => new NullPassive(),
-            "artifact_lucky_horseshoe"    => new CritChance(10f),
-            "artifact_poison_darts"       => new PoisonAmplifier(),
-            "artifact_poisoned_blade"     => new PoisonAmplifier(),
-            "artifact_quickboots"         => new NullPassive(),
-            "artifact_steel_scales"       => new NullPassive(),
-            "artifact_thorn_armor"        => new NullPassive(),
-            "artifact_twin_blades"        => new NullPassive(),
-            "artifact_vampiric_fang"      => new NullPassive(),
-            "artifact_war_gauntlet"       => new NullPassive(),
-            _ => throw new ArgumentOutOfRangeException(artifactDefinition.Id)
+            ArtifactId.BerserkerMask  => new NullPassive(),
+            ArtifactId.BlazingTorch   => new NullPassive(),
+            ArtifactId.BloodRitual    => new NullPassive(),
+            ArtifactId.CorruptedTome  => new NullPassive(),
+            ArtifactId.CrownOfEchoes  => new PhantomStrike(),
+            ArtifactId.HeartOfOak     => new NullPassive(),
+            ArtifactId.Hourglass      => new DeathShield(),
+            ArtifactId.IronHeart      => new NullPassive(),
+            ArtifactId.LuckyHorseshoe => new CritChance(10f),
+            ArtifactId.PoisonDarts    => new PoisonAmplifier(),
+            ArtifactId.PoisonedBlade  => new PoisonAmplifier(),
+            ArtifactId.Quickboots     => new NullPassive(),
+            ArtifactId.SteelScales    => new NullPassive(),
+            ArtifactId.ThornArmor     => new NullPassive(),
+            ArtifactId.TwinBlades     => new NullPassive(),
+            ArtifactId.VampiricFang   => new NullPassive(),
+            ArtifactId.WarGauntlet    => new NullPassive(),
+            _ => throw new ArgumentOutOfRangeException(artifactDefinition.ArtifactId.ToString())
         };
 
         artifact.OnAttach(unit);

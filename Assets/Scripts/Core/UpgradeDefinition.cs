@@ -25,7 +25,7 @@ public class UpgradeDefinition : ScriptableObject, IDraftable
     [SerializeField] private int amount;
 
     [Header("Ability Upgrade")] [SerializeField]
-    private string abilityId;
+    private AbilityId abilityId;
 
     [SerializeField] private Sprite projectileSprite;
 
@@ -41,7 +41,7 @@ public class UpgradeDefinition : ScriptableObject, IDraftable
     public UpgradeType Type => type;
     public StatType Stat => stat;
     public int Amount => amount;
-    public string AbilityId => abilityId;
+    public AbilityId AbilityId => abilityId;
     public Sprite ProjectileSprite => projectileSprite;
 
     public int RarityWeight => rarityWeight;
@@ -69,7 +69,7 @@ public class UpgradeDefinition : ScriptableObject, IDraftable
         amount = soAmount;
     }
 
-    public void EditorInit(string identifier, string soName, UpgradeType soType, string soAbilityId)
+    public void EditorInit(string identifier, string soName, UpgradeType soType, AbilityId soAbilityId)
     {
         id = identifier;
         displayName = soName;

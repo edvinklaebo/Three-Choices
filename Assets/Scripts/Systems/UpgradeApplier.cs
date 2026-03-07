@@ -52,7 +52,7 @@ public static class UpgradeApplier
     {
         switch (upgrade.AbilityId)
         {
-            case "Fireball":
+            case AbilityId.Fireball:
                 Log.Info("Ability Applied: Fireball");
                 var existingFireball = FindAbility<Fireball>(unit);
                 if (existingFireball != null)
@@ -60,7 +60,7 @@ public static class UpgradeApplier
                 else
                     unit.Abilities.Add(new Fireball(projectileSprite: upgrade.ProjectileSprite));
                 break;
-            case "Arcane Missiles":
+            case AbilityId.ArcaneMissiles:
                 Log.Info("Ability Applied: Arcane Missiles");
                 var existingMissiles = FindAbility<ArcaneMissiles>(unit);
                 if (existingMissiles != null)
@@ -69,7 +69,7 @@ public static class UpgradeApplier
                     unit.Abilities.Add(new ArcaneMissiles(projectileSprite: upgrade.ProjectileSprite));
                 break;
             default:
-                throw new ArgumentOutOfRangeException(upgrade.AbilityId);
+                throw new ArgumentOutOfRangeException(upgrade.AbilityId.ToString());
         }
     }
 
@@ -85,41 +85,41 @@ public static class UpgradeApplier
     {
         switch (upgrade.AbilityId)
         {
-            case "Thorns":
+            case AbilityId.Thorns:
                 Log.Info("Passive Applied: Thorns");
                 var thorns = new Thorns();
                 thorns.OnAttach(unit);
                 unit.Passives.Add(thorns);
                 break;
 
-            case "Rage":
+            case AbilityId.Rage:
                 Log.Info("Passive Applied: Rage");
                 var rage = new Rage(unit);
                 DamagePipeline.Register(rage);
                 break;
 
-            case "Lifesteal":
+            case AbilityId.Lifesteal:
                 Log.Info("Passive Applied: Lifesteal");
                 var ls = new Lifesteal(unit, 0.2f);
                 ls.OnAttach(unit);
                 unit.Passives.Add(ls);
                 break;
 
-            case "Poison":
+            case AbilityId.Poison:
                 Log.Info("Passive Applied: Poison");
                 var poison = new PoisonUpgrade(unit);
                 poison.OnAttach(unit);
                 unit.Passives.Add(poison);
                 break;
 
-            case "Bleed":
+            case AbilityId.Bleed:
                 Log.Info("Passive Applied: Bleed");
                 var bleed = new BleedUpgrade(unit);
                 bleed.OnAttach(unit);
                 unit.Passives.Add(bleed);
                 break;
 
-            case "DoubleStrike":
+            case AbilityId.DoubleStrike:
                 Log.Info("Passive Applied: DoubleStrike");
                 var doubleStrike = new DoubleStrike(0.25f, 0.75f);
                 doubleStrike.OnAttach(unit);
@@ -127,7 +127,7 @@ public static class UpgradeApplier
                 break;
 
             default:
-                throw new ArgumentOutOfRangeException(upgrade.AbilityId);
+                throw new ArgumentOutOfRangeException(upgrade.AbilityId.ToString());
         }
     }
 }
