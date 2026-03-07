@@ -13,6 +13,7 @@ public class CombatOrchestrator : MonoBehaviour
     [SerializeField] private CombatReadyEventChannel _combatReady;
     [SerializeField] private VoidEventChannel _requestNextFight;
     [SerializeField] private VoidEventChannel _fightEnded;
+    [SerializeField] private VoidEventChannel _bossFightEnded;
     [SerializeField] private BossFightEventChannel _bossFightStarted;
 
     [Header("References")]
@@ -43,6 +44,8 @@ public class CombatOrchestrator : MonoBehaviour
             _fightStarted.OnRaised += HandleStartFight;
         if (_fightEnded != null)
             _fightEnded.OnRaised += OnFightEnded;
+        if (_bossFightEnded != null)
+            _bossFightEnded.OnRaised += OnFightEnded;
         if (_bossFightStarted != null)
             _bossFightStarted.OnRaised += OnBossFightStarted;
     }
@@ -53,6 +56,8 @@ public class CombatOrchestrator : MonoBehaviour
             _fightStarted.OnRaised -= HandleStartFight;
         if (_fightEnded != null)
             _fightEnded.OnRaised -= OnFightEnded;
+        if (_bossFightEnded != null)
+            _bossFightEnded.OnRaised -= OnFightEnded;
         if (_bossFightStarted != null)
             _bossFightStarted.OnRaised -= OnBossFightStarted;
     }

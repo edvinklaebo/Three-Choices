@@ -8,7 +8,7 @@ using UnityEngine;
 /// Subscribes after PoisonUpgrade so stacks are already present when this fires.
 /// </summary>
 [Serializable]
-public class PoisonAmplifier : IPassive
+public class PoisonAmplifier : IArtifact
 {
     [SerializeField] private int _bonusStacks;
     [SerializeField] private int _bonusDuration;

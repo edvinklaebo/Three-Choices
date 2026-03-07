@@ -57,43 +57,43 @@ namespace Tests.EditModeTests
         // ---- ARTIFACT PASSIVES ----
 
         [Test]
-        public void Artifact_PhantomStrike_AddsPassiveToUnit()
+        public void Artifact_PhantomStrike_AddsArtifactToUnit()
         {
             var artifact = CreateArtifactPassive("artifact_crown_of_echoes");
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
-            Assert.AreEqual(1, _unit.Passives.Count);
-            Assert.IsInstanceOf<PhantomStrike>(_unit.Passives[0]);
+            Assert.AreEqual(1, _unit.Artifacts.Count);
+            Assert.IsInstanceOf<PhantomStrike>(_unit.Artifacts[0]);
         }
 
         [Test]
-        public void Artifact_DeathShield_AddsPassiveToUnit()
+        public void Artifact_DeathShield_AddsArtifactToUnit()
         {
             var artifact = CreateArtifactPassive("artifact_hourglass");
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
-            Assert.AreEqual(1, _unit.Passives.Count);
-            Assert.IsInstanceOf<DeathShield>(_unit.Passives[0]);
+            Assert.AreEqual(1, _unit.Artifacts.Count);
+            Assert.IsInstanceOf<DeathShield>(_unit.Artifacts[0]);
         }
 
         [Test]
-        public void Artifact_CritChance_AddsPassiveToUnit()
+        public void Artifact_CritChance_AddsArtifactToUnit()
         {
             var artifact = CreateArtifactPassive("artifact_lucky_horseshoe");
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
-            Assert.AreEqual(1, _unit.Passives.Count);
-            Assert.IsInstanceOf<CritChancePassive>(_unit.Passives[0]);
+            Assert.AreEqual(1, _unit.Artifacts.Count);
+            Assert.IsInstanceOf<CritChance>(_unit.Artifacts[0]);
         }
 
         [Test]
-        public void Artifact_PoisonAmplifier_AddsPassiveToUnit()
+        public void Artifact_PoisonAmplifier_AddsArtifactToUnit()
         {
             var artifact = CreateArtifactPassive("artifact_poison_darts");
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
-            Assert.AreEqual(1, _unit.Passives.Count);
-            Assert.IsInstanceOf<PoisonAmplifier>(_unit.Passives[0]);
+            Assert.AreEqual(1, _unit.Artifacts.Count);
+            Assert.IsInstanceOf<PoisonAmplifier>(_unit.Artifacts[0]);
         }
 
         [Test]
@@ -124,9 +124,9 @@ namespace Tests.EditModeTests
             ArtifactApplier.ApplyToPlayer(phantom, _unit);
             ArtifactApplier.ApplyToPlayer(shield, _unit);
 
-            Assert.AreEqual(2, _unit.Passives.Count);
-            Assert.IsInstanceOf<PhantomStrike>(_unit.Passives[0]);
-            Assert.IsInstanceOf<DeathShield>(_unit.Passives[1]);
+            Assert.AreEqual(2, _unit.Artifacts.Count);
+            Assert.IsInstanceOf<PhantomStrike>(_unit.Artifacts[0]);
+            Assert.IsInstanceOf<DeathShield>(_unit.Artifacts[1]);
         }
     }
 }

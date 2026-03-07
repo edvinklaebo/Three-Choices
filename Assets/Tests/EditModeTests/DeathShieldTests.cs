@@ -108,8 +108,8 @@ namespace Tests.EditModeTests
 
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
-            Assert.AreEqual(1, _unit.Passives.Count);
-            Assert.IsInstanceOf<DeathShield>(_unit.Passives[0]);
+            Assert.AreEqual(1, _unit.Artifacts.Count);
+            Assert.IsInstanceOf<DeathShield>(_unit.Artifacts[0]);
 
             _unit.ApplyDamage(null, 100);
 

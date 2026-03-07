@@ -11,6 +11,7 @@ public class Unit
 
     public bool IsDead { get; private set; }
 
+    [SerializeReference] public List<IArtifact> Artifacts = new();
     [SerializeReference] public List<IAbility> Abilities = new();
     [SerializeReference] public List<IPassive> Passives = new();
     [SerializeReference] public List<IStatusEffect> StatusEffects = new();

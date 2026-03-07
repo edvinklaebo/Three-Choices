@@ -7,7 +7,7 @@ using UnityEngine;
 /// The phantom strike bypasses armor — it is a spectral, unblockable hit.
 /// </summary>
 [Serializable]
-public class PhantomStrike : IPassive
+public class PhantomStrike : IArtifact
 {
     [SerializeField] private int _hitsPerTrigger;
     [SerializeField] private float _damagePercent;
