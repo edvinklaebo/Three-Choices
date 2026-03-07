@@ -54,15 +54,31 @@ public static class UpgradeApplier
         {
             case "Fireball":
                 Log.Info("Ability Applied: Fireball");
-                unit.Abilities.Add(new Fireball(projectileSprite: upgrade.ProjectileSprite));
+                var existingFireball = FindAbility<Fireball>(unit);
+                if (existingFireball != null)
+                    existingFireball.AddDamage(Fireball.DamagePerStack);
+                else
+                    unit.Abilities.Add(new Fireball(projectileSprite: upgrade.ProjectileSprite));
                 break;
             case "Arcane Missiles":
                 Log.Info("Ability Applied: Arcane Missiles");
-                unit.Abilities.Add(new ArcaneMissiles(projectileSprite: upgrade.ProjectileSprite));
+                var existingMissiles = FindAbility<ArcaneMissiles>(unit);
+                if (existingMissiles != null)
+                    existingMissiles.AddDamage(ArcaneMissiles.DamagePerStack);
+                else
+                    unit.Abilities.Add(new ArcaneMissiles(projectileSprite: upgrade.ProjectileSprite));
                 break;
             default:
                 throw new ArgumentOutOfRangeException(upgrade.AbilityId);
         }
+    }
+
+    private static T FindAbility<T>(Unit unit) where T : class, IAbility
+    {
+        foreach (var ability in unit.Abilities)
+            if (ability is T found)
+                return found;
+        return null;
     }
 
     private static void ApplyPassive(UpgradeDefinition upgrade, Unit unit)

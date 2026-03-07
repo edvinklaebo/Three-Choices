@@ -14,6 +14,8 @@ public class ArcaneMissiles : IAbility, IActionCreator
     [SerializeField] private int _missileCount;
     [SerializeField] private Sprite _projectileSprite;
 
+    public const int DamagePerStack = 1;
+
     public int Priority => 40;
 
     public ArcaneMissiles(int baseDamage = 5, int missileCount = 3, Sprite projectileSprite = null)
@@ -21,6 +23,12 @@ public class ArcaneMissiles : IAbility, IActionCreator
         _baseDamage = baseDamage;
         _missileCount = missileCount;
         _projectileSprite = projectileSprite;
+    }
+
+    public void AddDamage(int amount)
+    {
+        Debug.Assert(amount > 0, "AddDamage: amount must be positive");
+        _baseDamage += amount;
     }
 
     public void OnCast(Unit self, Unit target, CombatContext context)
