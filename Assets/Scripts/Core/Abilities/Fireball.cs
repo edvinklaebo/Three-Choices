@@ -26,6 +26,12 @@ public class Fireball : IAbility, IActionCreator
         _projectileSprite = projectileSprite;
     }
 
+    public void AddDamage(int amount)
+    {
+        Debug.Assert(amount > 0, "AddDamage: amount must be positive");
+        _baseDamage += amount;
+    }
+
     public void OnCast(Unit self, Unit target, CombatContext context)
     {
         if (target == null || target.IsDead)
