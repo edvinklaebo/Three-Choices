@@ -66,6 +66,24 @@ namespace Tests.EditModeTests
         }
 
         [Test]
+        public void HandleNextFight_RaisesFightStartedExactlyOnce_ForNormalFight()
+        {
+            var channel = CreateChannel();
+            var service = new RunProgressionService(channel);
+            var run = CreateRun(fightIndex: 2);
+            service.SetRun(run, run.player);
+
+            var callCount = 0;
+            channel.OnRaised += (_, _) => callCount++;
+
+            service.HandleNextFight();
+
+            Assert.AreEqual(1, callCount, "FightStarted should fire exactly once for a normal fight");
+
+            Object.DestroyImmediate(channel);
+        }
+
+        [Test]
         public void HandleNextFight_IncrementsFightIndex()
         {
             var channel = CreateChannel();

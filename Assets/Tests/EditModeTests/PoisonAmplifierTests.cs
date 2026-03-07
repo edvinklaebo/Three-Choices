@@ -23,7 +23,7 @@ namespace Tests.EditModeTests
 
             var amplifier = new PoisonAmplifier(bonusStacks: 2, bonusDuration: 3, bonusBaseDamage: 2);
             amplifier.OnAttach(_owner);
-            _owner.Passives.Add(amplifier);
+            _owner.Artifacts.Add(amplifier);
         }
 
         [Test]
@@ -88,8 +88,8 @@ namespace Tests.EditModeTests
 
             ArtifactApplier.ApplyToPlayer(artifact, _owner);
 
-            Assert.AreEqual(1, _owner.Passives.Count);
-            Assert.IsInstanceOf<PoisonAmplifier>(_owner.Passives[0]);
+            Assert.AreEqual(1, _owner.Artifacts.Count);
+            Assert.IsInstanceOf<PoisonAmplifier>(_owner.Artifacts[0]);
         }
 
         [Test]

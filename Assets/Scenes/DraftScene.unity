@@ -1832,6 +1832,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a1b2c3d4e5f601a7c9d8e7f6b5a4c3d2, type: 2}
     - target: {fileID: 5739403852180641738, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
+      propertyPath: _bossFightEnded
+      value: 
+      objectReference: {fileID: 11400000, guid: 5a1888c2060c53944ae84ab4178030ea, type: 2}
+    - target: {fileID: 5739403852180641738, guid: 7b78b05195bb32c48bf32e1ec5b8977b, type: 3}
       propertyPath: _bossFightStarted
       value: 
       objectReference: {fileID: 11400000, guid: fd5a85d0f46fce6468b58b5ab00a372e, type: 2}

@@ -4,13 +4,13 @@
 /// Passive placeholder for unimplemented features
 /// </summary>
 [Serializable]
-public class NullPassive : IPassive
+public class NullPassive : IArtifact
 {
     public int Priority => 100;
 
     public void OnAttach(Unit owner)
     {
-        //throw new System.NotImplementedException();
+        Log.Warning("Passive not implemented!");
     }
 
     public void OnDetach(Unit owner)

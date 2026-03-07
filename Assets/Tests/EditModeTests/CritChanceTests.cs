@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Tests.EditModeTests
 {
-    public class CritChancePassiveTests
+    public class CritChanceTests
     {
         private Unit _owner;
         private Unit _target;
@@ -25,18 +25,18 @@ namespace Tests.EditModeTests
         [Test]
         public void CritChancePassive_AddedToPassives()
         {
-            var passive = new CritChancePassive(0.1f);
+            var passive = new CritChance(0.1f);
             passive.OnAttach(_owner);
             _owner.Passives.Add(passive);
 
             Assert.AreEqual(1, _owner.Passives.Count);
-            Assert.IsInstanceOf<CritChancePassive>(_owner.Passives[0]);
+            Assert.IsInstanceOf<CritChance>(_owner.Passives[0]);
         }
 
         [Test]
         public void CritChancePassive_ZeroChance_NeverCrits()
         {
-            var passive = new CritChancePassive(0f);
+            var passive = new CritChance(0f);
             passive.OnAttach(_owner);
             _owner.Passives.Add(passive);
 
@@ -51,7 +51,7 @@ namespace Tests.EditModeTests
         [Test]
         public void CritChancePassive_FullChance_AlwaysCrits()
         {
-            var passive = new CritChancePassive(1f);
+            var passive = new CritChance(1f);
             passive.OnAttach(_owner);
             _owner.Passives.Add(passive);
 
@@ -65,7 +65,7 @@ namespace Tests.EditModeTests
         [Test]
         public void CritChancePassive_DoesNotApplyToOtherUnit()
         {
-            var passive = new CritChancePassive(1f);
+            var passive = new CritChance(1f);
             passive.OnAttach(_owner);
             _owner.Passives.Add(passive);
 
@@ -80,7 +80,7 @@ namespace Tests.EditModeTests
         [Test]
         public void CritChancePassive_DoesNotDoubleCrit_IfAlreadyCritical()
         {
-            var passive = new CritChancePassive(1f);
+            var passive = new CritChance(1f);
             passive.OnAttach(_owner);
             _owner.Passives.Add(passive);
 
@@ -94,7 +94,7 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void CritChancePassive_ViaArtifactApplier_Works()
+        public void CritChance_ViaArtifactApplier_Works()
         {
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
             artifact.EditorInit("artifact_lucky_horseshoe", "Lucky Horseshoe", "desc", Rarity.Uncommon, ArtifactTag.None,
@@ -102,8 +102,8 @@ namespace Tests.EditModeTests
 
             ArtifactApplier.ApplyToPlayer(artifact, _owner);
 
-            Assert.AreEqual(1, _owner.Passives.Count);
-            Assert.IsInstanceOf<CritChancePassive>(_owner.Passives[0]);
+            Assert.AreEqual(1, _owner.Artifacts.Count);
+            Assert.IsInstanceOf<CritChance>(_owner.Artifacts[0]);
         }
     }
 }
