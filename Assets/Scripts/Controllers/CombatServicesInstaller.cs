@@ -24,6 +24,7 @@ public class CombatServicesInstaller : MonoBehaviour
         var uiService = new UIService();
 
         animService.SetCombatView(_combatView);
+        animService.SetProjectile(_combatView.Projectile);
 
         Context = new AnimationContext(animService, uiService, new VFXService(), new SFXService());
     }

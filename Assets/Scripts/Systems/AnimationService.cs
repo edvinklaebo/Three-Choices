@@ -3,7 +3,7 @@ using UnityEngine;
 
 /// <summary>
 ///     Service for playing unit animations.
-///     Handles lunge movements, attack animations, and visual feedback.
+///     Handles lunge movements, projectile animations, and visual feedback.
 ///     Works with UnitView for positioning.
 /// </summary>
 public class AnimationService
@@ -13,12 +13,28 @@ public class AnimationService
     private const float RETURN_DURATION = 0.2f;
     private const float HIT_REACT_DURATION = 0.15f;
     private const float DEATH_DURATION = 0.5f;
-    
+    private const float PROJECTILE_DURATION = 0.4f;
+
     private CombatView _combatView;
+    private Transform _projectile;
+    private SpriteRenderer _projectileRenderer;
 
     public void SetCombatView(CombatView combatView)
     {
         _combatView = combatView;
+    }
+
+    /// <summary>
+    ///     Provide the projectile Transform to animate during <see cref="PlayProjectile"/>.
+    ///     The object should start inactive; this service activates and deactivates it automatically.
+    /// </summary>
+    public void SetProjectile(Transform projectile)
+    {
+        _projectile = projectile;
+        _projectileRenderer = projectile != null ? projectile.GetComponent<SpriteRenderer>() : null;
+
+        if (projectile != null && _projectileRenderer == null)
+            Log.Warning("Projectile Transform has no SpriteRenderer — sprites will not be swapped during PlayProjectile.", new { projectile = projectile.name });
     }
 
     public IEnumerator PlayAttack(Unit source)
@@ -48,6 +64,46 @@ public class AnimationService
             // Fallback: simple delay
             yield return new WaitForSeconds(0.3f);
         }
+    }
+
+    /// <summary>
+    ///     Animate a projectile from the source unit's center to the target unit's center.
+    ///     The provided <paramref name="sprite"/> is applied to the shared projectile SpriteRenderer
+    ///     so each ability can display its own visual.
+    ///     Falls back to a simple delay when the projectile Transform is not configured in the scene.
+    /// </summary>
+    public IEnumerator PlayProjectile(Unit source, Unit target, Sprite sprite = null)
+    {
+        Log.Info("Playing projectile animation", new { source = source.Name, target = target.Name });
+
+        var sourceView = GetUnitView(source);
+        var targetView = GetUnitView(target);
+
+        if (sourceView == null || targetView == null || _projectile == null)
+        {
+            yield return new WaitForSeconds(PROJECTILE_DURATION);
+            yield break;
+        }
+
+        if (_projectileRenderer != null && sprite != null)
+            _projectileRenderer.sprite = sprite;
+
+        var startPos = sourceView.transform.position;
+        var endPos = targetView.transform.position;
+
+        _projectile.gameObject.SetActive(true);
+        _projectile.position = startPos;
+
+        var elapsed = 0f;
+        while (elapsed < PROJECTILE_DURATION)
+        {
+            elapsed += Time.deltaTime;
+            var t = Mathf.Clamp01(elapsed / PROJECTILE_DURATION);
+            _projectile.position = Vector3.Lerp(startPos, endPos, t);
+            yield return null;
+        }
+
+        _projectile.gameObject.SetActive(false);
     }
 
     public IEnumerator PlayHit(Unit target)

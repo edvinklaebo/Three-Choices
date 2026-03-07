@@ -131,14 +131,38 @@ namespace Tests.EditModeTests
             var actions = CombatSystem.RunFight(caster, target);
 
             // Abilities execute before normal attacks each round.
-            // 3 missile DamageActions (from ability) fire before the attack DamageAction.
+            // 3 ArcaneMissilesActions (from ability) fire before the attack DamageAction.
             var damageFromCaster = 0;
             foreach (var action in actions)
-                if (action is DamageAction da && da.Source == caster)
+                if (action is ArcaneMissilesAction ama && ama.Source == caster)
+                    damageFromCaster++;
+                else if (action is DamageAction da && da.Source == caster)
                     damageFromCaster++;
 
-            // Round 1: 3 missiles + 1 attack = 4 DamageActions from caster
+            // Round 1: 3 missiles + 1 attack = 4 actions from caster
             Assert.GreaterOrEqual(damageFromCaster, 4, "Should have at least 3 missile hits + 1 attack");
+        }
+
+        [Test]
+        public void ArcaneMissiles_ProducesArcaneMissilesAction_NotDamageAction()
+        {
+            var caster = CreateUnit("Caster", 100, 0, 0, 10);
+            var target = CreateUnit("Target", 100, 0, 0, 5);
+
+            caster.Abilities.Add(new ArcaneMissiles(baseDamage: 50, missileCount: 2));
+
+            var actions = CombatSystem.RunFight(caster, target);
+
+            var missileActions = 0;
+            var plainDamageFromAbility = 0;
+            foreach (var action in actions)
+            {
+                if (action is ArcaneMissilesAction) missileActions++;
+                if (action is DamageAction da && da.Source == caster) plainDamageFromAbility++;
+            }
+
+            Assert.AreEqual(2, missileActions, "Arcane Missiles should produce 2 ArcaneMissilesActions");
+            Assert.AreEqual(0, plainDamageFromAbility, "Arcane Missiles should not produce plain DamageActions");
         }
 
         [Test]

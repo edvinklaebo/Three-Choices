@@ -166,11 +166,15 @@ namespace Tests.EditModeTests
 
             // Abilities fire before the normal attack each round.
             // Fireball(20) + attack(10) vs 30 HP: both happen in round 1.
-            // We expect at least 2 DamageActions from the caster (fireball + attack).
+            // We expect at least 1 FireballAction + 1 DamageAction from the caster.
             var damageActionsFromCaster = 0;
             foreach (var action in actions)
+            {
                 if (action is DamageAction da && da.Source == caster)
                     damageActionsFromCaster++;
+                else if (action is FireballAction fa && fa.Source == caster)
+                    damageActionsFromCaster++;
+            }
 
             Assert.GreaterOrEqual(damageActionsFromCaster, 2, "Should have at least 1 fireball hit + 1 attack");
         }
@@ -215,6 +219,28 @@ namespace Tests.EditModeTests
 
             Assert.AreEqual(1, target.StatusEffects.Count, "Should still have only 1 burn effect");
             Assert.Greater(burn.BaseDamage, firstBurnDamage, "Burn should update to higher damage");
+        }
+
+        [Test]
+        public void Fireball_ProducesFireballAction_NotDamageAction()
+        {
+            var caster = CreateUnit("Caster", 100, 0, 0, 5);
+            var target = CreateUnit("Target", 100, 0, 0, 5);
+
+            var fireball = new Fireball();
+            var context = new CombatContext();
+            fireball.OnCast(caster, target, context);
+
+            var fireballActions = 0;
+            var damageActions = 0;
+            foreach (var action in context.Actions)
+            {
+                if (action is FireballAction) fireballActions++;
+                else if (action is DamageAction) damageActions++;
+            }
+
+            Assert.AreEqual(1, fireballActions, "Fireball should produce exactly one FireballAction");
+            Assert.AreEqual(0, damageActions, "Fireball should not produce a plain DamageAction");
         }
     }
 }
