@@ -2,24 +2,25 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// Represents an Arcane Missiles ability action in combat.
-/// Plays missile visuals from source to target for each missile hit, then shows damage.
+/// Represents a Fireball ability action in combat.
+/// Animates a projectile from the source center to the target center
+/// instead of the default lunge animation used by DamageAction.
 /// </summary>
-public class ArcaneMissilesAction : ICombatAction
+public class FireballAction : ICombatAction
 {
     public Unit Source { get; }
     public Unit Target { get; }
-    public int Damage { get; }
+    public int Amount { get; }
     public int TargetHPBefore { get; }
     public int TargetHPAfter { get; }
     public int TargetMaxHP { get; }
     public Sprite Sprite { get; }
 
-    public ArcaneMissilesAction(Unit source, Unit target, int damage, int targetHPBefore, int targetHPAfter, int targetMaxHP, Sprite sprite = null)
+    public FireballAction(Unit source, Unit target, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP, Sprite sprite = null)
     {
         Source = source;
         Target = target;
-        Damage = damage;
+        Amount = amount;
         TargetHPBefore = targetHPBefore;
         TargetHPAfter = targetHPAfter;
         TargetMaxHP = targetMaxHP;
@@ -28,11 +29,11 @@ public class ArcaneMissilesAction : ICombatAction
 
     public IEnumerator Play(AnimationContext ctx)
     {
-        Log.Info("ArcaneMissilesAction.Play", new
+        Log.Info("FireballAction.Play", new
         {
             source = Source?.Name ?? "null",
             target = Target?.Name ?? "null",
-            damage = Damage,
+            amount = Amount,
             hpBefore = TargetHPBefore,
             hpAfter = TargetHPAfter
         });
@@ -40,11 +41,11 @@ public class ArcaneMissilesAction : ICombatAction
         // Animate projectile from source center to target center (no lunge)
         yield return ctx.Anim.PlayProjectile(Source, Target, Sprite);
 
-        // Play hit effect on target
+        // Play hit reaction on target
         yield return ctx.Anim.PlayHit(Target);
 
-        // Show damage UI with arcane color
-        ctx.UI.ShowDamage(Target, Damage, TargetHPBefore, TargetHPAfter, TargetMaxHP, DamageType.Arcane);
+        // Show fire damage UI
+        ctx.UI.ShowDamage(Target, Amount, TargetHPBefore, TargetHPAfter, TargetMaxHP, DamageType.Burn);
 
         // Play hit sound
         ctx.SFX.PlayHitSound(Target);

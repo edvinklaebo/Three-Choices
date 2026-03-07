@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: artifact_berserker_mask
   _displayName: Berserker Mask
-  _description: Unlocks the rage Passive.
+  _description: Attack damage is doubled, you can no longer deal non-Attack damage.
   _icon: {fileID: -2413806693520163455, guid: c3ecc98bcf6cfd74597b296ec6b1abd7, type: 3}
   _rarity: 25
   _tags: 128

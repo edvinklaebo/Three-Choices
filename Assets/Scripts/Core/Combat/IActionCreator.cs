@@ -1,15 +1,12 @@
 /// <summary>
-/// Interface for abilities that can create their own combat actions
+/// Interface for abilities that create a custom combat action instead of the default DamageAction.
+/// Implement this on an <see cref="IAbility"/> to supply a bespoke animation (e.g. FireballAction).
 /// </summary>
 public interface IActionCreator
 {
     /// <summary>
-    /// Called after ability execution to create combat actions for animation
+    /// Creates the combat action that represents this damage event in the animation queue.
+    /// Called by <see cref="CombatDamageResolver"/> in place of the default DamageAction.
     /// </summary>
-    /// <param name="context">Combat context to add actions to</param>
-    /// <param name="source">Source unit</param>
-    /// <param name="target">Target unit</param>
-    /// <param name="hpBefore">Target HP before ability</param>
-    /// <param name="hpAfter">Target HP after ability</param>
-    void CreateActions(CombatContext context, Unit source, Unit target, int hpBefore, int hpAfter);
+    ICombatAction CreateAction(Unit source, Unit target, int finalDamage, int hpBefore, int hpAfter, int maxHP);
 }

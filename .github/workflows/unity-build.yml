@@ -21,6 +21,11 @@ jobs:
             os: macos-latest
             channel: mac
 
+          - target: Android
+            os: ubuntu-latest
+            channel: android
+            androidExportType: androidPackage
+
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -30,8 +35,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: Library
-          key: Library-${{ matrix.os }}-${{ hashFiles('Packages/manifest.json') }}
+          key: Library-${{ matrix.os }}-${{ matrix.target }}-${{ hashFiles('Packages/manifest.json') }}
           restore-keys: |
+            Library-${{ matrix.os }}-${{ matrix.target }}-
             Library-${{ matrix.os }}-
 
       - name: Unity Build
@@ -39,6 +45,7 @@ jobs:
         with:
           targetPlatform: ${{ matrix.target }}
           buildName: "Three Choices"
+          androidExportType: ${{ matrix.androidExportType || '' }}
         env:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
@@ -56,9 +63,43 @@ jobs:
             --userversion "${{ github.run_number }}"
         shell: bash
 
-  announce:
-    needs: build
+  webgl:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Library
+        uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-ubuntu-latest-WebGL-${{ hashFiles('Packages/manifest.json') }}
+          restore-keys: |
+            Library-ubuntu-latest-WebGL-
+            Library-ubuntu-latest-
+
+      - name: Unity Build (WebGL)
+        uses: game-ci/unity-builder@v4
+        with:
+          targetPlatform: WebGL
+          buildName: "Three Choices"
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/WebGL/Three Choices
+
+  announce:
+    needs: [build, webgl]
+    runs-on: ubuntu-latest
+    permissions: {}
 
     steps:
       - name: Send Discord announcement
@@ -67,6 +108,6 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" \
           -d "{
-            \"content\": \"@everyone New Three Choices build is live.\nVersion: 0.0.${{ github.run_number }}\nDownload: https://racksay.itch.io/three-choices\"
+            \"content\": \"@everyone New Three Choices build is live.\nVersion: 0.0.${{ github.run_number }}\nDownload: https://racksay.itch.io/three-choices\nPlay in browser: https://edvinklaebo.github.io/Three-Choices\"
           }" \
           $WEBHOOK
