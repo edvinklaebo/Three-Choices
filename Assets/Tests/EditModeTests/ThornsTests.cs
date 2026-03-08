@@ -36,10 +36,13 @@ namespace Tests.EditModeTests
 
             AttachThorns(defender);
 
-            // Attacker hits defender — thorns should deal Armor/2 = 10 back
-            defender.ApplyDamage(attacker, 10);
+            // Run through the combat pipeline so the OnHitEvent path is exercised
+            var actions = CombatSystem.RunFight(attacker, defender);
 
-            Assert.AreEqual(100 - 10, attacker.Stats.CurrentHP, "Thorns should deal half armor (10) to attacker");
+            // Verify the ThornsAction carries Armor/2 = 10 damage
+            var thornsAction = actions.OfType<ThornsAction>().FirstOrDefault(a => a.Target == attacker);
+            Assert.IsNotNull(thornsAction, "Thorns should produce a ThornsAction targeting the attacker");
+            Assert.AreEqual(10, thornsAction.Amount, "Thorns should deal half armor (10) to attacker");
         }
 
         [Test]

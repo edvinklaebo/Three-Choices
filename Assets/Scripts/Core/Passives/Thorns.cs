@@ -4,9 +4,8 @@ using System;
 /// Deals damage equal to half the owner's armour to any unit that attacks them.
 /// Reflects only on direct attacks (attacker != null) to avoid triggering on status effects.
 /// Uses a re-entrance guard to prevent infinite reflect chains when both units carry Thorns.
-/// When registered as an <see cref="ICombatListener"/> (inside <see cref="CombatEngine"/>),
-/// reflects via <see cref="CombatContext.DealDamage"/> so a <see cref="DamageAction"/> is
-/// created and the damage is displayed to the player.
+/// Reflects via <see cref="CombatContext.DealDamage"/> (through <see cref="OnHitEvent"/>) so a
+/// <see cref="ThornsAction"/> is created and the damage is displayed to the player.
 /// </summary>
 [Serializable]
 public class Thorns : IPassive, ICombatListener, IActionCreator
