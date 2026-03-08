@@ -97,7 +97,7 @@ namespace Tests.EditModeTests
         public void CritChance_ViaArtifactApplier_Works()
         {
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
-            artifact.EditorInit("artifact_lucky_horseshoe", "Lucky Horseshoe", "desc", Rarity.Uncommon, ArtifactTag.None,
+            artifact.EditorInit(ArtifactId.LuckyHorseshoe, "Lucky Horseshoe", "desc", Rarity.Uncommon, ArtifactTag.None,
                 ArtifactEffectType.AddArtifact, false);
 
             ArtifactApplier.ApplyToPlayer(artifact, _owner);

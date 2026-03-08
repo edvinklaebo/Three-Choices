@@ -9,15 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2b9b648812f1f44a8cc58b9556cc469, type: 3}
+  m_Script: {fileID: 11500000, guid: 37230211e59b4f1aa1d600ac925d6186, type: 3}
   m_Name: passive_rage
-  m_EditorClassIdentifier: 
-  id: passive_rage
+  m_EditorClassIdentifier: Ropa::PassiveDefinition
+  id: 4
   displayName: Rage
-  description: Deal more damage the lower your health is to a maximum of 50%
+  description: Deal increased damage when low on life.
   icon: {fileID: 21300000, guid: bacbc37de937ce447bf14448dc133257, type: 3}
-  type: 2
-  stat: 0
-  amount: 0
-  abilityId: Rage
-  rarityWeight: 25
+  rarityWeight: 100
+  passiveId: 4

@@ -119,7 +119,7 @@ namespace Tests.EditModeTests
         public void PhantomStrike_ViaArtifactApplier_WorksCorrectly()
         {
             var artifact = UnityEngine.ScriptableObject.CreateInstance<ArtifactDefinition>();
-            artifact.EditorInit("artifact_crown_of_echoes", "Crown of Echoes", "desc", Rarity.Epic, ArtifactTag.None,
+            artifact.EditorInit(ArtifactId.CrownOfEchoes, "Crown of Echoes", "desc", Rarity.Epic, ArtifactTag.None,
                 ArtifactEffectType.AddArtifact,false);
 
             ArtifactApplier.ApplyToPlayer(artifact, _owner);

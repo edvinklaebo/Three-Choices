@@ -8,7 +8,7 @@ namespace Tests.EditModeTests
     {
         private UpgradeDefinition CreateUpgradeWithRarityWeight(int rarityWeight)
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<StatDefinition>();
             upgrade.EditorInit("test", "Test Upgrade");
 
             // Use reflection to set rarityWeight

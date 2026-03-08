@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81af15fd593a47d699a60e9c7072fafa, type: 3}
-  m_Name: ability_fireball
+  m_Name: ability_arcane_missles
   m_EditorClassIdentifier: Ropa::AbilityDefinition
-  id: 1
-  displayName: Fireball
-  description: Hurl a firey boulder applying burn.
-  icon: {fileID: 21300000, guid: 827cd4e177baf6645bc39967e1841bd6, type: 3}
+  id: 0
+  displayName: Arcane Missiles
+  description: Fire 3 missiles at the enemy.
+  icon: {fileID: 21300000, guid: 80db9b12908058840881888d2346ea66, type: 3}
   rarityWeight: 100
-  projectileSprite: {fileID: 21300000, guid: 827cd4e177baf6645bc39967e1841bd6, type: 3}
-  abilityId: 1
+  projectileSprite: {fileID: 21300000, guid: 80db9b12908058840881888d2346ea66, type: 3}
+  abilityId: 0

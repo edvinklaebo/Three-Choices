@@ -14,21 +14,21 @@ public class BossPhaseDefinition
     [SerializeField] private int _triggerHPPercent;
 
     /// <summary>Abilities that become active when this phase is entered.</summary>
-    [SerializeField] private AbilityDefinition[] _abilities;
+    [SerializeField] private BossAbilityDefinition[] _abilities;
 
     /// <summary>Seconds between attacks in this phase.</summary>
     [SerializeField] private float _attackInterval;
 
     public int TriggerHPPercent => _triggerHPPercent;
-    public AbilityDefinition[] Abilities => _abilities;
+    public BossAbilityDefinition[] Abilities => _abilities;
     public float AttackInterval => _attackInterval;
 
 #if UNITY_EDITOR
-    public void EditorInit(int triggerHPPercent, float attackInterval, AbilityDefinition[] abilities = null)
+    public void EditorInit(int triggerHPPercent, float attackInterval, BossAbilityDefinition[] abilities = null)
     {
         _triggerHPPercent = triggerHPPercent;
         _attackInterval = attackInterval;
-        _abilities = abilities ?? Array.Empty<AbilityDefinition>();
+        _abilities = abilities ?? Array.Empty<BossAbilityDefinition>();
     }
 #endif
 }

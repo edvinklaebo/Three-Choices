@@ -36,8 +36,8 @@ namespace Tests.EditModeTests
         [Test]
         public void Bind_SetsButtonText()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade.EditorInit("Power Up", "Power Up", UpgradeType.Stat, StatType.AttackPower, 5);
+            var upgrade = ScriptableObject.CreateInstance<StatDefinition>();
+            upgrade.EditorInit("Power Up", "Power Up", StatType.AttackPower, 5);
             var option = new DraftOption(upgrade);
 
             _view.Bind(option, null);
@@ -50,8 +50,8 @@ namespace Tests.EditModeTests
         [Test]
         public void Bind_SetsTooltipLabel()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade.EditorInit("tough-id", "Extra Armor", UpgradeType.Stat, StatType.Armor, 3);
+            var upgrade = ScriptableObject.CreateInstance<StatDefinition>();
+            upgrade.EditorInit("tough-id", "Extra Armor", StatType.Armor, 3);
             var option = new DraftOption(upgrade);
 
             _view.Bind(option, null);
@@ -66,8 +66,8 @@ namespace Tests.EditModeTests
         public void Bind_OnClick_InvokesOnPickWithOption()
         {
             DraftOption received = null;
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade.EditorInit("Quick Strike", "Quick Strike", UpgradeType.Stat, StatType.AttackPower, 2);
+            var upgrade = ScriptableObject.CreateInstance<StatDefinition>();
+            upgrade.EditorInit("Quick Strike", "Quick Strike", StatType.AttackPower, 2);
             var option = new DraftOption(upgrade);
 
             _view.Bind(option, o => received = o);
@@ -87,8 +87,8 @@ namespace Tests.EditModeTests
             _view.Awake(); // second call - should be a no-op due to _initialized guard
 
             var callCount = 0;
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade.EditorInit("Guard Test", "Guard Test", UpgradeType.Stat, StatType.AttackPower, 1);
+            var upgrade = ScriptableObject.CreateInstance<StatDefinition>();
+            upgrade.EditorInit("Guard Test", "Guard Test", StatType.AttackPower, 1);
             var option = new DraftOption(upgrade);
 
             _view.Bind(option, _ => callCount++);
