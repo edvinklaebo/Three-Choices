@@ -115,5 +115,24 @@ namespace Tests.EditModeTests
 
             Assert.AreEqual(attackerHpBefore, attacker.Stats.CurrentHP, "Thorns should not reflect after being detached");
         }
+
+        [Test]
+        public void Thorns_CreatesActionEvent_ForReflectDamage()
+        {
+            var attacker = CreateUnit("Attacker", 100, 10, 0, 10);
+            var defender = CreateUnit("Defender", 1000, 0, 10, 5); // Armor/2 = 5 thorn damage
+
+            AttachThorns(defender);
+
+            var actions = CombatSystem.RunFight(attacker, defender);
+
+            // Without the fix, thorn reflect damage had no DamageAction — verify it does now.
+            var thornsActions = actions.OfType<DamageAction>()
+                .Where(a => a.Target == attacker)
+                .ToList();
+
+            Assert.IsNotEmpty(thornsActions,
+                "Thorn reflect must produce at least one DamageAction targeting the attacker so the damage is displayed");
+        }
     }
 }
