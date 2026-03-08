@@ -86,9 +86,9 @@ namespace Tests.EditModeTests
             // Create a mock draft
             var draft = new List<DraftOption>
             {
-                new DraftOption(ScriptableObject.CreateInstance<UpgradeDefinition>()),
-                new DraftOption(ScriptableObject.CreateInstance<UpgradeDefinition>()),
-                new DraftOption(ScriptableObject.CreateInstance<UpgradeDefinition>())
+                new (ScriptableObject.CreateInstance<StatDefinition>()),
+                new (ScriptableObject.CreateInstance<AbilityDefinition>()),
+                new (ScriptableObject.CreateInstance<PassiveDefinition>())
             };
 
             // Show without animation
@@ -103,7 +103,7 @@ namespace Tests.EditModeTests
             // Cleanup
             foreach (var option in draft)
             {
-                if (option.Source is UnityEngine.Object obj)
+                if (option.Source is Object obj)
                     Object.DestroyImmediate(obj);
             }
         }
@@ -111,15 +111,15 @@ namespace Tests.EditModeTests
         [Test]
         public void Show_ConfiguresButtonsCorrectly()
         {
-            var upgrade0 = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade0.EditorInit("Upgrade A", "Upgrade A", UpgradeType.Stat, StatType.AttackPower, 5);
-            var upgrade1 = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade1.EditorInit("Upgrade B", "Upgrade B", UpgradeType.Stat, StatType.AttackPower, 5);
+            var upgrade0 = ScriptableObject.CreateInstance<StatDefinition>();
+            upgrade0.EditorInit("Upgrade A", "Upgrade A", StatType.AttackPower, 5);
+            var upgrade1 = ScriptableObject.CreateInstance<StatDefinition>();
+            upgrade1.EditorInit("Upgrade B", "Upgrade B", StatType.AttackPower, 5);
 
             var draft = new List<DraftOption>
             {
-                new DraftOption(upgrade0),
-                new DraftOption(upgrade1)
+                new(upgrade0),
+                new(upgrade1)
             };
 
             // Show UI

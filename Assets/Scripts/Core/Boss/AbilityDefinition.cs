@@ -4,7 +4,7 @@ using UnityEngine;
 ///     Base ScriptableObject for data-driven boss abilities.
 ///     Subclass this to implement specific ability behavior that activates when a boss enters a phase.
 /// </summary>
-public abstract class AbilityDefinition : ScriptableObject
+public abstract class BossAbilityDefinition : ScriptableObject
 {
     [SerializeField] private string _abilityName;
     [TextArea] [SerializeField] private string _description;

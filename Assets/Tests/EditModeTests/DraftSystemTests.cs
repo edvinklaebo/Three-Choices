@@ -38,9 +38,9 @@ namespace Tests.EditModeTests
 
     public class DraftSystemTests
     {
-        private UpgradeDefinition CreateUpgrade(string name, int rarityWeight = 100)
+        private static UpgradeDefinition CreateUpgrade(string name, int rarityWeight = 100)
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<StatDefinition>();
             upgrade.EditorInit(name, name);
             // Use reflection to set rarityWeight since there's no public setter
             var field = typeof(UpgradeDefinition).GetField("rarityWeight",
@@ -49,7 +49,7 @@ namespace Tests.EditModeTests
             return upgrade;
         }
 
-        private ArtifactDefinition CreateArtifact(string id, string name, Rarity rarity = Rarity.Common)
+        private static ArtifactDefinition CreateArtifact(string id, string name, Rarity rarity = Rarity.Common)
         {
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
             artifact.EditorInit(id, name, string.Empty, rarity, ArtifactTag.None, ArtifactEffectType.AddArtifact,

@@ -29,22 +29,12 @@ namespace Tests.EditModeTests
         [Test]
         public void Apply_StatUpgrade_DispatchesToStatHandler()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade.EditorInit("A", "A", UpgradeType.Stat, StatType.AttackPower, 5);
+            var upgrade = ScriptableObject.CreateInstance<StatDefinition>();
+            upgrade.EditorInit("A", "A", StatType.AttackPower, 5);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
             Assert.AreEqual(15, _unit.Stats.AttackPower);
-        }
-
-        [Test]
-        public void Apply_UnknownUpgradeType_Throws()
-        {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade.EditorInit("A", "A", (UpgradeType)999, StatType.AttackPower, 999);
-
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
-                UpgradeApplier.Apply(upgrade, _unit));
         }
 
         // ---------- STAT UPGRADES ----------
@@ -52,9 +42,9 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyStat_MaxHP_IncreasesMaxAndCurrentHP()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<StatDefinition>();
 
-            upgrade.EditorInit("A", "A", UpgradeType.Stat, StatType.MaxHP, 20);
+            upgrade.EditorInit("A", "A", StatType.MaxHP, 20);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -65,9 +55,9 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyStat_AttackPower_IncreasesAttack()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<StatDefinition>();
 
-            upgrade.EditorInit("A", "A", UpgradeType.Stat, StatType.AttackPower, 7);
+            upgrade.EditorInit("A", "A", StatType.AttackPower, 7);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -77,9 +67,9 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyStat_Armor_IncreasesArmor()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<StatDefinition>();
 
-            upgrade.EditorInit("A", "A", UpgradeType.Stat, StatType.Armor, 4);
+            upgrade.EditorInit("A", "A", StatType.Armor, 4);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -89,9 +79,9 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyStat_Speed_IncreasesSpeed()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<StatDefinition>();
 
-            upgrade.EditorInit("A", "A", UpgradeType.Stat, StatType.Speed, 2);
+            upgrade.EditorInit("A", "A", StatType.Speed, 2);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -101,9 +91,9 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyStat_UnknownStat_Throws()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<StatDefinition>();
 
-            upgrade.EditorInit("A", "A", UpgradeType.Stat, (StatType)999, 10);
+            upgrade.EditorInit("A", "A", (StatType)999, 10);
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 UpgradeApplier.Apply(upgrade, _unit));
@@ -114,8 +104,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_Fireball_FirstApplication_AddsAbility()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade.EditorInit("A", "A", UpgradeType.Ability, AbilityId.Fireball);
+            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
+            upgrade.EditorInit("A", "A", AbilityId.Fireball);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -126,8 +116,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_Fireball_DuplicateApplication_DoesNotAddAbility()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade.EditorInit("A", "A", UpgradeType.Ability, AbilityId.Fireball);
+            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
+            upgrade.EditorInit("A", "A", AbilityId.Fireball);
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -138,8 +128,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_Fireball_DuplicateApplication_Adds5Damage()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade.EditorInit("A", "A", UpgradeType.Ability, AbilityId.Fireball);
+            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
+            upgrade.EditorInit("A", "A", AbilityId.Fireball);
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -156,8 +146,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_ArcaneMissiles_FirstApplication_AddsAbility()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade.EditorInit("A", "A", UpgradeType.Ability, AbilityId.ArcaneMissiles);
+            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
+            upgrade.EditorInit("A", "A", AbilityId.ArcaneMissiles);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -168,8 +158,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_ArcaneMissiles_DuplicateApplication_DoesNotAddAbility()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade.EditorInit("A", "A", UpgradeType.Ability, AbilityId.ArcaneMissiles);
+            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
+            upgrade.EditorInit("A", "A", AbilityId.ArcaneMissiles);
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -180,8 +170,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_ArcaneMissiles_DuplicateApplication_Adds1Damage()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
-            upgrade.EditorInit("A", "A", UpgradeType.Ability, AbilityId.ArcaneMissiles);
+            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
+            upgrade.EditorInit("A", "A", AbilityId.ArcaneMissiles);
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -198,9 +188,9 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_AlwaysThrows_ForUnknownAbility()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
 
-            upgrade.EditorInit("A", "A", UpgradeType.Ability, (AbilityId)999);
+            upgrade.EditorInit("A", "A", (AbilityId)999);
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 UpgradeApplier.Apply(upgrade, _unit));
@@ -211,9 +201,9 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyPassive_Thorns_LogsCorrectly()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<PassiveDefinition>();
 
-            upgrade.EditorInit("A", "A", UpgradeType.Passive, AbilityId.Thorns);
+            upgrade.EditorInit("A", "A", PassiveId.Thorns);
 
             LogAssert.Expect(LogType.Log, "[INFO] Passive Applied: Thorns");
 
@@ -223,9 +213,9 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyPassive_Rage_LogsCorrectly()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<PassiveDefinition>();
 
-            upgrade.EditorInit("A", "A", UpgradeType.Passive, AbilityId.Rage);
+            upgrade.EditorInit("A", "A", PassiveId.Rage);
 
             LogAssert.Expect(LogType.Log, "[INFO] Passive Applied: Rage");
 
@@ -235,9 +225,9 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyPassive_Lifesteal_LogsCorrectly()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<PassiveDefinition>();
 
-            upgrade.EditorInit("A", "A", UpgradeType.Passive, AbilityId.Lifesteal);
+            upgrade.EditorInit("A", "A", PassiveId.Lifesteal);
 
             LogAssert.Expect(LogType.Log, "[INFO] Passive Applied: Lifesteal");
 
@@ -247,9 +237,9 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyPassive_Poison_LogsCorrectly()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<PassiveDefinition>();
 
-            upgrade.EditorInit("A", "A", UpgradeType.Passive, AbilityId.Poison);
+            upgrade.EditorInit("A", "A", PassiveId.Poison);
 
             LogAssert.Expect(LogType.Log, "[INFO] Passive Applied: Poison");
 
@@ -259,9 +249,9 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_UnknownAbility_Throws()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
 
-            upgrade.EditorInit("A", "A", UpgradeType.Ability, (AbilityId)999);
+            upgrade.EditorInit("A", "A", (AbilityId)999);
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 UpgradeApplier.Apply(upgrade, _unit));
@@ -270,9 +260,9 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyPassive_UnknownPassive_Throws()
         {
-            var upgrade = ScriptableObject.CreateInstance<UpgradeDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<PassiveDefinition>();
 
-            upgrade.EditorInit("A", "A", UpgradeType.Passive, (AbilityId)999);
+            upgrade.EditorInit("A", "A", (PassiveId)999);
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 UpgradeApplier.Apply(upgrade, _unit));
