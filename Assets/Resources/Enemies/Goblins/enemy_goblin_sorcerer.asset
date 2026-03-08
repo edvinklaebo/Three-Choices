@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fcae248cdf4a8543b64373df1d37581, type: 3}
   m_Name: enemy_goblin_sorcerer
   m_EditorClassIdentifier: Ropa::EnemyDefinition
-  _enemyName: Goblin
+  _enemyName: Goblin Sorcerer
   _maxHP: 100
   _attackPower: 5
   _armor: 60
