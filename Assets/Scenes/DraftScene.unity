@@ -2136,6 +2136,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: -4
       objectReference: {fileID: 0}
+    - target: {fileID: 7328615127630395622, guid: 420473a1b82b58e458067b823a502455, type: 3}
+      propertyPath: m_Name
+      value: Enemy Sprite
+      objectReference: {fileID: 0}
     - target: {fileID: 7602863997716565605, guid: 420473a1b82b58e458067b823a502455, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
