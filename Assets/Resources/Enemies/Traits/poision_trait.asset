@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fe7207bc02db024ba5be65746aea0d4, type: 3}
-  m_Name: Enemy Factory
-  m_EditorClassIdentifier: Ropa::EnemyFactory
-  _database: {fileID: 11400000, guid: e24bb24d6c39f814dac0ed890e9c07c6, type: 2}
+  m_Script: {fileID: 11500000, guid: d119cc5df5b6aea4694d5a36b6a2af85, type: 3}
+  m_Name: poision_trait
+  m_EditorClassIdentifier: Ropa::PoisonOnHitTrait
+  _poisonStacks: 2
+  _poisonDuration: 3
+  _poisonBaseDamage: 1

@@ -19,9 +19,9 @@ public class EnemyDefinition : ScriptableObject
     [SerializeField] private int _speed;
 
     [Header("Spawn Rules")]
-    [SerializeField] private int _minFightIndex = 0;
+    [SerializeField] private int _minFightIndex;
     [SerializeField] private int _maxFightIndex = 999;
-    /// <summary>Used by future weighted-random spawn system. Currently all candidates are equally weighted.</summary>
+    /// <summary>Used by future weighted-random spawn system. Currently, all candidates are equally weighted.</summary>
     [SerializeField] private int _spawnWeight = 1;
 
     [Header("Traits")]
