@@ -20,13 +20,11 @@ public class Thorns : IPassive, ICombatListener, IActionCreator
     public void OnAttach(Unit owner)
     {
         _owner = owner;
-        owner.Damaged += OnDamaged;
     }
 
     public void OnDetach(Unit owner)
     {
         _owner = null;
-        owner.Damaged -= OnDamaged;
     }
 
     public void RegisterHandlers(CombatContext context)
@@ -76,34 +74,5 @@ public class Thorns : IPassive, ICombatListener, IActionCreator
 
     public ICombatAction CreateAction(Unit source, Unit target, int finalDamage, int hpBefore, int hpAfter, int maxHP)
         => new ThornsAction(source, target, finalDamage, hpBefore, hpAfter, maxHP);
-
-    // Called directly via Unit.Damaged — only used outside of a CombatContext (e.g. unit tests
-    // that call ApplyDamage directly). Inside CombatEngine, OnHit handles the reflect instead.
-    private void OnDamaged(Unit self, Unit attacker, int damageTaken)
-    {
-        if (_context != null)
-            return;
-
-        if (attacker == null)
-            return;
-
-        if (_isReflecting)
-            return;
-
-        var thornsDamage = self.Stats.Armor / 2;
-        if (thornsDamage <= 0)
-            return;
-
-        Log.Info($"Thorns reflect: {self.Name} dealt {thornsDamage} to {attacker.Name}");
-
-        _isReflecting = true;
-        try
-        {
-            attacker.ApplyDamage(self, thornsDamage);
-        }
-        finally
-        {
-            _isReflecting = false;
-        }
-    }
+    
 }
