@@ -11,6 +11,7 @@ public class EnemyDefinition : ScriptableObject
 {
     [Header("Identity")]
     [SerializeField] private string _enemyName;
+    [SerializeField] private Sprite _portrait;
 
     [Header("Base Stats")]
     [SerializeField] private int _maxHP;
@@ -28,6 +29,7 @@ public class EnemyDefinition : ScriptableObject
     [SerializeField] private List<EnemyTraitDefinition> _traits = new();
 
     public string EnemyName => _enemyName;
+    public Sprite Portrait => _portrait;
     public int MaxHP => _maxHP;
     public int AttackPower => _attackPower;
     public int Armor => _armor;

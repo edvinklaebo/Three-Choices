@@ -60,6 +60,7 @@ public class EnemyFactory : ScriptableObject, IEnemyFactory
     {
         var unit = new Unit(def.EnemyName)
         {
+            Portrait = def.Portrait,
             Stats = new Stats
             {
                 MaxHP = def.MaxHP,
