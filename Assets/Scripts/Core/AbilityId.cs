@@ -1,11 +1,11 @@
 public enum AbilityId
 {
-    Fireball,
     ArcaneMissiles,
-    Thorns,
-    Rage,
+    Fireball,
+    Bleed,
+    DoubleStrike,
     Lifesteal,
     Poison,
-    Bleed,
-    DoubleStrike
+    Rage,
+    Thorns,
 }

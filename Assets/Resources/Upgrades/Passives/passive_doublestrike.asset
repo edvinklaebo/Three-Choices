@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b9b648812f1f44a8cc58b9556cc469, type: 3}
   m_Name: passive_doublestrike
   m_EditorClassIdentifier: 
-  id: passive_doublestrike
+  id: 1
   displayName: Double Strike
   description: 25% chance to hit the same target twice, with the second hit dealing
     75% damage.
@@ -20,6 +20,6 @@ MonoBehaviour:
   type: 2
   stat: 0
   amount: 0
-  abilityId: DoubleStrike
+  abilityId: 0
   projectileSprite: {fileID: 0}
   rarityWeight: 20

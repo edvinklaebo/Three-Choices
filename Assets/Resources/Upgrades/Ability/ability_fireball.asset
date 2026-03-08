@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b9b648812f1f44a8cc58b9556cc469, type: 3}
   m_Name: ability_fireball
   m_EditorClassIdentifier: Ropa::UpgradeDefinition
-  id: ability_fireball
+  id: 1
   displayName: Fireball
   description: At the start of each turn, launch a fireball that deals damage and
     applies a burn.
@@ -20,6 +20,6 @@ MonoBehaviour:
   type: 1
   stat: 0
   amount: 0
-  abilityId: Fireball
+  abilityId: 0
   projectileSprite: {fileID: 21300000, guid: 827cd4e177baf6645bc39967e1841bd6, type: 3}
   rarityWeight: 100
