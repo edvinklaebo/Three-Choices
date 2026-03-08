@@ -36,10 +36,13 @@ namespace Tests.EditModeTests
 
             AttachThorns(defender);
 
-            // Attacker hits defender — thorns should deal Armor/2 = 10 back
-            defender.ApplyDamage(attacker, 10);
+            // Run through the combat pipeline so the OnHitEvent path is exercised
+            var actions = CombatSystem.RunFight(attacker, defender);
 
-            Assert.AreEqual(100 - 10, attacker.Stats.CurrentHP, "Thorns should deal half armor (10) to attacker");
+            // Verify the ThornsAction carries Armor/2 = 10 damage
+            var thornsAction = actions.OfType<ThornsAction>().FirstOrDefault(a => a.Target == attacker);
+            Assert.IsNotNull(thornsAction, "Thorns should produce a ThornsAction targeting the attacker");
+            Assert.AreEqual(10, thornsAction.Amount, "Thorns should deal half armor (10) to attacker");
         }
 
         [Test]
@@ -114,6 +117,25 @@ namespace Tests.EditModeTests
             defender.ApplyDamage(attacker, 10);
 
             Assert.AreEqual(attackerHpBefore, attacker.Stats.CurrentHP, "Thorns should not reflect after being detached");
+        }
+
+        [Test]
+        public void Thorns_CreatesActionEvent_ForReflectDamage()
+        {
+            var attacker = CreateUnit("Attacker", 100, 10, 0, 10);
+            var defender = CreateUnit("Defender", 1000, 0, 10, 5); // Armor/2 = 5 thorn damage
+
+            AttachThorns(defender);
+
+            var actions = CombatSystem.RunFight(attacker, defender);
+
+            // Thorn reflect must produce a ThornsAction (not a plain DamageAction) targeting the attacker.
+            var thornsActions = actions.OfType<ThornsAction>()
+                .Where(a => a.Target == attacker)
+                .ToList();
+
+            Assert.IsNotEmpty(thornsActions,
+                "Thorn reflect must produce at least one ThornsAction targeting the attacker so the shake animation and damage are displayed");
         }
     }
 }
