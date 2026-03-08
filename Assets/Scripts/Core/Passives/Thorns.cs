@@ -9,7 +9,7 @@ using System;
 /// created and the damage is displayed to the player.
 /// </summary>
 [Serializable]
-public class Thorns : IPassive, ICombatListener
+public class Thorns : IPassive, ICombatListener, IActionCreator
 {
     [NonSerialized] private Unit _owner;
     [NonSerialized] private CombatContext _context;
@@ -66,13 +66,16 @@ public class Thorns : IPassive, ICombatListener
         _isReflecting = true;
         try
         {
-            _context.DealDamage(_owner, evt.Source, thornsDamage);
+            _context.DealDamage(_owner, evt.Source, thornsDamage, actionCreator: this);
         }
         finally
         {
             _isReflecting = false;
         }
     }
+
+    public ICombatAction CreateAction(Unit source, Unit target, int finalDamage, int hpBefore, int hpAfter, int maxHP)
+        => new ThornsAction(source, target, finalDamage, hpBefore, hpAfter, maxHP);
 
     // Called directly via Unit.Damaged — only used outside of a CombatContext (e.g. unit tests
     // that call ApplyDamage directly). Inside CombatEngine, OnHit handles the reflect instead.

@@ -14,6 +14,9 @@ public class AnimationService
     private const float HIT_REACT_DURATION = 0.15f;
     private const float DEATH_DURATION = 0.5f;
     private const float PROJECTILE_DURATION = 0.4f;
+    private const float SHAKE_DURATION = 0.35f;
+    private const float SHAKE_MAGNITUDE = 0.08f;
+    private const int SHAKE_OSCILLATIONS = 5;
 
     private CombatView _combatView;
     private Transform _projectile;
@@ -116,6 +119,39 @@ public class AnimationService
             yield return new WaitForSeconds(HIT_REACT_DURATION);
         else
             yield return new WaitForSeconds(RETURN_DURATION);
+    }
+
+    /// <summary>
+    ///     Shake the target unit's sprite to indicate thorn reflect damage.
+    ///     Oscillates the sprite horizontally using a sine wave and returns it to its original position.
+    ///     Falls back to a plain wait when the unit has no UnitView.
+    /// </summary>
+    public IEnumerator PlayShake(Unit target)
+    {
+        Log.Info("Playing shake animation", new { target = target.Name });
+
+        var unitView = GetUnitView(target);
+        if (unitView == null || unitView.SpriteTransform == null)
+        {
+            yield return new WaitForSeconds(SHAKE_DURATION);
+            yield break;
+        }
+
+        var spriteTransform = unitView.SpriteTransform;
+        var originalLocalPos = spriteTransform.localPosition;
+        var elapsed = 0f;
+
+        while (elapsed < SHAKE_DURATION)
+        {
+            elapsed += Time.deltaTime;
+            var t = elapsed / SHAKE_DURATION;
+            var dampingFactor = 1f - t;
+            var offsetX = Mathf.Sin(t * Mathf.PI * SHAKE_OSCILLATIONS) * SHAKE_MAGNITUDE * dampingFactor;
+            spriteTransform.localPosition = originalLocalPos + new Vector3(offsetX, 0f, 0f);
+            yield return null;
+        }
+
+        spriteTransform.localPosition = originalLocalPos;
     }
 
     public IEnumerator PlayDeath(Unit target)

@@ -126,13 +126,13 @@ namespace Tests.EditModeTests
 
             var actions = CombatSystem.RunFight(attacker, defender);
 
-            // Without the fix, thorn reflect damage had no DamageAction — verify it does now.
-            var thornsActions = actions.OfType<DamageAction>()
+            // Thorn reflect must produce a ThornsAction (not a plain DamageAction) targeting the attacker.
+            var thornsActions = actions.OfType<ThornsAction>()
                 .Where(a => a.Target == attacker)
                 .ToList();
 
             Assert.IsNotEmpty(thornsActions,
-                "Thorn reflect must produce at least one DamageAction targeting the attacker so the damage is displayed");
+                "Thorn reflect must produce at least one ThornsAction targeting the attacker so the shake animation and damage are displayed");
         }
     }
 }
