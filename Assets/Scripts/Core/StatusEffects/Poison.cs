@@ -69,5 +69,6 @@ public class Poison : IStatusEffect
     public void AddStacks(IStatusEffect effect)
     {
         Stacks += effect.Stacks;
+        Duration = effect.Duration;
     }
 }

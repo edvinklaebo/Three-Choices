@@ -18,7 +18,11 @@ public static class SaveService
         try
         {
             var json = JsonUtility.ToJson(state, true);
-            File.WriteAllText(Path, json);
+            var tempPath = Path + ".tmp";
+            File.WriteAllText(tempPath, json);
+            if (File.Exists(Path))
+                File.Delete(Path);
+            File.Move(tempPath, Path);
             Log.Info($"[SaveService] Saved run (Fight: {state.fightIndex}, Player: {state.player?.Name})");
         }
         catch (Exception ex)
