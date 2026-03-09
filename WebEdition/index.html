@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Three Choices — Web Edition</title>
-<link rel="icon" href="../Assets/Art/Icon/crowned-skull 128x128.png">
+<link rel="icon" href="art/icon/favicon.png">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { 
@@ -170,7 +170,7 @@ button.primary:hover { background: linear-gradient(135deg, #3a3a2a, #2a2a1a); bo
 
 <!-- MAIN MENU -->
 <div id="menu-screen" class="screen active">
-  <h1><img src="../Assets/Art/Icon/crowned-skull 128x128.png" class="title-icon" alt="">Three Choices</h1>
+  <h1><img src="art/icon/favicon.png" class="title-icon" alt="">Three Choices</h1>
   <p style="color:#6060a0;margin-bottom:1rem;text-align:center;">A roguelike PvE auto-battler</p>
   <button class="primary" onclick="initCharSelect()">New Run</button>
   <div class="highscore-section" id="menu-highscores"></div>
@@ -248,31 +248,31 @@ button.primary:hover { background: linear-gradient(135deg, #3a3a2a, #2a2a1a); bo
 <script>
 // ============ GAME DATA — from actual ScriptableObjects ============
 const CHARACTERS = [
-  { id:'bob', name:'Bob', img:'../Assets/Art/Characters/bob.gif', hp:150, atk:15, armor:67, speed:23, desc:'Dark mage with a fire staff' },
-  { id:'garry', name:'Garry', img:'../Assets/Art/Characters/Garry.gif', hp:56, atk:64, armor:67, speed:23, desc:'Skeleton knight, sword & shield' },
-  { id:'kyle', name:'Kyle', img:'../Assets/Art/Characters/Kyle.gif', hp:33, atk:33, armor:33, speed:33, desc:'The balanced one' },
-  { id:'steve', name:'Steve', img:'../Assets/Art/Characters/steve_placeholder.png', hp:400, atk:6, armor:67, speed:16, desc:'The immovable wall' },
+  { id:'bob', name:'Bob', img:'art/characters/bob.gif', hp:150, atk:15, armor:67, speed:23, desc:'Dark mage with a fire staff' },
+  { id:'garry', name:'Garry', img:'art/characters/Garry.gif', hp:56, atk:64, armor:67, speed:23, desc:'Skeleton knight, sword & shield' },
+  { id:'kyle', name:'Kyle', img:'art/characters/Kyle.gif', hp:33, atk:33, armor:33, speed:33, desc:'The balanced one' },
+  { id:'steve', name:'Steve', img:'art/characters/steve_placeholder.png', hp:400, atk:6, armor:67, speed:16, desc:'The immovable wall' },
 ];
 
 const RARITIES = { common:{weight:100,label:'Common',cls:'rarity-common'}, uncommon:{weight:50,label:'Uncommon',cls:'rarity-uncommon'}, rare:{weight:25,label:'Rare',cls:'rarity-rare'}, epic:{weight:10,label:'Epic',cls:'rarity-epic'} };
 
 const UPGRADES = [
-  { id:'hp10', name:'+10 Max HP', desc:'+10 maximum HP', imgSrc:'../Assets/Art/Upgrades/Stats/hp.png', rarity:'common', apply:u=>{u.maxHp+=10;u.hp+=10;} },
-  { id:'atk3', name:'+3 Attack', desc:'+3 attack power', imgSrc:'../Assets/Art/Upgrades/Stats/attack.png', rarity:'common', apply:u=>{u.atk+=3;} },
-  { id:'armor2', name:'+2 Armor', desc:'+2 armor', imgSrc:'../Assets/Art/Upgrades/Stats/armor.png', rarity:'common', apply:u=>{u.armor+=2;} },
-  { id:'speed2', name:'+2 Speed', desc:'+2 speed', imgSrc:'../Assets/Art/Upgrades/Stats/speed.png', rarity:'common', apply:u=>{u.speed+=2;} },
-  { id:'hp5atk1', name:'Endurance', desc:'+5 HP, +1 Attack', imgSrc:'../Assets/Art/Upgrades/Stats/hp.png', rarity:'common', apply:u=>{u.maxHp+=5;u.hp+=5;u.atk+=1;} },
-  { id:'lifesteal', name:'Lifesteal', desc:'Heal 20% of damage dealt.', imgSrc:'../Assets/Art/Upgrades/Passives/lifesteal.png', rarity:'uncommon', apply:u=>{u.passives.push({id:'lifesteal',name:'Lifesteal',pct:0.2});} },
-  { id:'thorns', name:'Thorns', desc:'Reflect 50% of armor as damage.', imgSrc:'../Assets/Art/Upgrades/Passives/thorns.png', rarity:'uncommon', apply:u=>{u.passives.push({id:'thorns',name:'Thorns'});} },
-  { id:'bleed', name:'Bleed Strike', desc:'Attacks apply 2 stacks of Bleed (3 turns).', imgSrc:'../Assets/Art/Upgrades/Passives/bleed.png', rarity:'uncommon', apply:u=>{u.passives.push({id:'bleed',name:'Bleed Strike',stacks:2,dur:3});} },
-  { id:'poison', name:'Poison Touch', desc:'Attacks apply 2 stacks of Poison (3 turns).', imgSrc:'../Assets/Art/Upgrades/Passives/poison.png', rarity:'uncommon', apply:u=>{u.passives.push({id:'poison',name:'Poison Touch',stacks:2,dur:3});} },
-  { id:'hp25', name:'Vitality', desc:'+25 Max HP', imgSrc:'../Assets/Art/Upgrades/Stats/hp.png', rarity:'uncommon', apply:u=>{u.maxHp+=25;u.hp+=25;} },
-  { id:'atk6', name:'Sharpened Blade', desc:'+6 Attack Power', imgSrc:'../Assets/Art/Upgrades/Stats/attack.png', rarity:'uncommon', apply:u=>{u.atk+=6;} },
-  { id:'doublestrike', name:'Double Strike', desc:'30% chance to strike twice at 80% dmg.', imgSrc:'../Assets/Art/Upgrades/Passives/double_strike.png', rarity:'rare', apply:u=>{u.passives.push({id:'doublestrike',name:'Double Strike',chance:0.3,mult:0.8});} },
-  { id:'rage', name:'Rage', desc:'More damage the lower your HP.', imgSrc:'../Assets/Art/Upgrades/Passives/rage.png', rarity:'rare', apply:u=>{u.passives.push({id:'rage',name:'Rage'});} },
+  { id:'hp10', name:'+10 Max HP', desc:'+10 maximum HP', imgSrc:'art/upgrades/stats/hp.png', rarity:'common', apply:u=>{u.maxHp+=10;u.hp+=10;} },
+  { id:'atk3', name:'+3 Attack', desc:'+3 attack power', imgSrc:'art/upgrades/stats/attack.png', rarity:'common', apply:u=>{u.atk+=3;} },
+  { id:'armor2', name:'+2 Armor', desc:'+2 armor', imgSrc:'art/upgrades/stats/armor.png', rarity:'common', apply:u=>{u.armor+=2;} },
+  { id:'speed2', name:'+2 Speed', desc:'+2 speed', imgSrc:'art/upgrades/stats/speed.png', rarity:'common', apply:u=>{u.speed+=2;} },
+  { id:'hp5atk1', name:'Endurance', desc:'+5 HP, +1 Attack', imgSrc:'art/upgrades/stats/hp.png', rarity:'common', apply:u=>{u.maxHp+=5;u.hp+=5;u.atk+=1;} },
+  { id:'lifesteal', name:'Lifesteal', desc:'Heal 20% of damage dealt.', imgSrc:'art/upgrades/passives/lifesteal.png', rarity:'uncommon', apply:u=>{u.passives.push({id:'lifesteal',name:'Lifesteal',pct:0.2});} },
+  { id:'thorns', name:'Thorns', desc:'Reflect 50% of armor as damage.', imgSrc:'art/upgrades/passives/thorns.png', rarity:'uncommon', apply:u=>{u.passives.push({id:'thorns',name:'Thorns'});} },
+  { id:'bleed', name:'Bleed Strike', desc:'Attacks apply 2 stacks of Bleed (3 turns).', imgSrc:'art/upgrades/passives/bleed.png', rarity:'uncommon', apply:u=>{u.passives.push({id:'bleed',name:'Bleed Strike',stacks:2,dur:3});} },
+  { id:'poison', name:'Poison Touch', desc:'Attacks apply 2 stacks of Poison (3 turns).', imgSrc:'art/upgrades/passives/poison.png', rarity:'uncommon', apply:u=>{u.passives.push({id:'poison',name:'Poison Touch',stacks:2,dur:3});} },
+  { id:'hp25', name:'Vitality', desc:'+25 Max HP', imgSrc:'art/upgrades/stats/hp.png', rarity:'uncommon', apply:u=>{u.maxHp+=25;u.hp+=25;} },
+  { id:'atk6', name:'Sharpened Blade', desc:'+6 Attack Power', imgSrc:'art/upgrades/stats/attack.png', rarity:'uncommon', apply:u=>{u.atk+=6;} },
+  { id:'doublestrike', name:'Double Strike', desc:'30% chance to strike twice at 80% dmg.', imgSrc:'art/upgrades/passives/double_strike.png', rarity:'rare', apply:u=>{u.passives.push({id:'doublestrike',name:'Double Strike',chance:0.3,mult:0.8});} },
+  { id:'rage', name:'Rage', desc:'More damage the lower your HP.', imgSrc:'art/upgrades/passives/rage.png', rarity:'rare', apply:u=>{u.passives.push({id:'rage',name:'Rage'});} },
   { id:'execute', name:'Execute', desc:'+50% damage to targets below 25% HP.', icon:'💀', rarity:'rare', apply:u=>{u.passives.push({id:'execute',name:'Execute',threshold:0.25,bonus:1.5});} },
-  { id:'fireball', name:'Fireball', desc:'Cast Fireball each turn (10 dmg + Burn).', imgSrc:'../Assets/Art/Upgrades/Abilities/fireball.png', rarity:'rare', apply:u=>{u.abilities.push({id:'fireball',name:'Fireball',dmg:10,burnDur:3,burnPct:0.5});} },
-  { id:'arcanemissiles', name:'Arcane Missiles', desc:'Fire 3 missiles (5 dmg each) every turn.', imgSrc:'../Assets/Art/Upgrades/Abilities/arcane_missiles.png', rarity:'epic', apply:u=>{u.abilities.push({id:'arcanemissiles',name:'Arcane Missiles',dmg:5,count:3});} },
+  { id:'fireball', name:'Fireball', desc:'Cast Fireball each turn (10 dmg + Burn).', imgSrc:'art/upgrades/abilities/fireball.png', rarity:'rare', apply:u=>{u.abilities.push({id:'fireball',name:'Fireball',dmg:10,burnDur:3,burnPct:0.5});} },
+  { id:'arcanemissiles', name:'Arcane Missiles', desc:'Fire 3 missiles (5 dmg each) every turn.', imgSrc:'art/upgrades/abilities/arcane_missiles.png', rarity:'epic', apply:u=>{u.abilities.push({id:'arcanemissiles',name:'Arcane Missiles',dmg:5,count:3});} },
   { id:'deathshield', name:'Death Shield', desc:'Survive a killing blow once (revive at 50% HP).', icon:'⏳', rarity:'epic', apply:u=>{u.passives.push({id:'deathshield',name:'Death Shield',triggered:false});} },
   { id:'critchance', name:'Lucky Horseshoe', desc:'15% crit chance (2x damage).', icon:'🍀', rarity:'epic', apply:u=>{u.passives.push({id:'critchance',name:'Crit Chance',chance:0.15});} },
 ];
@@ -288,7 +288,7 @@ const ARTIFACTS = [
 // Enemies — from actual ScriptableObjects + expanded tiers
 const ENEMIES_BY_TIER = [
   [
-    { name:'Slime', img:'../Assets/Art/Enemies/slime.png', hp:250, atk:4, armor:65, speed:5, traits:[{id:'poison',stacks:1,dur:2}] },
+    { name:'Slime', img:'art/enemies/slime.png', hp:250, atk:4, armor:65, speed:5, traits:[{id:'poison',stacks:1,dur:2}] },
     { name:'Goblin Warrior', icon:'👺', hp:100, atk:10, armor:60, speed:67, traits:[{id:'poison',stacks:1,dur:2}] },
     { name:'Goblin Sorcerer', icon:'🧙', hp:100, atk:5, armor:60, speed:67, traits:[{id:'poison',stacks:1,dur:2}] },
   ],
