@@ -188,8 +188,10 @@ button.primary:hover { background: linear-gradient(135deg, #3a3a2a, #2a2a1a); bo
 <div id="draft-screen" class="screen">
   <div class="fight-counter">Fight <span id="draft-fight-num">0</span> complete — choose an upgrade</div>
   <div class="player-hud" id="draft-hud"></div>
+  <div id="draft-autosave" style="font-size:0.7rem;color:#406040;margin:0.3rem 0;">💾 Score auto-saved</div>
   <h2>Pick One</h2>
   <div class="draft-grid" id="draft-grid"></div>
+  <button class="primary" style="margin-top:1.5rem;background:#602020;font-size:0.8rem;padding:0.4rem 1rem;" onclick="saveAndQuit()">💾 Save Score &amp; Quit</button>
 </div>
 
 <!-- COMBAT -->
@@ -580,8 +582,34 @@ async function startFight(){
 function afterCombat(){fightIndex++;showDraft();}
 
 // ============ DRAFT ============
+function autoSaveProgress() {
+  // Auto-save current score to localStorage every fight — crash-proof
+  const score = calcScore();
+  const name = localStorage.getItem('three-choices-last-name') || 'Anonymous';
+  const data = { name, score, char: player.name, fights: gameStats.fights, date: new Date().toISOString().slice(0, 10), autoSave: true };
+  localStorage.setItem('three-choices-run-backup', JSON.stringify(data));
+}
+
+function saveAndQuit() {
+  const score = calcScore();
+  const name = localStorage.getItem('three-choices-last-name') || 'Anonymous';
+  const isNew = isHighScore(score);
+  if (isNew) {
+    const entered = prompt(`🏆 Score: ${score.toLocaleString()} — Enter your name:`, name);
+    if (entered !== null) {
+      localStorage.setItem('three-choices-last-name', entered.trim() || name);
+      addHighScore(entered.trim() || name, score, player.name);
+    }
+  } else {
+    addHighScore(name, score, player.name);
+  }
+  localStorage.removeItem('three-choices-run-backup');
+  showMenu();
+}
+
 function showDraft(){
   showScreen('draft-screen');document.getElementById('draft-fight-num').textContent=fightIndex;renderHud('draft-hud');
+  autoSaveProgress();
   const grid=document.getElementById('draft-grid');grid.innerHTML='';
   const picks=[],used=new Set();
   for(let i=0;i<3;i++){let r=rollRarity();let pool=UPGRADES.filter(u=>u.rarity===r&&!used.has(u.id));if(!pool.length)pool=UPGRADES.filter(u=>!used.has(u.id));if(!pool.length)break;const p=pick(pool);picks.push(p);used.add(p.id);}
@@ -663,6 +691,7 @@ let pendingScore = 0;
 
 // ============ GAME OVER ============
 function showGameOver(){
+  localStorage.removeItem('three-choices-run-backup');
   showScreen('gameover-screen');
   pendingScore = calcScore();
   const isNew = isHighScore(pendingScore);
@@ -709,7 +738,17 @@ function showMenu() {
 
 // Render high scores on initial load
 document.addEventListener('DOMContentLoaded', () => {
-  }
+  // Recover score from crashed/closed run
+  try {
+    const backup = JSON.parse(localStorage.getItem('three-choices-run-backup'));
+    if (backup && backup.score > 0) {
+      const recover = confirm(`💾 Recovered unsaved run!\n${backup.char} — Fight ${backup.fights}, Score: ${backup.score.toLocaleString()}\n\nSave this score?`);
+      if (recover) {
+        addHighScore(backup.name || 'Anonymous', backup.score, backup.char);
+      }
+      localStorage.removeItem('three-choices-run-backup');
+    }
+  } catch {}
   renderHighScores('menu-highscores', -1);
   document.getElementById('player-name-input').addEventListener('keydown', e => { if (e.key === 'Enter') submitScore(); });
 });
