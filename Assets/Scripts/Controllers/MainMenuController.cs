@@ -29,6 +29,7 @@ public class MainMenuController : MonoBehaviour
     private void Start()
     {
         continueButton.gameObject.SetActive(SaveService.HasSave());
+        quitButton.gameObject.SetActive(PlatformUtils.IsQuitSupported());
     }
 
     private static void OnQuitClicked()
