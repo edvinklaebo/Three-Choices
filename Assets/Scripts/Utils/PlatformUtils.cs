@@ -23,7 +23,7 @@ public static class PlatformUtils
     /// <summary>
     /// Platform-agnostic core check used for unit testing.
     /// </summary>
-    internal static bool IsQuitSupportedOnPlatform(RuntimePlatform platform)
+    public static bool IsQuitSupportedOnPlatform(RuntimePlatform platform)
     {
         return platform == RuntimePlatform.WindowsPlayer
             || platform == RuntimePlatform.LinuxPlayer
