@@ -18,7 +18,7 @@ public class CritChance : IPassive, IArtifact, IDamageModifier
 
     public CritChance(float critChance)
     {
-        _critChance = Mathf.Clamp01(critChance);
+        _critChance += Mathf.Clamp01(critChance);
     }
 
     public int Priority => 210; // Late multiplier, runs after standard modifiers

@@ -53,7 +53,11 @@ public class EnemyFactory : ScriptableObject, IEnemyFactory
             throw new InvalidOperationException(
                 $"No enemy definitions available for fightIndex {fightIndex}");
 
-        // Weighted random selection using SpawnWeight
+        return WeightedRandom(candidates);
+    }
+
+    private static T WeightedRandom<T>(List<T> candidates) where T : EnemyDefinition
+    {
         var totalWeight = 0;
         for (var i = 0; i < candidates.Count; i++)
             totalWeight += candidates[i].SpawnWeight;
