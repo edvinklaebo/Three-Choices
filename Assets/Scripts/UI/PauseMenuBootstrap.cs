@@ -71,7 +71,7 @@ public class PauseMenuBootstrap : MonoBehaviour
         CreateButton(menuContent.transform, "Resume", PauseMenuUI.OnResumeClicked);
         CreateButton(menuContent.transform, "Main Menu", PauseMenuUI.OnMainMenuClicked);
         CreateButton(menuContent.transform, "Settings", pauseMenuUI.OnSettingsClicked);
-        CreateButton(menuContent.transform, "Quit", PauseMenuUI.OnQuitClicked);
+        var quitBtn = CreateButton(menuContent.transform, "Quit", PauseMenuUI.OnQuitClicked);
 
         // Create Settings Panel
         var settingsPanel = CreatePanel(pauseMenuRoot.transform, "SettingsPanel");
@@ -94,7 +94,7 @@ public class PauseMenuBootstrap : MonoBehaviour
         settingsPanelComponent.Initialize(volumeSlider, fullscreenToggle);
 
         // Wire up PauseMenuUI references
-        pauseMenuUI.Initialize(pausePanel, settingsPanel);
+        pauseMenuUI.Initialize(pausePanel, settingsPanel, quitBtn.gameObject);
 
         // Add PauseInput to canvas
         canvas.gameObject.AddComponent<PauseInput>();
@@ -166,7 +166,7 @@ public class PauseMenuBootstrap : MonoBehaviour
         tmp.color = Color.white;
     }
 
-    private static void CreateButton(Transform parent, string text, UnityAction onClick)
+    private static Button CreateButton(Transform parent, string text, UnityAction onClick)
     {
         var btnObj = new GameObject($"Button_{text}");
         btnObj.transform.SetParent(parent, false);
@@ -195,6 +195,8 @@ public class PauseMenuBootstrap : MonoBehaviour
         tmp.fontSize = 24;
         tmp.alignment = TextAlignmentOptions.Center;
         tmp.color = Color.white;
+
+        return button;
     }
 
     private static void CreateSliderRow(Transform parent, string label, out Slider slider)

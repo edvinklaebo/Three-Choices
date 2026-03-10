@@ -11,6 +11,7 @@ public class PauseMenuUI : MonoBehaviour
 
     [SerializeField] private GameObject _pauseMenuPanel;
     [SerializeField] private GameObject _settingsPanel;
+    [SerializeField] private GameObject _quitButton;
 
     private void OnEnable()
     {
@@ -29,6 +30,8 @@ public class PauseMenuUI : MonoBehaviour
             _pauseMenuPanel.SetActive(false);
         if (_settingsPanel != null)
             _settingsPanel.SetActive(false);
+        if (_quitButton != null)
+            _quitButton.SetActive(PlatformUtils.IsQuitSupported());
     }
 
     private void HandlePauseStateChanged(bool isPaused)
@@ -83,9 +86,10 @@ public class PauseMenuUI : MonoBehaviour
     /// Initialize the pause menu UI with references.
     /// Allows programmatic setup without reflection.
     /// </summary>
-    public void Initialize(GameObject pauseMenuPanel, GameObject settingsPanel)
+    public void Initialize(GameObject pauseMenuPanel, GameObject settingsPanel, GameObject quitButton = null)
     {
         _pauseMenuPanel = pauseMenuPanel;
         _settingsPanel = settingsPanel;
+        _quitButton = quitButton;
     }
 }
