@@ -1,14 +1,20 @@
 using System;
 using System.Collections.Generic;
+
+using Core;
+
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Events/Draft Event")]
-public class DraftEventChannel : ScriptableObject
+namespace Events
 {
-    public event Action<List<DraftOption>> OnRaised;
-
-    public void Raise(List<DraftOption> draft)
+    [CreateAssetMenu(menuName = "Events/Draft Event")]
+    public class DraftEventChannel : ScriptableObject
     {
-        OnRaised?.Invoke(draft);
+        public event Action<List<DraftOption>> OnRaised;
+
+        public void Raise(List<DraftOption> draft)
+        {
+            OnRaised?.Invoke(draft);
+        }
     }
 }

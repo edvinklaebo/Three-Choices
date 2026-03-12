@@ -1,20 +1,25 @@
 ﻿using System;
 
-/// <summary>
-/// Passive placeholder for unimplemented features
-/// </summary>
-[Serializable]
-public class NullPassive : IArtifact
+using Utils;
+
+namespace Core.Passives
 {
-    public int Priority => 100;
-
-    public void OnAttach(Unit owner)
+    /// <summary>
+    /// Passive placeholder for unimplemented features
+    /// </summary>
+    [Serializable]
+    public class NullPassive : IArtifact
     {
-        Log.Warning("Passive not implemented!");
-    }
+        public int Priority => 100;
 
-    public void OnDetach(Unit owner)
-    {
-        //throw new System.NotImplementedException();
+        public void OnAttach(Unit owner)
+        {
+            Log.Warning("Passive not implemented!");
+        }
+
+        public void OnDetach(Unit owner)
+        {
+            //throw new System.NotImplementedException();
+        }
     }
 }

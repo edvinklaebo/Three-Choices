@@ -1,49 +1,58 @@
 using System;
+
+using Core.Combat;
+using Core.StatusEffects;
+
+using Interfaces;
+
 using UnityEngine;
 
-/// <summary>
-///     Fireball ability that triggers at turn start.
-///     Deals damage that can crit, then applies burn scaled to the final damage dealt.
-///     Burn cannot crit and does not stack.
-///     Implements <see cref="IActionCreator"/> to produce a <see cref="FireballAction"/>
-///     (projectile animation) instead of the default lunge-based DamageAction.
-/// </summary>
-[Serializable]
-public class Fireball : IAbility, IActionCreator
+namespace Core.Abilities
 {
-    [SerializeField] private int _baseDamage;
-    [SerializeField] private int _burnDuration;
-    [SerializeField] private float _burnDamagePercent;
-    [SerializeField] private Sprite _projectileSprite;
-
-    public const int DamagePerStack = 5;
-
-    public int Priority => 50;
-
-    public Fireball(int baseDamage = 10, int burnDuration = 3, float burnDamagePercent = 0.5f, Sprite projectileSprite = null)
+    /// <summary>
+    ///     Fireball ability that triggers at turn start.
+    ///     Deals damage that can crit, then applies burn scaled to the final damage dealt.
+    ///     Burn cannot crit and does not stack.
+    ///     Implements <see cref="IActionCreator"/> to produce a <see cref="FireballAction"/>
+    ///     (projectile animation) instead of the default lunge-based DamageAction.
+    /// </summary>
+    [Serializable]
+    public class Fireball : IAbility, IActionCreator
     {
-        _baseDamage = baseDamage;
-        _burnDuration = burnDuration;
-        _burnDamagePercent = burnDamagePercent;
-        _projectileSprite = projectileSprite;
+        [SerializeField] private int _baseDamage;
+        [SerializeField] private int _burnDuration;
+        [SerializeField] private float _burnDamagePercent;
+        [SerializeField] private Sprite _projectileSprite;
+
+        public const int DamagePerStack = 5;
+
+        public int Priority => 50;
+
+        public Fireball(int baseDamage = 10, int burnDuration = 3, float burnDamagePercent = 0.5f, Sprite projectileSprite = null)
+        {
+            this._baseDamage = baseDamage;
+            this._burnDuration = burnDuration;
+            this._burnDamagePercent = burnDamagePercent;
+            this._projectileSprite = projectileSprite;
+        }
+
+        public void AddDamage(int amount)
+        {
+            Debug.Assert(amount > 0, "AddDamage: amount must be positive");
+            this._baseDamage += amount;
+        }
+
+        public void OnCast(Unit self, Unit target, CombatContext context)
+        {
+            if (target == null || target.IsDead)
+                return;
+
+            context.DealDamage(self, target, this._baseDamage,
+                               finalDamage => new Burn(this._burnDuration, Mathf.CeilToInt(finalDamage * this._burnDamagePercent)),
+                               actionCreator: this);
+        }
+
+        public ICombatAction CreateAction(Unit source, Unit target, int finalDamage, int hpBefore, int hpAfter, int maxHP)
+            => new FireballAction(source, target, finalDamage, hpBefore, hpAfter, maxHP, this._projectileSprite);
     }
-
-    public void AddDamage(int amount)
-    {
-        Debug.Assert(amount > 0, "AddDamage: amount must be positive");
-        _baseDamage += amount;
-    }
-
-    public void OnCast(Unit self, Unit target, CombatContext context)
-    {
-        if (target == null || target.IsDead)
-            return;
-
-        context.DealDamage(self, target, _baseDamage,
-            finalDamage => new Burn(_burnDuration, Mathf.CeilToInt(finalDamage * _burnDamagePercent)),
-            actionCreator: this);
-    }
-
-    public ICombatAction CreateAction(Unit source, Unit target, int finalDamage, int hpBefore, int hpAfter, int maxHP)
-        => new FireballAction(source, target, finalDamage, hpBefore, hpAfter, maxHP, _projectileSprite);
 }

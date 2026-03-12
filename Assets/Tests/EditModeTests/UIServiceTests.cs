@@ -1,6 +1,15 @@
 using System.Collections.Generic;
 using System.Reflection;
+
+using Core;
+
 using NUnit.Framework;
+
+using Systems;
+
+using UI;
+using UI.Combat;
+
 using UnityEngine;
 using UnityEngine.UI;
 

@@ -1,22 +1,27 @@
 using System;
 
-/// <summary>
-///     Static events for character selection flow.
-///     NOTE: Subscribers must clean up in OnDisable/OnDestroy to prevent memory leaks.
-/// </summary>
-public static class GameEvents
-{
-    public static Action NewRunRequested_Event;
-    public static Action<CharacterDefinition> CharacterSelected_Event;
-    public static Action ReturnToMainMenu_Event;
+using Characters;
 
+namespace Events
+{
     /// <summary>
-    ///     Clear all event subscribers. Call during scene cleanup if needed.
+    ///     Static events for character selection flow.
+    ///     NOTE: Subscribers must clean up in OnDisable/OnDestroy to prevent memory leaks.
     /// </summary>
-    public static void ClearAll()
+    public static class GameEvents
     {
-        NewRunRequested_Event = null;
-        CharacterSelected_Event = null;
-        ReturnToMainMenu_Event = null;
+        public static Action NewRunRequested_Event;
+        public static Action<CharacterDefinition> CharacterSelected_Event;
+        public static Action ReturnToMainMenu_Event;
+
+        /// <summary>
+        ///     Clear all event subscribers. Call during scene cleanup if needed.
+        /// </summary>
+        public static void ClearAll()
+        {
+            NewRunRequested_Event = null;
+            CharacterSelected_Event = null;
+            ReturnToMainMenu_Event = null;
+        }
     }
 }

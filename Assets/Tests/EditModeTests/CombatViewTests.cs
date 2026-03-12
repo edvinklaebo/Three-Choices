@@ -1,4 +1,9 @@
+using Core;
+
 using NUnit.Framework;
+
+using UI.Combat;
+
 using UnityEngine;
 
 namespace Tests.EditModeTests

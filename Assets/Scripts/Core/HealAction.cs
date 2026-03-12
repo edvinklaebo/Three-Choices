@@ -1,43 +1,50 @@
 using System.Collections;
 
-/// <summary>
-/// Represents a healing action in combat.
-/// Shows healing UI with floating text and health bar animation.
-/// Stores HP values before and after healing for proper health bar animation.
-/// </summary>
-public class HealAction : ICombatAction
+using Interfaces;
+
+using Utils;
+
+namespace Core
 {
-    public Unit Target { get; }
-    public int Amount { get; }
-    public int TargetHPBefore { get; }
-    public int TargetHPAfter { get; }
-    public int TargetMaxHP { get; }
-
-    public HealAction(Unit target, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP)
+    /// <summary>
+    /// Represents a healing action in combat.
+    /// Shows healing UI with floating text and health bar animation.
+    /// Stores HP values before and after healing for proper health bar animation.
+    /// </summary>
+    public class HealAction : ICombatAction
     {
-        Target = target;
-        Amount = amount;
-        TargetHPBefore = targetHPBefore;
-        TargetHPAfter = targetHPAfter;
-        TargetMaxHP = targetMaxHP;
-    }
+        public Unit Target { get; }
+        public int Amount { get; }
+        public int TargetHPBefore { get; }
+        public int TargetHPAfter { get; }
+        public int TargetMaxHP { get; }
 
-    public IEnumerator Play(AnimationContext ctx)
-    {
-        Log.Info("HealAction.Play", new
+        public HealAction(Unit target, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP)
         {
-            target = Target?.Name ?? "null",
-            amount = Amount,
-            hpBefore = TargetHPBefore,
-            hpAfter = TargetHPAfter
-        });
+            Target = target;
+            Amount = amount;
+            TargetHPBefore = targetHPBefore;
+            TargetHPAfter = targetHPAfter;
+            TargetMaxHP = targetMaxHP;
+        }
 
-        // Show healing UI with explicit HP values for animation
-        ctx.UI.ShowHealing(Target, Amount, TargetHPBefore, TargetHPAfter);
-        ctx.UI.AnimateHealthBarToValue(Target, TargetHPBefore, TargetHPAfter);
-        ctx.UI.UpdateHealthText(Target, TargetHPAfter, TargetMaxHP);
+        public IEnumerator Play(AnimationContext ctx)
+        {
+            Log.Info("HealAction.Play", new
+            {
+                target = Target?.Name ?? "null",
+                amount = Amount,
+                hpBefore = TargetHPBefore,
+                hpAfter = TargetHPAfter
+            });
 
-        // Brief pause to show healing effect
-        yield return new UnityEngine.WaitForSeconds(0.2f);
+            // Show healing UI with explicit HP values for animation
+            ctx.UI.ShowHealing(Target, Amount, TargetHPBefore, TargetHPAfter);
+            ctx.UI.AnimateHealthBarToValue(Target, TargetHPBefore, TargetHPAfter);
+            ctx.UI.UpdateHealthText(Target, TargetHPAfter, TargetMaxHP);
+
+            // Brief pause to show healing effect
+            yield return new UnityEngine.WaitForSeconds(0.2f);
+        }
     }
 }

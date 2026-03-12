@@ -1,45 +1,55 @@
 using System;
+
+using Core.StatusEffects;
+
+using Interfaces;
+
 using UnityEngine;
 
-[Serializable]
-public class PoisonUpgrade : IPassive
+using Utils;
+
+namespace Core.Passives
 {
-    [SerializeField] private int _stacks;
-    [SerializeField] private int _duration;
-    [SerializeField] private int _baseDamage;
-
-    public int Priority => 100;
-
-    public PoisonUpgrade(Unit owner, int stacks = 2, int duration = 3, int baseDamage = 2)
+    [Serializable]
+    public class PoisonUpgrade : IPassive
     {
-        _stacks = stacks;
-        _duration = duration;
-        _baseDamage = baseDamage;
-    }
+        [SerializeField] private int _stacks;
+        [SerializeField] private int _duration;
+        [SerializeField] private int _baseDamage;
 
-    public void OnAttach(Unit owner)
-    {
-        owner.OnHit += ApplyPoison;
-    }
+        public int Priority => 100;
 
-    public void OnDetach(Unit owner)
-    {
-        owner.OnHit -= ApplyPoison;
-    }
-
-    private void ApplyPoison(Unit self, Unit target, int _)
-    {
-        if (target == null)
-            return;
-
-        Log.Info("Poison passive triggered", new
+        public PoisonUpgrade(Unit owner, int stacks = 2, int duration = 3, int baseDamage = 2)
         {
-            target = target.Name,
-            stacks = _stacks,
-            duration = _duration,
-            baseDamage = _baseDamage
-        });
+            this._stacks = stacks;
+            this._duration = duration;
+            this._baseDamage = baseDamage;
+        }
 
-        target.ApplyStatus(new Poison(_stacks, _duration, _baseDamage));
+        public void OnAttach(Unit owner)
+        {
+            owner.OnHit += ApplyPoison;
+        }
+
+        public void OnDetach(Unit owner)
+        {
+            owner.OnHit -= ApplyPoison;
+        }
+
+        private void ApplyPoison(Unit self, Unit target, int _)
+        {
+            if (target == null)
+                return;
+
+            Log.Info("Poison passive triggered", new
+            {
+                target = target.Name,
+                stacks = this._stacks,
+                duration = this._duration,
+                baseDamage = this._baseDamage
+            });
+
+            target.ApplyStatus(new Poison(this._stacks, this._duration, this._baseDamage));
+        }
     }
 }

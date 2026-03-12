@@ -1,33 +1,36 @@
 using UnityEngine;
 
-public class TooltipSystem : MonoBehaviour
+namespace UI.Tooltip
 {
-    public static TooltipSystem instance;
-
-    public Tooltip tooltip;
-
-    public void Awake()
+    public class TooltipSystem : MonoBehaviour
     {
-        instance = this;
-    }
+        public static TooltipSystem instance;
 
-    public void OnDisable()
-    {
-        Hide();
-    }
+        public Tooltip tooltip;
 
-    public static void Show(string content, string label)
-    {
-        if (instance == null || instance.tooltip == null) return;
+        public void Awake()
+        {
+            instance = this;
+        }
 
-        instance.tooltip.SetText(content, label);
-        instance.tooltip.gameObject.SetActive(true);
-    }
+        public void OnDisable()
+        {
+            Hide();
+        }
 
-    public static void Hide()
-    {
-        if (instance == null || instance.tooltip == null) return;
+        public static void Show(string content, string label)
+        {
+            if (instance == null || instance.tooltip == null) return;
 
-        instance.tooltip.gameObject.SetActive(false);
+            instance.tooltip.SetText(content, label);
+            instance.tooltip.gameObject.SetActive(true);
+        }
+
+        public static void Hide()
+        {
+            if (instance == null || instance.tooltip == null) return;
+
+            instance.tooltip.gameObject.SetActive(false);
+        }
     }
 }

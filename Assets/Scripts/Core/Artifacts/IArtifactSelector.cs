@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 
-public interface IArtifactSelector
+namespace Core.Artifacts
 {
-    ArtifactDefinition[] Select(IReadOnlyList<ArtifactDefinition> pool, int bossId, int count);
+    public interface IArtifactSelector
+    {
+        ArtifactDefinition[] Select(IReadOnlyList<ArtifactDefinition> pool, int bossId, int count);
+    }
 }

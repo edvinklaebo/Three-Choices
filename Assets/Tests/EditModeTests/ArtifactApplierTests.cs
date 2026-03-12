@@ -1,4 +1,9 @@
 using System;
+
+using Core;
+using Core.Artifacts;
+using Core.Artifacts.Passives;
+
 using NUnit.Framework;
 using UnityEngine;
 

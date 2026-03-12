@@ -1,5 +1,12 @@
 using System.Reflection;
+
+using Core;
+using Core.StatusEffects;
+
 using NUnit.Framework;
+
+using UI.Combat;
+
 using UnityEngine;
 
 namespace Tests.EditModeTests

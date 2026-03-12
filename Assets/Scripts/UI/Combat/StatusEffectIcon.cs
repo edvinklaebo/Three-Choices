@@ -1,116 +1,118 @@
 using TMPro;
+
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// Individual status effect icon display.
-/// Shows effect sprite, stack count, and optional duration.
-/// </summary>
-public class StatusEffectIcon : MonoBehaviour
+namespace UI.Combat
 {
-    [SerializeField] private Image _iconImage;
-    [SerializeField] private TextMeshProUGUI _stackText;
-    [SerializeField] private TextMeshProUGUI _durationText;
-    [SerializeField] private Image _durationRing;
-
-
-    private void Awake()
-    {
-        if (_iconImage == null)
-        {
-            _iconImage = GetComponent<Image>();
-        }
-    }
-
     /// <summary>
-    /// Set the effect data to display.
+    /// Individual status effect icon display.
+    /// Shows effect sprite, stack count, and optional duration.
     /// </summary>
-    public void SetEffect(string effectId, int stacks, int duration)
+    public class StatusEffectIcon : MonoBehaviour
     {
-        // Set icon sprite (placeholder - would load from resources/data)
-        if (_iconImage != null)
-        {
-            // TODO: Load sprite based on effectId from ScriptableObject or Resources
-            // For now, just set a placeholder color
-            _iconImage.color = GetEffectColor(effectId);
-        }
+        [SerializeField] private Image _iconImage;
+        [SerializeField] private TextMeshProUGUI _stackText;
+        [SerializeField] private TextMeshProUGUI _durationText;
+        [SerializeField] private Image _durationRing;
 
-        // Set stack count
-        if (_stackText != null)
+
+        private void Awake()
         {
-            if (stacks > 1)
+            if (this._iconImage == null)
             {
-                _stackText.text = stacks.ToString();
-                _stackText.gameObject.SetActive(true);
-            }
-            else
-            {
-                _stackText.gameObject.SetActive(false);
+                this._iconImage = GetComponent<Image>();
             }
         }
 
-        // Set duration
-        if (_durationText != null)
+        /// <summary>
+        /// Set the effect data to display.
+        /// </summary>
+        public void SetEffect(string effectId, int stacks, int duration)
         {
-            if (duration > 0)
+            // Set icon sprite (placeholder - would load from resources/data)
+            if (this._iconImage != null)
             {
-                _durationText.text = duration.ToString();
-                _durationText.gameObject.SetActive(true);
+                // For now, just set a placeholder color
+                this._iconImage.color = GetEffectColor(effectId);
             }
-            else
+
+            // Set stack count
+            if (this._stackText != null)
             {
-                _durationText.gameObject.SetActive(false);
+                if (stacks > 1)
+                {
+                    this._stackText.text = stacks.ToString();
+                    this._stackText.gameObject.SetActive(true);
+                }
+                else
+                {
+                    this._stackText.gameObject.SetActive(false);
+                }
+            }
+
+            // Set duration
+            if (this._durationText != null)
+            {
+                if (duration > 0)
+                {
+                    this._durationText.text = duration.ToString();
+                    this._durationText.gameObject.SetActive(true);
+                }
+                else
+                {
+                    this._durationText.gameObject.SetActive(false);
+                }
+            }
+
+            // Update duration ring fill
+            if (this._durationRing != null)
+            {
+                this._durationRing.gameObject.SetActive(duration > 0);
             }
         }
 
-        // Update duration ring fill
-        if (_durationRing != null)
+        /// <summary>
+        /// Set this icon to display overflow indicator.
+        /// </summary>
+        public void SetOverflow(int overflowCount)
         {
-            _durationRing.gameObject.SetActive(duration > 0);
-            // TODO: Animate fill amount based on max duration
-        }
-    }
+            if (this._iconImage != null)
+            {
+                this._iconImage.color = Color.gray;
+            }
 
-    /// <summary>
-    /// Set this icon to display overflow indicator.
-    /// </summary>
-    public void SetOverflow(int overflowCount)
-    {
-        if (_iconImage != null)
-        {
-            _iconImage.color = Color.gray;
-        }
+            if (this._stackText != null)
+            {
+                this._stackText.text = $"+{overflowCount}";
+                this._stackText.gameObject.SetActive(true);
+            }
 
-        if (_stackText != null)
-        {
-            _stackText.text = $"+{overflowCount}";
-            _stackText.gameObject.SetActive(true);
-        }
+            if (this._durationText != null)
+            {
+                this._durationText.gameObject.SetActive(false);
+            }
 
-        if (_durationText != null)
-        {
-            _durationText.gameObject.SetActive(false);
+            if (this._durationRing != null)
+            {
+                this._durationRing.gameObject.SetActive(false);
+            }
         }
 
-        if (_durationRing != null)
+        /// <summary>
+        /// Get placeholder color for effect type.
+        /// In production, this would load actual sprites.
+        /// </summary>
+        private Color GetEffectColor(string effectId)
         {
-            _durationRing.gameObject.SetActive(false);
+            return effectId.ToLower() switch
+            {
+                "poison" => new Color(0.5f, 0f, 0.8f),  // Purple
+                "bleed" => new Color(0.8f, 0f, 0f),     // Red
+                "burn" => new Color(1f, 0.5f, 0f),      // Orange
+                "stun" => new Color(1f, 1f, 0f),        // Yellow
+                _ => Color.white
+                };
         }
-    }
-
-    /// <summary>
-    /// Get placeholder color for effect type.
-    /// In production, this would load actual sprites.
-    /// </summary>
-    private Color GetEffectColor(string effectId)
-    {
-        return effectId.ToLower() switch
-        {
-            "poison" => new Color(0.5f, 0f, 0.8f),  // Purple
-            "bleed" => new Color(0.8f, 0f, 0f),     // Red
-            "burn" => new Color(1f, 0.5f, 0f),      // Orange
-            "stun" => new Color(1f, 1f, 0f),        // Yellow
-            _ => Color.white
-        };
     }
 }

@@ -1,16 +1,19 @@
 using UnityEngine;
 
-/// <summary>
-/// Handles input for pausing the game.
-/// Separated from PauseManager to follow single responsibility principle.
-/// </summary>
-public class PauseInput : MonoBehaviour
+namespace Systems
 {
-    private void Update()
+    /// <summary>
+    /// Handles input for pausing the game.
+    /// Separated from PauseManager to follow single responsibility principle.
+    /// </summary>
+    public class PauseInput : MonoBehaviour
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        private void Update()
         {
-            PauseManager.TogglePause();
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                PauseManager.TogglePause();
+            }
         }
     }
 }

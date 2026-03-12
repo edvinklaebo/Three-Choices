@@ -1,68 +1,75 @@
-/// <summary>
-/// Pure C# service that accumulates run statistics by subscribing to <see cref="Unit"/> events.
-/// Decoupled from gameplay logic — for debugging and score-screen display only.
-/// </summary>
-public class RunStatsTracker
+using Core;
+
+using Utils;
+
+namespace Systems
 {
-    public RunStats Stats { get; private set; } = new RunStats();
-
-    public void Reset()
+    /// <summary>
+    /// Pure C# service that accumulates run statistics by subscribing to <see cref="Unit"/> events.
+    /// Decoupled from gameplay logic — for debugging and score-screen display only.
+    /// </summary>
+    public class RunStatsTracker
     {
-        Stats = new RunStats();
-    }
+        public RunStats Stats { get; private set; } = new RunStats();
 
-    public void RegisterPlayer(Unit player)
-    {
-        if (player == null)
+        public void Reset()
         {
-            Log.Warning("[RunStatsTracker] Cannot register null player");
-            return;
+            Stats = new RunStats();
         }
 
-        player.OnHit += OnPlayerHit;
-        player.Damaged += OnPlayerDamaged;
-        player.Healed += OnPlayerHealed;
-    }
-
-    public void UnregisterPlayer(Unit player)
-    {
-        if (player == null)
-            return;
-
-        player.OnHit -= OnPlayerHit;
-        player.Damaged -= OnPlayerDamaged;
-        player.Healed -= OnPlayerHealed;
-    }
-
-    public void RegisterEnemy(Unit enemy)
-    {
-        if (enemy == null)
+        public void RegisterPlayer(Unit player)
         {
-            Log.Warning("[RunStatsTracker] Cannot register null enemy");
+            if (player == null)
+            {
+                Log.Warning("[RunStatsTracker] Cannot register null player");
+                return;
+            }
+
+            player.OnHit += OnPlayerHit;
+            player.Damaged += OnPlayerDamaged;
+            player.Healed += OnPlayerHealed;
         }
-    }
 
-    public void UnregisterEnemy(Unit enemy)
-    {
-    }
+        public void UnregisterPlayer(Unit player)
+        {
+            if (player == null)
+                return;
 
-    public void IncrementFightsCompleted()
-    {
-        Stats.FightsCompleted++;
-    }
+            player.OnHit -= OnPlayerHit;
+            player.Damaged -= OnPlayerDamaged;
+            player.Healed -= OnPlayerHealed;
+        }
 
-    private void OnPlayerHit(Unit attacker, Unit target, int damage)
-    {
-        Stats.TotalDamageDealt += damage;
-    }
+        public void RegisterEnemy(Unit enemy)
+        {
+            if (enemy == null)
+            {
+                Log.Warning("[RunStatsTracker] Cannot register null enemy");
+            }
+        }
 
-    private void OnPlayerDamaged(Unit self, Unit attacker, int damage)
-    {
-        Stats.TotalDamageTaken += damage;
-    }
+        public void UnregisterEnemy(Unit enemy)
+        {
+        }
 
-    private void OnPlayerHealed(Unit unit, int amount)
-    {
-        Stats.TotalHealingDone += amount;
+        public void IncrementFightsCompleted()
+        {
+            Stats.FightsCompleted++;
+        }
+
+        private void OnPlayerHit(Unit attacker, Unit target, int damage)
+        {
+            Stats.TotalDamageDealt += damage;
+        }
+
+        private void OnPlayerDamaged(Unit self, Unit attacker, int damage)
+        {
+            Stats.TotalDamageTaken += damage;
+        }
+
+        private void OnPlayerHealed(Unit unit, int amount)
+        {
+            Stats.TotalHealingDone += amount;
+        }
     }
 }

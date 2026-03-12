@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+
+using Intro;
+
 using NUnit.Framework;
 
 namespace Tests.EditModeTests

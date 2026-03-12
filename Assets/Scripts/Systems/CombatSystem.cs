@@ -1,17 +1,25 @@
 using System.Collections.Generic;
 
-/// <summary>
-/// Backward compatibility wrapper for CombatEngine
-/// Maintains static API while delegating to instance-based engine
-/// </summary>
-public static class CombatSystem
+using Core;
+using Core.Combat;
+
+using Interfaces;
+
+namespace Systems
 {
     /// <summary>
-    /// Run a fight between two units using event-driven combat engine
+    /// Backward compatibility wrapper for CombatEngine
+    /// Maintains static API while delegating to instance-based engine
     /// </summary>
-    public static List<ICombatAction> RunFight(Unit attacker, Unit defender)
+    public static class CombatSystem
     {
-        var engine = new CombatEngine();
-        return engine.RunFight(attacker, defender);
+        /// <summary>
+        /// Run a fight between two units using event-driven combat engine
+        /// </summary>
+        public static List<ICombatAction> RunFight(Unit attacker, Unit defender)
+        {
+            var engine = new CombatEngine();
+            return engine.RunFight(attacker, defender);
+        }
     }
 }

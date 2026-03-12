@@ -1,26 +1,35 @@
+using Core;
+
+using Events;
+
+using UI.Stats;
+
 using UnityEngine;
 
-public class PlayerStatsUIBootstrap : MonoBehaviour
+namespace UI
 {
-    [SerializeField] private StatsPanelUI panel;
-    [SerializeField] private FightStartedEventChannel _fightStarted;
-    [SerializeField] private HealthBarUI _healthBar;
-
-    private void OnEnable()
+    public class PlayerStatsUIBootstrap : MonoBehaviour
     {
-        if (_fightStarted != null) 
-            _fightStarted.OnRaised += OnFightStarted;
-    }
+        [SerializeField] private StatsPanelUI panel;
+        [SerializeField] private FightStartedEventChannel _fightStarted;
+        [SerializeField] private HealthBarUI _healthBar;
 
-    private void OnDisable()
-    {
-        if (_fightStarted != null) 
-            _fightStarted.OnRaised -= OnFightStarted;
-    }
+        private void OnEnable()
+        {
+            if (this._fightStarted != null) 
+                this._fightStarted.OnRaised += OnFightStarted;
+        }
 
-    private void OnFightStarted(Unit player, int fightIndex)
-    {
-        panel.Show(player.Stats.ToViewData());
-        _healthBar.Bind(player);
+        private void OnDisable()
+        {
+            if (this._fightStarted != null) 
+                this._fightStarted.OnRaised -= OnFightStarted;
+        }
+
+        private void OnFightStarted(Unit player, int fightIndex)
+        {
+            this.panel.Show(player.Stats.ToViewData());
+            this._healthBar.Bind(player);
+        }
     }
 }

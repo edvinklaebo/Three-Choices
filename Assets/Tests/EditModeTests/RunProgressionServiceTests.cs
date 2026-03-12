@@ -1,4 +1,12 @@
+using Core;
+using Core.Boss;
+
+using Events;
+
 using NUnit.Framework;
+
+using Systems;
+
 using UnityEngine;
 
 namespace Tests.EditModeTests

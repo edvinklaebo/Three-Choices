@@ -3,6 +3,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+using Core;
+using Core.Artifacts;
+
+using UI;
+using UI.Tooltip;
+
 namespace Tests.EditModeTests
 {
     public class DraftUITests

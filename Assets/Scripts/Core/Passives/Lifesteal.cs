@@ -1,45 +1,53 @@
 using System;
+
+using Core.Combat;
+
+using Interfaces;
+
 using UnityEngine;
 
-[Serializable]
-public class Lifesteal : IPassive, ICombatListener
+namespace Core.Passives
 {
-    [SerializeField] private float percent;
-    private Unit _owner;
-
-    public int Priority => 250; // Late priority - after damage is dealt
-
-    public Lifesteal(Unit owner, float percent)
+    [Serializable]
+    public class Lifesteal : IPassive, ICombatListener
     {
-        this.percent = percent;
-    }
+        [SerializeField] private float percent;
+        private Unit _owner;
 
-    public void OnAttach(Unit owner)
-    {
-        _owner = owner;
-    }
+        public int Priority => 250; // Late priority - after damage is dealt
 
-    public void OnDetach(Unit owner)
-    {
-        _owner = null;
-    }
+        public Lifesteal(Unit owner, float percent)
+        {
+            this.percent = percent;
+        }
 
-    public void RegisterHandlers(CombatContext context)
-    {
-        context.On<DamagePhaseEvent>(OnDamagePhase);
-    }
+        public void OnAttach(Unit owner)
+        {
+            this._owner = owner;
+        }
 
-    public void UnregisterHandlers(CombatContext context)
-    {
-        context.Off<DamagePhaseEvent>(OnDamagePhase);
-    }
+        public void OnDetach(Unit owner)
+        {
+            this._owner = null;
+        }
 
-    private void OnDamagePhase(DamagePhaseEvent evt)
-    {
-        if (evt.Phase != CombatPhase.PostResolve) return;
-        if (evt.Context.Source != _owner) return;
+        public void RegisterHandlers(CombatContext context)
+        {
+            context.On<DamagePhaseEvent>(OnDamagePhase);
+        }
 
-        var healAmount = Mathf.CeilToInt(evt.Context.FinalDamage * percent);
-        evt.Context.PendingHealing += healAmount;
+        public void UnregisterHandlers(CombatContext context)
+        {
+            context.Off<DamagePhaseEvent>(OnDamagePhase);
+        }
+
+        private void OnDamagePhase(DamagePhaseEvent evt)
+        {
+            if (evt.Phase != CombatPhase.PostResolve) return;
+            if (evt.Context.Source != this._owner) return;
+
+            var healAmount = Mathf.CeilToInt(evt.Context.FinalDamage * this.percent);
+            evt.Context.PendingHealing += healAmount;
+        }
     }
 }
