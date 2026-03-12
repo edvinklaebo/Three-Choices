@@ -1,5 +1,8 @@
 ﻿using System;
+using Core;
+using Core.Passives;
 using UnityEngine;
+using Utils;
 
 [CreateAssetMenu(menuName = "Upgrades/Passive Definition")]
 public class PassiveDefinition : UpgradeDefinition

@@ -6,6 +6,8 @@ using UnityEngine;
 
 using Utils;
 
+
+
 namespace Core.Artifacts.Passives
 {
     /// <summary>
@@ -21,6 +23,7 @@ namespace Core.Artifacts.Passives
     {
         [SerializeField] private float _revivePercent;
         [SerializeField] private bool _triggered;
+        private IArtifact artifactImplementation;
 
         /// <summary>Runs first among passives so death is canceled before other subscribers see it.</summary>
         public int Priority => 0;

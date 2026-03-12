@@ -1,3 +1,5 @@
+using Core;
+using Core.Passives;
 using UnityEngine;
 
 /// <summary>
