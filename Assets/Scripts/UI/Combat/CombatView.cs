@@ -28,21 +28,21 @@ namespace UI.Combat
 
         private CanvasGroup _canvasGroup;
 
-        public UnitView PlayerView => this._playerView;
-        public UnitView EnemyView => this._enemyView;
-        public Transform Projectile => this._projectile;
+        public UnitView PlayerView => _playerView;
+        public UnitView EnemyView => _enemyView;
+        public Transform Projectile => _projectile;
 
         private void Awake()
         {
-            if (this._playerView == null) Log.Error("CombatView: PlayerView not assigned");
+            if (_playerView == null) Log.Error("CombatView: PlayerView not assigned");
 
-            if (this._enemyView == null) Log.Error("CombatView: EnemyView not assigned");
+            if (_enemyView == null) Log.Error("CombatView: EnemyView not assigned");
 
-            if (this._combatHUD == null) Log.Error("CombatView: CombatHUD not assigned");
+            if (_combatHUD == null) Log.Error("CombatView: CombatHUD not assigned");
 
             // Get or add CanvasGroup for show/hide functionality
-            this._canvasGroup = GetComponent<CanvasGroup>();
-            if (this._canvasGroup == null) this._canvasGroup = gameObject.AddComponent<CanvasGroup>();
+            _canvasGroup = GetComponent<CanvasGroup>();
+            if (_canvasGroup == null) _canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
             // Start hidden
             Hide();
@@ -60,11 +60,11 @@ namespace UI.Combat
             }
 
             // Initialize unit views
-            this._playerView.Initialize(player, isPlayer: true, player.Portrait);
-            this._enemyView.Initialize(enemy, isPlayer: false, enemy.Portrait);
+            _playerView.Initialize(player, isPlayer: true, player.Portrait);
+            _enemyView.Initialize(enemy, isPlayer: false, enemy.Portrait);
 
             // Initialize HUD
-            this._combatHUD.Initialize(player, enemy);
+            _combatHUD.Initialize(player, enemy);
 
             // Show combat view when initialized
             Show();
@@ -84,7 +84,7 @@ namespace UI.Combat
         /// </summary>
         public void ShowTurnIndicator(Unit activeUnit)
         {
-            if (this._turnIndicator != null) this._turnIndicator.ShowTurn(activeUnit);
+            if (_turnIndicator != null) _turnIndicator.ShowTurn(activeUnit);
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace UI.Combat
         /// </summary>
         public void HideTurnIndicator()
         {
-            if (this._turnIndicator != null) this._turnIndicator.Hide();
+            if (_turnIndicator != null) _turnIndicator.Hide();
         }
 
         /// <summary>
@@ -116,13 +116,13 @@ namespace UI.Combat
             return new Dictionary<Unit, UnitUIBinding>
             {
                 [player] = new(
-                    this._playerView,
-                    this._combatHUD?.GetHealthBar(player),
-                    this._combatHUD?.GetHUDPanel(player)),
+                    _playerView,
+                    _combatHUD?.GetHealthBar(player),
+                    _combatHUD?.GetHUDPanel(player)),
                 [enemy] = new(
-                    this._enemyView,
-                    this._combatHUD?.GetHealthBar(enemy),
-                    this._combatHUD?.GetHUDPanel(enemy))
+                    _enemyView,
+                    _combatHUD?.GetHealthBar(enemy),
+                    _combatHUD?.GetHUDPanel(enemy))
             };
         }
 
@@ -135,11 +135,11 @@ namespace UI.Combat
             if (unit == null)
                 return null;
 
-            if (this._playerView?.Unit == unit)
-                return this._playerView;
+            if (_playerView?.Unit == unit)
+                return _playerView;
 
-            if (this._enemyView?.Unit == unit)
-                return this._enemyView;
+            if (_enemyView?.Unit == unit)
+                return _enemyView;
 
             return null;
         }
@@ -150,11 +150,11 @@ namespace UI.Combat
         /// </summary>
         public void Show()
         {
-            if (this._canvasGroup)
+            if (_canvasGroup)
             {
-                this._canvasGroup.alpha = 1f;
-                this._canvasGroup.interactable = true;
-                this._canvasGroup.blocksRaycasts = true;
+                _canvasGroup.alpha = 1f;
+                _canvasGroup.interactable = true;
+                _canvasGroup.blocksRaycasts = true;
             }
         }
 
@@ -164,11 +164,11 @@ namespace UI.Combat
         /// </summary>
         public void Hide()
         {
-            if (this._canvasGroup)
+            if (_canvasGroup)
             {
-                this._canvasGroup.alpha = 0f;
-                this._canvasGroup.interactable = false;
-                this._canvasGroup.blocksRaycasts = false;
+                _canvasGroup.alpha = 0f;
+                _canvasGroup.interactable = false;
+                _canvasGroup.blocksRaycasts = false;
             }
         }
     }

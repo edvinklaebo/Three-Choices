@@ -66,9 +66,6 @@ namespace UI.Combat
                 SetSprite(portrait);
             }
 
-            // Set facing direction
-            SetFacingDirection(isPlayer);
-
             Log.Info("UnitView initialized", new
             {
                 unit = unit.Name,

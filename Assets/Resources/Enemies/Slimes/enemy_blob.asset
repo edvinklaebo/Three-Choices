@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4fcae248cdf4a8543b64373df1d37581, type: 3}
-  m_Name: enemy_slime
+  m_Name: enemy_blob
   m_EditorClassIdentifier: Ropa::EnemyDefinition
-  _enemyName: Slime
-  _portrait: {fileID: 368543389579951487, guid: c283ebc8edbc7564c9e8c56b0b4c12de, type: 3}
-  _maxHP: 53
-  _attackPower: 4
-  _armor: 65
-  _speed: 5
+  _enemyName: Blob
+  _portrait: {fileID: 7048502251930867025, guid: 3fe0af9740674754bb86b63daa08a1bb, type: 3}
+  _maxHP: 42
+  _attackPower: 12
+  _armor: 44
+  _speed: 54
   _minFightIndex: 0
   _maxFightIndex: 999
   _spawnWeight: 1

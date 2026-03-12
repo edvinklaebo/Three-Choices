@@ -1,61 +1,50 @@
 using Core.Artifacts;
-
 using Events;
-
 using Systems;
-
 using UnityEngine;
-
 using Utils;
 
-namespace Controllers
+public class BossRewardController : MonoBehaviour
 {
-    /// <summary>
-    ///     Listens for boss fight end and presents a rarity-weighted artifact draft
-    ///     via a <see cref="DraftEventChannel"/> so the player can choose their boss reward.
-    /// </summary>
-    public class BossRewardController : MonoBehaviour
+    [Header("Events")]
+    [SerializeField] private VoidEventChannel _bossFightEnded;
+    [SerializeField] private DraftEventChannel _showDraft;
+
+    [Header("Config")]
+    [SerializeField] private ArtifactPool _artifactPool;
+    [SerializeField] private int _draftSize = 3;
+
+    private DraftSystem _draftSystem;
+
+    private void Awake()
     {
-        [Header("Events")]
-        [SerializeField] private VoidEventChannel _bossFightEnded;
-        [SerializeField] private DraftEventChannel _showDraft;
+        Debug.Assert(_bossFightEnded != null);
+        Debug.Assert(_showDraft != null);
+        Debug.Assert(_artifactPool != null);
 
-        private DraftSystem _draftSystem;
+        _draftSystem = new DraftSystem(_artifactPool);
+    }
 
-        private void Awake()
+    private void OnEnable()
+    {
+        _bossFightEnded.OnRaised += OnBossFightEnded;
+    }
+
+    private void OnDisable()
+    {
+        _bossFightEnded.OnRaised -= OnBossFightEnded;
+    }
+
+    private void OnBossFightEnded()
+    {
+        var draft = _draftSystem.GenerateDraft(_draftSize);
+
+        if (draft.Count == 0)
         {
-            if (this._bossFightEnded == null)
-                Log.Error("BossRewardController: _bossFightEnded is not assigned.");
-            if (this._showDraft == null)
-                Log.Error("BossRewardController: _showDraft is not assigned.");
-
-            this._draftSystem = new DraftSystem(ScriptableObject.CreateInstance<ArtifactPool>());
+            Log.Warning("No artifact options available for boss reward draft.");
+            return;
         }
 
-        private void OnEnable()
-        {
-            if (this._bossFightEnded != null)
-                this._bossFightEnded.OnRaised += OnBossFightEnded;
-        }
-
-        private void OnDisable()
-        {
-            if (this._bossFightEnded != null)
-                this._bossFightEnded.OnRaised -= OnBossFightEnded;
-        }
-
-        private void OnBossFightEnded()
-        {
-            var draft = this._draftSystem.GenerateDraft(3);
-
-            if (draft.Count == 0)
-            {
-                Log.Warning("[BossRewardController] No artifact options available for boss reward draft.");
-                return;
-            }
-
-            Log.Info($"[BossRewardController] Presenting artifact draft with {draft.Count} option(s).");
-            this._showDraft?.Raise(draft);
-        }
+        _showDraft.Raise(draft);
     }
 }
