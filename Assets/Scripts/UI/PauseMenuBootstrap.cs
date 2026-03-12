@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.UI;
 using TMPro;
 using UnityEngine.Events;
 
@@ -47,13 +45,6 @@ public class PauseMenuBootstrap : MonoBehaviour
 
     private void CreatePauseMenuUI()
     {
-        if (FindFirstObjectByType<EventSystem>() == null)
-        {
-            var eventSystemObj = new GameObject("EventSystem");
-            eventSystemObj.AddComponent<EventSystem>();
-            eventSystemObj.AddComponent<InputSystemUIInputModule>();
-        }
-
         if (FindFirstObjectByType<PauseMenuUI>() != null)
         {
             Log.Warning("PauseMenuUI already exists. Skipping creation.");
