@@ -1,5 +1,8 @@
 using System.Collections;
+using Core;
+using Interfaces;
 using UnityEngine;
+using Utils;
 
 /// <summary>
 /// Represents a Thorns passive reflect in combat.

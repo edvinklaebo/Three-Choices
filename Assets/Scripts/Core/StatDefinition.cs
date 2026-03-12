@@ -1,4 +1,5 @@
 ﻿using System;
+using Core;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Upgrades/Stat Definition")]
