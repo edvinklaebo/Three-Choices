@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using TMPro;
 using UnityEngine.Events;
 
@@ -10,6 +12,10 @@ using UnityEngine.Events;
 /// </summary>
 public class PauseMenuBootstrap : MonoBehaviour
 {
+    private const float ReferenceWidth = 1920f;
+    private const float ReferenceHeight = 1080f;
+    private const float MatchWidthOrHeight = 0.5f;
+
     private static PauseMenuBootstrap _instance;
 
     [SerializeField] private bool _createUIAtStart = true;
@@ -41,12 +47,33 @@ public class PauseMenuBootstrap : MonoBehaviour
 
     private void CreatePauseMenuUI()
     {
+        if (FindFirstObjectByType<EventSystem>() == null)
+        {
+            var eventSystemObj = new GameObject("EventSystem");
+            eventSystemObj.AddComponent<EventSystem>();
+            eventSystemObj.AddComponent<InputSystemUIInputModule>();
+        }
+
+        if (FindFirstObjectByType<PauseMenuUI>() != null)
+        {
+            Log.Warning("PauseMenuUI already exists. Skipping creation.");
+            return;
+        }
+
+        if (canvas == null)
+        {
+            canvas = FindFirstObjectByType<Canvas>();
+        }
+
         if (canvas == null)
         {
             var canvasObj = new GameObject("Canvas");
             canvas = canvasObj.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvasObj.AddComponent<CanvasScaler>();
+            var scaler = canvasObj.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(ReferenceWidth, ReferenceHeight);
+            scaler.matchWidthOrHeight = MatchWidthOrHeight;
             canvasObj.AddComponent<GraphicRaycaster>();
         }
 
@@ -115,7 +142,7 @@ public class PauseMenuBootstrap : MonoBehaviour
         return panel;
     }
 
-    private void AddDarkBackground(Transform panel)
+    private static void AddDarkBackground(Transform panel)
     {
         var bg = new GameObject("Background");
         bg.transform.SetParent(panel, false);
@@ -228,7 +255,7 @@ public class PauseMenuBootstrap : MonoBehaviour
         var sliderObj = new GameObject("Slider");
         sliderObj.transform.SetParent(row.transform, false);
         var sliderLayout = sliderObj.AddComponent<LayoutElement>();
-        sliderLayout.preferredWidth = 0xC8;
+        sliderLayout.preferredWidth = 200;
         
         slider = sliderObj.AddComponent<Slider>();
         slider.minValue = 0f;
