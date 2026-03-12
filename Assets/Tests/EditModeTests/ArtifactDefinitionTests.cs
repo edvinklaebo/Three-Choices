@@ -1,3 +1,6 @@
+using Core;
+using Core.Artifacts;
+
 using NUnit.Framework;
 using UnityEngine;
 

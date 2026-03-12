@@ -1,5 +1,13 @@
 using System;
+
+using Core;
+using Core.Abilities;
+using Core.Combat;
+
 using NUnit.Framework;
+
+using Systems;
+
 using UnityEngine;
 using UnityEngine.TestTools;
 

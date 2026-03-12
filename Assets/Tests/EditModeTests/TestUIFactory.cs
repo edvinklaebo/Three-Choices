@@ -1,5 +1,8 @@
 ﻿using System.Reflection;
 using TMPro;
+
+using UI.Stats;
+
 using UnityEngine;
 
 namespace Tests.EditModeTests

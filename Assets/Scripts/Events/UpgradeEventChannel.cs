@@ -1,13 +1,19 @@
 using System;
+
+using Core;
+
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Events/Upgrade Event")]
-public class UpgradeEventChannel : ScriptableObject
+namespace Events
 {
-    public event Action<UpgradeDefinition> OnRaised;
-
-    public void Raise(UpgradeDefinition upgrade)
+    [CreateAssetMenu(menuName = "Events/Upgrade Event")]
+    public class UpgradeEventChannel : ScriptableObject
     {
-        OnRaised?.Invoke(upgrade);
+        public event Action<UpgradeDefinition> OnRaised;
+
+        public void Raise(UpgradeDefinition upgrade)
+        {
+            OnRaised?.Invoke(upgrade);
+        }
     }
 }

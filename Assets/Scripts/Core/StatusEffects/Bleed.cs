@@ -1,79 +1,87 @@
 using System;
+
+using Interfaces;
+
 using UnityEngine;
 
-/// <summary>
-///     Bleed status effect that deals damage over time based on stacks.
-///     Bypasses armor. Stacks accumulate when re-applied.
-/// </summary>
-[Serializable]
-public class Bleed : IStatusEffect
+using Utils;
+
+namespace Core.StatusEffects
 {
-    public Bleed(int stacks, int duration, int baseDamage)
+    /// <summary>
+    ///     Bleed status effect that deals damage over time based on stacks.
+    ///     Bypasses armor. Stacks accumulate when re-applied.
+    /// </summary>
+    [Serializable]
+    public class Bleed : IStatusEffect
     {
-        Stacks = stacks;
-        Duration = duration;
-        BaseDamage = baseDamage;
-    }
-
-    public string Id => "Bleed";
-
-    [field: SerializeField] public int Stacks { get; set; }
-
-    [field: SerializeField] public int Duration { get; set; }
-
-    [field: SerializeField] public int BaseDamage { get; set; }
-
-    public void OnApply(Unit target)
-    {
-        Log.Info("Bleed applied", new
+        public Bleed(int stacks, int duration, int baseDamage)
         {
-            target = target.Name,
-            stacks = Stacks,
-            duration = Duration
-        });
-    }
+            Stacks = stacks;
+            Duration = duration;
+            BaseDamage = baseDamage;
+        }
 
-    public int OnTurnStart(Unit target)
-    {
-        Log.Info("Bleed ticking", new
+        public string Id => "Bleed";
+
+        [field: SerializeField] public int Stacks { get; set; }
+
+        [field: SerializeField] public int Duration { get; set; }
+
+        [field: SerializeField] public int BaseDamage { get; set; }
+
+        public void OnApply(Unit target)
         {
-            target = target.Name,
-            damage = Stacks,
-            duration = Duration,
-            hpBefore = target.Stats.CurrentHP
-        });
+            Log.Info("Bleed applied", new
+            {
+                target = target.Name,
+                stacks = Stacks,
+                duration = Duration
+            });
+        }
 
-        var damage = Stacks;
-        Duration--;
-
-        Log.Info("Bleed damage calculated", new
+        public int OnTurnStart(Unit target)
         {
-            target = target.Name,
-            damage,
-            remainingDuration = Duration
-        });
+            Log.Info("Bleed ticking", new
+            {
+                target = target.Name,
+                damage = Stacks,
+                duration = Duration,
+                hpBefore = target.Stats.CurrentHP
+            });
 
-        return damage;
-    }
+            var damage = Stacks;
+            Duration--;
 
-    public int OnTurnEnd(Unit target)
-    {
-        // No behavior on turn end
-        return 0;
-    }
+            Log.Info("Bleed damage calculated", new
+            {
+                target = target.Name,
+                damage,
+                remainingDuration = Duration
+            });
 
-    public void OnExpire(Unit target)
-    {
-        Log.Info("Bleed expired", new
+            return damage;
+        }
+
+        public int OnTurnEnd(Unit target)
         {
-            target = target.Name
-        });
-    }
+            // No behavior on turn end
+            return 0;
+        }
 
-    public void AddStacks(IStatusEffect effect)
-    {
-        Stacks += effect.Stacks;
-        Duration = effect.Duration;
-        BaseDamage = effect.BaseDamage;
+        public void OnExpire(Unit target)
+        {
+            Log.Info("Bleed expired", new
+            {
+                target = target.Name
+            });
+        }
+
+        public void AddStacks(IStatusEffect effect)
+        {
+            Stacks += effect.Stacks;
+            Duration = effect.Duration;
+            BaseDamage = effect.BaseDamage;
+        }
     }
 }

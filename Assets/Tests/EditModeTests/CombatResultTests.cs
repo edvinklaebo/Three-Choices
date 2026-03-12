@@ -1,4 +1,10 @@
 using System.Collections.Generic;
+
+using Core;
+using Core.Combat;
+
+using Interfaces;
+
 using NUnit.Framework;
 
 namespace Tests.EditModeTests

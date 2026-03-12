@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using NUnit.Framework;
 
+using Utils;
+
 namespace Tests.EditModeTests
 {
     public class MonsterNameTests

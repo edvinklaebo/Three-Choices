@@ -1,26 +1,32 @@
 using System.Collections.Generic;
+
+using Core;
+
 using UnityEngine;
 
-public interface IUpgradeRepository
+namespace Systems
 {
-    List<UpgradeDefinition> GetAll();
-}
-
-public class UpgradePool : ScriptableObject, IUpgradeRepository
-{
-    private List<UpgradeDefinition> Upgrades;
-
-    private void OnEnable()
+    public interface IUpgradeRepository
     {
-        var upgrades = Resources.LoadAll<UpgradeDefinition>(nameof(Upgrades));
-
-        Upgrades = new List<UpgradeDefinition>(upgrades);
+        List<UpgradeDefinition> GetAll();
     }
 
-    public List<UpgradeDefinition> GetAll()
+    public class UpgradePool : ScriptableObject, IUpgradeRepository
     {
-        var copyOfUpgrades = new List<UpgradeDefinition>(Upgrades);
+        private List<UpgradeDefinition> Upgrades;
 
-        return copyOfUpgrades;
+        private void OnEnable()
+        {
+            var upgrades = Resources.LoadAll<UpgradeDefinition>(nameof(this.Upgrades));
+
+            this.Upgrades = new List<UpgradeDefinition>(upgrades);
+        }
+
+        public List<UpgradeDefinition> GetAll()
+        {
+            var copyOfUpgrades = new List<UpgradeDefinition>(this.Upgrades);
+
+            return copyOfUpgrades;
+        }
     }
 }

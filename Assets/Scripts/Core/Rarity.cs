@@ -1,7 +1,10 @@
-public enum Rarity
+namespace Core
 {
-    Common = 100,
-    Uncommon = 50,
-    Rare = 25,
-    Epic = 10
+    public enum Rarity
+    {
+        Common = 100,
+        Uncommon = 50,
+        Rare = 25,
+        Epic = 10
+    }
 }

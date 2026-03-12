@@ -1,72 +1,82 @@
+using Core;
+using Core.Boss;
+
+using Events;
+
 using UnityEngine;
 
-/// <summary>
-/// Decides what happens after combat: raises the next-fight or player-death event.
-/// On boss fights (detected via <see cref="BossFightEventChannel"/>), raises
-/// <see cref="_bossFightEnded"/> instead of <see cref="_fightEnded"/> so that
-/// <see cref="BossRewardController"/> can handle artifact rewards.
-/// </summary>
-public class GameFlowController : MonoBehaviour
+using Utils;
+
+namespace Controllers
 {
-    [Header("Events")]
-    [SerializeField] private CombatPresentationCompleteEventChannel _presentationComplete;
-    [SerializeField] private VoidEventChannel _fightEnded;
-    [SerializeField] private VoidEventChannel _bossFightEnded;
-    [SerializeField] private VoidEventChannel _combatEndedWithPlayerDeath;
-    [SerializeField] private BossFightEventChannel _bossFightStarted;
-
-    private bool _wasBossFight;
-
-    private void Awake()
+    /// <summary>
+    /// Decides what happens after combat: raises the next-fight or player-death event.
+    /// On boss fights (detected via <see cref="BossFightEventChannel"/>), raises
+    /// <see cref="_bossFightEnded"/> instead of <see cref="_fightEnded"/> so that
+    /// <see cref="BossRewardController"/> can handle artifact rewards.
+    /// </summary>
+    public class GameFlowController : MonoBehaviour
     {
-        if (_fightEnded == null)
-            Log.Error("GameFlowController: _fightEnded is not assigned.");
-        if (_combatEndedWithPlayerDeath == null)
-            Log.Warning("GameFlowController: _combatEndedWithPlayerDeath is not assigned.");
-    }
+        [Header("Events")]
+        [SerializeField] private CombatPresentationCompleteEventChannel _presentationComplete;
+        [SerializeField] private VoidEventChannel _fightEnded;
+        [SerializeField] private VoidEventChannel _bossFightEnded;
+        [SerializeField] private VoidEventChannel _combatEndedWithPlayerDeath;
+        [SerializeField] private BossFightEventChannel _bossFightStarted;
 
-    private void OnEnable()
-    {
-        if (_presentationComplete != null)
-            _presentationComplete.OnRaised += HandlePresentationComplete;
-        if (_bossFightStarted != null)
-            _bossFightStarted.OnRaised += OnBossFightStarted;
-    }
+        private bool _wasBossFight;
 
-    private void OnDisable()
-    {
-        if (_presentationComplete != null)
-            _presentationComplete.OnRaised -= HandlePresentationComplete;
-        if (_bossFightStarted != null)
-            _bossFightStarted.OnRaised -= OnBossFightStarted;
-    }
-
-    private void OnBossFightStarted(BossDefinition boss)
-    {
-        _wasBossFight = true;
-        Log.Info($"[GameFlowController] Boss fight started: '{boss.Id}'. Post-fight reward flow enabled.");
-    }
-
-    private void HandlePresentationComplete(Unit player)
-    {
-        if (player.Stats.CurrentHP <= 0)
+        private void Awake()
         {
-            if (_combatEndedWithPlayerDeath != null)
-                _combatEndedWithPlayerDeath.Raise();
-            else
-                Log.Warning("GameFlowController: _combatEndedWithPlayerDeath is not assigned");
-
-            _wasBossFight = false;
-            return;
+            if (this._fightEnded == null)
+                Log.Error("GameFlowController: _fightEnded is not assigned.");
+            if (this._combatEndedWithPlayerDeath == null)
+                Log.Warning("GameFlowController: _combatEndedWithPlayerDeath is not assigned.");
         }
 
-        if (_wasBossFight)
+        private void OnEnable()
         {
-            _wasBossFight = false;
-            _bossFightEnded?.Raise();
-            return;
+            if (this._presentationComplete != null)
+                this._presentationComplete.OnRaised += HandlePresentationComplete;
+            if (this._bossFightStarted != null)
+                this._bossFightStarted.OnRaised += OnBossFightStarted;
         }
 
-        _fightEnded?.Raise();
+        private void OnDisable()
+        {
+            if (this._presentationComplete != null)
+                this._presentationComplete.OnRaised -= HandlePresentationComplete;
+            if (this._bossFightStarted != null)
+                this._bossFightStarted.OnRaised -= OnBossFightStarted;
+        }
+
+        private void OnBossFightStarted(BossDefinition boss)
+        {
+            this._wasBossFight = true;
+            Log.Info($"[GameFlowController] Boss fight started: '{boss.Id}'. Post-fight reward flow enabled.");
+        }
+
+        private void HandlePresentationComplete(Unit player)
+        {
+            if (player.Stats.CurrentHP <= 0)
+            {
+                if (this._combatEndedWithPlayerDeath != null)
+                    this._combatEndedWithPlayerDeath.Raise();
+                else
+                    Log.Warning("GameFlowController: _combatEndedWithPlayerDeath is not assigned");
+
+                this._wasBossFight = false;
+                return;
+            }
+
+            if (this._wasBossFight)
+            {
+                this._wasBossFight = false;
+                this._bossFightEnded?.Raise();
+                return;
+            }
+
+            this._fightEnded?.Raise();
+        }
     }
 }

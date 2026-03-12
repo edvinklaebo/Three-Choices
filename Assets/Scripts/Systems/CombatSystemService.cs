@@ -1,16 +1,25 @@
 using System.Collections.Generic;
+
+using Core;
+using Core.Combat;
+
+using Interfaces;
+
 using UnityEngine;
 
-/// <summary>
-/// Injectable ScriptableObject implementation of ICombatSystem.
-/// Assign in the Inspector to decouple CombatOrchestrator from the static CombatSystem.
-/// </summary>
-[CreateAssetMenu(menuName = "Systems/Combat System Service")]
-public class CombatSystemService : ScriptableObject, ICombatSystem
+namespace Systems
 {
-    public List<ICombatAction> RunFight(Unit attacker, Unit defender)
+    /// <summary>
+    /// Injectable ScriptableObject implementation of ICombatSystem.
+    /// Assign in the Inspector to decouple CombatOrchestrator from the static CombatSystem.
+    /// </summary>
+    [CreateAssetMenu(menuName = "Systems/Combat System Service")]
+    public class CombatSystemService : ScriptableObject, ICombatSystem
     {
-        var engine = new CombatEngine();
-        return engine.RunFight(attacker, defender);
+        public List<ICombatAction> RunFight(Unit attacker, Unit defender)
+        {
+            var engine = new CombatEngine();
+            return engine.RunFight(attacker, defender);
+        }
     }
 }

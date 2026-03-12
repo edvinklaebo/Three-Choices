@@ -2,6 +2,13 @@ using NUnit.Framework;
 using System.Linq;
 using System.Collections.Generic;
 
+using Core;
+using Core.Combat;
+using Core.Passives;
+using Core.StatusEffects;
+
+using Systems;
+
 namespace Tests.EditModeTests
 {
     /// <summary>

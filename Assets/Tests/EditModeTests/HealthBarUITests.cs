@@ -1,4 +1,9 @@
+using Core;
+
 using NUnit.Framework;
+
+using UI;
+
 using UnityEngine;
 using UnityEngine.UI;
 

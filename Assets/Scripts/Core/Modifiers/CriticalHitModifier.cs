@@ -1,45 +1,52 @@
+using Interfaces;
+
 using UnityEngine;
 
-/// <summary>
-///     Applies critical hit damage based on a chance percentage.
-///     Runs as a late-stage multiplier (priority 210).
-/// </summary>
-public class CriticalHitModifier : IDamageModifier
+using Utils;
+
+namespace Core.Modifiers
 {
-    private readonly float _critChance;
-    private readonly float _critMultiplier;
-
-    private readonly Unit _owner;
-
-    public CriticalHitModifier(Unit owner, float critChance, float critMultiplier)
+    /// <summary>
+    ///     Applies critical hit damage based on a chance percentage.
+    ///     Runs as a late-stage multiplier (priority 210).
+    /// </summary>
+    public class CriticalHitModifier : IDamageModifier
     {
-        _owner = owner;
-        _critChance = Mathf.Clamp01(critChance);
-        _critMultiplier = critMultiplier;
-    }
+        private readonly float _critChance;
+        private readonly float _critMultiplier;
 
-    public int Priority => 210; // Late multiplier, after standard modifiers
+        private readonly Unit _owner;
 
-    public void Modify(DamageContext ctx)
-    {
-        if (ctx.Source != _owner) return;
-        if (ctx.IsCritical) return; // Already a crit
-
-        var roll = Random.value;
-        if (roll < _critChance)
+        public CriticalHitModifier(Unit owner, float critChance, float critMultiplier)
         {
-            ctx.IsCritical = true;
-            ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * _critMultiplier);
+            this._owner = owner;
+            this._critChance = Mathf.Clamp01(critChance);
+            this._critMultiplier = critMultiplier;
+        }
 
-            Log.Info("Critical hit!", new
+        public int Priority => 210; // Late multiplier, after standard modifiers
+
+        public void Modify(DamageContext ctx)
+        {
+            if (ctx.Source != this._owner) return;
+            if (ctx.IsCritical) return; // Already a crit
+
+            var roll = Random.value;
+            if (roll < this._critChance)
             {
-                source = _owner.Name,
-                target = ctx.Target?.Name,
-                roll,
-                critChance = _critChance,
-                multiplier = _critMultiplier,
-                damage = ctx.FinalValue
-            });
+                ctx.IsCritical = true;
+                ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * this._critMultiplier);
+
+                Log.Info("Critical hit!", new
+                {
+                    source = this._owner.Name,
+                    target = ctx.Target?.Name,
+                    roll,
+                    critChance = this._critChance,
+                    multiplier = this._critMultiplier,
+                    damage = ctx.FinalValue
+                });
+            }
         }
     }
 }

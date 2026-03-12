@@ -1,11 +1,14 @@
 using System;
 
-[Serializable]
-public class RunState
+namespace Core
 {
-    public int version = 1;
+    [Serializable]
+    public class RunState
+    {
+        public int version = 1;
 
-    public int fightIndex;
+        public int fightIndex;
 
-    public Unit player;
+        public Unit player;
+    }
 }

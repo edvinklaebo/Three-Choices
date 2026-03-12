@@ -1,3 +1,7 @@
+using Core;
+using Core.Artifacts;
+using Core.Boss;
+
 using NUnit.Framework;
 using UnityEngine;
 

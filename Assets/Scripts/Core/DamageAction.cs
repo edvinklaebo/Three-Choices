@@ -1,50 +1,57 @@
 using System.Collections;
 
-/// <summary>
-/// Represents a damage action in combat.
-/// Plays attack animation, hit animation, and shows damage UI.
-/// Stores HP values before and after damage for proper health bar animation.
-/// </summary>
-public class DamageAction : ICombatAction
+using Interfaces;
+
+using Utils;
+
+namespace Core
 {
-    public Unit Source { get; }
-    public Unit Target { get; }
-    public int Amount { get; }
-    public int TargetHPBefore { get; }
-    public int TargetHPAfter { get; }
-    public int TargetMaxHP { get; }
-
-    public DamageAction(Unit source, Unit target, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP)
+    /// <summary>
+    /// Represents a damage action in combat.
+    /// Plays attack animation, hit animation, and shows damage UI.
+    /// Stores HP values before and after damage for proper health bar animation.
+    /// </summary>
+    public class DamageAction : ICombatAction
     {
-        Source = source;
-        Target = target;
-        Amount = amount;
-        TargetHPBefore = targetHPBefore;
-        TargetHPAfter = targetHPAfter;
-        TargetMaxHP = targetMaxHP;
-    }
+        public Unit Source { get; }
+        public Unit Target { get; }
+        public int Amount { get; }
+        public int TargetHPBefore { get; }
+        public int TargetHPAfter { get; }
+        public int TargetMaxHP { get; }
 
-    public IEnumerator Play(AnimationContext ctx)
-    {
-        Log.Info("DamageAction.Play", new
+        public DamageAction(Unit source, Unit target, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP)
         {
-            source = Source?.Name ?? "null",
-            target = Target?.Name ?? "null",
-            amount = Amount,
-            hpBefore = TargetHPBefore,
-            hpAfter = TargetHPAfter
-        });
+            Source = source;
+            Target = target;
+            Amount = amount;
+            TargetHPBefore = targetHPBefore;
+            TargetHPAfter = targetHPAfter;
+            TargetMaxHP = targetMaxHP;
+        }
 
-        // Play attack animation
-        yield return ctx.Anim.PlayAttack(Source);
+        public IEnumerator Play(AnimationContext ctx)
+        {
+            Log.Info("DamageAction.Play", new
+            {
+                source = Source?.Name ?? "null",
+                target = Target?.Name ?? "null",
+                amount = Amount,
+                hpBefore = TargetHPBefore,
+                hpAfter = TargetHPAfter
+            });
 
-        // Play hit animation
-        yield return ctx.Anim.PlayHit(Target);
+            // Play attack animation
+            yield return ctx.Anim.PlayAttack(Source);
 
-        // Show damage UI with explicit HP values for animation
-        ctx.UI.ShowDamage(Target, Amount, TargetHPBefore, TargetHPAfter, TargetMaxHP);
+            // Play hit animation
+            yield return ctx.Anim.PlayHit(Target);
 
-        // Play hit sound
-        ctx.SFX.PlayHitSound(Target);
+            // Show damage UI with explicit HP values for animation
+            ctx.UI.ShowDamage(Target, Amount, TargetHPBefore, TargetHPAfter, TargetMaxHP);
+
+            // Play hit sound
+            ctx.SFX.PlayHitSound(Target);
+        }
     }
 }
