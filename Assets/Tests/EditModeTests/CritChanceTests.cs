@@ -1,5 +1,6 @@
 using Core;
 using Core.Artifacts;
+using Core.Artifacts.Definitions;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -98,9 +99,7 @@ namespace Tests.EditModeTests
         [Test]
         public void CritChance_ViaArtifactApplier_Works()
         {
-            var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
-            artifact.EditorInit(ArtifactId.LuckyHorseshoe, "Lucky Horseshoe", "desc", Rarity.Uncommon, ArtifactTag.None,
-                ArtifactEffectType.AddArtifact, false);
+            var artifact = ScriptableObject.CreateInstance<CritChanceDefinition>();
 
             ArtifactApplier.ApplyToPlayer(artifact, _owner);
 

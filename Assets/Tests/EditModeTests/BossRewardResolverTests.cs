@@ -18,7 +18,7 @@ namespace Tests.EditModeTests
 
         private ArtifactDefinition CreateArtifact(string id)
         {
-            var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
+            var artifact = ScriptableObject.CreateInstance<FakeArtifactDefinition>();
             artifact.EditorInit(id, id, "desc", Rarity.Common, ArtifactTag.None,
                 ArtifactEffectType.AddArtifact);
             return artifact;

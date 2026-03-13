@@ -17,7 +17,7 @@ namespace Tests.EditModeTests
             ArtifactEffectType effectType = ArtifactEffectType.AddArtifact,
             bool lockedByDefault = false)
         {
-            var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
+            var artifact = ScriptableObject.CreateInstance<FakeArtifactDefinition>();
             artifact.EditorInit(id, displayName, description, rarity, tags, effectType, lockedByDefault);
             return artifact;
         }

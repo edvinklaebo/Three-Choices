@@ -1,5 +1,6 @@
 using Core;
 using Core.Artifacts;
+using Core.Artifacts.Definitions;
 using Core.Artifacts.Passives;
 
 using NUnit.Framework;
@@ -122,9 +123,7 @@ namespace Tests.EditModeTests
         [Test]
         public void PhantomStrike_ViaArtifactApplier_WorksCorrectly()
         {
-            var artifact = UnityEngine.ScriptableObject.CreateInstance<ArtifactDefinition>();
-            artifact.EditorInit(ArtifactId.CrownOfEchoes, "Crown of Echoes", "desc", Rarity.Epic, ArtifactTag.None,
-                ArtifactEffectType.AddArtifact,false);
+            var artifact = ScriptableObject.CreateInstance<PhantomStrikeDefinition>();
 
             ArtifactApplier.ApplyToPlayer(artifact, _owner);
 

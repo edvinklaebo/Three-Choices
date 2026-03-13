@@ -1,5 +1,6 @@
 using Core;
 using Core.Artifacts;
+using Core.Artifacts.Definitions;
 using Core.Artifacts.Passives;
 
 using NUnit.Framework;
@@ -106,9 +107,7 @@ namespace Tests.EditModeTests
         [Test]
         public void DeathShield_ViaArtifactApplier_WorksCorrectly()
         {
-            var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
-            artifact.EditorInit(ArtifactId.Hourglass, "Hourglass", "desc", Rarity.Epic, ArtifactTag.None,
-                ArtifactEffectType.AddArtifact,false);
+            var artifact = ScriptableObject.CreateInstance<DeathShieldDefinition>();
 
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 

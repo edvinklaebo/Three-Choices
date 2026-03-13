@@ -1,6 +1,5 @@
 using System;
-using Core.Artifacts.Passives;
-using Core.Passives;
+
 using Utils;
 
 namespace Core.Artifacts
@@ -18,44 +17,11 @@ namespace Core.Artifacts
 
             Log.Info($"[ArtifactApplier] Applying artifact '{artifact.DisplayName}' to {player.Name}");
 
-            switch (artifact.EffectType)
-            {
-                case ArtifactEffectType.AddArtifact:
-                    ApplyArtifact(artifact, player);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(artifact.EffectType.ToString());
-            }
-        }
+            var instance = artifact.CreateArtifact();
+            instance.OnAttach(player);
+            player.Artifacts.Add(instance);
 
-        private static void ApplyArtifact(ArtifactDefinition artifactDefinition, Unit unit)
-        {
-            IArtifact artifact = artifactDefinition.ArtifactId switch
-            {
-                ArtifactId.BerserkerMask  => new BerserkerMask(),
-                ArtifactId.BlazingTorch   => new BlazingTorch(),
-                ArtifactId.BloodRitual    => new BloodRitual(),
-                ArtifactId.CorruptedTome  => new CorruptedTome(),
-                ArtifactId.CrownOfEchoes  => new PhantomStrike(),
-                ArtifactId.HeartOfOak     => new HeartOfOak(),
-                ArtifactId.Hourglass      => new DeathShield(),
-                ArtifactId.IronHeart      => new IronHeart(),
-                ArtifactId.LuckyHorseshoe => new CritChance(0.1f),
-                ArtifactId.PoisonDarts    => new PoisonAmplifier(),
-                ArtifactId.PoisonedBlade  => new PoisonAmplifier(),
-                ArtifactId.Quickboots     => new Quickboots(),
-                ArtifactId.SteelScales    => new SteelScales(),
-                ArtifactId.ThornArmor     => new ThornArmor(),
-                ArtifactId.TwinBlades     => new TwinBlades(),
-                ArtifactId.VampiricFang   => new VampiricFang(),
-                ArtifactId.WarGauntlet    => new WarGauntlet(),
-                _ => throw new ArgumentOutOfRangeException(artifactDefinition.ArtifactId.ToString())
-                };
-
-            artifact.OnAttach(unit);
-            unit.Artifacts.Add(artifact);
-
-            Log.Info($"[ArtifactApplier] Artifact passive applied: {artifactDefinition.Id} to {unit.Name}");
+            Log.Info($"[ArtifactApplier] Artifact applied: {artifact.DisplayName} to {player.Name}");
         }
     }
 }

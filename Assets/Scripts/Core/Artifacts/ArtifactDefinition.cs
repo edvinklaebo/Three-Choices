@@ -3,8 +3,13 @@ using UnityEngine;
 
 namespace Core.Artifacts
 {
-    [CreateAssetMenu(menuName = "Artifacts/Artifact")]
-    public class ArtifactDefinition : ScriptableObject, IDraftable
+    /// <summary>
+    /// Abstract base for all artifact definitions.
+    /// Subclass this to implement a specific artifact's behaviour.
+    /// Each subclass must override <see cref="CreateArtifact"/> to instantiate the
+    /// concrete <see cref="IArtifact"/> implementation for that artifact.
+    /// </summary>
+    public abstract class ArtifactDefinition : ScriptableObject, IDraftable
     {
         [Header("Identity")]
         [SerializeField] private string _id;
@@ -34,6 +39,14 @@ namespace Core.Artifacts
         public ArtifactEffectType EffectType => _effectType;
         public ArtifactId ArtifactId => _artifactId;
         public bool LockedByDefault => _lockedByDefault;
+
+        // ---- Factory ----
+
+        /// <summary>
+        /// Creates and returns the runtime <see cref="IArtifact"/> instance for this definition.
+        /// Called by <see cref="ArtifactApplier"/> when the player picks up this artifact.
+        /// </summary>
+        public abstract IArtifact CreateArtifact();
 
 #if UNITY_EDITOR
         public void EditorInit(string id, string displayName, string description,

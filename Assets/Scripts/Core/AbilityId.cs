@@ -1,15 +1,3 @@
-public enum AbilityId
-{
-    ArcaneMissiles,
-    Fireball,
-}
-
-public enum PassiveId
-{
-    Bleed,
-    DoubleStrike,
-    Lifesteal,
-    Poison,
-    Rage,
-    Thorns,
-}
+// AbilityId and PassiveId enums have been replaced by concrete AbilityDefinition and
+// PassiveDefinition subclasses. Each subclass encapsulates its own creation logic,
+// removing the need for a central enum-based switch statement.

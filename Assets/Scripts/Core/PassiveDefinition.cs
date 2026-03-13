@@ -1,72 +1,40 @@
-﻿using System;
-using Core;
-using Core.Passives;
+﻿using Core;
+using Interfaces;
 using UnityEngine;
 using Utils;
 
-[CreateAssetMenu(menuName = "Upgrades/Passive Definition")]
-public class PassiveDefinition : UpgradeDefinition
+/// <summary>
+/// Abstract base for passive upgrade definitions.
+/// Subclass this to implement a specific passive. Each subclass must override
+/// <see cref="CreatePassive"/> to instantiate its concrete <see cref="IPassive"/> implementation.
+/// The base <see cref="Apply"/> handles attaching the passive and adding it to the unit's list.
+/// </summary>
+public abstract class PassiveDefinition : UpgradeDefinition
 {
-    [Header("Passive")] 
-    [SerializeField] private PassiveId passiveId;
-    
+    /// <summary>Creates and returns the runtime passive instance for this definition.</summary>
+    protected abstract IPassive CreatePassive(Unit unit);
+
+    /// <summary>
+    /// Name used in the "Passive Applied: X" log message.
+    /// Defaults to the C# type name of the created passive; override when the passive class name
+    /// does not match the desired display name (e.g. <c>PoisonUpgrade</c> → <c>"Poison"</c>).
+    /// </summary>
+    protected virtual string PassiveLogName => null;
+
     public override void Apply(Unit unit)
     {
-        switch (passiveId)
-        {
-            case PassiveId.Thorns:
-                Log.Info("Passive Applied: Thorns");
-                var thorns = new Thorns();
-                thorns.OnAttach(unit);
-                unit.Passives.Add(thorns);
-                break;
-
-            case PassiveId.Rage:
-                Log.Info("Passive Applied: Rage");
-                var rage = new Rage(unit);
-                rage.OnAttach(unit);
-                unit.Passives.Add(rage);
-                break;
-
-            case PassiveId.Lifesteal:
-                Log.Info("Passive Applied: Lifesteal");
-                var ls = new Lifesteal(unit, 0.2f);
-                ls.OnAttach(unit);
-                unit.Passives.Add(ls);
-                break;
-
-            case PassiveId.Poison:
-                Log.Info("Passive Applied: Poison");
-                var poison = new PoisonUpgrade(unit);
-                poison.OnAttach(unit);
-                unit.Passives.Add(poison);
-                break;
-
-            case PassiveId.Bleed:
-                Log.Info("Passive Applied: Bleed");
-                var bleed = new BleedUpgrade(unit);
-                bleed.OnAttach(unit);
-                unit.Passives.Add(bleed);
-                break;
-
-            case PassiveId.DoubleStrike:
-                Log.Info("Passive Applied: DoubleStrike");
-                var doubleStrike = new DoubleStrike(0.25f, 0.75f);
-                doubleStrike.OnAttach(unit);
-                unit.Passives.Add(doubleStrike);
-                break;
-
-            default:
-                throw new ArgumentOutOfRangeException(passiveId.ToString());
-        }
+        var passive = CreatePassive(unit);
+        var logName = PassiveLogName ?? passive.GetType().Name;
+        Log.Info($"Passive Applied: {logName}");
+        passive.OnAttach(unit);
+        unit.Passives.Add(passive);
     }
-            
+
 #if UNITY_EDITOR
-    public void EditorInit(string identifier, string soName, PassiveId passive)
+    public void EditorInit(string identifier, string soName)
     {
         id = identifier;
         displayName = soName;
-        passiveId = passive;
     }
 #endif
 }

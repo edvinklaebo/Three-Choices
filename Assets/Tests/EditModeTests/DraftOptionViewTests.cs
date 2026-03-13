@@ -110,7 +110,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Bind_ArtifactOption_SetsButtonText()
         {
-            var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
+            var artifact = ScriptableObject.CreateInstance<FakeArtifactDefinition>();
             artifact.EditorInit("artifact_test", "Crown of Echoes", "A powerful crown", Rarity.Rare,
                 ArtifactTag.None, ArtifactEffectType.AddArtifact, false);
             var option = new DraftOption(artifact);
@@ -125,7 +125,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Bind_ArtifactOption_SetsTooltip()
         {
-            var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
+            var artifact = ScriptableObject.CreateInstance<FakeArtifactDefinition>();
             artifact.EditorInit("artifact_test", "Hourglass", "Shields you from death", Rarity.Epic,
                 ArtifactTag.None, ArtifactEffectType.AddArtifact, false);
             var option = new DraftOption(artifact);

@@ -2,6 +2,7 @@ using System;
 
 using Core;
 using Core.Artifacts;
+using Core.Artifacts.Definitions;
 using Core.Artifacts.Passives;
 
 using NUnit.Framework;
@@ -36,14 +37,6 @@ namespace Tests.EditModeTests
             DamagePipeline.Clear();
         }
 
-        private ArtifactDefinition CreateArtifactPassive(ArtifactId artifactId)
-        {
-            var a = ScriptableObject.CreateInstance<ArtifactDefinition>();
-            a.EditorInit(artifactId, "Test", "desc", Rarity.Common, ArtifactTag.None,
-                ArtifactEffectType.AddArtifact, false);
-            return a;
-        }
-
         // ---- NULL GUARD ----
 
         [Test]
@@ -55,7 +48,7 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyToPlayer_NullPlayer_Throws()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.CrownOfEchoes);
+            var artifact = ScriptableObject.CreateInstance<PhantomStrikeDefinition>();
             Assert.Throws<ArgumentNullException>(() => ArtifactApplier.ApplyToPlayer(artifact, null));
         }
 
@@ -64,7 +57,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_PhantomStrike_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.CrownOfEchoes);
+            var artifact = ScriptableObject.CreateInstance<PhantomStrikeDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -74,7 +67,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_DeathShield_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.Hourglass);
+            var artifact = ScriptableObject.CreateInstance<DeathShieldDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -84,7 +77,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_CritChance_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.LuckyHorseshoe);
+            var artifact = ScriptableObject.CreateInstance<CritChanceDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -94,7 +87,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_PoisonAmplifier_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.PoisonDarts);
+            var artifact = ScriptableObject.CreateInstance<PoisonAmplifierDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -104,7 +97,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_BerserkerMask_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.BerserkerMask);
+            var artifact = ScriptableObject.CreateInstance<BerserkerMaskDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -114,7 +107,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_BlazingTorch_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.BlazingTorch);
+            var artifact = ScriptableObject.CreateInstance<BlazingTorchDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -124,7 +117,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_BloodRitual_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.BloodRitual);
+            var artifact = ScriptableObject.CreateInstance<BloodRitualDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -134,7 +127,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_CorruptedTome_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.CorruptedTome);
+            var artifact = ScriptableObject.CreateInstance<CorruptedTomeDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -144,7 +137,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_HeartOfOak_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.HeartOfOak);
+            var artifact = ScriptableObject.CreateInstance<HeartOfOakDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -154,7 +147,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_IronHeart_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.IronHeart);
+            var artifact = ScriptableObject.CreateInstance<IronHeartDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -164,7 +157,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_Quickboots_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.Quickboots);
+            var artifact = ScriptableObject.CreateInstance<QuickbootsDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -174,7 +167,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_SteelScales_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.SteelScales);
+            var artifact = ScriptableObject.CreateInstance<SteelScalesDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -184,7 +177,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_ThornArmor_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.ThornArmor);
+            var artifact = ScriptableObject.CreateInstance<ThornArmorDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -194,7 +187,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_TwinBlades_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.TwinBlades);
+            var artifact = ScriptableObject.CreateInstance<TwinBladesDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -204,7 +197,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_VampiricFang_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.VampiricFang);
+            var artifact = ScriptableObject.CreateInstance<VampiricFangDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
@@ -214,28 +207,11 @@ namespace Tests.EditModeTests
         [Test]
         public void Artifact_WarGauntlet_AddsArtifactToUnit()
         {
-            var artifact = CreateArtifactPassive(ArtifactId.WarGauntlet);
+            var artifact = ScriptableObject.CreateInstance<WarGauntletDefinition>();
             ArtifactApplier.ApplyToPlayer(artifact, _unit);
 
             Assert.AreEqual(1, _unit.Artifacts.Count);
             Assert.IsInstanceOf<WarGauntlet>(_unit.Artifacts[0]);
-        }
-
-        [Test]
-        public void Artifact_Unknown_Throws()
-        {
-            var artifact = CreateArtifactPassive((ArtifactId)999);
-            Assert.Throws<ArgumentOutOfRangeException>(() => ArtifactApplier.ApplyToPlayer(artifact, _unit));
-        }
-
-        [Test]
-        public void UnknownEffectType_Throws()
-        {
-            var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
-            artifact.EditorInit("test", "Test", "desc", Rarity.Common, ArtifactTag.None,
-                (ArtifactEffectType)999,  false);
-
-            Assert.Throws<ArgumentOutOfRangeException>(() => ArtifactApplier.ApplyToPlayer(artifact, _unit));
         }
 
         // ---- MULTIPLE ARTIFACTS ----
@@ -243,8 +219,8 @@ namespace Tests.EditModeTests
         [Test]
         public void MultipleArtifacts_AccumulateEffects()
         {
-            var phantom = CreateArtifactPassive(ArtifactId.CrownOfEchoes);
-            var shield = CreateArtifactPassive(ArtifactId.Hourglass);
+            var phantom = ScriptableObject.CreateInstance<PhantomStrikeDefinition>();
+            var shield = ScriptableObject.CreateInstance<DeathShieldDefinition>();
 
             ArtifactApplier.ApplyToPlayer(phantom, _unit);
             ArtifactApplier.ApplyToPlayer(shield, _unit);

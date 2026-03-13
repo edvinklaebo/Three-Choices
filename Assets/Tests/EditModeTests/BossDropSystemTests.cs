@@ -55,7 +55,7 @@ namespace Tests.EditModeTests
 
         private ArtifactDefinition CreateArtifact(string id, bool lockedByDefault = false)
         {
-            var a = ScriptableObject.CreateInstance<ArtifactDefinition>();
+            var a = ScriptableObject.CreateInstance<FakeArtifactDefinition>();
             a.EditorInit(id, id, "desc", Rarity.Common, ArtifactTag.None,
                 ArtifactEffectType.AddArtifact, lockedByDefault);
             return a;

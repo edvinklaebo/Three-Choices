@@ -93,8 +93,8 @@ namespace Tests.EditModeTests
             var draft = new List<DraftOption>
             {
                 new (ScriptableObject.CreateInstance<StatDefinition>()),
-                new (ScriptableObject.CreateInstance<AbilityDefinition>()),
-                new (ScriptableObject.CreateInstance<PassiveDefinition>())
+                new (ScriptableObject.CreateInstance<FireballDefinition>()),
+                new (ScriptableObject.CreateInstance<ThornsPassiveDefinition>())
             };
 
             // Show without animation
@@ -150,7 +150,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Show_WithArtifactOption_ConfiguresButtonCorrectly()
         {
-            var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
+            var artifact = ScriptableObject.CreateInstance<FakeArtifactDefinition>();
             artifact.EditorInit("artifact_test", "Crown of Echoes", "A powerful crown", Rarity.Rare,
                 ArtifactTag.None, ArtifactEffectType.AddArtifact, false);
 

@@ -1,5 +1,6 @@
 using Core;
 using Core.Artifacts;
+using Core.Artifacts.Definitions;
 using Core.Artifacts.Passives;
 using Core.Passives;
 using Core.StatusEffects;
@@ -88,9 +89,7 @@ namespace Tests.EditModeTests
         [Test]
         public void PoisonAmplifier_ViaArtifactApplier_Works()
         {
-            var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
-            artifact.EditorInit(ArtifactId.PoisonDarts, "Poison Tipped Darts", "desc", Rarity.Uncommon, ArtifactTag.Poison,
-                ArtifactEffectType.AddArtifact, false);
+            var artifact = ScriptableObject.CreateInstance<PoisonAmplifierDefinition>();
 
             ArtifactApplier.ApplyToPlayer(artifact, _owner);
 
