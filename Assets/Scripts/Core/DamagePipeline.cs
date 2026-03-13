@@ -27,7 +27,7 @@ namespace Core
         /// </summary>
         public static void Process(DamageContext ctx)
         {
-            // Collect all applicable modifiers from global registration and unit passives
+            // Collect all applicable modifiers from global registration and unit passives/artifacts
             var allModifiers = new List<IDamageModifier>(_globalModifiers.Count);
 
             // Add globally registered modifiers
@@ -37,6 +37,12 @@ namespace Core
             if (ctx.Source != null)
                 foreach (var passive in ctx.Source.Passives)
                     if (passive is IDamageModifier modifier && !_globalModifiers.Contains(modifier))
+                        allModifiers.Add(modifier);
+
+            // Add unit-specific modifiers (from artifacts) - only those not already globally registered
+            if (ctx.Source != null)
+                foreach (var artifact in ctx.Source.Artifacts)
+                    if (artifact is IDamageModifier modifier && !_globalModifiers.Contains(modifier))
                         allModifiers.Add(modifier);
 
             // Sort once by priority and apply

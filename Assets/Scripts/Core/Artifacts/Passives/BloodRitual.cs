@@ -1,0 +1,59 @@
+using System;
+
+using Core.StatusEffects;
+
+using UnityEngine;
+
+using Utils;
+
+namespace Core.Artifacts.Passives
+{
+    /// <summary>
+    /// Blood Ritual effect.
+    /// Applies a Bleed status effect to any enemy hit by the owner.
+    /// Subscribes to the owner's OnHit event to trigger on each successful hit.
+    /// Bleed stacks accumulate when re-applied.
+    /// </summary>
+    [Serializable]
+    public class BloodRitual : IArtifact
+    {
+        [SerializeField] private int _bleedStacks;
+        [SerializeField] private int _bleedDuration;
+        [SerializeField] private int _bleedDamage;
+
+        public int Priority => 100;
+
+        public BloodRitual(int bleedStacks = 2, int bleedDuration = 3, int bleedDamage = 2)
+        {
+            _bleedStacks = bleedStacks;
+            _bleedDuration = bleedDuration;
+            _bleedDamage = bleedDamage;
+        }
+
+        public void OnAttach(Unit owner)
+        {
+            owner.OnHit += OnHit;
+        }
+
+        public void OnDetach(Unit owner)
+        {
+            owner.OnHit -= OnHit;
+        }
+
+        private void OnHit(Unit self, Unit target, int damage)
+        {
+            if (target == null || target.IsDead)
+                return;
+
+            Log.Info("[BloodRitual] Applying bleed on hit", new
+            {
+                attacker = self.Name,
+                target = target.Name,
+                stacks = _bleedStacks,
+                duration = _bleedDuration
+            });
+
+            target.ApplyStatus(new Bleed(_bleedStacks, _bleedDuration, _bleedDamage));
+        }
+    }
+}

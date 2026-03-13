@@ -37,10 +37,12 @@ namespace Core.Passives
 
         public void OnAttach(Unit owner)
         {
+            _owner = owner;
         }
 
         public void OnDetach(Unit owner)
         {
+            _owner = null;
         }
     }
 }
