@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 537d9e37a2448614a9de81b3beef58cd, type: 3}
-  m_Name: gorloc_the_destroyer
-  m_EditorClassIdentifier: Ropa::BossDefinition
-  _id: gorloc_the_destroyer
-  _displayName: Gorloc the Destroyer
+  m_Name: rat_king
+  m_EditorClassIdentifier: Ropa::Core.Boss.BossDefinition
+  _id: rat_king
+  _displayName: Rat King
   _prefab: {fileID: 0}
   _phases: []
-  _artifactReward: {fileID: 11400000, guid: 26ddafa772cb4441a767cdfbe3bdac42, type: 2}
+  _artifactReward: {fileID: 0}
   _stats:
-    MaxHP: 333
-    CurrentHP: 333
+    MaxHP: 533
+    CurrentHP: 533
     AttackPower: 12
-    Armor: 100
-    Speed: 100
-  _difficultyRating: 3
+    Armor: 52
+    Speed: 76
+  _difficultyRating: 1
