@@ -1,3 +1,4 @@
+using Core;
 using Core.Passives;
 using Interfaces;
 using UnityEngine;
@@ -6,5 +7,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Upgrades/Passives/Thorns")]
 public class ThornsPassiveDefinition : PassiveDefinition
 {
+    protected override string PassiveLogName => "Thorns";
     protected override IPassive CreatePassive(Unit unit) => new Thorns();
 }

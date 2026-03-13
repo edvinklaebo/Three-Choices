@@ -6,7 +6,8 @@ using Utils;
 /// <summary>
 /// Abstract base for passive upgrade definitions.
 /// Subclass this to implement a specific passive. Each subclass must override
-/// <see cref="CreatePassive"/> to instantiate its concrete <see cref="IPassive"/> implementation.
+/// <see cref="CreatePassive"/> to instantiate its concrete <see cref="IPassive"/> implementation
+/// and <see cref="PassiveLogName"/> to provide the human-readable name for log messages.
 /// The base <see cref="Apply"/> handles attaching the passive and adding it to the unit's list.
 /// </summary>
 public abstract class PassiveDefinition : UpgradeDefinition
@@ -15,17 +16,15 @@ public abstract class PassiveDefinition : UpgradeDefinition
     protected abstract IPassive CreatePassive(Unit unit);
 
     /// <summary>
-    /// Name used in the "Passive Applied: X" log message.
-    /// Defaults to the C# type name of the created passive; override when the passive class name
-    /// does not match the desired display name (e.g. <c>PoisonUpgrade</c> → <c>"Poison"</c>).
+    /// Human-readable name emitted in the "Passive Applied: X" log message.
+    /// Must match the expected log output in tests that use <c>LogAssert.Expect</c>.
     /// </summary>
-    protected virtual string PassiveLogName => null;
+    protected abstract string PassiveLogName { get; }
 
     public override void Apply(Unit unit)
     {
         var passive = CreatePassive(unit);
-        var logName = PassiveLogName ?? passive.GetType().Name;
-        Log.Info($"Passive Applied: {logName}");
+        Log.Info($"Passive Applied: {PassiveLogName}");
         passive.OnAttach(unit);
         unit.Passives.Add(passive);
     }

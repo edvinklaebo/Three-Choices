@@ -1,3 +1,4 @@
+using Core;
 using Core.Passives;
 using Interfaces;
 using UnityEngine;
@@ -8,5 +9,6 @@ public class LifestealPassiveDefinition : PassiveDefinition
 {
     [SerializeField] private float _percent = 0.2f;
 
+    protected override string PassiveLogName => "Lifesteal";
     protected override IPassive CreatePassive(Unit unit) => new Lifesteal(unit, _percent);
 }
