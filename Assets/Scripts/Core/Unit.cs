@@ -137,6 +137,18 @@ namespace Core
             if (IsDead || amount <= 0)
                 return;
 
+            for (var i = 0; i < StatusEffects.Count; i++)
+            {
+                if (StatusEffects[i] is IHealingModifier modifier)
+                    amount = modifier.ModifyHealing(this, amount);
+
+                if (amount <= 0)
+                    break;
+            }
+
+            if (amount <= 0)
+                return;
+
             var actualHeal = Math.Min(Stats.MaxHP - Stats.CurrentHP, amount);
             Stats.CurrentHP += actualHeal;
             HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
