@@ -120,11 +120,16 @@ namespace Core
             Stats.CurrentHP = Math.Max(0, Stats.CurrentHP - damage);
 
             Damaged?.Invoke(this, attacker, damage);
-            attacker?.OnHit?.Invoke(attacker, this, damage);
             HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
 
             if (previousHp > 0 && Stats.CurrentHP == 0)
                 Die();
+
+            // Only fire on-hit effects when the target survives the hit.
+            // Avoids applying status effects (Burn, Bleed, Poison, etc.) to a target
+            // that was just killed by this same hit.
+            if (!IsDead)
+                attacker?.OnHit?.Invoke(attacker, this, damage);
         }
 
         public void Heal(int amount)
