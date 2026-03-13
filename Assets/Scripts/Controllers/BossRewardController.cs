@@ -1,50 +1,50 @@
+using Core.Artifacts;
+using Events;
+using Systems;
 using UnityEngine;
+using Utils;
 
-/// <summary>
-///     Listens for boss fight end and presents a rarity-weighted artifact draft
-///     via a <see cref="DraftEventChannel"/> so the player can choose their boss reward.
-/// </summary>
 public class BossRewardController : MonoBehaviour
 {
     [Header("Events")]
     [SerializeField] private VoidEventChannel _bossFightEnded;
     [SerializeField] private DraftEventChannel _showDraft;
 
+    [Header("Config")]
+    [SerializeField] private ArtifactPool _artifactPool;
+    [SerializeField] private int _draftSize = 3;
+
     private DraftSystem _draftSystem;
 
     private void Awake()
     {
-        if (_bossFightEnded == null)
-            Log.Error("BossRewardController: _bossFightEnded is not assigned.");
-        if (_showDraft == null)
-            Log.Error("BossRewardController: _showDraft is not assigned.");
+        Debug.Assert(_bossFightEnded != null);
+        Debug.Assert(_showDraft != null);
+        Debug.Assert(_artifactPool != null);
 
-        _draftSystem = new DraftSystem(ScriptableObject.CreateInstance<ArtifactPool>());
+        _draftSystem = new DraftSystem(_artifactPool);
     }
 
     private void OnEnable()
     {
-        if (_bossFightEnded != null)
-            _bossFightEnded.OnRaised += OnBossFightEnded;
+        _bossFightEnded.OnRaised += OnBossFightEnded;
     }
 
     private void OnDisable()
     {
-        if (_bossFightEnded != null)
-            _bossFightEnded.OnRaised -= OnBossFightEnded;
+        _bossFightEnded.OnRaised -= OnBossFightEnded;
     }
 
     private void OnBossFightEnded()
     {
-        var draft = _draftSystem.GenerateDraft(3);
+        var draft = _draftSystem.GenerateDraft(_draftSize);
 
         if (draft.Count == 0)
         {
-            Log.Warning("[BossRewardController] No artifact options available for boss reward draft.");
+            Log.Warning("No artifact options available for boss reward draft.");
             return;
         }
 
-        Log.Info($"[BossRewardController] Presenting artifact draft with {draft.Count} option(s).");
-        _showDraft?.Raise(draft);
+        _showDraft.Raise(draft);
     }
 }

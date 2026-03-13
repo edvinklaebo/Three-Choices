@@ -1,62 +1,72 @@
 using System;
+
+using Core;
+
+using UI.Tooltip;
+
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
-public class DraftOptionView : MonoBehaviour
+using Utils;
+
+namespace UI
 {
-    [SerializeField] private Button _button;
-    [SerializeField] private Text _text;
-    [SerializeField] private Image _icon;
-    [SerializeField] private TooltipTrigger _tooltip;
-
-    private DraftOption _boundOption;
-    private Action<DraftOption> _onPick;
-    private bool _initialized;
-
-    public void Awake()
+    [RequireComponent(typeof(Button))]
+    public class DraftOptionView : MonoBehaviour
     {
-        if (_initialized) 
-            return;
-        _initialized = true;
+        [SerializeField] private Button _button;
+        [SerializeField] private Text _text;
+        [SerializeField] private Image _icon;
+        [SerializeField] private TooltipTrigger _tooltip;
 
-        if (_button == null) _button = GetComponent<Button>();
-        if (_text == null) _text = GetComponentInChildren<Text>();
-        if (_icon == null) _icon = GetComponentInChildren<Image>(true);
-        if (_tooltip == null) _tooltip = GetComponent<TooltipTrigger>();
+        private DraftOption _boundOption;
+        private Action<DraftOption> _onPick;
+        private bool _initialized;
 
-        _button.onClick.AddListener(OnClicked);
-    }
-
-    public void Bind(DraftOption option, Action<DraftOption> onPick)
-    {
-        if (option == null)
+        public void Awake()
         {
-            Log.Error("Bind called with null option", new { gameObject.name });
-            return;
+            if (this._initialized) 
+                return;
+            this._initialized = true;
+
+            if (this._button == null) this._button = GetComponent<Button>();
+            if (this._text == null) this._text = GetComponentInChildren<Text>();
+            if (this._icon == null) this._icon = GetComponentInChildren<Image>(true);
+            if (this._tooltip == null) this._tooltip = GetComponent<TooltipTrigger>();
+
+            this._button.onClick.AddListener(OnClicked);
         }
 
-        _boundOption = option;
-        _onPick = onPick;
-
-        if (_tooltip != null)
+        public void Bind(DraftOption option, Action<DraftOption> onPick)
         {
-            _tooltip.Label = option.DisplayName;
-            _tooltip.Content = option.Description;
+            if (option == null)
+            {
+                Log.Error("Bind called with null option", new { gameObject.name });
+                return;
+            }
+
+            this._boundOption = option;
+            this._onPick = onPick;
+
+            if (this._tooltip != null)
+            {
+                this._tooltip.Label = option.DisplayName;
+                this._tooltip.Content = option.Description;
+            }
+
+            if (this._text != null)
+                this._text.text = option.DisplayName;
+
+            if (this._icon != null)
+            {
+                this._icon.sprite = option.Icon;
+                this._icon.enabled = option.Icon != null;
+            }
         }
 
-        if (_text != null)
-            _text.text = option.DisplayName;
-
-        if (_icon != null)
+        private void OnClicked()
         {
-            _icon.sprite = option.Icon;
-            _icon.enabled = option.Icon != null;
+            this._onPick?.Invoke(this._boundOption);
         }
-    }
-
-    private void OnClicked()
-    {
-        _onPick?.Invoke(_boundOption);
     }
 }

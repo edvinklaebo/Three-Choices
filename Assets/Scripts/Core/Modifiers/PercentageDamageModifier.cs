@@ -1,28 +1,33 @@
+using Interfaces;
+
 using UnityEngine;
 
-/// <summary>
-/// Applies a percentage-based damage multiplier.
-/// Applied as a standard modifier (priority 100).
-/// </summary>
-public class PercentageDamageModifier : IDamageModifier
+namespace Core.Modifiers
 {
-    public int Priority => 100; // Standard priority
-
-    private readonly Unit _owner;
-    private readonly float _multiplier;
-
-    /// <param name="owner">The unit that owns this modifier</param>
-    /// <param name="multiplier">Damage multiplier (e.g., 1.25 = +25% damage, 0.8 = -20% damage)</param>
-    public PercentageDamageModifier(Unit owner, float multiplier)
+    /// <summary>
+    /// Applies a percentage-based damage multiplier.
+    /// Applied as a standard modifier (priority 100).
+    /// </summary>
+    public class PercentageDamageModifier : IDamageModifier
     {
-        _owner = owner;
-        _multiplier = multiplier;
-    }
+        public int Priority => 100; // Standard priority
 
-    public void Modify(DamageContext ctx)
-    {
-        if (ctx.Source != _owner) return;
+        private readonly Unit _owner;
+        private readonly float _multiplier;
 
-        ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * _multiplier);
+        /// <param name="owner">The unit that owns this modifier</param>
+        /// <param name="multiplier">Damage multiplier (e.g., 1.25 = +25% damage, 0.8 = -20% damage)</param>
+        public PercentageDamageModifier(Unit owner, float multiplier)
+        {
+            this._owner = owner;
+            this._multiplier = multiplier;
+        }
+
+        public void Modify(DamageContext ctx)
+        {
+            if (ctx.Source != this._owner) return;
+
+            ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * this._multiplier);
+        }
     }
 }

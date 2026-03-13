@@ -1,5 +1,8 @@
 using System.Collections;
 using NUnit.Framework;
+
+using UI;
+
 using UnityEngine;
 
 namespace Tests.EditModeTests

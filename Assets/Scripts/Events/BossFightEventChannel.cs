@@ -1,13 +1,19 @@
 using System;
+
+using Core.Boss;
+
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Events/Boss Fight Event")]
-public class BossFightEventChannel : ScriptableObject
+namespace Events
 {
-    public event Action<BossDefinition> OnRaised;
-
-    public void Raise(BossDefinition boss)
+    [CreateAssetMenu(menuName = "Events/Boss Fight Event")]
+    public class BossFightEventChannel : ScriptableObject
     {
-        OnRaised?.Invoke(boss);
+        public event Action<BossDefinition> OnRaised;
+
+        public void Raise(BossDefinition boss)
+        {
+            OnRaised?.Invoke(boss);
+        }
     }
 }

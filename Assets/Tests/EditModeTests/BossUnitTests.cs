@@ -1,3 +1,6 @@
+using Core;
+using Core.Boss;
+
 using NUnit.Framework;
 using UnityEngine;
 

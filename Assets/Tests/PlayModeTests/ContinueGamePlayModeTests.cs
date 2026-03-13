@@ -1,10 +1,22 @@
 using System.Collections;
+
+using Controllers;
+
+using Core;
+
+using Events;
+
 using NUnit.Framework;
+
+using Systems;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
+
+using Utils;
 
 namespace Tests.PlayModeTests
 {

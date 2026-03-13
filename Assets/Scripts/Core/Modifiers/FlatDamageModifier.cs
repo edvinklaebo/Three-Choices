@@ -1,28 +1,31 @@
-using UnityEngine;
+using Interfaces;
 
-/// <summary>
-/// Adds flat bonus damage to attacks.
-/// Applied as an early modifier (priority 10) before percentage-based modifiers.
-/// </summary>
-public class FlatDamageModifier : IDamageModifier
+namespace Core.Modifiers
 {
-    public int Priority => 10; // Very early, adds to base
-
-    private readonly Unit _owner;
-    private readonly int _bonusDamage;
-
-    /// <param name="owner">The unit that owns this modifier</param>
-    /// <param name="bonusDamage">Flat damage to add to each attack</param>
-    public FlatDamageModifier(Unit owner, int bonusDamage)
+    /// <summary>
+    /// Adds flat bonus damage to attacks.
+    /// Applied as an early modifier (priority 10) before percentage-based modifiers.
+    /// </summary>
+    public class FlatDamageModifier : IDamageModifier
     {
-        _owner = owner;
-        _bonusDamage = bonusDamage;
-    }
+        public int Priority => 10; // Very early, adds to base
 
-    public void Modify(DamageContext ctx)
-    {
-        if (ctx.Source != _owner) return;
+        private readonly Unit _owner;
+        private readonly int _bonusDamage;
 
-        ctx.FinalValue += _bonusDamage;
+        /// <param name="owner">The unit that owns this modifier</param>
+        /// <param name="bonusDamage">Flat damage to add to each attack</param>
+        public FlatDamageModifier(Unit owner, int bonusDamage)
+        {
+            this._owner = owner;
+            this._bonusDamage = bonusDamage;
+        }
+
+        public void Modify(DamageContext ctx)
+        {
+            if (ctx.Source != this._owner) return;
+
+            ctx.FinalValue += this._bonusDamage;
+        }
     }
 }

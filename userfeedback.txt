@@ -1,3 +1,7 @@
 User feedback:
 - Add melee spell quickstrike.
 - Add melee spell shieldblock.
+- Add animations
+// TODO: Load sprite based on effectId from ScriptableObject or Resources
+// TODO: Animate fill amount based on max duration
+

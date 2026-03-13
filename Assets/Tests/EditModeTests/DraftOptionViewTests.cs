@@ -1,4 +1,11 @@
+using Core;
+using Core.Artifacts;
+
 using NUnit.Framework;
+
+using UI;
+using UI.Tooltip;
+
 using UnityEngine;
 using UnityEngine.UI;
 

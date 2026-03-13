@@ -1,13 +1,19 @@
 using System;
+
+using Core.Combat;
+
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Events/Combat Ready Event")]
-public class CombatReadyEventChannel : ScriptableObject
+namespace Events
 {
-    public event Action<CombatResult> OnRaised;
-
-    public void Raise(CombatResult result)
+    [CreateAssetMenu(menuName = "Events/Combat Ready Event")]
+    public class CombatReadyEventChannel : ScriptableObject
     {
-        OnRaised?.Invoke(result);
+        public event Action<CombatResult> OnRaised;
+
+        public void Raise(CombatResult result)
+        {
+            OnRaised?.Invoke(result);
+        }
     }
 }

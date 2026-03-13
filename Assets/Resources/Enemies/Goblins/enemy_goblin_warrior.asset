@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: enemy_goblin_warrior
   m_EditorClassIdentifier: Ropa::EnemyDefinition
   _enemyName: Goblin Warrior
-  _portrait: {fileID: 0}
+  _portrait: {fileID: 21300000, guid: 3597ef5775705ab489d6465e5c1f2524, type: 3}
   _maxHP: 100
   _attackPower: 10
   _armor: 60
@@ -21,4 +21,5 @@ MonoBehaviour:
   _minFightIndex: 0
   _maxFightIndex: 999
   _spawnWeight: 1
-  _traits: []
+  _traits:
+  - {fileID: 11400000, guid: 55eba872a88df494186071499baf7860, type: 2}

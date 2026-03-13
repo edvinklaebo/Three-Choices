@@ -1,4 +1,7 @@
 using System.IO;
+
+using Core.Artifacts;
+
 using NUnit.Framework;
 
 namespace Tests.EditModeTests

@@ -1,13 +1,19 @@
 using System;
+
+using Core;
+
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Events/Combat Presentation Complete Event")]
-public class CombatPresentationCompleteEventChannel : ScriptableObject
+namespace Events
 {
-    public event Action<Unit> OnRaised;
-
-    public void Raise(Unit player)
+    [CreateAssetMenu(menuName = "Events/Combat Presentation Complete Event")]
+    public class CombatPresentationCompleteEventChannel : ScriptableObject
     {
-        OnRaised?.Invoke(player);
+        public event Action<Unit> OnRaised;
+
+        public void Raise(Unit player)
+        {
+            OnRaised?.Invoke(player);
+        }
     }
 }

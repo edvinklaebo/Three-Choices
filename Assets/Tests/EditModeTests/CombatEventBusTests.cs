@@ -1,6 +1,9 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 
+using Core;
+using Core.Combat;
+
 namespace Tests.EditModeTests
 {
     /// <summary>

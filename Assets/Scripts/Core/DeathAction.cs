@@ -1,29 +1,36 @@
 using System.Collections;
 
-/// <summary>
-/// Represents a death action in combat.
-/// Plays death animation when a unit dies.
-/// </summary>
-public class DeathAction : ICombatAction
+using Interfaces;
+
+using Utils;
+
+namespace Core
 {
-    public Unit Target { get; }
-
-    public DeathAction(Unit target)
+    /// <summary>
+    /// Represents a death action in combat.
+    /// Plays death animation when a unit dies.
+    /// </summary>
+    public class DeathAction : ICombatAction
     {
-        Target = target;
-    }
+        public Unit Target { get; }
 
-    public IEnumerator Play(AnimationContext ctx)
-    {
-        Log.Info("DeathAction.Play", new
+        public DeathAction(Unit target)
         {
-            target = Target?.Name ?? "null"
-        });
+            Target = target;
+        }
 
-        // Play death animation
-        yield return ctx.Anim.PlayDeath(Target);
+        public IEnumerator Play(AnimationContext ctx)
+        {
+            Log.Info("DeathAction.Play", new
+            {
+                target = Target?.Name ?? "null"
+            });
 
-        // Play death sound
-        ctx.SFX.PlayDeathSound(Target);
+            // Play death animation
+            yield return ctx.Anim.PlayDeath(Target);
+
+            // Play death sound
+            ctx.SFX.PlayDeathSound(Target);
+        }
     }
 }

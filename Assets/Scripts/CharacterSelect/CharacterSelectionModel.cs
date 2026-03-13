@@ -1,28 +1,33 @@
 using System;
 using System.Collections.Generic;
 
-public class CharacterSelectionModel
+using Characters;
+
+namespace CharacterSelect
 {
-    private readonly IReadOnlyList<CharacterDefinition> _characters;
-
-    public int CurrentIndex { get; private set; }
-    public CharacterDefinition Current => _characters[CurrentIndex];
-
-    public CharacterSelectionModel(IReadOnlyList<CharacterDefinition> characters)
+    public class CharacterSelectionModel
     {
-        if (characters == null || characters.Count == 0)
-            throw new ArgumentException("Characters list cannot be null or empty.", nameof(characters));
+        private readonly IReadOnlyList<CharacterDefinition> _characters;
 
-        _characters = characters;
-    }
+        public int CurrentIndex { get; private set; }
+        public CharacterDefinition Current => this._characters[CurrentIndex];
 
-    public void Next()
-    {
-        CurrentIndex = (CurrentIndex + 1) % _characters.Count;
-    }
+        public CharacterSelectionModel(IReadOnlyList<CharacterDefinition> characters)
+        {
+            if (characters == null || characters.Count == 0)
+                throw new ArgumentException("Characters list cannot be null or empty.", nameof(characters));
 
-    public void Previous()
-    {
-        CurrentIndex = (CurrentIndex - 1 + _characters.Count) % _characters.Count;
+            this._characters = characters;
+        }
+
+        public void Next()
+        {
+            CurrentIndex = (CurrentIndex + 1) % this._characters.Count;
+        }
+
+        public void Previous()
+        {
+            CurrentIndex = (CurrentIndex - 1 + this._characters.Count) % this._characters.Count;
+        }
     }
 }

@@ -1,13 +1,19 @@
 using System;
+
+using Core.Artifacts;
+
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Events/Artifact Reward Event")]
-public class ArtifactRewardEventChannel : ScriptableObject
+namespace Events
 {
-    public event Action<ArtifactDefinition> OnRaised;
-
-    public void Raise(ArtifactDefinition artifact)
+    [CreateAssetMenu(menuName = "Events/Artifact Reward Event")]
+    public class ArtifactRewardEventChannel : ScriptableObject
     {
-        OnRaised?.Invoke(artifact);
+        public event Action<ArtifactDefinition> OnRaised;
+
+        public void Raise(ArtifactDefinition artifact)
+        {
+            OnRaised?.Invoke(artifact);
+        }
     }
 }

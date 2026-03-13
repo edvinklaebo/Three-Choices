@@ -1,52 +1,62 @@
 using System.Collections;
+
+using Interfaces;
+
+using UI.Combat;
+
 using UnityEngine;
 
-/// <summary>
-/// Represents an Arcane Missiles ability action in combat.
-/// Plays missile visuals from source to target for each missile hit, then shows damage.
-/// </summary>
-public class ArcaneMissilesAction : ICombatAction
+using Utils;
+
+namespace Core
 {
-    public Unit Source { get; }
-    public Unit Target { get; }
-    public int Damage { get; }
-    public int TargetHPBefore { get; }
-    public int TargetHPAfter { get; }
-    public int TargetMaxHP { get; }
-    public Sprite Sprite { get; }
-
-    public ArcaneMissilesAction(Unit source, Unit target, int damage, int targetHPBefore, int targetHPAfter, int targetMaxHP, Sprite sprite = null)
+    /// <summary>
+    /// Represents an Arcane Missiles ability action in combat.
+    /// Plays missile visuals from source to target for each missile hit, then shows damage.
+    /// </summary>
+    public class ArcaneMissilesAction : ICombatAction
     {
-        Source = source;
-        Target = target;
-        Damage = damage;
-        TargetHPBefore = targetHPBefore;
-        TargetHPAfter = targetHPAfter;
-        TargetMaxHP = targetMaxHP;
-        Sprite = sprite;
-    }
+        public Unit Source { get; }
+        public Unit Target { get; }
+        public int Damage { get; }
+        public int TargetHPBefore { get; }
+        public int TargetHPAfter { get; }
+        public int TargetMaxHP { get; }
+        public Sprite Sprite { get; }
 
-    public IEnumerator Play(AnimationContext ctx)
-    {
-        Log.Info("ArcaneMissilesAction.Play", new
+        public ArcaneMissilesAction(Unit source, Unit target, int damage, int targetHPBefore, int targetHPAfter, int targetMaxHP, Sprite sprite = null)
         {
-            source = Source?.Name ?? "null",
-            target = Target?.Name ?? "null",
-            damage = Damage,
-            hpBefore = TargetHPBefore,
-            hpAfter = TargetHPAfter
-        });
+            Source = source;
+            Target = target;
+            Damage = damage;
+            TargetHPBefore = targetHPBefore;
+            TargetHPAfter = targetHPAfter;
+            TargetMaxHP = targetMaxHP;
+            Sprite = sprite;
+        }
 
-        // Animate projectile from source center to target center (no lunge)
-        yield return ctx.Anim.PlayProjectile(Source, Target, Sprite);
+        public IEnumerator Play(AnimationContext ctx)
+        {
+            Log.Info("ArcaneMissilesAction.Play", new
+            {
+                source = Source?.Name ?? "null",
+                target = Target?.Name ?? "null",
+                damage = Damage,
+                hpBefore = TargetHPBefore,
+                hpAfter = TargetHPAfter
+            });
 
-        // Play hit effect on target
-        yield return ctx.Anim.PlayHit(Target);
+            // Animate projectile from source center to target center (no lunge)
+            yield return ctx.Anim.PlayProjectile(Source, Target, Sprite);
 
-        // Show damage UI with arcane color
-        ctx.UI.ShowDamage(Target, Damage, TargetHPBefore, TargetHPAfter, TargetMaxHP, DamageType.Arcane);
+            // Play hit effect on target
+            yield return ctx.Anim.PlayHit(Target);
 
-        // Play hit sound
-        ctx.SFX.PlayHitSound(Target);
+            // Show damage UI with arcane color
+            ctx.UI.ShowDamage(Target, Damage, TargetHPBefore, TargetHPAfter, TargetMaxHP, DamageType.Arcane);
+
+            // Play hit sound
+            ctx.SFX.PlayHitSound(Target);
+        }
     }
 }
