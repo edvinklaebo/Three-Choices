@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-
 using UnityEngine;
-
 using Utils;
 
 namespace Core.Artifacts
@@ -25,12 +23,12 @@ namespace Core.Artifacts
 
         public JsonArtifactProgressionPersistence()
         {
-            this._savePath = Path.Combine(Application.persistentDataPath, DefaultFileName);
+            _savePath = Path.Combine(Application.persistentDataPath, DefaultFileName);
         }
 
         public JsonArtifactProgressionPersistence(string savePath)
         {
-            this._savePath = savePath ?? throw new ArgumentNullException(nameof(savePath));
+            _savePath = savePath ?? throw new ArgumentNullException(nameof(savePath));
         }
 
         public void Save(IReadOnlyCollection<string> unlockedIds)
@@ -42,7 +40,7 @@ namespace Core.Artifacts
                     unlockedArtifactIds = new List<string>(unlockedIds)
                 };
                 var json = JsonUtility.ToJson(data, true);
-                File.WriteAllText(this._savePath, json);
+                File.WriteAllText(_savePath, json);
                 Log.Info($"[JsonArtifactProgressionPersistence] Saved {unlockedIds.Count} unlocked artifacts");
             }
             catch (Exception ex)
@@ -53,7 +51,7 @@ namespace Core.Artifacts
 
         public bool Load(out IReadOnlyCollection<string> unlockedIds)
         {
-            if (!File.Exists(this._savePath))
+            if (!File.Exists(_savePath))
             {
                 Log.Info("[JsonArtifactProgressionPersistence] No save file found");
                 unlockedIds = null;
@@ -62,7 +60,7 @@ namespace Core.Artifacts
 
             try
             {
-                var json = File.ReadAllText(this._savePath);
+                var json = File.ReadAllText(_savePath);
                 var data = JsonUtility.FromJson<ArtifactSaveData>(json);
 
                 if (data?.unlockedArtifactIds == null)
@@ -88,8 +86,8 @@ namespace Core.Artifacts
         {
             try
             {
-                if (File.Exists(this._savePath))
-                    File.Delete(this._savePath);
+                if (File.Exists(_savePath))
+                    File.Delete(_savePath);
             }
             catch (Exception ex)
             {

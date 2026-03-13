@@ -24,12 +24,12 @@ namespace Core
 
         public DamageContext(Unit source, Unit target, int value)
         {
-            this.Source = source;
-            this.Target = target;
-            this.BaseValue = value;
-            this.FinalValue = value;
-            this.ModifiedDamage = value;
-            this.FinalDamage = value;
+            Source = source;
+            Target = target;
+            BaseValue = value;
+            FinalValue = value;
+            ModifiedDamage = value;
+            FinalDamage = value;
         }
     }
 }

@@ -1,8 +1,6 @@
 using System;
 using System.Linq;
-
 using Interfaces;
-
 using Utils;
 
 namespace Core.Combat
@@ -19,8 +17,8 @@ namespace Core.Combat
 
         public CombatDamageResolver(CombatEventBus eventBus, CombatActionLog actionLog)
         {
-            this._eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
-            this._actionLog = actionLog ?? throw new ArgumentNullException(nameof(actionLog));
+            _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
+            _actionLog = actionLog ?? throw new ArgumentNullException(nameof(actionLog));
         }
 
         /// <summary>
@@ -73,9 +71,9 @@ namespace Core.Combat
             else
                 action = new DamageAction(source, target, ctx.FinalDamage, hpBefore, hpAfter, maxHP);
 
-            this._actionLog.Add(action);
+            _actionLog.Add(action);
 
-            this._eventBus.Raise(new OnHitEvent(source, target, ctx.FinalDamage));
+            _eventBus.Raise(new OnHitEvent(source, target, ctx.FinalDamage));
 
             ExecutePhase(CombatPhase.Healing, ctx);
             // ResourceGain and StatusApplication use immediate application: their phase lets listeners
@@ -89,13 +87,13 @@ namespace Core.Combat
             ExecutePhase(CombatPhase.PostResolve, ctx);
             ApplyHealing(ctx);
 
-            if (target.IsDead && this._actionLog.Actions.OfType<DeathAction>().All(a => a.Target != target))
-                this._actionLog.Add(new DeathAction(target));
+            if (target.IsDead && _actionLog.Actions.OfType<DeathAction>().All(a => a.Target != target))
+                _actionLog.Add(new DeathAction(target));
         }
 
         private void ExecutePhase(CombatPhase phase, DamageContext context)
         {
-            this._eventBus.Raise(new DamagePhaseEvent(phase, context));
+            _eventBus.Raise(new DamagePhaseEvent(phase, context));
         }
 
         private void ApplyHealing(DamageContext context)
@@ -106,7 +104,7 @@ namespace Core.Combat
             context.Source.Heal(context.PendingHealing);
             var hpAfter = context.Source.Stats.CurrentHP;
 
-            this._actionLog.Add(new HealAction(context.Source, context.PendingHealing, hpBefore, hpAfter, context.Source.Stats.MaxHP));
+            _actionLog.Add(new HealAction(context.Source, context.PendingHealing, hpBefore, hpAfter, context.Source.Stats.MaxHP));
         }
 
         private void ApplyResourceGain(DamageContext context)

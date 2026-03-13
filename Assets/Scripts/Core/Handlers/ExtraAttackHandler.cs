@@ -24,57 +24,57 @@ namespace Core.Handlers
 
         public ExtraAttackHandler(Unit owner, DoubleStrike passive)
         {
-            this._owner = owner;
-            this._passive = passive;
+            _owner = owner;
+            _passive = passive;
         }
 
         public void RegisterHandlers(CombatContext context)
         {
-            this._context = context;
+            _context = context;
             context.On<AfterAttackEvent>(OnAfterAttack);
         }
 
         public void UnregisterHandlers(CombatContext context)
         {
-            this._context = null;
+            _context = null;
             context.Off<AfterAttackEvent>(OnAfterAttack);
         }
 
         private void OnAfterAttack(AfterAttackEvent evt)
         {
-            if (evt.Source != this._owner)
+            if (evt.Source != _owner)
                 return;
 
-            if (this._isProcessingStrikes)
+            if (_isProcessingStrikes)
                 return;
 
-            this._isProcessingStrikes = true;
-            this._passive.Suspend();
+            _isProcessingStrikes = true;
+            _passive.Suspend();
             try
             {
-                var strikes = this._passive.ConsumePendingStrikes();
+                var strikes = _passive.ConsumePendingStrikes();
                 foreach (var strikeData in strikes)
                 {
                     if (strikeData.Target.IsDead)
                         continue;
 
-                    var secondBaseDamage = Mathf.CeilToInt(this._owner.Stats.AttackPower * strikeData.DamageMultiplier);
+                    var secondBaseDamage = Mathf.CeilToInt(_owner.Stats.AttackPower * strikeData.DamageMultiplier);
 
                     Log.Info("Double Strike second hit", new
                     {
-                        attacker = this._owner.Name,
+                        attacker = _owner.Name,
                         target = strikeData.Target.Name,
                         secondBaseDamage,
                         strikeData.DamageMultiplier
                     });
 
-                    this._context.DealDamage(this._owner, strikeData.Target, secondBaseDamage);
+                    _context.DealDamage(_owner, strikeData.Target, secondBaseDamage);
                 }
             }
             finally
             {
-                this._passive.Resume();
-                this._isProcessingStrikes = false;
+                _passive.Resume();
+                _isProcessingStrikes = false;
             }
         }
     }

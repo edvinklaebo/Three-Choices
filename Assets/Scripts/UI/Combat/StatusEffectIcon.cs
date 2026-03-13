@@ -19,9 +19,9 @@ namespace UI.Combat
 
         private void Awake()
         {
-            if (this._iconImage == null)
+            if (_iconImage == null)
             {
-                this._iconImage = GetComponent<Image>();
+                _iconImage = GetComponent<Image>();
             }
         }
 
@@ -31,44 +31,44 @@ namespace UI.Combat
         public void SetEffect(string effectId, int stacks, int duration)
         {
             // Set icon sprite (placeholder - would load from resources/data)
-            if (this._iconImage != null)
+            if (_iconImage != null)
             {
                 // For now, just set a placeholder color
-                this._iconImage.color = GetEffectColor(effectId);
+                _iconImage.color = GetEffectColor(effectId);
             }
 
             // Set stack count
-            if (this._stackText != null)
+            if (_stackText != null)
             {
                 if (stacks > 1)
                 {
-                    this._stackText.text = stacks.ToString();
-                    this._stackText.gameObject.SetActive(true);
+                    _stackText.text = stacks.ToString();
+                    _stackText.gameObject.SetActive(true);
                 }
                 else
                 {
-                    this._stackText.gameObject.SetActive(false);
+                    _stackText.gameObject.SetActive(false);
                 }
             }
 
             // Set duration
-            if (this._durationText != null)
+            if (_durationText != null)
             {
                 if (duration > 0)
                 {
-                    this._durationText.text = duration.ToString();
-                    this._durationText.gameObject.SetActive(true);
+                    _durationText.text = duration.ToString();
+                    _durationText.gameObject.SetActive(true);
                 }
                 else
                 {
-                    this._durationText.gameObject.SetActive(false);
+                    _durationText.gameObject.SetActive(false);
                 }
             }
 
             // Update duration ring fill
-            if (this._durationRing != null)
+            if (_durationRing != null)
             {
-                this._durationRing.gameObject.SetActive(duration > 0);
+                _durationRing.gameObject.SetActive(duration > 0);
             }
         }
 
@@ -77,25 +77,25 @@ namespace UI.Combat
         /// </summary>
         public void SetOverflow(int overflowCount)
         {
-            if (this._iconImage != null)
+            if (_iconImage != null)
             {
-                this._iconImage.color = Color.gray;
+                _iconImage.color = Color.gray;
             }
 
-            if (this._stackText != null)
+            if (_stackText != null)
             {
-                this._stackText.text = $"+{overflowCount}";
-                this._stackText.gameObject.SetActive(true);
+                _stackText.text = $"+{overflowCount}";
+                _stackText.gameObject.SetActive(true);
             }
 
-            if (this._durationText != null)
+            if (_durationText != null)
             {
-                this._durationText.gameObject.SetActive(false);
+                _durationText.gameObject.SetActive(false);
             }
 
-            if (this._durationRing != null)
+            if (_durationRing != null)
             {
-                this._durationRing.gameObject.SetActive(false);
+                _durationRing.gameObject.SetActive(false);
             }
         }
 

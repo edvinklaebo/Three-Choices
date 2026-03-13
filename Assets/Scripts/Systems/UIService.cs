@@ -35,11 +35,11 @@ namespace Systems
                 if (b.HealthBar != null)
                     reusedHealthBars.Add(b.HealthBar);
 
-            foreach (var binding in this._bindings.Values)
+            foreach (var binding in _bindings.Values)
                 if (binding.HealthBar != null && !reusedHealthBars.Contains(binding.HealthBar))
                     binding.HealthBar.Unbind();
 
-            this._bindings = newBindings;
+            _bindings = newBindings;
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Systems
         private bool TryGetBinding(Unit target, out UnitUIBinding binding)
         {
             binding = null;
-            return target != null && this._bindings.TryGetValue(target, out binding);
+            return target != null && _bindings.TryGetValue(target, out binding);
         }
     }
 }

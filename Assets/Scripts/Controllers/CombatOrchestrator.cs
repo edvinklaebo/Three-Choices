@@ -37,86 +37,86 @@ namespace Controllers
 
         private void Awake()
         {
-            if (this._enemyFactory == null)
+            if (_enemyFactory == null)
                 Log.Error("CombatOrchestrator: _enemyFactory is not assigned.");
-            if (this._combatSystem == null)
+            if (_combatSystem == null)
                 Log.Error("CombatOrchestrator: _combatSystem is not assigned.");
-            if (this._combatReady == null)
+            if (_combatReady == null)
                 Log.Error("CombatOrchestrator: _combatReady is not assigned.");
         }
 
         private void Start()
         {
-            this._requestNextFight?.Raise();
+            _requestNextFight?.Raise();
         }
 
         private void OnEnable()
         {
-            if (this._fightStarted != null)
-                this._fightStarted.OnRaised += HandleStartFight;
-            if (this._fightEnded != null)
-                this._fightEnded.OnRaised += OnFightEnded;
-            if (this._bossFightEnded != null)
-                this._bossFightEnded.OnRaised += OnFightEnded;
-            if (this._bossFightStarted != null)
-                this._bossFightStarted.OnRaised += OnBossFightStarted;
+            if (_fightStarted != null)
+                _fightStarted.OnRaised += HandleStartFight;
+            if (_fightEnded != null)
+                _fightEnded.OnRaised += OnFightEnded;
+            if (_bossFightEnded != null)
+                _bossFightEnded.OnRaised += OnFightEnded;
+            if (_bossFightStarted != null)
+                _bossFightStarted.OnRaised += OnBossFightStarted;
         }
 
         private void OnDisable()
         {
-            if (this._fightStarted != null)
-                this._fightStarted.OnRaised -= HandleStartFight;
-            if (this._fightEnded != null)
-                this._fightEnded.OnRaised -= OnFightEnded;
-            if (this._bossFightEnded != null)
-                this._bossFightEnded.OnRaised -= OnFightEnded;
-            if (this._bossFightStarted != null)
-                this._bossFightStarted.OnRaised -= OnBossFightStarted;
+            if (_fightStarted != null)
+                _fightStarted.OnRaised -= HandleStartFight;
+            if (_fightEnded != null)
+                _fightEnded.OnRaised -= OnFightEnded;
+            if (_bossFightEnded != null)
+                _bossFightEnded.OnRaised -= OnFightEnded;
+            if (_bossFightStarted != null)
+                _bossFightStarted.OnRaised -= OnBossFightStarted;
         }
 
         private void OnBossFightStarted(BossDefinition boss)
         {
-            this._pendingBoss = boss;
+            _pendingBoss = boss;
         }
 
         private void HandleStartFight(Unit player, int fightIndex)
         {
-            if (this._isFighting)
+            if (_isFighting)
                 return;
 
-            this._isFighting = true;
+            _isFighting = true;
 
             var enemy = CreateEnemy(fightIndex);
 
             CombatLogger.Instance.RegisterUnit(enemy);
 
-            var actions = this._combatSystem.RunFight(player, enemy);
+            var actions = _combatSystem.RunFight(player, enemy);
 
-            this._combatReady?.Raise(new CombatResult(player, enemy, actions));
+            _combatReady?.Raise(new CombatResult(player, enemy, actions));
         }
 
         private Unit CreateEnemy(int fightIndex)
         {
-            if (this._pendingBoss)
+            if (_pendingBoss)
             {
-                var boss = new Boss(this._pendingBoss);
+                var boss = new Boss(_pendingBoss);
                 Log.Info("[CombatOrchestrator] Boss fight — using Boss unit", new
                 {
-                    bossId = this._pendingBoss.Id,
+                    bossId = _pendingBoss.Id,
                     fightIndex,
                     maxHP = boss.Stats.MaxHP,
                     attackPower = boss.Stats.AttackPower
                 });
-                this._pendingBoss = null;
+                _pendingBoss = null;
                 return boss;
             }
 
-            return this._enemyFactory.Create(fightIndex);
+            return _enemyFactory.Create(fightIndex);
         }
 
         private void OnFightEnded()
         {
-            this._isFighting = false;
+            _isFighting = false;
         }
     }
 }

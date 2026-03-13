@@ -29,7 +29,7 @@ namespace Examples
         private void Start()
         {
             // Option 1: Use the bootstrap to create UI automatically
-            if (this.createUI)
+            if (createUI)
             {
                 gameObject.AddComponent<PauseMenuBootstrap>();
             }

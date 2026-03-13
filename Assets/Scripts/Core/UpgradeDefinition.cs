@@ -29,21 +29,21 @@ namespace Core
 
     
         // ---- Public read-only accessors ----
-        public string Id => this.id;
-        public string DisplayName => this.displayName;
-        public string Description => this.description;
-        public Sprite Icon => this.icon;
+        public string Id => id;
+        public string DisplayName => displayName;
+        public string Description => description;
+        public Sprite Icon => icon;
 
 
         public Rarity GetRarity()
         {
             // Map rarityWeight values to Rarity enum
             // Values are mapped based on the Rarity enum values
-            if (this.rarityWeight >= (int)Rarity.Common)
+            if (rarityWeight >= (int)Rarity.Common)
                 return Rarity.Common;
-            if (this.rarityWeight >= (int)Rarity.Uncommon)
+            if (rarityWeight >= (int)Rarity.Uncommon)
                 return Rarity.Uncommon;
-            if (this.rarityWeight >= (int)Rarity.Rare)
+            if (rarityWeight >= (int)Rarity.Rare)
                 return Rarity.Rare;
             return Rarity.Epic;
         }
@@ -51,8 +51,8 @@ namespace Core
 #if UNITY_EDITOR
         public void EditorInit(string identifier, string soName)
         {
-            this.id = identifier;
-            this.displayName = soName;
+            id = identifier;
+            displayName = soName;
         }
 #endif
 

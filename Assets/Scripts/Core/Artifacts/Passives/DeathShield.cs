@@ -30,7 +30,7 @@ namespace Core.Artifacts.Passives
 
         public DeathShield(float revivePercent = 0.5f)
         {
-            this._revivePercent = revivePercent;
+            _revivePercent = revivePercent;
         }
 
         public void OnAttach(Unit owner)
@@ -47,12 +47,12 @@ namespace Core.Artifacts.Passives
         {
             // Check args.Cancelled defensively: a future higher-priority passive (Priority < 0) might
             // also intercept death. Respecting an existing cancellation avoids overwriting its ReviveHp.
-            if (this._triggered || args.Cancelled)
+            if (_triggered || args.Cancelled)
                 return;
 
-            this._triggered = true;
+            _triggered = true;
             args.Cancelled = true;
-            args.ReviveHp = Mathf.CeilToInt(unit.Stats.MaxHP * this._revivePercent);
+            args.ReviveHp = Mathf.CeilToInt(unit.Stats.MaxHP * _revivePercent);
 
             Log.Info("[DeathShield] Death cancelled, reviving", new
             {
@@ -63,6 +63,6 @@ namespace Core.Artifacts.Passives
         }
 
         /// <summary>True when the death shield has already been consumed.</summary>
-        public bool Triggered => this._triggered;
+        public bool Triggered => _triggered;
     }
 }

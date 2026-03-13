@@ -25,7 +25,7 @@ namespace Core
 
         public Unit(string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         /// <summary>
@@ -35,15 +35,15 @@ namespace Core
         /// </summary>
         public void RestorePlayerState()
         {
-            Log.Info($"[Unit] Restoring player state for {this.Name}");
+            Log.Info($"[Unit] Restoring player state for {Name}");
 
-            this.Passives.Sort((a, b) => a.Priority.CompareTo(b.Priority));
+            Passives.Sort((a, b) => a.Priority.CompareTo(b.Priority));
 
-            foreach (var passive in this.Passives)
+            foreach (var passive in Passives)
             {
                 if (passive == null)
                 {
-                    Log.Warning($"[Unit] Null passive found in {this.Name}'s passive list");
+                    Log.Warning($"[Unit] Null passive found in {Name}'s passive list");
                     continue;
                 }
 
@@ -52,7 +52,7 @@ namespace Core
             }
 
             Log.Info(
-                $"[Unit] Player state restored - Abilities: {this.Abilities.Count}, Passives: {this.Passives.Count}, StatusEffects: {this.StatusEffects.Count}");
+                $"[Unit] Player state restored - Abilities: {Abilities.Count}, Passives: {Passives.Count}, StatusEffects: {StatusEffects.Count}");
         }
 
         public event Action<Unit, Unit, int> Damaged;
@@ -79,9 +79,9 @@ namespace Core
 
             if (args.Cancelled)
             {
-                this.Stats.CurrentHP = Math.Max(MinReviveHp, Math.Min(args.ReviveHp, this.Stats.MaxHP));
-                HealthChanged?.Invoke(this, this.Stats.CurrentHP, this.Stats.MaxHP);
-                Log.Info($"[Unit] {this.Name} death cancelled, restored to {this.Stats.CurrentHP} HP");
+                Stats.CurrentHP = Math.Max(MinReviveHp, Math.Min(args.ReviveHp, Stats.MaxHP));
+                HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
+                Log.Info($"[Unit] {Name} death cancelled, restored to {Stats.CurrentHP} HP");
                 return;
             }
 
@@ -100,10 +100,10 @@ namespace Core
                 return;
 
             IsDead = false;
-            this.Stats.CurrentHP = Math.Max(MinReviveHp, Math.Min(hp, this.Stats.MaxHP));
-            HealthChanged?.Invoke(this, this.Stats.CurrentHP, this.Stats.MaxHP);
+            Stats.CurrentHP = Math.Max(MinReviveHp, Math.Min(hp, Stats.MaxHP));
+            HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
 
-            Log.Info($"[Unit] {this.Name} revived with {this.Stats.CurrentHP} HP");
+            Log.Info($"[Unit] {Name} revived with {Stats.CurrentHP} HP");
         }
 
         public void RaiseOnHit(Unit target, int damage)
@@ -116,14 +116,14 @@ namespace Core
             if (IsDead || damage <= 0)
                 return;
 
-            var previousHp = this.Stats.CurrentHP;
-            this.Stats.CurrentHP = Math.Max(0, this.Stats.CurrentHP - damage);
+            var previousHp = Stats.CurrentHP;
+            Stats.CurrentHP = Math.Max(0, Stats.CurrentHP - damage);
 
             Damaged?.Invoke(this, attacker, damage);
             attacker?.OnHit?.Invoke(attacker, this, damage);
-            HealthChanged?.Invoke(this, this.Stats.CurrentHP, this.Stats.MaxHP);
+            HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
 
-            if (previousHp > 0 && this.Stats.CurrentHP == 0)
+            if (previousHp > 0 && Stats.CurrentHP == 0)
                 Die();
         }
 
@@ -132,9 +132,9 @@ namespace Core
             if (IsDead || amount <= 0)
                 return;
 
-            var actualHeal = Math.Min(this.Stats.MaxHP - this.Stats.CurrentHP, amount);
-            this.Stats.CurrentHP += actualHeal;
-            HealthChanged?.Invoke(this, this.Stats.CurrentHP, this.Stats.MaxHP);
+            var actualHeal = Math.Min(Stats.MaxHP - Stats.CurrentHP, amount);
+            Stats.CurrentHP += actualHeal;
+            HealthChanged?.Invoke(this, Stats.CurrentHP, Stats.MaxHP);
 
             if (actualHeal > 0)
                 Healed?.Invoke(this, actualHeal);
@@ -147,11 +147,11 @@ namespace Core
         
             IStatusEffect existing = null;
 
-            for (var i = 0; i < this.StatusEffects.Count; i++)
+            for (var i = 0; i < StatusEffects.Count; i++)
             {
-                if (this.StatusEffects[i].Id != effect.Id) 
+                if (StatusEffects[i].Id != effect.Id) 
                     continue;
-                existing = this.StatusEffects[i];
+                existing = StatusEffects[i];
                 break;
             }
 
@@ -159,7 +159,7 @@ namespace Core
             {
                 Log.Info("Status effect stacked", new
                 {
-                    target = this.Name,
+                    target = Name,
                     effectId = effect.Id,
                     oldStacks = existing.Stacks,
                     addedStacks = effect.Stacks,
@@ -171,7 +171,7 @@ namespace Core
                 return;
             }
 
-            this.StatusEffects.Add(effect);
+            StatusEffects.Add(effect);
             effect.OnApply(this);
             StatusEffectApplied?.Invoke(this, effect, false);
         }
@@ -188,12 +188,12 @@ namespace Core
 
         private void Tick(Func<IStatusEffect, int> tickAction)
         {
-            for (var i = this.StatusEffects.Count - 1; i >= 0; i--)
+            for (var i = StatusEffects.Count - 1; i >= 0; i--)
             {
                 if (IsDead)
                     break;
             
-                var e = this.StatusEffects[i];
+                var e = StatusEffects[i];
                 var damage = tickAction(e);
 
                 if (damage > 0)
@@ -202,7 +202,7 @@ namespace Core
                 if (e.Duration <= 0)
                 {
                     e.OnExpire(this);
-                    this.StatusEffects.RemoveAt(i);
+                    StatusEffects.RemoveAt(i);
                 }
             }
         }

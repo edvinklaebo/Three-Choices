@@ -26,16 +26,16 @@ namespace UI.Combat
 
         private void Awake()
         {
-            this._rectTransform = GetComponent<RectTransform>();
+            _rectTransform = GetComponent<RectTransform>();
 
-            if (this._text == null)
+            if (_text == null)
             {
-                this._text = GetComponentInChildren<TextMeshProUGUI>();
+                _text = GetComponentInChildren<TextMeshProUGUI>();
             }
 
-            if (this._canvasGroup == null)
+            if (_canvasGroup == null)
             {
-                this._canvasGroup = GetComponent<CanvasGroup>();
+                _canvasGroup = GetComponent<CanvasGroup>();
             }
         }
 
@@ -44,17 +44,17 @@ namespace UI.Combat
         /// </summary>
         public void Show(int amount, DamageType damageType, Vector3 worldPosition, Camera uCamera)
         {
-            if (!this._text)
+            if (!_text)
                 return;
 
             // Set text and color
-            this._text.text = amount.ToString();
-            this._text.color = GetColorForDamageType(damageType);
+            _text.text = amount.ToString();
+            _text.color = GetColorForDamageType(damageType);
 
             // Position in screen space
             var screenPos = uCamera.WorldToScreenPoint(worldPosition);
-            this._rectTransform.position = screenPos;
-            this._startPosition = this._rectTransform.anchoredPosition;
+            _rectTransform.position = screenPos;
+            _startPosition = _rectTransform.anchoredPosition;
 
             // Start animation
             StartCoroutine(AnimateRoutine());
@@ -64,19 +64,19 @@ namespace UI.Combat
         {
             var elapsed = 0f;
 
-            while (elapsed < this._floatDuration)
+            while (elapsed < _floatDuration)
             {
                 elapsed += Time.deltaTime;
-                var t = elapsed / this._floatDuration;
+                var t = elapsed / _floatDuration;
 
                 // Float up
-                var offset = this._floatCurve.Evaluate(t) * this._floatDistance;
-                this._rectTransform.anchoredPosition = this._startPosition + Vector3.up * offset;
+                var offset = _floatCurve.Evaluate(t) * _floatDistance;
+                _rectTransform.anchoredPosition = _startPosition + Vector3.up * offset;
 
                 // Fade out
-                if (this._canvasGroup != null)
+                if (_canvasGroup != null)
                 {
-                    this._canvasGroup.alpha = 1f - t;
+                    _canvasGroup.alpha = 1f - t;
                 }
 
                 yield return null;
@@ -108,9 +108,9 @@ namespace UI.Combat
         /// </summary>
         public void Reset()
         {
-            if (this._canvasGroup != null)
+            if (_canvasGroup != null)
             {
-                this._canvasGroup.alpha = 1f;
+                _canvasGroup.alpha = 1f;
             }
 
             StopAllCoroutines();

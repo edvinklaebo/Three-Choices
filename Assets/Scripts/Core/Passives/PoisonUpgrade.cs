@@ -21,9 +21,9 @@ namespace Core.Passives
 
         public PoisonUpgrade(Unit owner, int stacks = 2, int duration = 3, int baseDamage = 2)
         {
-            this._stacks = stacks;
-            this._duration = duration;
-            this._baseDamage = baseDamage;
+            _stacks = stacks;
+            _duration = duration;
+            _baseDamage = baseDamage;
         }
 
         public void OnAttach(Unit owner)
@@ -44,12 +44,12 @@ namespace Core.Passives
             Log.Info("Poison passive triggered", new
             {
                 target = target.Name,
-                stacks = this._stacks,
-                duration = this._duration,
-                baseDamage = this._baseDamage
+                stacks = _stacks,
+                duration = _duration,
+                baseDamage = _baseDamage
             });
 
-            target.ApplyStatus(new Poison(this._stacks, this._duration, this._baseDamage));
+            target.ApplyStatus(new Poison(_stacks, _duration, _baseDamage));
         }
     }
 }

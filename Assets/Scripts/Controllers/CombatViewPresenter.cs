@@ -1,14 +1,9 @@
 using System.Collections.Generic;
-
 using Core;
 using Core.Combat;
-
 using Events;
-
 using Interfaces;
-
 using UnityEngine;
-
 using Utils;
 
 namespace Controllers
@@ -27,17 +22,17 @@ namespace Controllers
 
         private void Awake()
         {
-            if (this._servicesInstaller == null)
+            if (_servicesInstaller == null)
                 Log.Error("CombatViewPresenter: _servicesInstaller is not assigned. View presentation will not function correctly.");
         }
 
-        public AnimationContext Context => this._servicesInstaller?.Context;
+        public AnimationContext Context => _servicesInstaller?.Context;
 
         public void Show(CombatResult result)
         {
-            this._hideDraftUI?.Raise();
+            _hideDraftUI?.Raise();
 
-            var combatView = this._servicesInstaller?.CombatView;
+            var combatView = _servicesInstaller?.CombatView;
             if (combatView == null)
             {
                 Log.Warning("CombatViewPresenter.Show: CombatView is null — view will not be displayed.");
@@ -46,7 +41,7 @@ namespace Controllers
 
             combatView.Initialize(result.Player, result.Enemy);
 
-            var ui = this._servicesInstaller.Context?.UI;
+            var ui = _servicesInstaller.Context?.UI;
             ui?.SetBindings(combatView.BuildBindings(result.Player, result.Enemy));
 
             if (ui != null)
@@ -70,7 +65,7 @@ namespace Controllers
 
         public void Hide()
         {
-            this._servicesInstaller?.CombatView?.Hide();
+            _servicesInstaller?.CombatView?.Hide();
         }
     }
 }

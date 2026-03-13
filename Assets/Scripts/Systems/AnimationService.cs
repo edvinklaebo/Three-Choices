@@ -33,7 +33,7 @@ namespace Systems
 
         public void SetCombatView(CombatView combatView)
         {
-            this._combatView = combatView;
+            _combatView = combatView;
         }
 
         /// <summary>
@@ -42,10 +42,10 @@ namespace Systems
         /// </summary>
         public void SetProjectile(Transform projectile)
         {
-            this._projectile = projectile;
-            this._projectileRenderer = projectile != null ? projectile.GetComponent<SpriteRenderer>() : null;
+            _projectile = projectile;
+            _projectileRenderer = projectile != null ? projectile.GetComponent<SpriteRenderer>() : null;
 
-            if (projectile != null && this._projectileRenderer == null)
+            if (projectile != null && _projectileRenderer == null)
                 Log.Warning("Projectile Transform has no SpriteRenderer — sprites will not be swapped during PlayProjectile.", new { projectile = projectile.name });
         }
 
@@ -91,31 +91,31 @@ namespace Systems
             var sourceView = GetUnitView(source);
             var targetView = GetUnitView(target);
 
-            if (sourceView == null || targetView == null || this._projectile == null)
+            if (sourceView == null || targetView == null || _projectile == null)
             {
                 yield return new WaitForSeconds(PROJECTILE_DURATION);
                 yield break;
             }
 
-            if (this._projectileRenderer != null && sprite != null)
-                this._projectileRenderer.sprite = sprite;
+            if (_projectileRenderer != null && sprite != null)
+                _projectileRenderer.sprite = sprite;
 
             var startPos = sourceView.transform.position;
             var endPos = targetView.transform.position;
 
-            this._projectile.gameObject.SetActive(true);
-            this._projectile.position = startPos;
+            _projectile.gameObject.SetActive(true);
+            _projectile.position = startPos;
 
             var elapsed = 0f;
             while (elapsed < PROJECTILE_DURATION)
             {
                 elapsed += Time.deltaTime;
                 var t = Mathf.Clamp01(elapsed / PROJECTILE_DURATION);
-                this._projectile.position = Vector3.Lerp(startPos, endPos, t);
+                _projectile.position = Vector3.Lerp(startPos, endPos, t);
                 yield return null;
             }
 
-            this._projectile.gameObject.SetActive(false);
+            _projectile.gameObject.SetActive(false);
         }
 
         public IEnumerator PlayHit(Unit target)
@@ -197,10 +197,10 @@ namespace Systems
         /// </summary>
         private UnitView GetUnitView(Unit unit)
         {
-            if (this._combatView == null)
+            if (_combatView == null)
                 return null;
 
-            return this._combatView.GetUnitView(unit);
+            return _combatView.GetUnitView(unit);
         }
     }
 }

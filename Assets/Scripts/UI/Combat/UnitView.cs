@@ -24,11 +24,11 @@ namespace UI.Combat
         private bool _isPlayer;
         private Vector3 _spriteOriginalLocalPosition;
 
-        public Transform IdlePoint => this._idlePoint;
-        public Transform LungePoint => this._lungePoint;
-        public Unit Unit => this._unit;
-        public bool IsPlayer => this._isPlayer;
-        public Transform SpriteTransform => this._spriteRenderer?.transform;
+        public Transform IdlePoint => _idlePoint;
+        public Transform LungePoint => _lungePoint;
+        public Unit Unit => _unit;
+        public bool IsPlayer => _isPlayer;
+        public Transform SpriteTransform => _spriteRenderer?.transform;
 
         private void Awake()
         {
@@ -46,19 +46,19 @@ namespace UI.Combat
                 return;
             }
 
-            this._unit = unit;
-            this._isPlayer = isPlayer;
+            _unit = unit;
+            _isPlayer = isPlayer;
 
             // Position at idle point
-            if (this._idlePoint != null)
+            if (_idlePoint != null)
             {
-                transform.position = this._idlePoint.position;
+                transform.position = _idlePoint.position;
             }
 
             // Store sprite's original local position
-            if (this._spriteRenderer != null)
+            if (_spriteRenderer != null)
             {
-                this._spriteOriginalLocalPosition = this._spriteRenderer.transform.localPosition;
+                _spriteOriginalLocalPosition = _spriteRenderer.transform.localPosition;
             }
 
             if (portrait != null)
@@ -78,9 +78,9 @@ namespace UI.Combat
         /// </summary>
         public void SetSprite(Sprite sprite)
         {
-            if (this._spriteRenderer != null)
+            if (_spriteRenderer != null)
             {
-                this._spriteRenderer.sprite = sprite;
+                _spriteRenderer.sprite = sprite;
             }
         }
 
@@ -89,9 +89,9 @@ namespace UI.Combat
         /// </summary>
         public void ResetSpritePosition()
         {
-            if (this._spriteRenderer != null)
+            if (_spriteRenderer != null)
             {
-                this._spriteRenderer.transform.localPosition = this._spriteOriginalLocalPosition;
+                _spriteRenderer.transform.localPosition = _spriteOriginalLocalPosition;
             }
         }
 
@@ -102,34 +102,34 @@ namespace UI.Combat
         private void SetFacingDirection(bool isPlayer)
         {
             // Ensure sprite renderer is found if not already assigned
-            if (this._spriteRenderer == null)
+            if (_spriteRenderer == null)
             {
-                this._spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+                _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             }
 
-            if (this._spriteRenderer != null)
+            if (_spriteRenderer != null)
             {
                 // Player faces right (positive X), enemy faces left (negative X)
-                this._spriteRenderer.flipX = !isPlayer;
+                _spriteRenderer.flipX = !isPlayer;
             }
         }
 
         private void ValidateComponents()
         {
-            if (this._idlePoint == null)
+            if (_idlePoint == null)
             {
                 Log.Warning($"UnitView [{gameObject.name}]: IdlePoint not assigned");
             }
 
-            if (this._lungePoint == null)
+            if (_lungePoint == null)
             {
                 Log.Warning($"UnitView [{gameObject.name}]: LungePoint not assigned");
             }
 
-            if (this._spriteRenderer == null)
+            if (_spriteRenderer == null)
             {
-                this._spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-                if (this._spriteRenderer == null)
+                _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+                if (_spriteRenderer == null)
                 {
                     Log.Warning($"UnitView [{gameObject.name}]: No SpriteRenderer found");
                 }

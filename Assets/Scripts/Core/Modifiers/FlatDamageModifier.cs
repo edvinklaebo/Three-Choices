@@ -17,15 +17,15 @@ namespace Core.Modifiers
         /// <param name="bonusDamage">Flat damage to add to each attack</param>
         public FlatDamageModifier(Unit owner, int bonusDamage)
         {
-            this._owner = owner;
-            this._bonusDamage = bonusDamage;
+            _owner = owner;
+            _bonusDamage = bonusDamage;
         }
 
         public void Modify(DamageContext ctx)
         {
-            if (ctx.Source != this._owner) return;
+            if (ctx.Source != _owner) return;
 
-            ctx.FinalValue += this._bonusDamage;
+            ctx.FinalValue += _bonusDamage;
         }
     }
 }

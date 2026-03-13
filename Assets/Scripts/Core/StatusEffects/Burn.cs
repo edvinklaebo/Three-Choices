@@ -20,7 +20,7 @@ namespace Core.StatusEffects
 
         public Burn(int duration, int baseDamage)
         {
-            this._baseDuration = duration;
+            _baseDuration = duration;
             Duration = duration;
             BaseDamage = baseDamage;
         }
@@ -104,7 +104,7 @@ namespace Core.StatusEffects
             }
 
             // Reset duration to base duration when burn is refreshed
-            Duration = this._baseDuration;
+            Duration = _baseDuration;
         }
     }
 }

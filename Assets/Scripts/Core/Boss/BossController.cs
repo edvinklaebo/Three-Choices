@@ -17,10 +17,10 @@ namespace Core.Boss
         private Boss _bossUnit;
 
         /// <summary>The active boss definition after <see cref="Initialize"/> has been called.</summary>
-        public BossDefinition Definition => this._definition;
+        public BossDefinition Definition => _definition;
 
         /// <summary>Zero-based index of the currently active phase.</summary>
-        public int CurrentPhase => this._currentPhase;
+        public int CurrentPhase => _currentPhase;
 
         /// <summary>
         ///     Sets up the boss with the given definition and enters the first phase.
@@ -42,15 +42,15 @@ namespace Core.Boss
                 return;
             }
 
-            this._definition = definition;
+            _definition = definition;
 
-            if (this._bossUnit != null && this._bossUnit != bossUnit)
-                this._bossUnit.HealthChanged -= OnUnitHealthChanged;
+            if (_bossUnit != null && _bossUnit != bossUnit)
+                _bossUnit.HealthChanged -= OnUnitHealthChanged;
 
-            this._bossUnit = bossUnit;
+            _bossUnit = bossUnit;
 
-            if (this._bossUnit != null)
-                this._bossUnit.HealthChanged += OnUnitHealthChanged;
+            if (_bossUnit != null)
+                _bossUnit.HealthChanged += OnUnitHealthChanged;
 
             ValidatePhaseOrder(definition);
             EnterPhase(0);
@@ -58,8 +58,8 @@ namespace Core.Boss
 
         private void OnDestroy()
         {
-            if (this._bossUnit != null)
-                this._bossUnit.HealthChanged -= OnUnitHealthChanged;
+            if (_bossUnit != null)
+                _bossUnit.HealthChanged -= OnUnitHealthChanged;
         }
 
         private void OnUnitHealthChanged(Unit unit, int currentHp, int maxHp)
@@ -77,14 +77,14 @@ namespace Core.Boss
         /// </summary>
         public void OnHealthChanged(float hpPercent)
         {
-            if (this._definition == null)
+            if (_definition == null)
                 return;
 
-            var nextPhase = this._currentPhase + 1;
-            if (nextPhase >= this._definition.Phases.Length)
+            var nextPhase = _currentPhase + 1;
+            if (nextPhase >= _definition.Phases.Length)
                 return;
 
-            if (hpPercent <= this._definition.Phases[nextPhase].TriggerHPPercent)
+            if (hpPercent <= _definition.Phases[nextPhase].TriggerHPPercent)
                 EnterPhase(nextPhase);
         }
 
@@ -101,10 +101,10 @@ namespace Core.Boss
 
         private void EnterPhase(int phaseIndex)
         {
-            this._currentPhase = phaseIndex;
-            var phase = this._definition.Phases[phaseIndex];
+            _currentPhase = phaseIndex;
+            var phase = _definition.Phases[phaseIndex];
 
-            Log.Info($"[BossController] Boss '{this._definition.Id}' entering phase {phaseIndex} (trigger: {phase.TriggerHPPercent}%)");
+            Log.Info($"[BossController] Boss '{_definition.Id}' entering phase {phaseIndex} (trigger: {phase.TriggerHPPercent}%)");
 
             if (phase.Abilities == null)
                 return;
@@ -114,7 +114,7 @@ namespace Core.Boss
                 var ability = phase.Abilities[i];
                 if (ability == null)
                 {
-                    Log.Warning($"[BossController] Null ability in phase {phaseIndex} of boss '{this._definition.Id}'");
+                    Log.Warning($"[BossController] Null ability in phase {phaseIndex} of boss '{_definition.Id}'");
                     continue;
                 }
 

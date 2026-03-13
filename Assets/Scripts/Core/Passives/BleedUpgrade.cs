@@ -39,7 +39,7 @@ namespace Core.Passives
 
         private void ApplyBleed(Unit attacker, Unit target, int _)
         {
-            target?.ApplyStatus(new Bleed(this.stacks, this.duration, this.baseDamage));
+            target?.ApplyStatus(new Bleed(stacks, duration, baseDamage));
         }
     }
 }

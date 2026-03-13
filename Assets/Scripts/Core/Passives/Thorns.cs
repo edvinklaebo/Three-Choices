@@ -26,56 +26,56 @@ namespace Core.Passives
 
         public void OnAttach(Unit owner)
         {
-            this._owner = owner;
+            _owner = owner;
         }
 
         public void OnDetach(Unit owner)
         {
-            this._owner = null;
+            _owner = null;
         }
 
         public void RegisterHandlers(CombatContext context)
         {
-            this._context = context;
+            _context = context;
             context.On<OnHitEvent>(OnHit);
         }
 
         public void UnregisterHandlers(CombatContext context)
         {
             context.Off<OnHitEvent>(OnHit);
-            this._context = null;
+            _context = null;
         }
 
         // Called via the combat event bus when a hit lands. Routes thorn reflect through
         // DealDamage so a DamageAction is recorded and the damage is displayed.
         private void OnHit(OnHitEvent evt)
         {
-            if (this._owner == null)
+            if (_owner == null)
                 return;
 
-            if (evt.Target != this._owner)
+            if (evt.Target != _owner)
                 return;
 
             if (evt.Source == null)
                 return;
 
-            if (this._isReflecting)
+            if (_isReflecting)
                 return;
 
-            var thornsDamage = this._owner.Stats.Armor / 2;
+            var thornsDamage = _owner.Stats.Armor / 2;
             if (thornsDamage <= 0)
                 return;
 
-            Log.Info($"Thorns reflect: {this._owner.Name} dealt {thornsDamage} to {evt.Source.Name}");
+            Log.Info($"Thorns reflect: {_owner.Name} dealt {thornsDamage} to {evt.Source.Name}");
 
-            this._isReflecting = true;
+            _isReflecting = true;
             try
             {
-                this._context.DealDamage(this._owner, evt.Source, thornsDamage, actionCreator: this);
+                _context.DealDamage(_owner, evt.Source, thornsDamage, actionCreator: this);
             }
             finally
             {
-                this._isReflecting = false;
+                _isReflecting = false;
             }
         }
 

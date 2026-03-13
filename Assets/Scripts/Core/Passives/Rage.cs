@@ -17,18 +17,18 @@ namespace Core.Passives
 
         public Rage(Unit owner)
         {
-            this._owner = owner;
+            _owner = owner;
         }
 
         public int Priority => 200; // Late-stage multiplier
 
         public void Modify(DamageContext ctx)
         {
-            if (ctx.Source != this._owner)
+            if (ctx.Source != _owner)
                 return;
 
             var missingHpPercent =
-                1f - (float)this._owner.Stats.CurrentHP / this._owner.Stats.MaxHP;
+                1f - (float)_owner.Stats.CurrentHP / _owner.Stats.MaxHP;
 
             var bonus = 1f + missingHpPercent; // up to +100%
 

@@ -1,10 +1,7 @@
 using System;
-
 using Core.Combat;
 using Core.StatusEffects;
-
 using Interfaces;
-
 using UnityEngine;
 
 namespace Core.Abilities
@@ -30,16 +27,16 @@ namespace Core.Abilities
 
         public Fireball(int baseDamage = 10, int burnDuration = 3, float burnDamagePercent = 0.5f, Sprite projectileSprite = null)
         {
-            this._baseDamage = baseDamage;
-            this._burnDuration = burnDuration;
-            this._burnDamagePercent = burnDamagePercent;
-            this._projectileSprite = projectileSprite;
+            _baseDamage = baseDamage;
+            _burnDuration = burnDuration;
+            _burnDamagePercent = burnDamagePercent;
+            _projectileSprite = projectileSprite;
         }
 
         public void AddDamage(int amount)
         {
             Debug.Assert(amount > 0, "AddDamage: amount must be positive");
-            this._baseDamage += amount;
+            _baseDamage += amount;
         }
 
         public void OnCast(Unit self, Unit target, CombatContext context)
@@ -47,12 +44,12 @@ namespace Core.Abilities
             if (target == null || target.IsDead)
                 return;
 
-            context.DealDamage(self, target, this._baseDamage,
-                               finalDamage => new Burn(this._burnDuration, Mathf.CeilToInt(finalDamage * this._burnDamagePercent)),
+            context.DealDamage(self, target, _baseDamage,
+                               finalDamage => new Burn(_burnDuration, Mathf.CeilToInt(finalDamage * _burnDamagePercent)),
                                actionCreator: this);
         }
 
         public ICombatAction CreateAction(Unit source, Unit target, int finalDamage, int hpBefore, int hpAfter, int maxHP)
-            => new FireballAction(source, target, finalDamage, hpBefore, hpAfter, maxHP, this._projectileSprite);
+            => new FireballAction(source, target, finalDamage, hpBefore, hpAfter, maxHP, _projectileSprite);
     }
 }

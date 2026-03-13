@@ -17,12 +17,12 @@ namespace UI.Combat
 
         private void Awake()
         {
-            if (this._playerHUD == null)
+            if (_playerHUD == null)
             {
                 Log.Error("CombatHUD: PlayerHUD not assigned");
             }
 
-            if (this._enemyHUD == null)
+            if (_enemyHUD == null)
             {
                 Log.Error("CombatHUD: EnemyHUD not assigned");
             }
@@ -39,14 +39,14 @@ namespace UI.Combat
                 return;
             }
 
-            if (this._playerHUD != null)
+            if (_playerHUD != null)
             {
-                this._playerHUD.Initialize(player);
+                _playerHUD.Initialize(player);
             }
 
-            if (this._enemyHUD != null)
+            if (_enemyHUD != null)
             {
-                this._enemyHUD.Initialize(enemy);
+                _enemyHUD.Initialize(enemy);
             }
 
             Log.Info("CombatHUD initialized", new
@@ -65,15 +65,15 @@ namespace UI.Combat
                 return null;
 
             // Check player HUD
-            if (this._playerHUD != null && this._playerHUD.GetUnit() == unit)
+            if (_playerHUD != null && _playerHUD.GetUnit() == unit)
             {
-                return this._playerHUD.GetHealthBar();
+                return _playerHUD.GetHealthBar();
             }
 
             // Check enemy HUD
-            if (this._enemyHUD != null && this._enemyHUD.GetUnit() == unit)
+            if (_enemyHUD != null && _enemyHUD.GetUnit() == unit)
             {
-                return this._enemyHUD.GetHealthBar();
+                return _enemyHUD.GetHealthBar();
             }
 
             return null;
@@ -88,15 +88,15 @@ namespace UI.Combat
                 return null;
 
             // Check player HUD
-            if (this._playerHUD != null && this._playerHUD.GetUnit() == unit)
+            if (_playerHUD != null && _playerHUD.GetUnit() == unit)
             {
-                return this._playerHUD;
+                return _playerHUD;
             }
 
             // Check enemy HUD
-            if (this._enemyHUD != null && this._enemyHUD.GetUnit() == unit)
+            if (_enemyHUD != null && _enemyHUD.GetUnit() == unit)
             {
-                return this._enemyHUD;
+                return _enemyHUD;
             }
 
             return null;

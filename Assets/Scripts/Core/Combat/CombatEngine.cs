@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Core.Modifiers;
-
 using Interfaces;
-
 using Utils;
 
 namespace Core.Combat
@@ -39,12 +36,12 @@ namespace Core.Combat
             {
                 Log.Exception(ex, "CombatEngine.RunFight failed", new
                 {
-                    attacker = this._attacker.Name,
-                    defender = this._defender.Name,
-                    round = this._round,
-                    attackerHp = this._attacker.Stats.CurrentHP,
-                    defenderHp = this._defender.Stats.CurrentHP,
-                    attackerTurn = this._attackerTurn
+                    attacker = _attacker.Name,
+                    defender = _defender.Name,
+                    round = _round,
+                    attackerHp = _attacker.Stats.CurrentHP,
+                    defenderHp = _defender.Stats.CurrentHP,
+                    attackerTurn = _attackerTurn
                 });
 
                 throw;
@@ -52,26 +49,26 @@ namespace Core.Combat
             finally
             {
                 // Clean up listeners
-                this._context.Clear();
+                _context.Clear();
             }
         }
 
         private void Initialize(Unit attacker, Unit defender)
         {
-            this._attacker = attacker;
-            this._defender = defender;
-            this._round = 0;
+            _attacker = attacker;
+            _defender = defender;
+            _round = 0;
 
-            this._context.Clear();
+            _context.Clear();
 
             // Register armor mitigation as a global combat rule (applied in Mitigation phase)
-            this._context.RegisterListener(new ArmorMitigationModifier());
+            _context.RegisterListener(new ArmorMitigationModifier());
 
             // Register combat listeners from both units
             RegisterListeners(attacker);
             RegisterListeners(defender);
 
-            this._attackerTurn = attacker.Stats.Speed >= defender.Stats.Speed;
+            _attackerTurn = attacker.Stats.Speed >= defender.Stats.Speed;
         }
 
         private bool IsFinished()
@@ -79,15 +76,15 @@ namespace Core.Combat
             // HP-based check is used between rounds so that units starting at 0 HP are handled correctly.
             // isDead-based checks inside ExecuteRound serve as within-round early exits when a unit
             // dies from a status effect or ability before the normal attack phase.
-            return this._attacker.Stats.CurrentHP <= 0 || this._defender.Stats.CurrentHP <= 0;
+            return _attacker.Stats.CurrentHP <= 0 || _defender.Stats.CurrentHP <= 0;
         }
 
         private void ExecuteRound()
         {
-            this._round++;
+            _round++;
 
-            var acting = this._attackerTurn ? this._attacker : this._defender;
-            var target = this._attackerTurn ? this._defender : this._attacker;
+            var acting = _attackerTurn ? _attacker : _defender;
+            var target = _attackerTurn ? _defender : _attacker;
 
             TickStatusesTurnStart(acting, target);
             if (acting.IsDead || target.IsDead)
@@ -104,12 +101,12 @@ namespace Core.Combat
         
             TickStatusesTurnEnd(acting, target);
 
-            this._attackerTurn = !this._attackerTurn;
+            _attackerTurn = !_attackerTurn;
         }
 
         private List<ICombatAction> BuildResult()
         {
-            return this._context.Actions.ToList();
+            return _context.Actions.ToList();
         }
 
         private void RegisterListeners(Unit unit)
@@ -117,23 +114,23 @@ namespace Core.Combat
             foreach (var passive in unit.Passives)
             {
                 if (passive is ICombatListener listener)
-                    this._context.RegisterListener(listener);
+                    _context.RegisterListener(listener);
 
                 if (passive is ICombatHandlerProvider provider)
-                    this._context.RegisterListener(provider.CreateCombatHandler(unit));
+                    _context.RegisterListener(provider.CreateCombatHandler(unit));
             }
         }
 
         private void Attack(Unit source, Unit target)
         {
             // Raise before attack event for pre-resolution listeners
-            this._context.Raise(new BeforeAttackEvent(source, target));
+            _context.Raise(new BeforeAttackEvent(source, target));
 
             // Pass raw AttackPower — armor reduction is applied in the Mitigation phase by ArmorMitigationModifier
-            this._context.DealDamage(source, target, source.Stats.AttackPower);
+            _context.DealDamage(source, target, source.Stats.AttackPower);
 
             // Raise AfterAttackEvent after full resolution so post-resolution effects (e.g. DoubleStrike) can react
-            this._context.Raise(new AfterAttackEvent(source, target));
+            _context.Raise(new AfterAttackEvent(source, target));
         }
 
         private void TickStatusesTurnStart(Unit source, Unit target)
@@ -148,7 +145,7 @@ namespace Core.Combat
                 var damage = effect.OnTurnStart(source);
 
                 if (damage > 0)
-                    this._context.DealDamage(null, source, damage, effectId: effect.Id);
+                    _context.DealDamage(null, source, damage, effectId: effect.Id);
 
                 // Remove expired effects
                 if (effect.Duration <= 0)
@@ -169,7 +166,7 @@ namespace Core.Combat
 
             foreach (var ability in source.Abilities)
             {
-                ability.OnCast(source, target, this._context);
+                ability.OnCast(source, target, _context);
             }
         }
 
@@ -185,7 +182,7 @@ namespace Core.Combat
                 var damage = effect.OnTurnEnd(source);
 
                 if (damage > 0)
-                    this._context.DealDamage(null, source, damage, effectId: effect.Id);
+                    _context.DealDamage(null, source, damage, effectId: effect.Id);
 
                 // Remove expired effects
                 if (effect.Duration <= 0)

@@ -40,16 +40,16 @@ namespace Intro
         public event Action<string> OnLineShown;
         public event Action OnComplete;
 
-        public int CurrentIndex => this._currentIndex;
-        public int TotalLines => this._lines.Length;
-        public bool IsComplete => this._currentIndex >= this._lines.Length;
+        public int CurrentIndex => _currentIndex;
+        public int TotalLines => _lines.Length;
+        public bool IsComplete => _currentIndex >= _lines.Length;
 
         public IntroSequence(string[] lines)
         {
             if (lines == null || lines.Length == 0)
                 throw new ArgumentException("Lines cannot be null or empty.", nameof(lines));
 
-            this._lines = lines;
+            _lines = lines;
         }
 
         public void ShowNext()
@@ -57,8 +57,8 @@ namespace Intro
             if (IsComplete)
                 return;
 
-            OnLineShown?.Invoke(this._lines[this._currentIndex]);
-            this._currentIndex++;
+            OnLineShown?.Invoke(_lines[_currentIndex]);
+            _currentIndex++;
 
             if (IsComplete)
                 OnComplete?.Invoke();
@@ -69,7 +69,7 @@ namespace Intro
             if (IsComplete)
                 return;
 
-            this._currentIndex = this._lines.Length;
+            _currentIndex = _lines.Length;
             OnComplete?.Invoke();
         }
     }

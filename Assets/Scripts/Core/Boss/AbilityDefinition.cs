@@ -11,8 +11,8 @@ namespace Core.Boss
         [SerializeField] private string _abilityName;
         [TextArea] [SerializeField] private string _description;
 
-        public string AbilityName => this._abilityName;
-        public string Description => this._description;
+        public string AbilityName => _abilityName;
+        public string Description => _description;
 
         /// <summary>
         ///     Called when the boss enters the phase that contains this ability.

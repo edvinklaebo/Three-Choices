@@ -17,14 +17,14 @@ namespace Systems
 
         private void OnEnable()
         {
-            var upgrades = Resources.LoadAll<UpgradeDefinition>(nameof(this.Upgrades));
+            var upgrades = Resources.LoadAll<UpgradeDefinition>(nameof(Upgrades));
 
-            this.Upgrades = new List<UpgradeDefinition>(upgrades);
+            Upgrades = new List<UpgradeDefinition>(upgrades);
         }
 
         public List<UpgradeDefinition> GetAll()
         {
-            var copyOfUpgrades = new List<UpgradeDefinition>(this.Upgrades);
+            var copyOfUpgrades = new List<UpgradeDefinition>(Upgrades);
 
             return copyOfUpgrades;
         }

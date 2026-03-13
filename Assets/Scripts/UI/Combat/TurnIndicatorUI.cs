@@ -18,9 +18,9 @@ namespace UI.Combat
 
         private void Awake()
         {
-            if (this._turnText == null) this._turnText = GetComponentInChildren<TextMeshProUGUI>();
+            if (_turnText == null) _turnText = GetComponentInChildren<TextMeshProUGUI>();
 
-            if (this._canvasGroup == null) this._canvasGroup = GetComponent<CanvasGroup>();
+            if (_canvasGroup == null) _canvasGroup = GetComponent<CanvasGroup>();
 
             Hide();
         }
@@ -33,9 +33,9 @@ namespace UI.Combat
             if (activeUnit == null)
                 return;
 
-            if (this._turnText != null) this._turnText.text = $"{activeUnit.Name}'s Turn";
+            if (_turnText != null) _turnText.text = $"{activeUnit.Name}'s Turn";
 
-            if (this._canvasGroup != null) this._canvasGroup.alpha = 1f;
+            if (_canvasGroup != null) _canvasGroup.alpha = 1f;
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace UI.Combat
         /// </summary>
         public void Hide()
         {
-            if (this._canvasGroup != null) this._canvasGroup.alpha = 0f;
+            if (_canvasGroup != null) _canvasGroup.alpha = 0f;
         }
     }
 }

@@ -7,8 +7,8 @@ namespace UI.Stats
 
         public StatViewData(string name, int value)
         {
-            this.Name = name;
-            this.Value = value;
+            Name = name;
+            Value = value;
         }
     }
 }

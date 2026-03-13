@@ -32,25 +32,25 @@ namespace UI
         private void Start()
         {
             // Ensure panels are hidden at start
-            if (this._pauseMenuPanel != null)
-                this._pauseMenuPanel.SetActive(false);
-            if (this._settingsPanel != null)
-                this._settingsPanel.SetActive(false);
-            if (this._quitButton != null)
-                this._quitButton.SetActive(PlatformUtils.IsQuitSupported());
+            if (_pauseMenuPanel != null)
+                _pauseMenuPanel.SetActive(false);
+            if (_settingsPanel != null)
+                _settingsPanel.SetActive(false);
+            if (_quitButton != null)
+                _quitButton.SetActive(PlatformUtils.IsQuitSupported());
         }
 
         private void HandlePauseStateChanged(bool isPaused)
         {
-            if (this._pauseMenuPanel != null)
+            if (_pauseMenuPanel != null)
             {
-                this._pauseMenuPanel.SetActive(isPaused);
+                _pauseMenuPanel.SetActive(isPaused);
             }
 
             // Hide settings panel when unpausing
-            if (!isPaused && this._settingsPanel != null)
+            if (!isPaused && _settingsPanel != null)
             {
-                this._settingsPanel.SetActive(false);
+                _settingsPanel.SetActive(false);
             }
         }
 
@@ -68,18 +68,18 @@ namespace UI
 
         public void OnSettingsClicked()
         {
-            if (this._pauseMenuPanel != null)
-                this._pauseMenuPanel.SetActive(false);
-            if (this._settingsPanel != null)
-                this._settingsPanel.SetActive(true);
+            if (_pauseMenuPanel != null)
+                _pauseMenuPanel.SetActive(false);
+            if (_settingsPanel != null)
+                _settingsPanel.SetActive(true);
         }
 
         public void OnBackFromSettings()
         {
-            if (this._settingsPanel != null)
-                this._settingsPanel.SetActive(false);
-            if (this._pauseMenuPanel != null)
-                this._pauseMenuPanel.SetActive(true);
+            if (_settingsPanel != null)
+                _settingsPanel.SetActive(false);
+            if (_pauseMenuPanel != null)
+                _pauseMenuPanel.SetActive(true);
         }
 
         public static void OnQuitClicked()
@@ -94,9 +94,9 @@ namespace UI
         /// </summary>
         public void Initialize(GameObject pauseMenuPanel, GameObject settingsPanel, GameObject quitButton = null)
         {
-            this._pauseMenuPanel = pauseMenuPanel;
-            this._settingsPanel = settingsPanel;
-            this._quitButton = quitButton;
+            _pauseMenuPanel = pauseMenuPanel;
+            _settingsPanel = settingsPanel;
+            _quitButton = quitButton;
         }
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-
 using Interfaces;
 
 namespace Core.Combat
@@ -18,46 +17,46 @@ namespace Core.Combat
         private readonly CombatListenerRegistry _listenerRegistry;
         private readonly CombatDamageResolver _damageResolver;
 
-        public IReadOnlyList<ICombatAction> Actions => this._actionLog.Actions;
+        public IReadOnlyList<ICombatAction> Actions => _actionLog.Actions;
 
         public CombatContext()
         {
-            this._listenerRegistry = new CombatListenerRegistry(this);
-            this._damageResolver = new CombatDamageResolver(this._eventBus, this._actionLog);
+            _listenerRegistry = new CombatListenerRegistry(this);
+            _damageResolver = new CombatDamageResolver(_eventBus, _actionLog);
         }
 
         /// <summary>
         /// Register a listener for combat events.
         /// </summary>
-        public void RegisterListener(ICombatListener listener) => this._listenerRegistry.Register(listener);
+        public void RegisterListener(ICombatListener listener) => _listenerRegistry.Register(listener);
 
         /// <summary>
         /// Subscribe to a specific event type.
         /// </summary>
-        public void On<TEvent>(Action<TEvent> handler) where TEvent : CombatEvent => this._eventBus.On(handler);
+        public void On<TEvent>(Action<TEvent> handler) where TEvent : CombatEvent => _eventBus.On(handler);
 
         /// <summary>
         /// Unsubscribe from a specific event type.
         /// </summary>
-        public void Off<TEvent>(Action<TEvent> handler) where TEvent : CombatEvent => this._eventBus.Off(handler);
+        public void Off<TEvent>(Action<TEvent> handler) where TEvent : CombatEvent => _eventBus.Off(handler);
 
         /// <summary>
         /// Raise a combat event, notifying all subscribed handlers.
         /// </summary>
-        public void Raise<TEvent>(TEvent evt) where TEvent : CombatEvent => this._eventBus.Raise(evt);
+        public void Raise<TEvent>(TEvent evt) where TEvent : CombatEvent => _eventBus.Raise(evt);
 
         /// <summary>
         /// Add a combat action to the action log.
         /// </summary>
-        public void AddAction(ICombatAction action) => this._actionLog.Add(action);
+        public void AddAction(ICombatAction action) => _actionLog.Add(action);
 
         /// <summary>
         /// Clear all registered listeners and handlers.
         /// </summary>
         public void Clear()
         {
-            this._listenerRegistry.Clear();
-            this._eventBus.Clear();
+            _listenerRegistry.Clear();
+            _eventBus.Clear();
         }
 
         /// <summary>
@@ -78,6 +77,6 @@ namespace Core.Combat
         public void DealDamage(Unit source, Unit target, int baseDamage,
                                Func<int, IStatusEffect> onHitStatus = null, string effectId = null,
                                IActionCreator actionCreator = null)
-            => this._damageResolver.DealDamage(source, target, baseDamage, onHitStatus, effectId, actionCreator);
+            => _damageResolver.DealDamage(source, target, baseDamage, onHitStatus, effectId, actionCreator);
     }
 }

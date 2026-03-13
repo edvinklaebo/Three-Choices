@@ -31,12 +31,12 @@ namespace UI.Combat
 
             Instance = this;
 
-            if (this._container == null) this._container = transform;
+            if (_container == null) _container = transform;
 
-            if (this._camera == null) this._camera = Camera.main;
+            if (_camera == null) _camera = Camera.main;
 
             // Pre-populate pool
-            for (var i = 0; i < this._initialPoolSize; i++) CreateNewInstance();
+            for (var i = 0; i < _initialPoolSize; i++) CreateNewInstance();
         }
 
         private void OnDestroy()
@@ -50,7 +50,7 @@ namespace UI.Combat
         public void Spawn(int amount, DamageType damageType, Vector3 worldPosition)
         {
             var text = Get();
-            if (text != null) text.Show(amount, damageType, worldPosition, this._camera);
+            if (text != null) text.Show(amount, damageType, worldPosition, _camera);
         }
 
         /// <summary>
@@ -60,8 +60,8 @@ namespace UI.Combat
         {
             FloatingText text;
 
-            if (this._pool.Count > 0)
-                text = this._pool.Pop();
+            if (_pool.Count > 0)
+                text = _pool.Pop();
             else
                 text = CreateNewInstance();
 
@@ -80,7 +80,7 @@ namespace UI.Combat
                 return;
 
             text.gameObject.SetActive(false);
-            this._pool.Push(text);
+            _pool.Push(text);
         }
 
         /// <summary>
@@ -88,15 +88,15 @@ namespace UI.Combat
         /// </summary>
         private FloatingText CreateNewInstance()
         {
-            if (this._floatingTextPrefab == null)
+            if (_floatingTextPrefab == null)
             {
                 Log.Error("FloatingTextPool: Prefab not assigned");
                 return null;
             }
 
-            var instance = Instantiate(this._floatingTextPrefab, this._container);
+            var instance = Instantiate(_floatingTextPrefab, _container);
             instance.gameObject.SetActive(false);
-            this._pool.Push(instance);
+            _pool.Push(instance);
 
             return instance;
         }

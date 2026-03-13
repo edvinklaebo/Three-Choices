@@ -25,9 +25,9 @@ namespace Core.Artifacts.Passives
 
         public PoisonAmplifier(int bonusStacks = 2, int bonusDuration = 3, int bonusBaseDamage = 2)
         {
-            this._bonusStacks = bonusStacks;
-            this._bonusDuration = bonusDuration;
-            this._bonusBaseDamage = bonusBaseDamage;
+            _bonusStacks = bonusStacks;
+            _bonusDuration = bonusDuration;
+            _bonusBaseDamage = bonusBaseDamage;
         }
 
         public void OnAttach(Unit owner)
@@ -50,12 +50,12 @@ namespace Core.Artifacts.Passives
                 if (target.StatusEffects[i].Id != "Poison")
                     continue;
 
-                target.ApplyStatus(new Poison(this._bonusStacks, this._bonusDuration, this._bonusBaseDamage));
+                target.ApplyStatus(new Poison(_bonusStacks, _bonusDuration, _bonusBaseDamage));
 
                 Log.Info("[PoisonAmplifier] Bonus poison stacks added", new
                 {
                     target = target.Name,
-                    bonusStacks = this._bonusStacks
+                    bonusStacks = _bonusStacks
                 });
 
                 break;

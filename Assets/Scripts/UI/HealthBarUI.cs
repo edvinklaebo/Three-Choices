@@ -34,13 +34,13 @@ namespace UI
 
         public void Awake()
         {
-            if (this._slider == null)
-                this._slider = GetComponent<Slider>();
+            if (_slider == null)
+                _slider = GetComponent<Slider>();
 
-            if (this._slider == null)
+            if (_slider == null)
                 throw new InvalidOperationException("HealthBarUI requires a Slider.");
         
-            this._slider.interactable = false;
+            _slider.interactable = false;
         }
 
         /// <summary>
@@ -56,10 +56,10 @@ namespace UI
             }
 
             StopActiveAnimation();
-            this._unit = unit;
+            _unit = unit;
 
-            var maxHP = this._unit.Stats.MaxHP;
-            this._slider.value = NormalizeHP(this._unit.Stats.CurrentHP, maxHP);
+            var maxHP = _unit.Stats.MaxHP;
+            _slider.value = NormalizeHP(_unit.Stats.CurrentHP, maxHP);
         }
 
         /// <summary>
@@ -68,11 +68,11 @@ namespace UI
         /// </summary>
         public void SnapToHealth(int currentHP, int maxHP)
         {
-            if (!this._slider)
+            if (!_slider)
                 return;
 
             StopActiveAnimation();
-            this._slider.value = NormalizeHP(currentHP, maxHP);
+            _slider.value = NormalizeHP(currentHP, maxHP);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace UI
         public void Unbind()
         {
             StopActiveAnimation();
-            this._unit = null;
+            _unit = null;
         }
 
         /// <summary>
@@ -93,16 +93,16 @@ namespace UI
         /// <param name="hpAfter">Target HP value</param>
         public void AnimateToHealth(int hpBefore, int hpAfter)
         {
-            if (this._unit == null)
+            if (_unit == null)
             {
                 Log.Error("HealthBarUI: AnimateToHealth called with no unit bound");
                 return;
             }
 
-            if (!this._slider)
+            if (!_slider)
                 return;
 
-            var maxHP = this._unit.Stats.MaxHP;
+            var maxHP = _unit.Stats.MaxHP;
             if (maxHP <= 0)
                 return;
 
@@ -111,16 +111,16 @@ namespace UI
 
             StopActiveAnimation();
 
-            this._animation = StartCoroutine(AnimateRoutine(from, to));
+            _animation = StartCoroutine(AnimateRoutine(from, to));
         }
 
         private void StopActiveAnimation()
         {
-            if (this._animation == null) 
+            if (_animation == null) 
                 return;
         
-            StopCoroutine(this._animation);
-            this._animation = null;
+            StopCoroutine(_animation);
+            _animation = null;
         }
 
         private static float NormalizeHP(int hp, int maxHP) =>
@@ -130,17 +130,17 @@ namespace UI
         {
             var elapsed = 0f;
 
-            this._slider.value = from;
+            _slider.value = from;
 
-            while (elapsed < this._animationDuration)
+            while (elapsed < _animationDuration)
             {
                 elapsed += Time.deltaTime;
-                var t = elapsed / this._animationDuration;
-                this._slider.value = Mathf.Lerp(from, to, t);
+                var t = elapsed / _animationDuration;
+                _slider.value = Mathf.Lerp(from, to, t);
                 yield return null;
             }
 
-            this._slider.value = to;
+            _slider.value = to;
         }
     }
 }

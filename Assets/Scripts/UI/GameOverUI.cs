@@ -26,12 +26,12 @@ namespace UI
 
         private void Awake()
         {
-            if (this._statsPanel == null)
+            if (_statsPanel == null)
                 Log.Error("GameOverUI: _statsPanel is not assigned.");
-            if (this._backToMenuButton == null)
+            if (_backToMenuButton == null)
                 Log.Error("GameOverUI: _backToMenuButton is not assigned.");
             else
-                this._backToMenuButton.onClick.AddListener(OnBackToMenuClicked);
+                _backToMenuButton.onClick.AddListener(OnBackToMenuClicked);
         }
 
         private void Start()
@@ -39,7 +39,7 @@ namespace UI
             var stats = RunStatsTrackerBootstrap.Instance?.Stats;
 
             if (stats != null)
-                this._statsPanel.Show(stats.ToViewData());
+                _statsPanel.Show(stats.ToViewData());
             else
                 Log.Warning("Stats tracker missing.");
         }

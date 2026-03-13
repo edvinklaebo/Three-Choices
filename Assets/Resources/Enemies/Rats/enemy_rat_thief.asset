@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fcae248cdf4a8543b64373df1d37581, type: 3}
+  m_Name: enemy_rat_thief
+  m_EditorClassIdentifier: Ropa::EnemyDefinition
+  _enemyName: Rat Thief
+  _portrait: {fileID: 0}
+  _maxHP: 54
+  _attackPower: 9
+  _armor: 12
+  _speed: 32
+  _minFightIndex: 0
+  _maxFightIndex: 10
+  _spawnWeight: 10
+  _traits:
+  - {fileID: 11400000, guid: 55eba872a88df494186071499baf7860, type: 2}

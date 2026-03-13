@@ -23,12 +23,12 @@ namespace Core.Passives
 
         public void OnAttach(Unit owner)
         {
-            this._owner = owner;
+            _owner = owner;
         }
 
         public void OnDetach(Unit owner)
         {
-            this._owner = null;
+            _owner = null;
         }
 
         public void RegisterHandlers(CombatContext context)
@@ -44,9 +44,9 @@ namespace Core.Passives
         private void OnDamagePhase(DamagePhaseEvent evt)
         {
             if (evt.Phase != CombatPhase.PostResolve) return;
-            if (evt.Context.Source != this._owner) return;
+            if (evt.Context.Source != _owner) return;
 
-            var healAmount = Mathf.CeilToInt(evt.Context.FinalDamage * this.percent);
+            var healAmount = Mathf.CeilToInt(evt.Context.FinalDamage * percent);
             evt.Context.PendingHealing += healAmount;
         }
     }

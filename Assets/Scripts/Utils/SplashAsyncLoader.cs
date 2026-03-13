@@ -25,12 +25,12 @@ namespace Utils
 
         private IEnumerator LoadRoutine()
         {
-            if (this.logo)
-                yield return Fade(this.logo, 0f, 1f, this.fadeInDuration);
+            if (logo)
+                yield return Fade(logo, 0f, 1f, fadeInDuration);
 
             var startTime = Time.time;
 
-            var op = SceneManager.LoadSceneAsync(this.nextScene);
+            var op = SceneManager.LoadSceneAsync(nextScene);
             if (op == null)
                 yield break;
 
@@ -38,21 +38,21 @@ namespace Utils
 
             while (op.progress < 0.9f)
             {
-                if (this.progressBar)
-                    this.progressBar.value = Mathf.Clamp01(op.progress / 0.9f);
+                if (progressBar)
+                    progressBar.value = Mathf.Clamp01(op.progress / 0.9f);
 
                 yield return null;
             }
 
-            if (this.progressBar)
-                this.progressBar.value = 1f;
+            if (progressBar)
+                progressBar.value = 1f;
 
             var elapsed = Time.time - startTime;
-            if (elapsed < this.minDisplayTime)
-                yield return new WaitForSeconds(this.minDisplayTime - elapsed);
+            if (elapsed < minDisplayTime)
+                yield return new WaitForSeconds(minDisplayTime - elapsed);
 
-            if (this.logo)
-                yield return Fade(this.logo, 1f, 0f, this.fadeOutDuration);
+            if (logo)
+                yield return Fade(logo, 1f, 0f, fadeOutDuration);
 
             op.allowSceneActivation = true;
         }

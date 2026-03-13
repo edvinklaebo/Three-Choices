@@ -23,28 +23,28 @@ namespace Core.Modifiers
         /// <param name="damageBonus">Damage multiplier when threshold is met (e.g., 1.5 = +50% damage)</param>
         public ExecuteModifier(Unit owner, float healthThreshold, float damageBonus)
         {
-            this._owner = owner;
-            this._healthThreshold = Mathf.Clamp01(healthThreshold);
-            this._damageBonus = damageBonus;
+            _owner = owner;
+            _healthThreshold = Mathf.Clamp01(healthThreshold);
+            _damageBonus = damageBonus;
         }
 
         public void Modify(DamageContext ctx)
         {
-            if (ctx.Source != this._owner) return;
+            if (ctx.Source != _owner) return;
             if (ctx.Target == null) return;
 
             var targetHpPercent = (float)ctx.Target.Stats.CurrentHP / ctx.Target.Stats.MaxHP;
-            if (targetHpPercent <= this._healthThreshold)
+            if (targetHpPercent <= _healthThreshold)
             {
-                ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * this._damageBonus);
+                ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * _damageBonus);
 
                 Log.Info("Execute bonus triggered", new
                 {
-                    source = this._owner.Name,
+                    source = _owner.Name,
                     target = ctx.Target.Name,
                     targetHpPercent,
-                    threshold = this._healthThreshold,
-                    bonus = this._damageBonus,
+                    threshold = _healthThreshold,
+                    bonus = _damageBonus,
                     damage = ctx.FinalValue
                 });
             }

@@ -30,28 +30,28 @@ namespace UI
             var canvasGroup = GetComponent<CanvasGroup>();
             if (canvasGroup == null)
                 canvasGroup = gameObject.AddComponent<CanvasGroup>();
-            this._fader = new UIFader(canvasGroup, this);
+            _fader = new UIFader(canvasGroup, this);
 
-            this._draftOptions = BuildOptions();
+            _draftOptions = BuildOptions();
 
-            this._fader.Hide(animated: false);
+            _fader.Hide(animated: false);
         }
 
         private void OnEnable()
         {
-            if (this._onHideRequested != null) this._onHideRequested.OnRaised += OnHideRequested;
-            if (this._onShowRequested != null) this._onShowRequested.OnRaised += OnShowRequested;
+            if (_onHideRequested != null) _onHideRequested.OnRaised += OnHideRequested;
+            if (_onShowRequested != null) _onShowRequested.OnRaised += OnShowRequested;
         }
 
         private void OnDisable()
         {
-            if (this._onHideRequested != null) this._onHideRequested.OnRaised -= OnHideRequested;
-            if (this._onShowRequested != null) this._onShowRequested.OnRaised -= OnShowRequested;
+            if (_onHideRequested != null) _onHideRequested.OnRaised -= OnHideRequested;
+            if (_onShowRequested != null) _onShowRequested.OnRaised -= OnShowRequested;
         }
 
         private void OnShowRequested(List<DraftOption> draft)
         {
-            if (this._upgradePicked == null && this._artifactPicked == null)
+            if (_upgradePicked == null && _artifactPicked == null)
                 Log.Warning("DraftUI: neither _upgradePicked nor _artifactPicked event channel is assigned. Picks will not be broadcast.");
 
             Show(draft, OnOptionPicked);
@@ -62,10 +62,10 @@ namespace UI
             switch (option.Source)
             {
                 case UpgradeDefinition upgrade:
-                    this._upgradePicked?.Raise(upgrade);
+                    _upgradePicked?.Raise(upgrade);
                     break;
                 case ArtifactDefinition artifact:
-                    this._artifactPicked?.Raise(artifact);
+                    _artifactPicked?.Raise(artifact);
                     break;
                 default:
                     Log.Warning("DraftUI: unhandled IDraftable type picked",
@@ -93,22 +93,22 @@ namespace UI
                 return;
             }
 
-            if (this.DraftButtons == null || this.DraftButtons.Length == 0)
+            if (DraftButtons == null || DraftButtons.Length == 0)
             {
                 Log.Error("DraftUI has no buttons assigned");
                 return;
             }
 
             // Rebuild option views if DraftButtons were assigned after Awake
-            if (this._draftOptions == null || this._draftOptions.Length != this.DraftButtons.Length)
-                this._draftOptions = BuildOptions();
+            if (_draftOptions == null || _draftOptions.Length != DraftButtons.Length)
+                _draftOptions = BuildOptions();
 
             gameObject.SetActive(true);
-            this._fader.Show(animated);
+            _fader.Show(animated);
 
-            for (var i = 0; i < this._draftOptions.Length; i++)
+            for (var i = 0; i < _draftOptions.Length; i++)
             {
-                var option = this._draftOptions[i];
+                var option = _draftOptions[i];
 
                 if (option == null)
                 {
@@ -132,21 +132,21 @@ namespace UI
         public void Hide(bool animated = true)
         {
             Log.Info("DraftUI.Hide invoked", new { animated });
-            this._fader.Hide(animated);
+            _fader.Hide(animated);
         }
 
         private DraftOptionView[] BuildOptions()
         {
-            if (this.DraftButtons == null) return Array.Empty<DraftOptionView>();
+            if (DraftButtons == null) return Array.Empty<DraftOptionView>();
 
-            var options = new DraftOptionView[this.DraftButtons.Length];
-            for (var i = 0; i < this.DraftButtons.Length; i++)
+            var options = new DraftOptionView[DraftButtons.Length];
+            for (var i = 0; i < DraftButtons.Length; i++)
             {
-                if (this.DraftButtons[i] == null) continue;
-                var view = this.DraftButtons[i].GetComponent<DraftOptionView>();
+                if (DraftButtons[i] == null) continue;
+                var view = DraftButtons[i].GetComponent<DraftOptionView>();
                 if (view == null)
                 {
-                    view = this.DraftButtons[i].gameObject.AddComponent<DraftOptionView>();
+                    view = DraftButtons[i].gameObject.AddComponent<DraftOptionView>();
                     view.Awake();
                 }
                 options[i] = view;

@@ -19,7 +19,7 @@ namespace UI.Combat
     
         private void Start()
         {
-            if (this._runOnStart)
+            if (_runOnStart)
             {
                 RunDiagnostics();
             }

@@ -24,20 +24,20 @@ namespace Core.Artifacts.Passives
 
         public PhantomStrike(int hitsPerTrigger = 5, float damagePercent = 0.5f)
         {
-            this._hitsPerTrigger = hitsPerTrigger;
-            this._damagePercent = damagePercent;
+            _hitsPerTrigger = hitsPerTrigger;
+            _damagePercent = damagePercent;
         }
 
         public void OnAttach(Unit owner)
         {
-            this._owner = owner;
+            _owner = owner;
             owner.OnHit += OnHit;
         }
 
         public void OnDetach(Unit owner)
         {
             owner.OnHit -= OnHit;
-            this._owner = null;
+            _owner = null;
         }
 
         private void OnHit(Unit self, Unit target, int damage)
@@ -45,13 +45,13 @@ namespace Core.Artifacts.Passives
             if (target == null || target.IsDead)
                 return;
 
-            this._hitCount++;
+            _hitCount++;
 
-            if (this._hitCount < this._hitsPerTrigger)
+            if (_hitCount < _hitsPerTrigger)
                 return;
 
-            this._hitCount = 0;
-            var phantomDamage = Mathf.CeilToInt(damage * this._damagePercent);
+            _hitCount = 0;
+            var phantomDamage = Mathf.CeilToInt(damage * _damagePercent);
 
             Log.Info("[PhantomStrike] Phantom strike triggered", new
             {
@@ -64,6 +64,6 @@ namespace Core.Artifacts.Passives
         }
 
         /// <summary>Current hit count toward the next phantom strike trigger.</summary>
-        public int HitCount => this._hitCount;
+        public int HitCount => _hitCount;
     }
 }

@@ -20,11 +20,11 @@ namespace Controllers
         [SerializeField] private CombatView _combatView;
 
         public AnimationContext Context { get; private set; }
-        public CombatView CombatView => this._combatView;
+        public CombatView CombatView => _combatView;
 
         private void Awake()
         {
-            if (this._combatView == null)
+            if (_combatView == null)
             {
                 Log.Error("CombatServicesInstaller: _combatView is not assigned. Assign it in the Inspector.");
                 return;
@@ -33,8 +33,8 @@ namespace Controllers
             var animService = new AnimationService();
             var uiService = new UIService();
 
-            animService.SetCombatView(this._combatView);
-            animService.SetProjectile(this._combatView.Projectile);
+            animService.SetCombatView(_combatView);
+            animService.SetProjectile(_combatView.Projectile);
 
             Context = new AnimationContext(animService, uiService, new VFXService(), new SFXService());
         }

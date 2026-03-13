@@ -19,15 +19,15 @@ namespace Core.Modifiers
         /// <param name="multiplier">Damage multiplier (e.g., 1.25 = +25% damage, 0.8 = -20% damage)</param>
         public PercentageDamageModifier(Unit owner, float multiplier)
         {
-            this._owner = owner;
-            this._multiplier = multiplier;
+            _owner = owner;
+            _multiplier = multiplier;
         }
 
         public void Modify(DamageContext ctx)
         {
-            if (ctx.Source != this._owner) return;
+            if (ctx.Source != _owner) return;
 
-            ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * this._multiplier);
+            ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * _multiplier);
         }
     }
 }
