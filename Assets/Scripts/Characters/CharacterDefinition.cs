@@ -11,6 +11,10 @@ namespace Characters
         public int Attack;
         public int Armor;
         public int Speed;
+        public int Mana;
+        public int MagicScaling;
+        public int HealingScaling;
+        public int StatusScaling;
         public Sprite Portrait;
     }
 }

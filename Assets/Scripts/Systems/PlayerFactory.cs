@@ -24,7 +24,11 @@ namespace Systems
                     AttackPower = character.Attack,
                     CurrentHP = character.MaxHp,
                     MaxHP = character.MaxHp,
-                    Speed = character.Speed
+                    Speed = character.Speed,
+                    Mana = character.Mana,
+                    MagicScaling = character.MagicScaling,
+                    HealingScaling = character.HealingScaling,
+                    StatusScaling = character.StatusScaling
                 },
                 Portrait = character.Portrait
             };
