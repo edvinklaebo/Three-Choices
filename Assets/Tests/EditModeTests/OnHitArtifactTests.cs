@@ -45,6 +45,7 @@ namespace Tests.EditModeTests
             artifact.OnAttach(_attacker);
 
             _target.ApplyDamage(_attacker, 200); // Kill target
+            
             Assert.IsTrue(_target.IsDead);
 
             _attacker.RaiseOnHit(_target, 10);
