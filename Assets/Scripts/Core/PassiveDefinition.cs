@@ -24,7 +24,8 @@ public class PassiveDefinition : UpgradeDefinition
             case PassiveId.Rage:
                 Log.Info("Passive Applied: Rage");
                 var rage = new Rage(unit);
-                DamagePipeline.Register(rage);
+                rage.OnAttach(unit);
+                unit.Passives.Add(rage);
                 break;
 
             case PassiveId.Lifesteal:

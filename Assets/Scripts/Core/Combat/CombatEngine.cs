@@ -119,6 +119,15 @@ namespace Core.Combat
                 if (passive is ICombatHandlerProvider provider)
                     _context.RegisterListener(provider.CreateCombatHandler(unit));
             }
+
+            foreach (var artifact in unit.Artifacts)
+            {
+                if (artifact is ICombatListener listener)
+                    _context.RegisterListener(listener);
+
+                if (artifact is ICombatHandlerProvider provider)
+                    _context.RegisterListener(provider.CreateCombatHandler(unit));
+            }
         }
 
         private void Attack(Unit source, Unit target)
