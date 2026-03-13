@@ -152,9 +152,10 @@ namespace Tests.EditModeTests
 
             var actions = CombatSystem.RunFight(attacker, defender);
 
-            // Exactly 2 damage actions for a fight where attacker hits twice (defender has 20HP, attacker deals 10/hit)
-            var damageActions = actions.OfType<DamageAction>().ToList();
-            Assert.AreEqual(2, damageActions.Count, "TwinBlades at 0% chance should not add extra damage actions");
+            // With 0% trigger chance, attacker should have exactly 2 normal strikes
+            // (defender has 20 HP, attacker deals 10 per hit)
+            var attackerDamageActions = actions.OfType<DamageAction>().Where(a => a.Source == attacker).ToList();
+            Assert.AreEqual(2, attackerDamageActions.Count, "TwinBlades at 0% chance should not add extra damage actions from the attacker");
         }
     }
 }

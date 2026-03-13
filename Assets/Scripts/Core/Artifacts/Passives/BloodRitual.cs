@@ -23,11 +23,11 @@ namespace Core.Artifacts.Passives
 
         public int Priority => 100;
 
-        public BloodRitual(int bleedStacks = 2, int bleedDuration = 3, int bleedDamage = 2)
+        public BloodRitual(int stacks = 2, int duration = 3, int baseDamage = 2)
         {
-            _bleedStacks = bleedStacks;
-            _bleedDuration = bleedDuration;
-            _bleedDamage = bleedDamage;
+            _bleedStacks = stacks;
+            _bleedDuration = duration;
+            _bleedDamage = baseDamage;
         }
 
         public void OnAttach(Unit owner)

@@ -95,7 +95,7 @@ namespace Tests.EditModeTests
         [Test]
         public void BloodRitual_BleedStacksOnMultipleHits()
         {
-            var artifact = new BloodRitual(stacks: 2, bleedDuration: 3, bleedDamage: 2);
+            var artifact = new BloodRitual(stacks: 2, duration: 3, baseDamage: 2);
             artifact.OnAttach(_attacker);
 
             _attacker.RaiseOnHit(_target, 10);
