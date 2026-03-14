@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 537d9e37a2448614a9de81b3beef58cd, type: 3}
-  m_Name: iron_colossus
+  m_Name: goblin_king
   m_EditorClassIdentifier: Ropa::Core.Boss.BossDefinition
-  _id: iron_colossus
-  _displayName: Iron Colossus
+  _id: goblin_king
+  _displayName: Goblin King
   _prefab: {fileID: 0}
   _phases: []
   _artifactReward: {fileID: 0}
   _stats:
-    MaxHP: 1000
-    CurrentHP: 1000
-    AttackPower: 1000
-    Armor: 1000
-    Speed: 10
-  _difficultyRating: 5
+    MaxHP: 745
+    CurrentHP: 745
+    AttackPower: 42
+    Armor: 76
+    Speed: 100
+  _difficultyRating: 2

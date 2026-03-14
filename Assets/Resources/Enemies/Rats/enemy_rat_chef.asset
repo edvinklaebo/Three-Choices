@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: enemy_rat_chef
   m_EditorClassIdentifier: Ropa::EnemyDefinition
   _enemyName: Rat Chef
-  _portrait: {fileID: 0}
+  _portrait: {fileID: 21300000, guid: 6556a476bd309364c9f531e33ac85211, type: 3}
   _maxHP: 76
   _attackPower: 8
   _armor: 15

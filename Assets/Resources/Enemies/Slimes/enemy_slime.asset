@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: enemy_slime
   m_EditorClassIdentifier: Ropa::EnemyDefinition
   _enemyName: Slime
-  _portrait: {fileID: 368543389579951487, guid: c283ebc8edbc7564c9e8c56b0b4c12de, type: 3}
+  _portrait: {fileID: 21300000, guid: c283ebc8edbc7564c9e8c56b0b4c12de, type: 3}
   _maxHP: 53
   _attackPower: 4
   _armor: 65
   _speed: 5
   _minFightIndex: 0
   _maxFightIndex: 999
-  _spawnWeight: 1
+  _spawnWeight: 0
   _traits:
   - {fileID: 11400000, guid: 55eba872a88df494186071499baf7860, type: 2}

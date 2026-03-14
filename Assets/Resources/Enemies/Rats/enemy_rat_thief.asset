@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: enemy_rat_thief
   m_EditorClassIdentifier: Ropa::EnemyDefinition
   _enemyName: Rat Thief
-  _portrait: {fileID: 0}
+  _portrait: {fileID: 21300000, guid: 6556a476bd309364c9f531e33ac85211, type: 3}
   _maxHP: 54
   _attackPower: 9
   _armor: 12

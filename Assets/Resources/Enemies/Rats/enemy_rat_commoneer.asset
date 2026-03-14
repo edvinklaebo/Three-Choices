@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: enemy_rat_commoneer
   m_EditorClassIdentifier: Ropa::EnemyDefinition
   _enemyName: Rat Commoneer
-  _portrait: {fileID: 0}
+  _portrait: {fileID: 21300000, guid: 6556a476bd309364c9f531e33ac85211, type: 3}
   _maxHP: 32
   _attackPower: 5
   _armor: 5
