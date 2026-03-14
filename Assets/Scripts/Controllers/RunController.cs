@@ -20,9 +20,9 @@ namespace Controllers
         private const string GameScene = "GameScene";
 
         [Header("Events")]
-        [SerializeField] private VoidEventChannel requestNextFight;
-        [SerializeField] private VoidEventChannel playerDiedEvent;
-        [SerializeField] private VoidEventChannel combatEndedWithPlayerDeath;
+        [SerializeField] private VoidEventChannel _requestNextFight;
+        [SerializeField] private VoidEventChannel _playerDiedEvent;
+        [SerializeField] private VoidEventChannel _combatEndedWithPlayerDeath;
         [SerializeField] private VoidEventChannel _continueRunRequested;
         [SerializeField] private FightStartedEventChannel _fightStarted;
         [SerializeField] private BossFightEventChannel _bossFightStarted;
@@ -45,10 +45,10 @@ namespace Controllers
 
         private void OnEnable()
         {
-            requestNextFight.OnRaised += _progressionService.HandleNextFight;
+            _requestNextFight.OnRaised += _progressionService.HandleNextFight;
 
-            if (combatEndedWithPlayerDeath != null)
-                combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
+            if (_combatEndedWithPlayerDeath != null)
+                _combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
             if (_continueRunRequested != null)
                 _continueRunRequested.OnRaised += ContinueRun;
 
@@ -58,10 +58,10 @@ namespace Controllers
 
         private void OnDisable()
         {
-            requestNextFight.OnRaised -= _progressionService.HandleNextFight;
+            _requestNextFight.OnRaised -= _progressionService.HandleNextFight;
 
-            if (combatEndedWithPlayerDeath != null)
-                combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
+            if (_combatEndedWithPlayerDeath != null)
+                _combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
             if (_continueRunRequested != null)
                 _continueRunRequested.OnRaised -= ContinueRun;
 
@@ -79,7 +79,7 @@ namespace Controllers
                 return;
             }
 
-            PlayerInitializer.Initialize(Player, CurrentRun.player, playerDiedEvent);
+            PlayerInitializer.Initialize(Player, CurrentRun.player, _playerDiedEvent);
             Player = CurrentRun.player;
             _progressionService.SetRun(CurrentRun, Player);
 
@@ -95,7 +95,7 @@ namespace Controllers
             }
 
             var newPlayer = PlayerFactory.CreateFromCharacter(character);
-            PlayerInitializer.Initialize(Player, newPlayer, playerDiedEvent);
+            PlayerInitializer.Initialize(Player, newPlayer, _playerDiedEvent);
             Player = newPlayer;
 
             CurrentRun = new RunState
