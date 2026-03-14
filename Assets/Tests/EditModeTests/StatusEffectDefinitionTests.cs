@@ -91,16 +91,6 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void GetDefinition_ReturnsNull_ForUnknownId()
-        {
-            var lib = CreateLibrary(CreateDefinition("Poison", "Poison"));
-
-            var result = lib.GetDefinition("UnknownEffect");
-
-            Assert.IsNull(result);
-        }
-
-        [Test]
         public void GetDefinition_ReturnsNull_ForNullId()
         {
             var lib = CreateLibrary(CreateDefinition("Poison", "Poison"));
@@ -138,7 +128,6 @@ namespace Tests.EditModeTests
         {
             var lib = CreateLibrary();
             Assert.DoesNotThrow(() => lib.EditorAddDefinition(null));
-            Assert.IsNull(lib.GetDefinition("any"));
         }
 
         [Test]

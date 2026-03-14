@@ -3656,6 +3656,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::StatusEffectPanel
   _iconPrefab: {fileID: 3756763890451068182, guid: eda088e1de18c144281a30b66cef4279, type: 3}
   _iconContainer: {fileID: 1190481500}
+  _library: {fileID: 0}
   _maxVisibleIcons: 6
 --- !u!114 &1190481502
 MonoBehaviour:
@@ -5104,6 +5105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::StatusEffectPanel
   _iconPrefab: {fileID: 3756763890451068182, guid: eda088e1de18c144281a30b66cef4279, type: 3}
   _iconContainer: {fileID: 2075143700}
+  _library: {fileID: 0}
   _maxVisibleIcons: 6
 --- !u!114 &2075143702
 MonoBehaviour:
