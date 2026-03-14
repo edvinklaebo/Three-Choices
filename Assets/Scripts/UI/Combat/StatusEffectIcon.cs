@@ -19,7 +19,6 @@ namespace UI.Combat
     {
         [SerializeField] private Image _iconImage;
         [SerializeField] private TextMeshProUGUI _stackText;
-        [SerializeField] private TextMeshProUGUI _durationText;
         [SerializeField] private Image _durationRing;
 
         private StatusEffectDefinition _definition;
@@ -78,19 +77,6 @@ namespace UI.Combat
                 }
             }
 
-            if (_durationText != null)
-            {
-                if (duration > 0)
-                {
-                    _durationText.text = duration.ToString();
-                    _durationText.gameObject.SetActive(true);
-                }
-                else
-                {
-                    _durationText.gameObject.SetActive(false);
-                }
-            }
-
             if (_durationRing != null)
                 _durationRing.gameObject.SetActive(duration > 0);
         }
@@ -111,9 +97,6 @@ namespace UI.Combat
                 _stackText.text = $"+{overflowCount}";
                 _stackText.gameObject.SetActive(true);
             }
-
-            if (_durationText != null)
-                _durationText.gameObject.SetActive(false);
 
             if (_durationRing != null)
                 _durationRing.gameObject.SetActive(false);
