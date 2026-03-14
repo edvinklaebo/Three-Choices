@@ -1,9 +1,6 @@
 using System;
-
 using Core.Combat;
-
 using Interfaces;
-
 using UnityEngine;
 
 namespace Core.Abilities
@@ -27,15 +24,15 @@ namespace Core.Abilities
 
         public ArcaneMissiles(int baseDamage = 5, int missileCount = 3, Sprite projectileSprite = null)
         {
-            this._baseDamage = baseDamage;
-            this._missileCount = missileCount;
-            this._projectileSprite = projectileSprite;
+            _baseDamage = baseDamage;
+            _missileCount = missileCount;
+            _projectileSprite = projectileSprite;
         }
 
         public void AddDamage(int amount)
         {
             Debug.Assert(amount > 0, "AddDamage: amount must be positive");
-            this._baseDamage += amount;
+            _baseDamage += amount;
         }
 
         public void OnCast(Unit self, Unit target, CombatContext context)
@@ -43,16 +40,16 @@ namespace Core.Abilities
             if (target == null || target.IsDead)
                 return;
 
-            for (var i = 0; i < this._missileCount; i++)
+            for (var i = 0; i < _missileCount; i++)
             {
                 if (target.IsDead)
                     break;
 
-                context.DealDamage(self, target, this._baseDamage, actionCreator: this);
+                context.DealDamage(self, target, _baseDamage, actionCreator: this);
             }
         }
 
         public ICombatAction CreateAction(Unit source, Unit target, int finalDamage, int hpBefore, int hpAfter, int maxHP)
-            => new ArcaneMissilesAction(source, target, finalDamage, hpBefore, hpAfter, maxHP, this._projectileSprite);
+            => new ArcaneMissilesAction(source, target, finalDamage, hpBefore, hpAfter, maxHP, _projectileSprite);
     }
 }

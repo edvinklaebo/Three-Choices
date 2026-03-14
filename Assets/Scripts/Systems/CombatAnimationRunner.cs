@@ -38,8 +38,8 @@ namespace Systems
         /// </summary>
         public float SpeedMultiplier
         {
-            get => this._speedMultiplier;
-            set => this._speedMultiplier = Mathf.Max(0.1f, value);
+            get => _speedMultiplier;
+            set => _speedMultiplier = Mathf.Max(0.1f, value);
         }
 
         private void OnDisable()
@@ -59,8 +59,8 @@ namespace Systems
                 return;
             }
 
-            this._queue.Enqueue(action);
-            Log.Info("Action enqueued", new { actionType = action.GetType().Name, queueSize = this._queue.Count });
+            _queue.Enqueue(action);
+            Log.Info("Action enqueued", new { actionType = action.GetType().Name, queueSize = _queue.Count });
         }
 
         /// <summary>
@@ -76,9 +76,9 @@ namespace Systems
 
             foreach (var action in actions)
                 if (action != null)
-                    this._queue.Enqueue(action);
+                    _queue.Enqueue(action);
 
-            Log.Info("Actions enqueued", new { queueSize = this._queue.Count });
+            Log.Info("Actions enqueued", new { queueSize = _queue.Count });
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Systems
                 return;
             }
 
-            this._runCoroutine = StartCoroutine(Run(ctx));
+            _runCoroutine = StartCoroutine(Run(ctx));
         }
 
         /// <summary>
@@ -107,7 +107,7 @@ namespace Systems
         /// </summary>
         public void SkipAnimations()
         {
-            this._skipRequested = true;
+            _skipRequested = true;
             Log.Info("Skip requested");
         }
 
@@ -117,15 +117,15 @@ namespace Systems
         /// </summary>
         public void Cancel()
         {
-            if (this._runCoroutine != null)
+            if (_runCoroutine != null)
             {
-                StopCoroutine(this._runCoroutine);
-                this._runCoroutine = null;
+                StopCoroutine(_runCoroutine);
+                _runCoroutine = null;
             }
 
-            this._queue.Clear();
+            _queue.Clear();
             IsRunning = false;
-            this._skipRequested = false;
+            _skipRequested = false;
 
             Log.Info("Animation playback cancelled");
         }
@@ -135,27 +135,27 @@ namespace Systems
         /// </summary>
         public void ClearQueue()
         {
-            this._queue.Clear();
+            _queue.Clear();
             Log.Info("Queue cleared");
         }
 
         private IEnumerator Run(AnimationContext ctx)
         {
             IsRunning = true;
-            this._skipRequested = false;
+            _skipRequested = false;
 
-            Log.Info("Animation playback started", new { queueSize = this._queue.Count });
+            Log.Info("Animation playback started", new { queueSize = _queue.Count });
 
-            while (this._queue.Count > 0 && !this._skipRequested)
+            while (_queue.Count > 0 && !_skipRequested)
             {
-                var action = this._queue.Dequeue();
+                var action = _queue.Dequeue();
 
                 // Apply speed multiplier by scaling time
                 var originalTimeScale = Time.timeScale;
 
                 try
                 {
-                    Time.timeScale = this._speedMultiplier;
+                    Time.timeScale = _speedMultiplier;
                     yield return action.Play(ctx);
                 }
                 finally
@@ -165,14 +165,14 @@ namespace Systems
                 }
             }
 
-            if (this._skipRequested)
+            if (_skipRequested)
             {
-                Log.Info("Animation playback skipped", new { remainingActions = this._queue.Count });
-                this._queue.Clear();
+                Log.Info("Animation playback skipped", new { remainingActions = _queue.Count });
+                _queue.Clear();
             }
 
             IsRunning = false;
-            this._skipRequested = false;
+            _skipRequested = false;
 
             Log.Info("Animation playback completed");
         }

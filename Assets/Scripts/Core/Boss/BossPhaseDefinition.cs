@@ -1,5 +1,4 @@
 using System;
-
 using UnityEngine;
 
 namespace Core.Boss
@@ -22,16 +21,16 @@ namespace Core.Boss
         /// <summary>Seconds between attacks in this phase.</summary>
         [SerializeField] private float _attackInterval;
 
-        public int TriggerHPPercent => this._triggerHPPercent;
-        public BossAbilityDefinition[] Abilities => this._abilities;
-        public float AttackInterval => this._attackInterval;
+        public int TriggerHPPercent => _triggerHPPercent;
+        public BossAbilityDefinition[] Abilities => _abilities;
+        public float AttackInterval => _attackInterval;
 
 #if UNITY_EDITOR
         public void EditorInit(int triggerHPPercent, float attackInterval, BossAbilityDefinition[] abilities = null)
         {
-            this._triggerHPPercent = triggerHPPercent;
-            this._attackInterval = attackInterval;
-            this._abilities = abilities ?? Array.Empty<BossAbilityDefinition>();
+            _triggerHPPercent = triggerHPPercent;
+            _attackInterval = attackInterval;
+            _abilities = abilities ?? Array.Empty<BossAbilityDefinition>();
         }
 #endif
     }

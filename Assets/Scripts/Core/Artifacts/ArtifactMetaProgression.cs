@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-
 using Utils;
 
 namespace Core.Artifacts
@@ -17,7 +16,7 @@ namespace Core.Artifacts
 
         public ArtifactMetaProgression(IArtifactProgressionPersistence persistence)
         {
-            this._persistence = persistence ?? throw new ArgumentNullException(nameof(persistence));
+            _persistence = persistence ?? throw new ArgumentNullException(nameof(persistence));
         }
 
         /// <summary>Unlock an artifact so it can appear in boss drops.</summary>
@@ -29,7 +28,7 @@ namespace Core.Artifacts
                 return;
             }
 
-            if (this._unlockedIds.Add(artifactId))
+            if (_unlockedIds.Add(artifactId))
             {
                 Log.Info($"[ArtifactMetaProgression] Artifact unlocked: {artifactId}");
                 Save();
@@ -39,7 +38,7 @@ namespace Core.Artifacts
         /// <summary>Lock an artifact so it cannot appear in boss drops.</summary>
         public void Lock(string artifactId)
         {
-            if (this._unlockedIds.Remove(artifactId))
+            if (_unlockedIds.Remove(artifactId))
             {
                 Log.Info($"[ArtifactMetaProgression] Artifact locked: {artifactId}");
                 Save();
@@ -49,30 +48,30 @@ namespace Core.Artifacts
         /// <summary>Check whether an artifact is currently unlocked.</summary>
         public bool IsUnlocked(string artifactId)
         {
-            return this._unlockedIds.Contains(artifactId);
+            return _unlockedIds.Contains(artifactId);
         }
 
         /// <summary>Returns a snapshot of all unlocked artifact IDs.</summary>
         public IReadOnlyCollection<string> GetUnlockedIds()
         {
-            return this._unlockedIds;
+            return _unlockedIds;
         }
 
         /// <summary>Saves unlock state via the injected persistence.</summary>
         public void Save()
         {
-            this._persistence.Save(this._unlockedIds);
+            _persistence.Save(_unlockedIds);
         }
 
         /// <summary>Loads unlock state via the injected persistence. Returns true if a save was found.</summary>
         public bool Load()
         {
-            var found = this._persistence.Load(out var ids);
+            var found = _persistence.Load(out var ids);
 
             if (found && ids != null)
             {
-                this._unlockedIds.Clear();
-                this._unlockedIds.UnionWith(ids);
+                _unlockedIds.Clear();
+                _unlockedIds.UnionWith(ids);
             }
 
             return found;
@@ -81,8 +80,8 @@ namespace Core.Artifacts
         /// <summary>Clears all unlocked artifacts and deletes the persisted save.</summary>
         public void Reset()
         {
-            this._unlockedIds.Clear();
-            this._persistence.Delete();
+            _unlockedIds.Clear();
+            _persistence.Delete();
         }
     }
 }

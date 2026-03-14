@@ -1,9 +1,6 @@
 using Events;
-
 using Systems;
-
 using UnityEngine;
-
 using Utils;
 
 namespace Controllers
@@ -20,23 +17,23 @@ namespace Controllers
         {
             Log.Info($"Awake called on {nameof(DraftController)}");
 
-            this._draft = new DraftSystem(ScriptableObject.CreateInstance<UpgradePool>());
+            _draft = new DraftSystem(ScriptableObject.CreateInstance<UpgradePool>());
         }
 
         private void OnEnable()
         {
-            this.fightEnded.OnRaised += OfferDraft;
+            fightEnded.OnRaised += OfferDraft;
         }
 
         private void OnDisable()
         {
-            this.fightEnded.OnRaised -= OfferDraft;
+            fightEnded.OnRaised -= OfferDraft;
         }
 
         private void OfferDraft()
         {
-            var draft = this._draft.GenerateDraft(3);
-            this._showDraft.Raise(draft);
+            var draft = _draft.GenerateDraft(3);
+            _showDraft.Raise(draft);
         }
     }
 }

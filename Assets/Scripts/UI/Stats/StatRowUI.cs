@@ -11,8 +11,8 @@ namespace UI.Stats
 
         public void Bind(StatViewData data)
         {
-            this.nameText.text = data.Name;
-            this.valueText.text = data.Value.ToString();
+            nameText.text = data.Name;
+            valueText.text = data.Value.ToString();
         }
     }
 }

@@ -1,14 +1,9 @@
 using Characters;
-
 using Core;
 using Core.Combat;
-
 using Events;
-
 using Systems;
-
 using UnityEngine;
-
 using Utils;
 
 namespace Controllers
@@ -39,60 +34,60 @@ namespace Controllers
             DontDestroyOnLoad(gameObject);
             Instance = new RunStatsTracker();
         
-            if (this._combatReady == null)
+            if (_combatReady == null)
                 Log.Warning("RunStatsTrackerBootstrap: _combatReady is not assigned.");
-            if (this._fightEnded == null)
+            if (_fightEnded == null)
                 Log.Warning("RunStatsTrackerBootstrap: _fightEnded is not assigned.");
         }
 
         private void OnEnable()
         {
-            if (this._combatReady != null)
-                this._combatReady.OnRaised += OnCombatReady;
-            if (this._fightEnded != null)
-                this._fightEnded.OnRaised += OnFightEnded;
+            if (_combatReady != null)
+                _combatReady.OnRaised += OnCombatReady;
+            if (_fightEnded != null)
+                _fightEnded.OnRaised += OnFightEnded;
 
             GameEvents.CharacterSelected_Event += OnNewRunStarted;
         }
 
         private void OnDisable()
         {
-            if (this._combatReady != null)
-                this._combatReady.OnRaised -= OnCombatReady;
-            if (this._fightEnded != null)
-                this._fightEnded.OnRaised -= OnFightEnded;
+            if (_combatReady != null)
+                _combatReady.OnRaised -= OnCombatReady;
+            if (_fightEnded != null)
+                _fightEnded.OnRaised -= OnFightEnded;
 
             GameEvents.CharacterSelected_Event -= OnNewRunStarted;
         }
 
         private void OnNewRunStarted(CharacterDefinition _)
         {
-            Instance.UnregisterPlayer(this._currentPlayer);
-            Instance.UnregisterEnemy(this._currentEnemy);
-            this._currentPlayer = null;
-            this._currentEnemy = null;
+            Instance.UnregisterPlayer(_currentPlayer);
+            Instance.UnregisterEnemy(_currentEnemy);
+            _currentPlayer = null;
+            _currentEnemy = null;
             Instance.Reset();
         }
 
         private void OnCombatReady(CombatResult result)
         {
-            if (this._currentPlayer != result.Player)
+            if (_currentPlayer != result.Player)
             {
-                Instance.UnregisterPlayer(this._currentPlayer);
-                this._currentPlayer = result.Player;
-                Instance.RegisterPlayer(this._currentPlayer);
+                Instance.UnregisterPlayer(_currentPlayer);
+                _currentPlayer = result.Player;
+                Instance.RegisterPlayer(_currentPlayer);
             }
 
-            Instance.UnregisterEnemy(this._currentEnemy);
-            this._currentEnemy = result.Enemy;
-            Instance.RegisterEnemy(this._currentEnemy);
+            Instance.UnregisterEnemy(_currentEnemy);
+            _currentEnemy = result.Enemy;
+            Instance.RegisterEnemy(_currentEnemy);
         }
 
         private void OnFightEnded()
         {
             Instance.IncrementFightsCompleted();
-            Instance.UnregisterEnemy(this._currentEnemy);
-            this._currentEnemy = null;
+            Instance.UnregisterEnemy(_currentEnemy);
+            _currentEnemy = null;
         }
     }
 }

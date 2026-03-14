@@ -11,7 +11,7 @@ namespace CharacterSelect
 
         private void Awake()
         {
-            if (this._controller == null)
+            if (_controller == null)
                 throw new InvalidOperationException("CharacterSelectInput requires a CharacterSelectController.");
         }
 
@@ -29,17 +29,17 @@ namespace CharacterSelect
 
         private void OnNextClicked()
         {
-            this._controller.Next();
+            _controller.Next();
         }
 
         private void OnPreviousClicked()
         {
-            this._controller.Previous();
+            _controller.Previous();
         }
 
         private void OnConfirmClicked()
         {
-            this._controller.Confirm();
+            _controller.Confirm();
         }
     }
 }

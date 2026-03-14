@@ -27,9 +27,9 @@ namespace Systems
                                      BossManager bossManager = null,
                                      BossFightEventChannel bossFightStarted = null)
         {
-            this._fightStarted = fightStarted;
-            this._bossManager = bossManager;
-            this._bossFightStarted = bossFightStarted;
+            _fightStarted = fightStarted;
+            _bossManager = bossManager;
+            _bossFightStarted = bossFightStarted;
         }
 
         /// <summary>
@@ -38,9 +38,9 @@ namespace Systems
         /// </summary>
         public void SetRun(RunState run, Unit player)
         {
-            this._currentRun = run;
-            this._player = player;
-            this._fightIndex = run.fightIndex;
+            _currentRun = run;
+            _player = player;
+            _fightIndex = run.fightIndex;
         }
 
         /// <summary>
@@ -54,26 +54,26 @@ namespace Systems
         /// </summary>
         public void HandleNextFight()
         {
-            if (this._bossManager != null && this._bossManager.IsBossFight(this._fightIndex))
+            if (_bossManager != null && _bossManager.IsBossFight(_fightIndex))
             {
-                var boss = this._bossManager.GetBoss(this._fightIndex);
+                var boss = _bossManager.GetBoss(_fightIndex);
                 if (boss != null)
-                    this._bossFightStarted?.Raise(boss);
+                    _bossFightStarted?.Raise(boss);
             }
 
-            this._fightStarted?.Raise(this._player, this._fightIndex);
-            this._fightIndex++;
+            _fightStarted?.Raise(_player, _fightIndex);
+            _fightIndex++;
             Save();
         }
 
         private void Save()
         {
-            if (this._currentRun == null)
+            if (_currentRun == null)
                 return;
 
-            this._currentRun.fightIndex = this._fightIndex;
-            this._currentRun.player = this._player;
-            SaveService.Save(this._currentRun);
+            _currentRun.fightIndex = _fightIndex;
+            _currentRun.player = _player;
+            SaveService.Save(_currentRun);
         }
     }
 }

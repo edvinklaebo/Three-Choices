@@ -11,7 +11,7 @@ namespace Utils
 
         private void Awake()
         {
-            this.canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup = GetComponent<CanvasGroup>();
         }
 
         /// <summary>
@@ -41,17 +41,17 @@ namespace Utils
 
         private IEnumerator FadeCoroutine(float targetAlpha, float duration)
         {
-            var startAlpha = this.canvasGroup.alpha;
+            var startAlpha = canvasGroup.alpha;
             var elapsed = 0f;
 
             while (elapsed < duration)
             {
                 elapsed += Time.deltaTime;
-                this.canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / duration);
+                canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / duration);
                 yield return null;
             }
 
-            this.canvasGroup.alpha = targetAlpha;
+            canvasGroup.alpha = targetAlpha;
         }
     }
 }

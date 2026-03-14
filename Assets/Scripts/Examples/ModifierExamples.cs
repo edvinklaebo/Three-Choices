@@ -71,39 +71,39 @@ namespace Examples
 
             public ComboModifier(Unit owner, float damagePerStack, int maxStacks)
             {
-                this._owner = owner;
-                this._damagePerStack = damagePerStack;
-                this._maxStacks = maxStacks;
+                _owner = owner;
+                _damagePerStack = damagePerStack;
+                _maxStacks = maxStacks;
             }
 
             public int Priority => 150;
 
             public void Modify(DamageContext ctx)
             {
-                if (ctx.Source != this._owner) return;
+                if (ctx.Source != _owner) return;
 
                 // Reset combo if target changed
-                if (ctx.Target != this._lastTarget)
+                if (ctx.Target != _lastTarget)
                 {
-                    this._currentStacks = 0;
-                    this._lastTarget = ctx.Target;
+                    _currentStacks = 0;
+                    _lastTarget = ctx.Target;
                 }
 
                 // Apply combo bonus
-                if (this._currentStacks > 0)
+                if (_currentStacks > 0)
                 {
-                    var bonus = 1f + this._currentStacks * this._damagePerStack;
+                    var bonus = 1f + _currentStacks * _damagePerStack;
                     ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * bonus);
                 }
 
                 // Increment stacks for next hit
-                this._currentStacks = Mathf.Min(this._currentStacks + 1, this._maxStacks);
+                _currentStacks = Mathf.Min(_currentStacks + 1, _maxStacks);
             }
 
             public void ResetCombo()
             {
-                this._currentStacks = 0;
-                this._lastTarget = null;
+                _currentStacks = 0;
+                _lastTarget = null;
             }
         }
 
@@ -123,26 +123,26 @@ namespace Examples
 
             public MomentumModifier(Unit owner, float bonusPerTurn, int maxTurns)
             {
-                this._owner = owner;
-                this._bonusPerTurn = bonusPerTurn;
-                this._maxTurns = maxTurns;
+                _owner = owner;
+                _bonusPerTurn = bonusPerTurn;
+                _maxTurns = maxTurns;
             }
 
             public int Priority => 180;
 
             public void Modify(DamageContext ctx)
             {
-                if (ctx.Source != this._owner) return;
+                if (ctx.Source != _owner) return;
 
-                var bonus = 1f + this._turnsActive * this._bonusPerTurn;
+                var bonus = 1f + _turnsActive * _bonusPerTurn;
                 ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * bonus);
 
-                this._turnsActive = Mathf.Min(this._turnsActive + 1, this._maxTurns);
+                _turnsActive = Mathf.Min(_turnsActive + 1, _maxTurns);
             }
 
             public void DecayMomentum()
             {
-                this._turnsActive = Mathf.Max(0, this._turnsActive - 1);
+                _turnsActive = Mathf.Max(0, _turnsActive - 1);
             }
         }
 
@@ -161,10 +161,10 @@ namespace Examples
 
             public ResourceAmplificationModifier(Unit owner, int maxResource, float damagePerResourceSpent)
             {
-                this._owner = owner;
-                this._maxResource = maxResource;
+                _owner = owner;
+                _maxResource = maxResource;
                 CurrentResource = maxResource;
-                this._damagePerResourceSpent = damagePerResourceSpent;
+                _damagePerResourceSpent = damagePerResourceSpent;
             }
 
             public int CurrentResource { get; private set; }
@@ -173,12 +173,12 @@ namespace Examples
 
             public void Modify(DamageContext ctx)
             {
-                if (ctx.Source != this._owner) return;
+                if (ctx.Source != _owner) return;
                 if (CurrentResource <= 0) return;
 
                 // Spend all available resource for maximum damage
                 var resourceSpent = CurrentResource;
-                var bonus = 1f + resourceSpent * this._damagePerResourceSpent;
+                var bonus = 1f + resourceSpent * _damagePerResourceSpent;
                 ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * bonus);
 
                 CurrentResource = 0;
@@ -193,7 +193,7 @@ namespace Examples
 
             public void GainResource(int amount)
             {
-                CurrentResource = Mathf.Min(CurrentResource + amount, this._maxResource);
+                CurrentResource = Mathf.Min(CurrentResource + amount, _maxResource);
             }
         }
 
@@ -210,23 +210,23 @@ namespace Examples
 
             public ThresholdModifier(Unit owner, params (float threshold, float multiplier)[] thresholds)
             {
-                this._owner = owner;
-                this._thresholds = thresholds;
+                _owner = owner;
+                _thresholds = thresholds;
 
                 // Sort by threshold descending for efficient lookup
-                Array.Sort(this._thresholds, (a, b) => b.Item1.CompareTo(a.Item1));
+                Array.Sort(_thresholds, (a, b) => b.Item1.CompareTo(a.Item1));
             }
 
             public int Priority => 190;
 
             public void Modify(DamageContext ctx)
             {
-                if (ctx.Source != this._owner) return;
+                if (ctx.Source != _owner) return;
 
-                var hpPercent = (float)this._owner.Stats.CurrentHP / this._owner.Stats.MaxHP;
+                var hpPercent = (float)_owner.Stats.CurrentHP / _owner.Stats.MaxHP;
 
                 // Find first matching threshold
-                foreach (var threshold in this._thresholds)
+                foreach (var threshold in _thresholds)
                     if (hpPercent <= threshold.Item1)
                     {
                         ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * threshold.Item2);
@@ -251,27 +251,27 @@ namespace Examples
 
             public AlternatingPatternModifier(Unit owner, float heavyMultiplier, float lightMultiplier)
             {
-                this._owner = owner;
-                this._heavyMultiplier = heavyMultiplier;
-                this._lightMultiplier = lightMultiplier;
-                this._isHeavyAttack = true; // Start with heavy
+                _owner = owner;
+                _heavyMultiplier = heavyMultiplier;
+                _lightMultiplier = lightMultiplier;
+                _isHeavyAttack = true; // Start with heavy
             }
 
             public int Priority => 160;
 
             public void Modify(DamageContext ctx)
             {
-                if (ctx.Source != this._owner) return;
+                if (ctx.Source != _owner) return;
 
-                var multiplier = this._isHeavyAttack ? this._heavyMultiplier : this._lightMultiplier;
+                var multiplier = _isHeavyAttack ? _heavyMultiplier : _lightMultiplier;
                 ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * multiplier);
 
                 // Alternate for next attack
-                this._isHeavyAttack = !this._isHeavyAttack;
+                _isHeavyAttack = !_isHeavyAttack;
 
                 Log.Info("Alternating attack", new
                 {
-                    type = this._isHeavyAttack ? "light" : "heavy", // Shows what NEXT will be
+                    type = _isHeavyAttack ? "light" : "heavy", // Shows what NEXT will be
                     multiplier,
                     damage = ctx.FinalValue
                 });

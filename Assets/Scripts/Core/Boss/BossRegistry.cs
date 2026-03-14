@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-
 using UnityEngine;
 
 namespace Core.Boss
@@ -14,12 +13,12 @@ namespace Core.Boss
     {
         [SerializeField] private List<BossDefinition> _bosses = new();
 
-        public IReadOnlyList<BossDefinition> Bosses => this._bosses;
+        public IReadOnlyList<BossDefinition> Bosses => _bosses;
 
 #if UNITY_EDITOR
         public void EditorAddBoss(BossDefinition boss)
         {
-            this._bosses.Add(boss);
+            _bosses.Add(boss);
         }
 #endif
     }

@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-
 using UnityEngine;
-
 using Utils;
 
 namespace Core.Artifacts
@@ -14,21 +12,21 @@ namespace Core.Artifacts
         private void OnEnable()
         {
             var loaded = Resources.LoadAll<ArtifactDefinition>("Artifacts");
-            this._artifacts = new List<ArtifactDefinition>(loaded);
+            _artifacts = new List<ArtifactDefinition>(loaded);
 
-            Log.Info($"[ArtifactPool] Loaded {this._artifacts.Count} artifact definitions");
+            Log.Info($"[ArtifactPool] Loaded {_artifacts.Count} artifact definitions");
         }
 
         public IReadOnlyList<ArtifactDefinition> GetAll()
         {
-            if (this._artifacts == null)
+            if (_artifacts == null)
             {
                 var loaded = Resources.LoadAll<ArtifactDefinition>("Artifacts");
-                this._artifacts = new List<ArtifactDefinition>(loaded);
-                Log.Info($"[ArtifactPool] Lazy-loaded {this._artifacts.Count} artifact definitions");
+                _artifacts = new List<ArtifactDefinition>(loaded);
+                Log.Info($"[ArtifactPool] Lazy-loaded {_artifacts.Count} artifact definitions");
             }
 
-            return this._artifacts;
+            return _artifacts;
         }
     }
 }

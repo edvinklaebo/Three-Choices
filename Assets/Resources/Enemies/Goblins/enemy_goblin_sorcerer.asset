@@ -18,7 +18,7 @@ MonoBehaviour:
   _attackPower: 5
   _armor: 60
   _speed: 67
-  _minFightIndex: 0
-  _maxFightIndex: 999
-  _spawnWeight: 1
+  _minFightIndex: 10
+  _maxFightIndex: 20
+  _spawnWeight: 10
   _traits: []

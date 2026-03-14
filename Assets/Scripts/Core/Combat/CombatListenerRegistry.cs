@@ -15,7 +15,7 @@ namespace Core.Combat
 
         public CombatListenerRegistry(CombatContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         /// <summary>
@@ -24,12 +24,12 @@ namespace Core.Combat
         /// </summary>
         public void Register(ICombatListener listener)
         {
-            if (this._listeners.Contains(listener))
+            if (_listeners.Contains(listener))
                 return;
 
-            this._listeners.Add(listener);
-            this._listeners.Sort((a, b) => a.Priority.CompareTo(b.Priority));
-            listener.RegisterHandlers(this._context);
+            _listeners.Add(listener);
+            _listeners.Sort((a, b) => a.Priority.CompareTo(b.Priority));
+            listener.RegisterHandlers(_context);
         }
 
         /// <summary>
@@ -37,15 +37,15 @@ namespace Core.Combat
         /// </summary>
         public void Clear()
         {
-            foreach (var listener in this._listeners.ToList())
+            foreach (var listener in _listeners.ToList())
                 Unregister(listener);
-            this._listeners.Clear();
+            _listeners.Clear();
         }
 
         private void Unregister(ICombatListener listener)
         {
-            if (this._listeners.Remove(listener))
-                listener.UnregisterHandlers(this._context);
+            if (_listeners.Remove(listener))
+                listener.UnregisterHandlers(_context);
         }
     }
 }

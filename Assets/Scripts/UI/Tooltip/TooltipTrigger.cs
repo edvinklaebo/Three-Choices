@@ -10,7 +10,7 @@ namespace UI.Tooltip
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            TooltipSystem.Show(this.Content, this.Label);
+            TooltipSystem.Show(Content, Label);
         }
 
         public void OnPointerExit(PointerEventData eventData)

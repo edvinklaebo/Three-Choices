@@ -21,7 +21,7 @@ namespace Systems
 
         public RarityRoller()
         {
-            this._rarityWeights = new Dictionary<Rarity, int>
+            _rarityWeights = new Dictionary<Rarity, int>
             {
                 { Rarity.Common, (int)Rarity.Common },
                 { Rarity.Uncommon, (int)Rarity.Uncommon },
@@ -29,32 +29,32 @@ namespace Systems
                 { Rarity.Epic, (int)Rarity.Epic }
             };
 
-            this._totalWeight = this._rarityWeights.Values.Sum();
+            _totalWeight = _rarityWeights.Values.Sum();
 
             Log.Info("RarityRoller initialized", new
             {
-                weights = string.Join(", ", this._rarityWeights.Select(kvp => $"{kvp.Key}={kvp.Value}")),
-                totalWeight = this._totalWeight
+                weights = string.Join(", ", _rarityWeights.Select(kvp => $"{kvp.Key}={kvp.Value}")),
+                totalWeight = _totalWeight
             });
         }
 
         public Rarity RollRarity()
         {
-            var roll = Random.Range(0, this._totalWeight);
+            var roll = Random.Range(0, _totalWeight);
 
             var cumulative = 0;
-            foreach (var kvp in this._rarityWeights.OrderByDescending(x => x.Value))
+            foreach (var kvp in _rarityWeights.OrderByDescending(x => x.Value))
             {
                 cumulative += kvp.Value;
                 if (roll < cumulative)
                 {
-                    Log.Info("Rarity rolled", new { rarity = kvp.Key, roll, cumulative, totalWeight = this._totalWeight });
+                    Log.Info("Rarity rolled", new { rarity = kvp.Key, roll, cumulative, totalWeight = _totalWeight });
                     return kvp.Key;
                 }
             }
 
             // Fallback (shouldn't reach here)
-            Log.Warning("Rarity roll fallback to Common", new { roll, totalWeight = this._totalWeight });
+            Log.Warning("Rarity roll fallback to Common", new { roll, totalWeight = _totalWeight });
             return Rarity.Common;
         }
     }

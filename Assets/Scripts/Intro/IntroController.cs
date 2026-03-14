@@ -26,17 +26,17 @@ namespace Intro
 
         private void Start()
         {
-            if (this._narrativeText == null)
+            if (_narrativeText == null)
             {
                 Log.Error("IntroController: _narrativeText is not assigned.");
                 return;
             }
 
-            if (this._skipHintText == null)
+            if (_skipHintText == null)
                 Log.Warning("IntroController: _skipHintText is not assigned.");
 
-            this._sequence = new IntroSequence(IntroSequence.DefaultLines);
-            this._sequence.OnLineShown += UpdateText;
+            _sequence = new IntroSequence(IntroSequence.DefaultLines);
+            _sequence.OnLineShown += UpdateText;
 
             SetTextAlpha(0f);
             StartCoroutine(PlaySequence());
@@ -44,17 +44,17 @@ namespace Intro
 
         private void Update()
         {
-            if (this._sequence != null && !this._skipping && Input.anyKeyDown)
+            if (_sequence != null && !_skipping && Input.anyKeyDown)
                 SkipIntro();
         }
 
         private IEnumerator PlaySequence()
         {
-            while (!this._sequence.IsComplete)
+            while (!_sequence.IsComplete)
             {
-                this._sequence.ShowNext();
+                _sequence.ShowNext();
                 yield return FadeText(0f, 1f);
-                yield return new WaitForSeconds(this._lineDelay);
+                yield return new WaitForSeconds(_lineDelay);
                 yield return FadeText(1f, 0f);
             }
 
@@ -63,22 +63,22 @@ namespace Intro
 
         private void UpdateText(string line)
         {
-            if (this._narrativeText != null)
-                this._narrativeText.text = line;
+            if (_narrativeText != null)
+                _narrativeText.text = line;
         }
 
         private void SkipIntro()
         {
-            this._skipping = true;
+            _skipping = true;
             StopAllCoroutines();
             LoadMainMenu();
         }
     
         private void SetTextAlpha(float alpha)
         {
-            var color = this._narrativeText.color;
+            var color = _narrativeText.color;
             color.a = alpha;
-            this._narrativeText.color = color;
+            _narrativeText.color = color;
         }
 
         private IEnumerator FadeText(float from, float to)

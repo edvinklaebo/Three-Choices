@@ -28,35 +28,35 @@ namespace UI
 
         private void SetupListeners()
         {
-            if (this._volumeSlider != null)
-                this._volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
-            if (this._fullscreenToggle != null)
-                this._fullscreenToggle.onValueChanged.AddListener(OnFullscreenChanged);
+            if (_volumeSlider != null)
+                _volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
+            if (_fullscreenToggle != null)
+                _fullscreenToggle.onValueChanged.AddListener(OnFullscreenChanged);
         }
 
         private void RemoveListeners()
         {
-            if (this._volumeSlider != null)
-                this._volumeSlider.onValueChanged.RemoveListener(OnVolumeChanged);
-            if (this._fullscreenToggle != null)
-                this._fullscreenToggle.onValueChanged.RemoveListener(OnFullscreenChanged);
+            if (_volumeSlider != null)
+                _volumeSlider.onValueChanged.RemoveListener(OnVolumeChanged);
+            if (_fullscreenToggle != null)
+                _fullscreenToggle.onValueChanged.RemoveListener(OnFullscreenChanged);
         }
 
         private void LoadSettings()
         {
             // Load volume (default 1.0)
             float volume = PlayerPrefs.GetFloat(VolumeKey, 1f);
-            if (this._volumeSlider != null)
+            if (_volumeSlider != null)
             {
-                this._volumeSlider.value = volume;
+                _volumeSlider.value = volume;
             }
             ApplyVolume(volume);
 
             // Load fullscreen (default true)
             bool fullscreen = PlayerPrefs.GetInt(FullscreenKey, 1) == 1;
-            if (this._fullscreenToggle != null)
+            if (_fullscreenToggle != null)
             {
-                this._fullscreenToggle.isOn = fullscreen;
+                _fullscreenToggle.isOn = fullscreen;
             }
             ApplyFullscreen(fullscreen);
         }
@@ -91,8 +91,8 @@ namespace UI
         /// </summary>
         public void Initialize(Slider volumeSlider, Toggle fullscreenToggle)
         {
-            this._volumeSlider = volumeSlider;
-            this._fullscreenToggle = fullscreenToggle;
+            _volumeSlider = volumeSlider;
+            _fullscreenToggle = fullscreenToggle;
         
             // Reload settings with new references
             LoadSettings();

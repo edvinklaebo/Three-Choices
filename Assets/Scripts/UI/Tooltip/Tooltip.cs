@@ -21,10 +21,10 @@ namespace UI.Tooltip
 
         public void Awake()
         {
-            this.canvasRect = this.canvas.GetComponent<RectTransform>();
+            canvasRect = canvas.GetComponent<RectTransform>();
 
             // Top-left pivot is ideal for tooltips
-            this.tooltipRect.pivot = new Vector2(0, 1);
+            tooltipRect.pivot = new Vector2(0, 1);
         }
 
         private void Update()
@@ -32,40 +32,40 @@ namespace UI.Tooltip
             Vector2 mouse = Input.mousePosition;
 
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                this.canvasRect,
+                canvasRect,
                 mouse,
-                this.canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : this.canvas.worldCamera,
+                canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera,
                 out var localPoint
                 );
 
-            localPoint += this.mouseOffset;
+            localPoint += mouseOffset;
 
             SetClampedPosition(localPoint);
         }
 
         public void SetText(string text, string label = "")
         {
-            this.header.gameObject.SetActive(!string.IsNullOrWhiteSpace(label));
-            this.header.text = label;
-            this.content.text = text;
+            header.gameObject.SetActive(!string.IsNullOrWhiteSpace(label));
+            header.text = label;
+            content.text = text;
 
-            this.layout.enabled = this.content.text.Length > this.characterWrapLimit;
+            layout.enabled = content.text.Length > characterWrapLimit;
 
             // Force layout rebuild so size is correct this frame
-            LayoutRebuilder.ForceRebuildLayoutImmediate(this.tooltipRect);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipRect);
         }
 
         private void SetClampedPosition(Vector2 pos)
         {
-            var width = this.tooltipRect.rect.width;
-            var height = this.tooltipRect.rect.height;
+            var width = tooltipRect.rect.width;
+            var height = tooltipRect.rect.height;
 
-            var pivot = this.tooltipRect.pivot;
+            var pivot = tooltipRect.pivot;
 
-            var leftLimit = -this.canvasRect.rect.width * 0.5f;
-            var rightLimit = this.canvasRect.rect.width * 0.5f;
-            var bottomLimit = -this.canvasRect.rect.height * 0.5f;
-            var topLimit = this.canvasRect.rect.height * 0.5f;
+            var leftLimit = -canvasRect.rect.width * 0.5f;
+            var rightLimit = canvasRect.rect.width * 0.5f;
+            var bottomLimit = -canvasRect.rect.height * 0.5f;
+            var topLimit = canvasRect.rect.height * 0.5f;
 
             var minX = leftLimit + width * pivot.x;
             var maxX = rightLimit - width * (1 - pivot.x);
@@ -76,7 +76,7 @@ namespace UI.Tooltip
             var x = Mathf.Clamp(pos.x, minX, maxX);
             var y = Mathf.Clamp(pos.y, minY, maxY);
 
-            this.tooltipRect.localPosition = new Vector2(x, y);
+            tooltipRect.localPosition = new Vector2(x, y);
         }
     }
 }

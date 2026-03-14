@@ -17,21 +17,21 @@ namespace UI.Stats
 
             foreach (var stat in stats)
             {
-                var row = Instantiate(this.rowPrefab, this.container);
+                var row = Instantiate(rowPrefab, container);
                 row.Bind(stat);
-                this.rows.Add(row);
+                rows.Add(row);
             }
         }
 
         private void Clear()
         {
-            foreach (var r in this.rows)
+            foreach (var r in rows)
                 if (Application.isPlaying)
                     Destroy(r.gameObject);
                 else
                     DestroyImmediate(r.gameObject);
 
-            this.rows.Clear();
+            rows.Clear();
         }
     }
 }

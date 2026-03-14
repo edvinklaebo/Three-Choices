@@ -51,9 +51,9 @@ namespace Systems
         {
             var candidates = new List<EnemyDefinition>();
 
-            for (var i = 0; i < this._database.Enemies.Count; i++)
+            for (var i = 0; i < _database.Enemies.Count; i++)
             {
-                var definition = this._database.Enemies[i];
+                var definition = _database.Enemies[i];
                 if (fightIndex >= definition.MinFightIndex && fightIndex <= definition.MaxFightIndex)
                     candidates.Add(definition);
             }
@@ -89,7 +89,7 @@ namespace Systems
 #if UNITY_EDITOR
         public void EditorInit(EnemyDatabase database)
         {
-            this._database = database;
+            _database = database;
         }
 #endif
     }

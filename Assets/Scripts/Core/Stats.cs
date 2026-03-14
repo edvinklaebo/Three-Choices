@@ -14,11 +14,11 @@ namespace Core
 
         public IEnumerable<(string name, int value)> Enumerate()
         {
-            yield return ("Max HP", this.MaxHP);
-            yield return ("Current HP", this.CurrentHP);
-            yield return ("Attack Power", this.AttackPower);
-            yield return ("Armor", this.Armor);
-            yield return ("Speed", this.Speed);
+            yield return ("Max HP", MaxHP);
+            yield return ("Current HP", CurrentHP);
+            yield return ("Attack Power", AttackPower);
+            yield return ("Armor", Armor);
+            yield return ("Speed", Speed);
         }
     }
 }

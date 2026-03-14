@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-
 using Utils;
-
 using Random = UnityEngine.Random;
 
 namespace Core.Boss
@@ -20,7 +18,7 @@ namespace Core.Boss
 
         public BossManager(BossRegistry registry)
         {
-            this._registry = registry ?? throw new ArgumentNullException(nameof(registry));
+            _registry = registry ?? throw new ArgumentNullException(nameof(registry));
         }
 
         /// <summary>Returns true when <paramref name="fightIndex"/> is a boss fight.</summary>
@@ -38,7 +36,7 @@ namespace Core.Boss
         /// </summary>
         public BossDefinition GetBoss(int fightIndex)
         {
-            var bosses = this._registry.Bosses;
+            var bosses = _registry.Bosses;
 
             if (bosses == null || bosses.Count == 0)
             {

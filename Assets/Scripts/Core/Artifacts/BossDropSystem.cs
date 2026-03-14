@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-
 using Utils;
 
 namespace Core.Artifacts
@@ -21,9 +20,9 @@ namespace Core.Artifacts
         public BossDropSystem(IArtifactRepository repository, ArtifactMetaProgression metaProgression,
                               IArtifactSelector selector)
         {
-            this._repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            this._metaProgression = metaProgression ?? throw new ArgumentNullException(nameof(metaProgression));
-            this._selector = selector ?? throw new ArgumentNullException(nameof(selector));
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _metaProgression = metaProgression ?? throw new ArgumentNullException(nameof(metaProgression));
+            _selector = selector ?? throw new ArgumentNullException(nameof(selector));
         }
 
         /// <summary>
@@ -34,19 +33,19 @@ namespace Core.Artifacts
         {
             Log.Info($"[BossDropSystem] Generating drop for boss {bossId}");
 
-            var all = this._repository.GetAll();
+            var all = _repository.GetAll();
             var unlocked = new List<ArtifactDefinition>(all.Count);
 
             for (var i = 0; i < all.Count; i++)
             {
                 var artifact = all[i];
-                if (this._metaProgression.IsUnlocked(artifact.Id))
+                if (_metaProgression.IsUnlocked(artifact.Id))
                     unlocked.Add(artifact);
             }
 
             Log.Info($"[BossDropSystem] Unlocked pool size: {unlocked.Count} / {all.Count}");
 
-            var drop = this._selector.Select(unlocked, bossId, DropCount);
+            var drop = _selector.Select(unlocked, bossId, DropCount);
 
             Log.Info($"[BossDropSystem] Drop generated: {drop.Length} artifacts for boss {bossId}");
 

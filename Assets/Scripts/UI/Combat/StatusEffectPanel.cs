@@ -27,21 +27,21 @@ namespace UI.Combat
 
         private void Awake()
         {
-            if (this._iconPrefab == null) Log.Error("StatusEffectPanel: IconPrefab not assigned");
+            if (_iconPrefab == null) Log.Error("StatusEffectPanel: IconPrefab not assigned");
 
-            if (this._iconContainer == null) this._iconContainer = transform;
+            if (_iconContainer == null) _iconContainer = transform;
         }
 
         private void Update()
         {
             // Poll for status effect changes
             // In a production environment, this would be event-driven
-            if (this._unit != null && this._unit.StatusEffects != null)
+            if (_unit != null && _unit.StatusEffects != null)
                 // Only refresh if the count changed to avoid recreating icons every frame
-                if (this._unit.StatusEffects.Count != this._lastEffectCount)
+                if (_unit.StatusEffects.Count != _lastEffectCount)
                 {
                     RefreshDisplay();
-                    this._lastEffectCount = this._unit.StatusEffects.Count;
+                    _lastEffectCount = _unit.StatusEffects.Count;
                 }
         }
 
@@ -56,7 +56,7 @@ namespace UI.Combat
                 return;
             }
 
-            this._unit = unit;
+            _unit = unit;
 
             // Initial display
             RefreshDisplay();
@@ -72,16 +72,16 @@ namespace UI.Combat
         /// </summary>
         private void RefreshDisplay()
         {
-            if (this._unit == null || this._unit.StatusEffects == null)
+            if (_unit == null || _unit.StatusEffects == null)
                 return;
 
             // Return all active icons to pool
-            foreach (var icon in this._activeIcons) ReturnIconToPool(icon);
-            this._activeIcons.Clear();
+            foreach (var icon in _activeIcons) ReturnIconToPool(icon);
+            _activeIcons.Clear();
 
             // Get status effects from unit
-            var effects = this._unit.StatusEffects;
-            var visibleCount = Mathf.Min(effects.Count, this._maxVisibleIcons);
+            var effects = _unit.StatusEffects;
+            var visibleCount = Mathf.Min(effects.Count, _maxVisibleIcons);
 
             // Display visible effects
             for (var i = 0; i < visibleCount; i++)
@@ -92,7 +92,7 @@ namespace UI.Combat
                 icon.SetEffect(effect.Id, effect.Stacks, effect.Duration);
                 icon.gameObject.SetActive(true);
 
-                this._activeIcons.Add(icon);
+                _activeIcons.Add(icon);
             }
 
             // Show overflow indicator if needed
@@ -102,15 +102,15 @@ namespace UI.Combat
                 var overflowIcon = GetIconFromPool();
                 overflowIcon.SetOverflow(overflow);
                 overflowIcon.gameObject.SetActive(true);
-                this._activeIcons.Add(overflowIcon);
+                _activeIcons.Add(overflowIcon);
             }
         }
 
         private StatusEffectIcon GetIconFromPool()
         {
-            if (this._iconPool.Count > 0) return this._iconPool.Pop();
+            if (_iconPool.Count > 0) return _iconPool.Pop();
 
-            var icon = Instantiate(this._iconPrefab, this._iconContainer);
+            var icon = Instantiate(_iconPrefab, _iconContainer);
             return icon;
         }
 
@@ -120,7 +120,7 @@ namespace UI.Combat
                 return;
 
             icon.gameObject.SetActive(false);
-            this._iconPool.Push(icon);
+            _iconPool.Push(icon);
         }
     }
 }

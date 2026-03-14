@@ -1,5 +1,4 @@
 using Interfaces;
-
 using UnityEngine;
 
 namespace Core.Artifacts
@@ -25,40 +24,40 @@ namespace Core.Artifacts
         [SerializeField] private bool _lockedByDefault = true;
 
         // ---- Public read-only accessors ----
-        public string Id => this._id;
-        public string DisplayName => this._displayName;
-        public string Description => this._description;
-        public Sprite Icon => this._icon;
-        public Rarity Rarity => this._rarity;
-        public Rarity GetRarity() => this._rarity;
-        public ArtifactTag Tags => this._tags;
-        public ArtifactEffectType EffectType => this._effectType;
-        public ArtifactId ArtifactId => this._artifactId;
-        public bool LockedByDefault => this._lockedByDefault;
+        public string Id => _id;
+        public string DisplayName => _displayName;
+        public string Description => _description;
+        public Sprite Icon => _icon;
+        public Rarity Rarity => _rarity;
+        public Rarity GetRarity() => _rarity;
+        public ArtifactTag Tags => _tags;
+        public ArtifactEffectType EffectType => _effectType;
+        public ArtifactId ArtifactId => _artifactId;
+        public bool LockedByDefault => _lockedByDefault;
 
 #if UNITY_EDITOR
         public void EditorInit(string id, string displayName, string description,
                                Rarity rarity, ArtifactTag tags, ArtifactEffectType effectType, bool lockedByDefault = true)
         {
-            this._id = id;
-            this._displayName = displayName;
-            this._description = description;
-            this._rarity = rarity;
-            this._tags = tags;
-            this._effectType = effectType;
-            this._lockedByDefault = lockedByDefault;
+            _id = id;
+            _displayName = displayName;
+            _description = description;
+            _rarity = rarity;
+            _tags = tags;
+            _effectType = effectType;
+            _lockedByDefault = lockedByDefault;
         }
 
         public void EditorInit(ArtifactId artifactId, string displayName, string description,
                                Rarity rarity, ArtifactTag tags, ArtifactEffectType effectType, bool lockedByDefault = true)
         {
-            this._artifactId = artifactId;
-            this._displayName = displayName;
-            this._description = description;
-            this._rarity = rarity;
-            this._tags = tags;
-            this._effectType = effectType;
-            this._lockedByDefault = lockedByDefault;
+            _artifactId = artifactId;
+            _displayName = displayName;
+            _description = description;
+            _rarity = rarity;
+            _tags = tags;
+            _effectType = effectType;
+            _lockedByDefault = lockedByDefault;
         }
 #endif
     }

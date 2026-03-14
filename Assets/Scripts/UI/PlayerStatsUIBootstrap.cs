@@ -16,20 +16,20 @@ namespace UI
 
         private void OnEnable()
         {
-            if (this._fightStarted != null) 
-                this._fightStarted.OnRaised += OnFightStarted;
+            if (_fightStarted != null) 
+                _fightStarted.OnRaised += OnFightStarted;
         }
 
         private void OnDisable()
         {
-            if (this._fightStarted != null) 
-                this._fightStarted.OnRaised -= OnFightStarted;
+            if (_fightStarted != null) 
+                _fightStarted.OnRaised -= OnFightStarted;
         }
 
         private void OnFightStarted(Unit player, int fightIndex)
         {
-            this.panel.Show(player.Stats.ToViewData());
-            this._healthBar.Bind(player);
+            panel.Show(player.Stats.ToViewData());
+            _healthBar.Bind(player);
         }
     }
 }

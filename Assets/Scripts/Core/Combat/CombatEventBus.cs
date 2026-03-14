@@ -16,9 +16,9 @@ namespace Core.Combat
         public void On<TEvent>(Action<TEvent> handler) where TEvent : CombatEvent
         {
             var type = typeof(TEvent);
-            if (!this._handlers.ContainsKey(type))
-                this._handlers[type] = new List<(Delegate, Action<CombatEvent>)>();
-            this._handlers[type].Add((handler, e => handler((TEvent)e)));
+            if (!_handlers.ContainsKey(type))
+                _handlers[type] = new List<(Delegate, Action<CombatEvent>)>();
+            _handlers[type].Add((handler, e => handler((TEvent)e)));
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Core.Combat
         public void Off<TEvent>(Action<TEvent> handler) where TEvent : CombatEvent
         {
             var type = typeof(TEvent);
-            if (this._handlers.TryGetValue(type, out var list))
+            if (_handlers.TryGetValue(type, out var list))
                 list.RemoveAll(entry => entry.Original.Equals(handler));
         }
 
@@ -37,7 +37,7 @@ namespace Core.Combat
         public void Raise<TEvent>(TEvent evt) where TEvent : CombatEvent
         {
             var type = typeof(TEvent);
-            if (this._handlers.TryGetValue(type, out var list))
+            if (_handlers.TryGetValue(type, out var list))
             {
                 var snapshot = list.ToArray();
                 foreach (var entry in snapshot)
@@ -48,6 +48,6 @@ namespace Core.Combat
         /// <summary>
         /// Remove all registered handlers.
         /// </summary>
-        public void Clear() => this._handlers.Clear();
+        public void Clear() => _handlers.Clear();
     }
 }

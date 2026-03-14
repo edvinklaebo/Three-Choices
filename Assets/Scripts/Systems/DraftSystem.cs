@@ -49,9 +49,9 @@ namespace Systems
         public DraftSystem(IUpgradeRepository upgradeRepository, IArtifactRepository artifactRepository,
                            IRarityRoller rarityRoller)
         {
-            this._upgradeRepository = upgradeRepository;
-            this._artifactRepository = artifactRepository;
-            this._rarityRoller = rarityRoller ?? throw new ArgumentNullException(nameof(rarityRoller));
+            _upgradeRepository = upgradeRepository;
+            _artifactRepository = artifactRepository;
+            _rarityRoller = rarityRoller ?? throw new ArgumentNullException(nameof(rarityRoller));
 
             Log.Info("DraftSystem initialized", new
             {
@@ -73,7 +73,7 @@ namespace Systems
                 var result = new List<DraftOption>();
 
                 // Roll rarity first
-                var rolledRarity = this._rarityRoller.RollRarity();
+                var rolledRarity = _rarityRoller.RollRarity();
 
                 for (var i = 0; i < count; i++)
                 {
@@ -127,16 +127,16 @@ namespace Systems
         {
             var pool = new List<DraftOption>();
 
-            if (this._upgradeRepository != null)
+            if (_upgradeRepository != null)
             {
-                var upgrades = this._upgradeRepository.GetAll();
+                var upgrades = _upgradeRepository.GetAll();
                 for (var i = 0; i < upgrades.Count; i++)
                     pool.Add(new DraftOption(upgrades[i]));
             }
 
-            if (this._artifactRepository != null)
+            if (_artifactRepository != null)
             {
-                var artifacts = this._artifactRepository.GetAll();
+                var artifacts = _artifactRepository.GetAll();
                 for (var i = 0; i < artifacts.Count; i++)
                     pool.Add(new DraftOption(artifacts[i]));
             }

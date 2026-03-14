@@ -24,7 +24,7 @@ namespace UI.Combat
 
         private void Awake()
         {
-            if (this._healthBar == null)
+            if (_healthBar == null)
             {
                 Log.Error("UnitHUDPanel: HealthBar not assigned");
             }
@@ -41,24 +41,24 @@ namespace UI.Combat
                 return;
             }
 
-            this._unit = unit;
+            _unit = unit;
 
             // Set unit name
-            if (this._nameText != null)
+            if (_nameText != null)
             {
-                this._nameText.text = unit.Name;
+                _nameText.text = unit.Name;
             }
 
             // Initialize health bar
-            if (this._healthBar != null)
+            if (_healthBar != null)
             {
-                this._healthBar.Bind(unit);
+                _healthBar.Bind(unit);
             }
 
             // Initialize status effect panel
-            if (this._statusEffectPanel != null)
+            if (_statusEffectPanel != null)
             {
-                this._statusEffectPanel.Initialize(unit);
+                _statusEffectPanel.Initialize(unit);
             }
 
             UpdateHealthTextFromUnit();
@@ -74,7 +74,7 @@ namespace UI.Combat
         /// </summary>
         public HealthBarUI GetHealthBar()
         {
-            return this._healthBar;
+            return _healthBar;
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace UI.Combat
         /// </summary>
         public Unit GetUnit()
         {
-            return this._unit;
+            return _unit;
         }
 
 
@@ -92,20 +92,20 @@ namespace UI.Combat
         /// </summary>
         public void UpdateHealthText(int currentHP, int maxHP)
         {
-            if (this._hpText)
+            if (_hpText)
             {
                 // Clamp currentHP to 0 minimum to avoid showing negative numbers
                 var displayHP = Mathf.Max(0, currentHP);
-                this._hpText.text = $"{displayHP} / {maxHP}";
+                _hpText.text = $"{displayHP} / {maxHP}";
             }
         }
 
 
         private void UpdateHealthTextFromUnit()
         {
-            if (this._hpText != null && this._unit != null)
+            if (_hpText != null && _unit != null)
             {
-                UpdateHealthText(this._unit.Stats.CurrentHP, this._unit.Stats.MaxHP);
+                UpdateHealthText(_unit.Stats.CurrentHP, _unit.Stats.MaxHP);
             }
         }
     }

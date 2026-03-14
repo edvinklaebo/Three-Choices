@@ -27,17 +27,17 @@ namespace Controllers
 
         private void Awake()
         {
-            this.quitButton.onClick.AddListener(OnQuitClicked);
-            this.continueButton.onClick.AddListener(OnContinueClicked);
+            quitButton.onClick.AddListener(OnQuitClicked);
+            continueButton.onClick.AddListener(OnContinueClicked);
 
-            if (this.newGameButton != null)
-                this.newGameButton.onClick.AddListener(OnNewGamePressed);
+            if (newGameButton != null)
+                newGameButton.onClick.AddListener(OnNewGamePressed);
         }
 
         private void Start()
         {
-            this.continueButton.gameObject.SetActive(SaveService.HasSave());
-            this.quitButton.gameObject.SetActive(PlatformUtils.IsQuitSupported());
+            continueButton.gameObject.SetActive(SaveService.HasSave());
+            quitButton.gameObject.SetActive(PlatformUtils.IsQuitSupported());
         }
 
         private static void OnQuitClicked()
@@ -47,8 +47,8 @@ namespace Controllers
 
         private void OnContinueClicked()
         {
-            if (this._continueRunRequested != null)
-                this._continueRunRequested.Raise();
+            if (_continueRunRequested != null)
+                _continueRunRequested.Raise();
             else
                 Log.Error("MainMenuController: ContinueRunRequested event channel not assigned");
         }

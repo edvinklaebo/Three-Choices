@@ -22,41 +22,41 @@ namespace Controllers
 
         private void OnEnable()
         {
-            if (this.upgradePicked != null) this.upgradePicked.OnRaised += ApplyUpgrade;
-            if (this.artifactPicked != null) this.artifactPicked.OnRaised += ApplyArtifact;
-            if (this._fightStarted != null) 
-                this._fightStarted.OnRaised += OnFightStarted;
+            if (upgradePicked != null) upgradePicked.OnRaised += ApplyUpgrade;
+            if (artifactPicked != null) artifactPicked.OnRaised += ApplyArtifact;
+            if (_fightStarted != null) 
+                _fightStarted.OnRaised += OnFightStarted;
         }
 
         private void OnDisable()
         {
-            if (this.upgradePicked != null) this.upgradePicked.OnRaised -= ApplyUpgrade;
-            if (this.artifactPicked != null) this.artifactPicked.OnRaised -= ApplyArtifact;
-            if (this._fightStarted != null) 
-                this._fightStarted.OnRaised -= OnFightStarted;
+            if (upgradePicked != null) upgradePicked.OnRaised -= ApplyUpgrade;
+            if (artifactPicked != null) artifactPicked.OnRaised -= ApplyArtifact;
+            if (_fightStarted != null) 
+                _fightStarted.OnRaised -= OnFightStarted;
         }
 
         private void OnFightStarted(Unit player, int fightIndex)
         {
-            this._player = player;
+            _player = player;
         }
 
         private void ApplyUpgrade(UpgradeDefinition upgrade)
         {
-            UpgradeApplier.Apply(upgrade, this._player);
+            UpgradeApplier.Apply(upgrade, _player);
             CompletePick();
         }
 
         private void ApplyArtifact(ArtifactDefinition artifact)
         {
-            ArtifactApplier.ApplyToPlayer(artifact, this._player);
+            ArtifactApplier.ApplyToPlayer(artifact, _player);
             CompletePick();
         }
 
         private void CompletePick()
         {
-            this._hideDraft?.Raise();
-            this.requestNextFight.Raise();
+            _hideDraft?.Raise();
+            requestNextFight.Raise();
         }
     }
 }

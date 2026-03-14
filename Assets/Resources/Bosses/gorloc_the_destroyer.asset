@@ -23,4 +23,4 @@ MonoBehaviour:
     AttackPower: 12
     Armor: 100
     Speed: 100
-  _difficultyRating: 1
+  _difficultyRating: 3

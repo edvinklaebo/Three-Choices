@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: enemy_blob
   m_EditorClassIdentifier: Ropa::EnemyDefinition
   _enemyName: Blob
-  _portrait: {fileID: 7048502251930867025, guid: 3fe0af9740674754bb86b63daa08a1bb, type: 3}
+  _portrait: {fileID: 21300000, guid: 3fe0af9740674754bb86b63daa08a1bb, type: 3}
   _maxHP: 42
   _attackPower: 12
   _armor: 44
   _speed: 54
   _minFightIndex: 0
   _maxFightIndex: 999
-  _spawnWeight: 1
+  _spawnWeight: 0
   _traits:
   - {fileID: 11400000, guid: 55eba872a88df494186071499baf7860, type: 2}

@@ -17,7 +17,7 @@ namespace Core.Boss
         public Boss(BossDefinition definition) : base(GetDisplayName(definition))
         {
             Definition = definition;
-            this.Stats = CreateStats(definition.Stats);
+            Stats = CreateStats(definition.Stats);
         }
 
         private static string GetDisplayName(BossDefinition definition)

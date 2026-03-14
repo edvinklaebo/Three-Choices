@@ -1,8 +1,6 @@
 using System;
-
 using Core.Artifacts.Passives;
 using Core.Passives;
-
 using Utils;
 
 namespace Core.Artifacts
@@ -34,23 +32,23 @@ namespace Core.Artifacts
         {
             IArtifact artifact = artifactDefinition.ArtifactId switch
             {
-                ArtifactId.BerserkerMask  => new NullPassive(),
-                ArtifactId.BlazingTorch   => new NullPassive(),
-                ArtifactId.BloodRitual    => new NullPassive(),
-                ArtifactId.CorruptedTome  => new NullPassive(),
+                ArtifactId.BerserkerMask  => new BerserkerMask(),
+                ArtifactId.BlazingTorch   => new BlazingTorch(),
+                ArtifactId.BloodRitual    => new BloodRitual(),
+                ArtifactId.CorruptedTome  => new CorruptedTome(),
                 ArtifactId.CrownOfEchoes  => new PhantomStrike(),
-                ArtifactId.HeartOfOak     => new NullPassive(),
+                ArtifactId.HeartOfOak     => new HeartOfOak(),
                 ArtifactId.Hourglass      => new DeathShield(),
-                ArtifactId.IronHeart      => new NullPassive(),
-                ArtifactId.LuckyHorseshoe => new CritChance(10f),
+                ArtifactId.IronHeart      => new IronHeart(),
+                ArtifactId.LuckyHorseshoe => new CritChance(0.1f),
                 ArtifactId.PoisonDarts    => new PoisonAmplifier(),
                 ArtifactId.PoisonedBlade  => new PoisonAmplifier(),
-                ArtifactId.Quickboots     => new NullPassive(),
-                ArtifactId.SteelScales    => new NullPassive(),
-                ArtifactId.ThornArmor     => new NullPassive(),
-                ArtifactId.TwinBlades     => new NullPassive(),
-                ArtifactId.VampiricFang   => new NullPassive(),
-                ArtifactId.WarGauntlet    => new NullPassive(),
+                ArtifactId.Quickboots     => new Quickboots(),
+                ArtifactId.SteelScales    => new SteelScales(),
+                ArtifactId.ThornArmor     => new ThornArmor(),
+                ArtifactId.TwinBlades     => new TwinBlades(),
+                ArtifactId.VampiricFang   => new VampiricFang(),
+                ArtifactId.WarGauntlet    => new WarGauntlet(),
                 _ => throw new ArgumentOutOfRangeException(artifactDefinition.ArtifactId.ToString())
                 };
 

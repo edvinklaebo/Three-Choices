@@ -29,24 +29,24 @@ namespace Controllers
     
         private void Awake()
         {
-            if (this._animationRunner == null)
+            if (_animationRunner == null)
                 Log.Error("CombatPresentationCoordinator: _animationRunner is not assigned.");
-            if (this._viewPresenter == null)
+            if (_viewPresenter == null)
                 Log.Error("CombatPresentationCoordinator: _viewPresenter is not assigned.");
-            if (this._presentationComplete == null)
+            if (_presentationComplete == null)
                 Log.Error("CombatPresentationCoordinator: _presentationComplete is not assigned.");
         }
 
         private void OnEnable()
         {
-            if (this._combatReady != null)
-                this._combatReady.OnRaised += HandleCombatReady;
+            if (_combatReady != null)
+                _combatReady.OnRaised += HandleCombatReady;
         }
 
         private void OnDisable()
         {
-            if (this._combatReady != null)
-                this._combatReady.OnRaised -= HandleCombatReady;
+            if (_combatReady != null)
+                _combatReady.OnRaised -= HandleCombatReady;
         }
 
         private void HandleCombatReady(CombatResult result)
@@ -57,20 +57,20 @@ namespace Controllers
         private IEnumerator PresentCombat(CombatResult result)
         {
             // Prevent visual overlap if a previous animation is still playing
-            if (this._animationRunner.IsRunning)
-                yield return this._animationRunner.WaitForCompletion();
+            if (_animationRunner.IsRunning)
+                yield return _animationRunner.WaitForCompletion();
 
-            this._viewPresenter.Show(result);
-            this._animationRunner.EnqueueRange(result.Actions);
-            this._animationRunner.PlayAll(this._viewPresenter.Context);
+            _viewPresenter.Show(result);
+            _animationRunner.EnqueueRange(result.Actions);
+            _animationRunner.PlayAll(_viewPresenter.Context);
 
-            yield return this._animationRunner.WaitForCompletion();
+            yield return _animationRunner.WaitForCompletion();
 
-            this._viewPresenter.Hide();
+            _viewPresenter.Hide();
 
-            yield return this._animationRunner.WaitForCompletion();
+            yield return _animationRunner.WaitForCompletion();
 
-            this._presentationComplete?.Raise(result.Player);
+            _presentationComplete?.Raise(result.Player);
         }
     }
 }

@@ -25,16 +25,16 @@ namespace UI
 
         public void Awake()
         {
-            if (this._initialized) 
+            if (_initialized) 
                 return;
-            this._initialized = true;
+            _initialized = true;
 
-            if (this._button == null) this._button = GetComponent<Button>();
-            if (this._text == null) this._text = GetComponentInChildren<Text>();
-            if (this._icon == null) this._icon = GetComponentInChildren<Image>(true);
-            if (this._tooltip == null) this._tooltip = GetComponent<TooltipTrigger>();
+            if (_button == null) _button = GetComponent<Button>();
+            if (_text == null) _text = GetComponentInChildren<Text>();
+            if (_icon == null) _icon = GetComponentInChildren<Image>(true);
+            if (_tooltip == null) _tooltip = GetComponent<TooltipTrigger>();
 
-            this._button.onClick.AddListener(OnClicked);
+            _button.onClick.AddListener(OnClicked);
         }
 
         public void Bind(DraftOption option, Action<DraftOption> onPick)
@@ -45,28 +45,28 @@ namespace UI
                 return;
             }
 
-            this._boundOption = option;
-            this._onPick = onPick;
+            _boundOption = option;
+            _onPick = onPick;
 
-            if (this._tooltip != null)
+            if (_tooltip != null)
             {
-                this._tooltip.Label = option.DisplayName;
-                this._tooltip.Content = option.Description;
+                _tooltip.Label = option.DisplayName;
+                _tooltip.Content = option.Description;
             }
 
-            if (this._text != null)
-                this._text.text = option.DisplayName;
+            if (_text != null)
+                _text.text = option.DisplayName;
 
-            if (this._icon != null)
+            if (_icon != null)
             {
-                this._icon.sprite = option.Icon;
-                this._icon.enabled = option.Icon != null;
+                _icon.sprite = option.Icon;
+                _icon.enabled = option.Icon != null;
             }
         }
 
         private void OnClicked()
         {
-            this._onPick?.Invoke(this._boundOption);
+            _onPick?.Invoke(_boundOption);
         }
     }
 }

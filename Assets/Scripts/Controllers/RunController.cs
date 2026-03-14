@@ -1,15 +1,10 @@
 using Characters;
-
 using Core;
 using Core.Boss;
-
 using Events;
-
 using Systems;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 using Utils;
 
 namespace Controllers
@@ -23,7 +18,6 @@ namespace Controllers
     {
         private const string GameOverScene = "GameOver";
         private const string DraftScene = "DraftScene";
-        private const string MainMenuScene = "MainMenu";
 
         [Header("Events")]
         [SerializeField] private VoidEventChannel requestNextFight;
@@ -45,18 +39,18 @@ namespace Controllers
         public void Awake()
         {
             DontDestroyOnLoad(this);
-            BossManager bossManager = this._bossRegistry != null ? new BossManager(this._bossRegistry) : null;
-            this._progressionService = new RunProgressionService(this._fightStarted, bossManager, this._bossFightStarted);
+            BossManager bossManager = _bossRegistry != null ? new BossManager(_bossRegistry) : null;
+            _progressionService = new RunProgressionService(_fightStarted, bossManager, _bossFightStarted);
         }
 
         private void OnEnable()
         {
-            this.requestNextFight.OnRaised += this._progressionService.HandleNextFight;
+            requestNextFight.OnRaised += _progressionService.HandleNextFight;
 
-            if (this.combatEndedWithPlayerDeath != null)
-                this.combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
-            if (this._continueRunRequested != null)
-                this._continueRunRequested.OnRaised += ContinueRun;
+            if (combatEndedWithPlayerDeath != null)
+                combatEndedWithPlayerDeath.OnRaised += OnCombatEndedWithPlayerDeath;
+            if (_continueRunRequested != null)
+                _continueRunRequested.OnRaised += ContinueRun;
 
             GameEvents.CharacterSelected_Event += StartNewRun;
             GameEvents.ReturnToMainMenu_Event += HandleReturnToMainMenu;
@@ -64,12 +58,12 @@ namespace Controllers
 
         private void OnDisable()
         {
-            this.requestNextFight.OnRaised -= this._progressionService.HandleNextFight;
+            requestNextFight.OnRaised -= _progressionService.HandleNextFight;
 
-            if (this.combatEndedWithPlayerDeath != null)
-                this.combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
-            if (this._continueRunRequested != null)
-                this._continueRunRequested.OnRaised -= ContinueRun;
+            if (combatEndedWithPlayerDeath != null)
+                combatEndedWithPlayerDeath.OnRaised -= OnCombatEndedWithPlayerDeath;
+            if (_continueRunRequested != null)
+                _continueRunRequested.OnRaised -= ContinueRun;
 
             GameEvents.CharacterSelected_Event -= StartNewRun;
             GameEvents.ReturnToMainMenu_Event -= HandleReturnToMainMenu;
@@ -85,9 +79,9 @@ namespace Controllers
                 return;
             }
 
-            PlayerInitializer.Initialize(this.Player, CurrentRun.player, this.playerDiedEvent);
-            this.Player = CurrentRun.player;
-            this._progressionService.SetRun(CurrentRun, this.Player);
+            PlayerInitializer.Initialize(Player, CurrentRun.player, playerDiedEvent);
+            Player = CurrentRun.player;
+            _progressionService.SetRun(CurrentRun, Player);
 
             SceneManager.LoadScene(DraftScene);
         }
@@ -101,15 +95,15 @@ namespace Controllers
             }
 
             var newPlayer = PlayerFactory.CreateFromCharacter(character);
-            PlayerInitializer.Initialize(this.Player, newPlayer, this.playerDiedEvent);
-            this.Player = newPlayer;
+            PlayerInitializer.Initialize(Player, newPlayer, playerDiedEvent);
+            Player = newPlayer;
 
             CurrentRun = new RunState
             {
                 fightIndex = 0,
-                player = this.Player
+                player = Player
             };
-            this._progressionService.SetRun(CurrentRun, this.Player);
+            _progressionService.SetRun(CurrentRun, Player);
 
             SaveService.Save(CurrentRun);
             SceneManager.LoadScene(DraftScene);

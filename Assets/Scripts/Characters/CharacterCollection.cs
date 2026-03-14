@@ -10,14 +10,14 @@ namespace Characters
         [SerializeField]
         private List<CharacterDefinition> _characters;
 
-        public IReadOnlyList<CharacterDefinition> Characters => this._characters;
+        public IReadOnlyList<CharacterDefinition> Characters => _characters;
     
         public CharacterDefinition GetByIndex(int index)
         {
-            if (this._characters == null || this._characters.Count == 0)
+            if (_characters == null || _characters.Count == 0)
                 return null;
 
-            return this._characters[Mathf.Clamp(index, 0, this._characters.Count - 1)];
+            return _characters[Mathf.Clamp(index, 0, _characters.Count - 1)];
         }
     }
 }

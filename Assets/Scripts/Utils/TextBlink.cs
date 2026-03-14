@@ -18,22 +18,22 @@ namespace Utils
 
         private void Awake()
         {
-            this.text = GetComponent<TMP_Text>();
-            this.material = this.text.fontMaterial;
+            text = GetComponent<TMP_Text>();
+            material = text.fontMaterial;
         }
 
         private void Update()
         {
-            var t = (Mathf.Sin(Time.time * this.speed) + 1f) * 0.5f;
-            var dilate = Mathf.Lerp(this.minDilate, this.maxDilate, t);
+            var t = (Mathf.Sin(Time.time * speed) + 1f) * 0.5f;
+            var dilate = Mathf.Lerp(minDilate, maxDilate, t);
 
-            this.material.SetFloat(FaceDilate, dilate);
+            material.SetFloat(FaceDilate, dilate);
         }
 
         private void OnValidate()
         {
-            if (this.maxDilate < this.minDilate)
-                this.maxDilate = this.minDilate;
+            if (maxDilate < minDilate)
+                maxDilate = minDilate;
         }
     }
 }

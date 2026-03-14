@@ -10,7 +10,7 @@ namespace Discord
         // Assigned in Editor
         public void OpenDiscord()
         {
-            Application.OpenURL(this.inviteUrl);
+            Application.OpenURL(inviteUrl);
         }
     }
 }

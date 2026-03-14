@@ -19,31 +19,31 @@ namespace Core.Modifiers
 
         public CriticalHitModifier(Unit owner, float critChance, float critMultiplier)
         {
-            this._owner = owner;
-            this._critChance = Mathf.Clamp01(critChance);
-            this._critMultiplier = critMultiplier;
+            _owner = owner;
+            _critChance = Mathf.Clamp01(critChance);
+            _critMultiplier = critMultiplier;
         }
 
         public int Priority => 210; // Late multiplier, after standard modifiers
 
         public void Modify(DamageContext ctx)
         {
-            if (ctx.Source != this._owner) return;
+            if (ctx.Source != _owner) return;
             if (ctx.IsCritical) return; // Already a crit
 
             var roll = Random.value;
-            if (roll < this._critChance)
+            if (roll < _critChance)
             {
                 ctx.IsCritical = true;
-                ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * this._critMultiplier);
+                ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * _critMultiplier);
 
                 Log.Info("Critical hit!", new
                 {
-                    source = this._owner.Name,
+                    source = _owner.Name,
                     target = ctx.Target?.Name,
                     roll,
-                    critChance = this._critChance,
-                    multiplier = this._critMultiplier,
+                    critChance = _critChance,
+                    multiplier = _critMultiplier,
                     damage = ctx.FinalValue
                 });
             }

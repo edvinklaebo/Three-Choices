@@ -28,9 +28,9 @@ namespace UI.Combat
 
         private void Awake()
         {
-            if (this._scrollRect == null) Log.Error("CombatLogPanel: ScrollRect not assigned");
-            if (this._contentContainer == null) Log.Error("CombatLogPanel: ContentContainer not assigned");
-            if (this._entryPrefab == null) Log.Error("CombatLogPanel: EntryPrefab not assigned");
+            if (_scrollRect == null) Log.Error("CombatLogPanel: ScrollRect not assigned");
+            if (_contentContainer == null) Log.Error("CombatLogPanel: ContentContainer not assigned");
+            if (_entryPrefab == null) Log.Error("CombatLogPanel: EntryPrefab not assigned");
         }
 
         private void OnEnable()
@@ -49,16 +49,16 @@ namespace UI.Combat
         /// </summary>
         public void AddEntry(string message)
         {
-            if (this._entryPrefab == null || this._contentContainer == null)
+            if (_entryPrefab == null || _contentContainer == null)
                 return;
 
-            var entry = Instantiate(this._entryPrefab, this._contentContainer);
+            var entry = Instantiate(_entryPrefab, _contentContainer);
             entry.text = message;
-            this._entries.Enqueue(entry);
+            _entries.Enqueue(entry);
 
-            if (this._entries.Count > this._maxEntries)
+            if (_entries.Count > _maxEntries)
             {
-                var oldest = this._entries.Dequeue();
+                var oldest = _entries.Dequeue();
                 DestroyImmediate(oldest.gameObject);
             }
 
@@ -70,16 +70,16 @@ namespace UI.Combat
         /// </summary>
         public void Clear()
         {
-            foreach (var entry in this._entries)
+            foreach (var entry in _entries)
                 if (entry != null)
                     DestroyImmediate(entry.gameObject);
 
-            this._entries.Clear();
+            _entries.Clear();
         }
 
         private void ScrollToBottom()
         {
-            if (this._scrollRect == null)
+            if (_scrollRect == null)
                 return;
 
             Canvas.ForceUpdateCanvases();
