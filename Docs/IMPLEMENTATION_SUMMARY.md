@@ -57,7 +57,7 @@
 2. **CharacterSelectScene**
    - `Assets/Scenes/CharacterSelectScene.unity`
    - Minimal scene with Main Camera
-   - Added to Build Settings (index 2, between MainMenu and DraftScene)
+   - Added to Build Settings (index 2, between MainMenu and GameScene)
 
 ### Tests Created
 1. **CharacterSelectionTests.cs** (EditMode)
@@ -139,7 +139,7 @@ GameEvents.CharacterSelected_Event?.Invoke(character)
     ↓
 RunController.StartNewRun(character)
     ↓
-SceneManager.LoadScene("DraftScene")
+SceneManager.LoadScene("GameScene")
     ↓
 Draft Scene with selected character stats
 ```
@@ -166,7 +166,7 @@ Run via: Unity Test Runner → EditMode tab
 - [ ] Next button cycles forward
 - [ ] Enter key confirms selection
 - [ ] Confirm button confirms selection
-- [ ] Selected character stats appear in DraftScene
+- [ ] Selected character stats appear in GameScene
 - [ ] Console shows diagnostic logs at each step
 
 ## 📝 Notes

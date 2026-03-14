@@ -98,7 +98,7 @@ cd ropa
 
 1. **Load Scene**: Open `Assets/Scenes/MainMenu.unity`
 2. **Press Play**: Experience the full game loop
-3. **Alt. Scene**: Try `Assets/Scenes/DraftScene.unity` to jump straight into drafting
+3. **Alt. Scene**: Try `Assets/Scenes/GameScene.unity` to jump straight into drafting
 
 ### 🧪 Run Tests
 
@@ -129,7 +129,7 @@ File → Build Settings → Select Target Platform → Build
 
 ```
 Assets/
-├── 🎬 Scenes/          # MainMenu, SplashScreen, DraftScene
+├── 🎬 Scenes/          # MainMenu, SplashScreen, GameScene
 ├── 📜 Scripts/         # Core game logic
 │   ├── Systems/        # CombatSystem, DraftSystem, UpgradeSystem
 │   ├── Controllers/    # Game flow and orchestration

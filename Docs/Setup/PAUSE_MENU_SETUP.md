@@ -2,9 +2,9 @@
 
 ## Automated Setup (Recommended)
 
-Add the `PauseMenuBootstrap` component to any GameObject in your gameplay scene (DraftScene):
+Add the `PauseMenuBootstrap` component to any GameObject in your gameplay scene (GameScene):
 
-1. Open the DraftScene in Unity Editor
+1. Open the GameScene in Unity Editor
 2. Create an empty GameObject (Right-click in Hierarchy > Create Empty)
 3. Rename it to "PauseMenuBootstrap"
 4. Add the `PauseMenuBootstrap` component to it

@@ -17,7 +17,7 @@ namespace Controllers
     public class RunController : MonoBehaviour
     {
         private const string GameOverScene = "GameOver";
-        private const string DraftScene = "DraftScene";
+        private const string GameScene = "GameScene";
 
         [Header("Events")]
         [SerializeField] private VoidEventChannel requestNextFight;
@@ -83,10 +83,7 @@ namespace Controllers
             Player = CurrentRun.player;
             _progressionService.SetRun(CurrentRun, Player);
 
-            SceneManager.LoadScene(DraftScene);
-        }
-
-        private void StartNewRun(CharacterDefinition character)
+            SceneManager.LoadScene(GameScene);
         {
             if (character == null)
             {
@@ -106,7 +103,7 @@ namespace Controllers
             _progressionService.SetRun(CurrentRun, Player);
 
             SaveService.Save(CurrentRun);
-            SceneManager.LoadScene(DraftScene);
+            SceneManager.LoadScene(GameScene);
         }
 
         private static void OnCombatEndedWithPlayerDeath()

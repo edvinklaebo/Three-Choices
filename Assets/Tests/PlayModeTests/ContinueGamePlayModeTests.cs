@@ -194,18 +194,18 @@ namespace Tests.PlayModeTests
                       $"HP: {runController.Player.Stats.CurrentHP}/{runController.Player.Stats.MaxHP}, " +
                       $"Attack: {runController.Player.Stats.AttackPower}, Fight: {runController.CurrentRun.fightIndex}");
 
-            // === PHASE 4: Wait for scene transition to DraftScene ===
+            // === PHASE 4: Wait for scene transition to GameScene ===
             var waitTime = 0f;
-            while (SceneManager.GetActiveScene().name != "DraftScene" && waitTime < MaxWaitTime)
+            while (SceneManager.GetActiveScene().name != "GameScene" && waitTime < MaxWaitTime)
             {
                 yield return new WaitForSeconds(FrameWait);
                 waitTime += FrameWait;
             }
 
-            Assert.AreEqual("DraftScene", SceneManager.GetActiveScene().name,
-                "Continue should load DraftScene");
+            Assert.AreEqual("GameScene", SceneManager.GetActiveScene().name,
+                "Continue should load GameScene");
 
-            Log.Info("[Test] Successfully transitioned to DraftScene after continue");
+            Log.Info("[Test] Successfully transitioned to GameScene after continue");
         }
 
         /// <summary>

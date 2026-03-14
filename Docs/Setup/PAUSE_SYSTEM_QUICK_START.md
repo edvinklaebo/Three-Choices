@@ -15,7 +15,7 @@ A complete, production-ready pause system with:
 
 ### Option 1: Instant Setup (Recommended for Testing)
 
-1. Open your gameplay scene (e.g., DraftScene) in Unity
+1. Open your gameplay scene (e.g., GameScene) in Unity
 2. Create empty GameObject (Right-click in Hierarchy > Create Empty)
 3. Rename it to "PauseSystem"
 4. Add `PauseSystemExample` component to it
