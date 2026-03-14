@@ -174,38 +174,38 @@ namespace Tests.PlayModeTests
             selectButton.onClick.Invoke();
             yield return new WaitForSeconds(0.5f);
 
-            // Wait for draft scene to load
+            // Wait for game scene to load
             waitTime = 0f;
-            while (SceneManager.GetActiveScene().name != "DraftScene" && waitTime < MaxWaitTime)
+            while (SceneManager.GetActiveScene().name != "GameScene" && waitTime < MaxWaitTime)
             {
                 yield return new WaitForSeconds(FrameWait);
                 waitTime += FrameWait;
             }
 
-            Assert.AreEqual("DraftScene", SceneManager.GetActiveScene().name,
-                "Confirming character selection should load DraftScene");
+            Assert.AreEqual("GameScene", SceneManager.GetActiveScene().name,
+                "Confirming character selection should load GameScene");
 
-            Log.Info("[Test] Draft scene loaded");
+            Log.Info("[Test] Game scene loaded");
 
             // === PHASE 7: Verify draft system is ready to show upgrades ===
             yield return new WaitForSeconds(0.5f);
 
             var draftUI = Object.FindFirstObjectByType<DraftUI>();
-            Assert.IsNotNull(draftUI, "DraftUI should exist in DraftScene");
+            Assert.IsNotNull(draftUI, "DraftUI should exist in GameScene");
             Assert.IsNotNull(draftUI.DraftButtons, "DraftUI should have draft buttons configured");
             Assert.GreaterOrEqual(draftUI.DraftButtons.Length, 3,
                 "DraftUI should have at least 3 button slots configured");
 
             var draftController = Object.FindFirstObjectByType<DraftController>();
-            Assert.IsNotNull(draftController, "DraftController should exist in DraftScene");
+            Assert.IsNotNull(draftController, "DraftController should exist in GameScene");
 
             // Verify RunController persisted across scenes (DontDestroyOnLoad)
             var runController = Object.FindFirstObjectByType<RunController>();
-            Assert.IsNotNull(runController, "RunController should persist to DraftScene");
+            Assert.IsNotNull(runController, "RunController should persist to GameScene");
             Assert.IsNotNull(runController.Player, "Player should be initialized");
             Assert.IsNotNull(runController.CurrentRun, "CurrentRun should be initialized");
 
-            Log.Info("[Test] All phases completed successfully! Game flow verified from start to draft scene.");
+            Log.Info("[Test] All phases completed successfully! Game flow verified from start to game scene.");
             Log.Info(
                 $"[Test] Player: {runController.Player.Name}, HP: {runController.Player.Stats.CurrentHP}/{runController.Player.Stats.MaxHP}");
         }

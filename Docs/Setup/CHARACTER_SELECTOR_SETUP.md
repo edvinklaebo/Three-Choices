@@ -125,7 +125,7 @@ GameEvents.CharacterSelected_Event fired
   ↓
 RunController.StartNewRun(selectedCharacter)
   ↓
-Load DraftScene with selected character
+Load GameScene with selected character
 ```
 
 ## Testing
@@ -146,7 +146,7 @@ Run the EditMode tests in `Assets/Tests/EditModeTests/CharacterSelectionTests.cs
 5. Verify character name and stats update
 6. Test mouse clicks on Previous/Next buttons
 7. Press Enter or click Confirm
-8. Verify DraftScene loads with selected character stats
+8. Verify GameScene loads with selected character stats
 
 ## Diagnostic Logging
 All key actions log to the console with consistent prefixes:
