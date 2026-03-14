@@ -9,7 +9,7 @@ using Utils;
 namespace Core.StatusEffects
 {
     [Serializable]
-    public class Poison : IStatusEffect
+    public class Poison : IStatusEffect, IHealingModifier
     {
         public Poison(int stacks, int duration, int baseDamage)
         {
@@ -76,6 +76,17 @@ namespace Core.StatusEffects
         public void AddStacks(IStatusEffect effect)
         {
             Stacks += effect.Stacks;
+        }
+
+        public int ModifyHealing(Unit unit, int amount)
+        {
+            Log.Info("Poison blocked healing", new
+            {
+                target = unit.Name,
+                blockedAmount = amount
+            });
+
+            return 0;
         }
     }
 }
