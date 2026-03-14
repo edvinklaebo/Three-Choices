@@ -8,6 +8,7 @@ using UnityEngine;
 
 using Utils;
 
+
 namespace Systems
 {
     /// <summary>
@@ -47,6 +48,9 @@ namespace Systems
 
             if (projectile != null && _projectileRenderer == null)
                 Log.Warning("Projectile Transform has no SpriteRenderer — sprites will not be swapped during PlayProjectile.", new { projectile = projectile.name });
+
+            if (projectile != null && projectile.GetComponent<ProjectileTag>() == null)
+                projectile.gameObject.AddComponent<ProjectileTag>();
         }
 
         public IEnumerator PlayAttack(Unit source)
