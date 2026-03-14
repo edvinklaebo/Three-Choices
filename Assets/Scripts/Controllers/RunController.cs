@@ -84,6 +84,9 @@ namespace Controllers
             _progressionService.SetRun(CurrentRun, Player);
 
             SceneManager.LoadScene(GameScene);
+        }
+
+        private void StartNewRun(CharacterDefinition character)
         {
             if (character == null)
             {
