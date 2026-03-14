@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Systems;
 using UnityEngine;
 
 /// <summary>
@@ -6,8 +7,8 @@ using UnityEngine;
 ///     Referenced by <see cref="EnemyFactory"/> to select enemies for fights.
 ///     Create via the asset menu: Game/Enemies/Enemy Database.
 /// </summary>
-[CreateAssetMenu(menuName = "Game/Enemies/Enemy Database")]
-public class EnemyDatabase : ScriptableObject
+[CreateAssetMenu(menuName = "Game/Enemies/Enemy Pool")]
+public class EnemyPool : ScriptableObject
 {
     [SerializeField] private List<EnemyDefinition> _enemies = new();
 

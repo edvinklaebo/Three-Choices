@@ -19,7 +19,7 @@ namespace Systems
     [CreateAssetMenu(menuName = "Game/Enemy Factory")]
     public class EnemyFactory : ScriptableObject, IEnemyFactory
     {
-        [SerializeField] private EnemyDatabase _database;
+        [SerializeField] private EnemyPool _pool;
 
         public Unit Create(int fightIndex)
         {
@@ -51,9 +51,9 @@ namespace Systems
         {
             var candidates = new List<EnemyDefinition>();
 
-            for (var i = 0; i < _database.Enemies.Count; i++)
+            for (var i = 0; i < _pool.Enemies.Count; i++)
             {
-                var definition = _database.Enemies[i];
+                var definition = _pool.Enemies[i];
                 if (fightIndex >= definition.MinFightIndex && fightIndex <= definition.MaxFightIndex)
                     candidates.Add(definition);
             }
@@ -87,9 +87,9 @@ namespace Systems
         }
 
 #if UNITY_EDITOR
-        public void EditorInit(EnemyDatabase database)
+        public void EditorInit(EnemyPool pool)
         {
-            _database = database;
+            _pool = pool;
         }
 #endif
     }

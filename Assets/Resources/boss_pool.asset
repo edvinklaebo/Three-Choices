@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: be12e301a77ef6c4eb3d695e70705172, type: 3}
-  m_Name: boss_registry
-  m_EditorClassIdentifier: Ropa::BossRegistry
+  m_Name: boss_pool
+  m_EditorClassIdentifier: Ropa::Core.Boss.BossRegistry
   _bosses:
-  - {fileID: 11400000, guid: 03f11044fcca0554092d6e7f7cf3831d, type: 2}
   - {fileID: 11400000, guid: 21ea4b3c46ce67b4faa365288acd5888, type: 2}
+  - {fileID: 11400000, guid: 81cfee5da72089d4bab38e5d4522e4b4, type: 2}
+  - {fileID: 11400000, guid: 03f11044fcca0554092d6e7f7cf3831d, type: 2}
   - {fileID: 11400000, guid: 0ad4d596daf7af0419ce69cd1cc28e66, type: 2}
   - {fileID: 11400000, guid: fd356e56af1604a48954295f1ae0526f, type: 2}
-  - {fileID: 11400000, guid: 81cfee5da72089d4bab38e5d4522e4b4, type: 2}
