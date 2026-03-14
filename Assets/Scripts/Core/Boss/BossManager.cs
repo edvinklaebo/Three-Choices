@@ -7,18 +7,18 @@ namespace Core.Boss
 {
     /// <summary>
     ///     Determines whether a fight is a boss fight and selects an appropriate boss
-    ///     from the <see cref="BossRegistry"/> based on fight progression.
+    ///     from the <see cref="BossPool"/> based on fight progression.
     ///     Boss fights occur every <see cref="BossFightInterval"/> fights (e.g. fights 10, 20, 30…).
     /// </summary>
     public class BossManager
     {
         public const int BossFightInterval = 10;
 
-        private readonly BossRegistry _registry;
+        private readonly BossPool pool;
 
-        public BossManager(BossRegistry registry)
+        public BossManager(BossPool pool)
         {
-            _registry = registry ?? throw new ArgumentNullException(nameof(registry));
+            this.pool = pool ?? throw new ArgumentNullException(nameof(pool));
         }
 
         /// <summary>Returns true when <paramref name="fightIndex"/> is a boss fight.</summary>
@@ -36,7 +36,7 @@ namespace Core.Boss
         /// </summary>
         public BossDefinition GetBoss(int fightIndex)
         {
-            var bosses = _registry.Bosses;
+            var bosses = pool.Bosses;
 
             if (bosses == null || bosses.Count == 0)
             {

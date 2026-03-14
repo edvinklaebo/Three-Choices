@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ecf0702d884c432419a0a1bfddd16e41, type: 3}
-  m_Name: enemy_database_default
+  m_Name: enemy_pool
   m_EditorClassIdentifier: Ropa::EnemyDatabase
   _enemies:
   - {fileID: 11400000, guid: 76968922324b04c4698772fffa214bb6, type: 2}
