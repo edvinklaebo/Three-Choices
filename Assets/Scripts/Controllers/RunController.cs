@@ -28,7 +28,7 @@ namespace Controllers
         [SerializeField] private BossFightEventChannel _bossFightStarted;
 
         [Header("Boss")]
-        [SerializeField] private BossRegistry _bossRegistry;
+        [SerializeField] private BossPool bossPool;
 
         [Header("References")] public Unit Player;
 
@@ -39,7 +39,7 @@ namespace Controllers
         public void Awake()
         {
             DontDestroyOnLoad(this);
-            BossManager bossManager = _bossRegistry != null ? new BossManager(_bossRegistry) : null;
+            BossManager bossManager = bossPool != null ? new BossManager(bossPool) : null;
             _progressionService = new RunProgressionService(_fightStarted, bossManager, _bossFightStarted);
         }
 

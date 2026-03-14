@@ -21,15 +21,15 @@ namespace Tests.EditModeTests
             return def;
         }
 
-        private EnemyDatabase CreateDatabase(params EnemyDefinition[] definitions)
+        private EnemyPool CreateDatabase(params EnemyDefinition[] definitions)
         {
-            var db = ScriptableObject.CreateInstance<EnemyDatabase>();
+            var db = ScriptableObject.CreateInstance<EnemyPool>();
             foreach (var def in definitions)
                 db.EditorAddEnemy(def);
             return db;
         }
 
-        private EnemyFactory CreateFactory(EnemyDatabase database)
+        private EnemyFactory CreateFactory(EnemyPool database)
         {
             var factory = ScriptableObject.CreateInstance<EnemyFactory>();
             factory.EditorInit(database);
