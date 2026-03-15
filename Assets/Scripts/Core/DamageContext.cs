@@ -8,25 +8,25 @@ namespace Core
     public class DamageContext
     {
         public readonly Unit Source;
+        public readonly Unit Target;
 
         public int BaseValue;
         public int FinalValue;
 
         public bool IsCritical;
-        public Unit Target;
 
         // Phase-system fields: set and read by phase listeners and CombatContext.ResolveAttack
         public int ModifiedDamage;
         public int FinalDamage;
         public int PendingHealing;
         public int PendingResourceGain;
-        public List<IStatusEffect> PendingStatuses = new();
+        public readonly List<IStatusEffect> PendingStatuses = new();
         public bool Cancelled;
 
         public DamageContext(Unit source, Unit target, int value)
         {
             Source = source ?? throw new ArgumentNullException(nameof(source));
-            Target = target;
+            Target = target ?? throw new ArgumentNullException(nameof(target));
             BaseValue = value;
             FinalValue = value;
             ModifiedDamage = value;

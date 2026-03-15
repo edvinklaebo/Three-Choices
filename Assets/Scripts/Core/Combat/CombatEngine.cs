@@ -99,7 +99,7 @@ namespace Core.Combat
             Attack(acting, target);
             if (acting.IsDead || target.IsDead)
                 return;
-        
+
             TickStatusesTurnEnd(acting, target);
 
             _attackerTurn = !_attackerTurn;
@@ -145,9 +145,10 @@ namespace Core.Combat
 
         private void TickStatusesTurnStart(Unit source, Unit target)
         {
-            if (!source.StatusEffects.Any())
+            if (!source.StatusEffects.Any() && !target.StatusEffects.Any())
                 return;
 
+            // Apply statuses on source
             for (var i = source.StatusEffects.Count - 1; i >= 0; i--)
             {
                 var effect = source.StatusEffects[i];
@@ -155,7 +156,7 @@ namespace Core.Combat
                 var damage = effect.OnTurnStart(source);
 
                 if (damage > 0)
-                    _context.DealDamage(null, source, damage, effectId: effect.Id);
+                    _context.DealDamage(target, source, damage, effectId: effect.Id);
 
                 // Remove expired effects
                 if (effect.Duration <= 0)
@@ -164,7 +165,27 @@ namespace Core.Combat
                     source.StatusEffects.RemoveAt(i);
                 }
 
-                if (source.IsDead) 
+                if (source.IsDead)
+                    return;
+            }
+
+            // Apply statuses on target
+            for (var i = target.StatusEffects.Count - 1; i >= 0; i--)
+            {
+                var effect = target.StatusEffects[i];
+
+                var damage = effect.OnTurnStart(target);
+
+                if (damage > 0)
+                    _context.DealDamage(source, target, damage, effectId: effect.Id);
+
+                if (effect.Duration <= 0)
+                {
+                    effect.OnExpire(target);
+                    target.StatusEffects.RemoveAt(i);
+                }
+                
+                if(target.IsDead)
                     return;
             }
         }
@@ -204,7 +225,7 @@ namespace Core.Combat
                     source.StatusEffects.RemoveAt(i);
                 }
 
-                if (source.IsDead) 
+                if (source.IsDead)
                     return;
             }
         }
