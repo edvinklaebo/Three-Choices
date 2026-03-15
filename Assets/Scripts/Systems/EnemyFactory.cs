@@ -23,9 +23,6 @@ namespace Systems
 
         public Unit Create(int fightIndex)
         {
-            if(fightIndex == 0)
-                throw new InvalidOperationException(nameof(fightIndex));
-            
             try
             {
                 var definition = SelectEnemy(fightIndex);
@@ -78,8 +75,10 @@ namespace Systems
                 if (roll < cumulative)
                     return candidates[i];
             }
-
-            return candidates[candidates.Count - 1];
+            
+            return candidates.Count == 0 
+                ? throw new InvalidOperationException("No candidate found") 
+                : candidates[^1];
         }
 
         private Unit CreateFromDefinition(EnemyDefinition def)
