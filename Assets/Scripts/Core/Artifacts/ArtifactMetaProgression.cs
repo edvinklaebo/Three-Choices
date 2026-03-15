@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Utils;
 
 namespace Core.Artifacts
@@ -28,11 +29,11 @@ namespace Core.Artifacts
                 return;
             }
 
-            if (_unlockedIds.Add(artifactId))
-            {
-                Log.Info($"[ArtifactMetaProgression] Artifact unlocked: {artifactId}");
-                Save();
-            }
+            if (!_unlockedIds.Add(artifactId)) 
+                return;
+            
+            Log.Info($"[ArtifactMetaProgression] Artifact unlocked: {artifactId}");
+            Save();
         }
 
         /// <summary>Lock an artifact so it cannot appear in boss drops.</summary>
@@ -54,7 +55,7 @@ namespace Core.Artifacts
         /// <summary>Returns a snapshot of all unlocked artifact IDs.</summary>
         public IReadOnlyCollection<string> GetUnlockedIds()
         {
-            return _unlockedIds;
+            return _unlockedIds.ToArray();
         }
 
         /// <summary>Saves unlock state via the injected persistence.</summary>
@@ -68,13 +69,13 @@ namespace Core.Artifacts
         {
             var found = _persistence.Load(out var ids);
 
-            if (found && ids != null)
-            {
-                _unlockedIds.Clear();
-                _unlockedIds.UnionWith(ids);
-            }
+            if (!found || ids == null) 
+                return found;
+            
+            _unlockedIds.Clear();
+            _unlockedIds.UnionWith(ids);
 
-            return found;
+            return true;
         }
 
         /// <summary>Clears all unlocked artifacts and deletes the persisted save.</summary>
