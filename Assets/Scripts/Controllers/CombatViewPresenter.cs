@@ -1,63 +1,71 @@
 using System.Collections.Generic;
+using Core;
+using Core.Combat;
+using Events;
+using Interfaces;
 using UnityEngine;
+using Utils;
 
-/// <summary>
-/// Manages combat view initialization, UI bindings, and visibility.
-/// Owned by CombatPresentationCoordinator as its view collaborator.
-/// </summary>
-public class CombatViewPresenter : MonoBehaviour, ICombatViewPresenter
+namespace Controllers
 {
-    [Header("Events")]
-    [SerializeField] private VoidEventChannel _hideDraftUI;
-
-    [Header("References")]
-    [SerializeField] private CombatServicesInstaller _servicesInstaller;
-
-    private void Awake()
+    /// <summary>
+    /// Manages combat view initialization, UI bindings, and visibility.
+    /// Owned by CombatPresentationCoordinator as its view collaborator.
+    /// </summary>
+    public class CombatViewPresenter : MonoBehaviour, ICombatViewPresenter
     {
-        if (_servicesInstaller == null)
-            Log.Error("CombatViewPresenter: _servicesInstaller is not assigned. View presentation will not function correctly.");
-    }
+        [Header("Events")]
+        [SerializeField] private VoidEventChannel _hideDraftUI;
 
-    public AnimationContext Context => _servicesInstaller?.Context;
+        [Header("References")]
+        [SerializeField] private CombatServicesInstaller _servicesInstaller;
 
-    public void Show(CombatResult result)
-    {
-        _hideDraftUI?.Raise();
-
-        var combatView = _servicesInstaller?.CombatView;
-        if (combatView == null)
+        private void Awake()
         {
-            Log.Warning("CombatViewPresenter.Show: CombatView is null — view will not be displayed.");
-            return;
+            if (_servicesInstaller == null)
+                Log.Error("CombatViewPresenter: _servicesInstaller is not assigned. View presentation will not function correctly.");
         }
 
-        combatView.Initialize(result.Player, result.Enemy);
+        public AnimationContext Context => _servicesInstaller?.Context;
 
-        var ui = _servicesInstaller.Context?.UI;
-        ui?.SetBindings(combatView.BuildBindings(result.Player, result.Enemy));
-
-        if (ui != null)
+        public void Show(CombatResult result)
         {
-            ui.InitializeHealthDisplay(result.Player, GetInitialHP(result.Player, result.Actions), result.Player.Stats.MaxHP);
-            ui.InitializeHealthDisplay(result.Enemy, GetInitialHP(result.Enemy, result.Actions), result.Enemy.Stats.MaxHP);
-        }
-    }
+            _hideDraftUI?.Raise();
 
-    private static int GetInitialHP(Unit unit, List<ICombatAction> actions)
-    {
-        foreach (var action in actions)
+            var combatView = _servicesInstaller?.CombatView;
+            if (combatView == null)
+            {
+                Log.Warning("CombatViewPresenter.Show: CombatView is null — view will not be displayed.");
+                return;
+            }
+
+            combatView.Initialize(result.Player, result.Enemy);
+
+            var ui = _servicesInstaller.Context?.UI;
+            ui?.SetBindings(combatView.BuildBindings(result.Player, result.Enemy));
+
+            if (ui != null)
+            {
+                ui.InitializeHealthDisplay(result.Player, GetInitialHP(result.Player, result.Actions), result.Player.Stats.MaxHP);
+                ui.InitializeHealthDisplay(result.Enemy, GetInitialHP(result.Enemy, result.Actions), result.Enemy.Stats.MaxHP);
+            }
+        }
+
+        private static int GetInitialHP(Unit unit, List<ICombatAction> actions)
         {
-            if (action is DamageAction damage && damage.Target == unit)
-                return damage.TargetHPBefore;
+            foreach (var action in actions)
+            {
+                if (action is DamageAction damage && damage.Target == unit)
+                    return damage.TargetHPBefore;
+            }
+
+            // If the unit took no damage, post-combat HP equals pre-combat HP — no correction needed.
+            return unit.Stats.CurrentHP;
         }
 
-        // If the unit took no damage, post-combat HP equals pre-combat HP — no correction needed.
-        return unit.Stats.CurrentHP;
-    }
-
-    public void Hide()
-    {
-        _servicesInstaller?.CombatView?.Hide();
+        public void Hide()
+        {
+            _servicesInstaller?.CombatView?.Hide();
+        }
     }
 }

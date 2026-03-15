@@ -1,4 +1,7 @@
-public enum ArtifactEffectType
+namespace Core.Artifacts
 {
-    AddArtifact = 1
+    public enum ArtifactEffectType
+    {
+        AddArtifact = 1
+    }
 }

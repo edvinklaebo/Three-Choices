@@ -1,0 +1,31 @@
+name: Cleanup old caches
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # every day at 03:00 UTC
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+
+    steps:
+      - name: Delete caches older than 1 days
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          cutoff=$(date -u -d "1 days ago" +%s)
+
+          gh api repos/$REPO/actions/caches --paginate \
+            --jq '.actions_caches[] | "\(.id) \(.created_at)"' |
+          while read id created; do
+            created_ts=$(date -d "$created" +%s)
+
+            if [ $created_ts -lt $cutoff ]; then
+              echo "Deleting cache $id from $created"
+              gh api -X DELETE repos/$REPO/actions/caches/$id
+            fi
+          done

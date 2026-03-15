@@ -1,116 +1,120 @@
+using Core.StatusEffects;
+
 using TMPro;
+
+using UI.Tooltip;
+
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-/// <summary>
-/// Individual status effect icon display.
-/// Shows effect sprite, stack count, and optional duration.
-/// </summary>
-public class StatusEffectIcon : MonoBehaviour
+namespace UI.Combat
 {
-    [SerializeField] private Image _iconImage;
-    [SerializeField] private TextMeshProUGUI _stackText;
-    [SerializeField] private TextMeshProUGUI _durationText;
-    [SerializeField] private Image _durationRing;
-
-
-    private void Awake()
-    {
-        if (_iconImage == null)
-        {
-            _iconImage = GetComponent<Image>();
-        }
-    }
-
     /// <summary>
-    /// Set the effect data to display.
+    ///     Individual status effect icon display.
+    ///     Shows effect sprite, stack count, and optional duration.
+    ///     Supports hoverable tooltip using the StatusEffectDefinition metadata.
     /// </summary>
-    public void SetEffect(string effectId, int stacks, int duration)
+    public class StatusEffectIcon : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        // Set icon sprite (placeholder - would load from resources/data)
-        if (_iconImage != null)
+        [SerializeField] private Image _iconImage;
+        [SerializeField] private TextMeshProUGUI _stackText;
+        [SerializeField] private Image _durationRing;
+
+        private StatusEffectDefinition _definition;
+
+        private void Awake()
         {
-            // TODO: Load sprite based on effectId from ScriptableObject or Resources
-            // For now, just set a placeholder color
-            _iconImage.color = GetEffectColor(effectId);
+            if (_iconImage == null)
+                _iconImage = GetComponent<Image>();
         }
 
-        // Set stack count
-        if (_stackText != null)
+        public void OnPointerEnter(PointerEventData eventData)
         {
-            if (stacks > 1)
+            if (_definition == null)
+                return;
+
+            TooltipSystem.Show(_definition.Description, _definition.DisplayName);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            TooltipSystem.Hide();
+        }
+
+        /// <summary>
+        ///     Set the effect data to display.
+        ///     Pass an optional <paramref name="definition" /> to use its icon and enable the hover tooltip.
+        /// </summary>
+        public void SetEffect(string effectId, int stacks, int duration, StatusEffectDefinition definition = null)
+        {
+            _definition = definition;
+
+            if (_iconImage != null)
             {
-                _stackText.text = stacks.ToString();
+                if (definition != null && definition.Icon != null)
+                {
+                    _iconImage.sprite = definition.Icon;
+                    _iconImage.color = definition.Color;
+                }
+                else
+                {
+                    _iconImage.sprite = null;
+                    _iconImage.color = GetFallbackColor(effectId);
+                }
+            }
+
+            if (_stackText != null)
+            {
+                if (stacks > 1)
+                {
+                    _stackText.text = stacks.ToString();
+                    _stackText.gameObject.SetActive(true);
+                }
+                else
+                {
+                    _stackText.gameObject.SetActive(false);
+                }
+            }
+
+            if (_durationRing != null)
+                _durationRing.gameObject.SetActive(duration > 0);
+        }
+
+        /// <summary>
+        ///     Set this icon to display an overflow indicator ("+N more effects").
+        ///     Overflow icons do not show tooltips.
+        /// </summary>
+        public void SetOverflow(int overflowCount)
+        {
+            _definition = null;
+
+            if (_iconImage != null)
+                _iconImage.color = Color.gray;
+
+            if (_stackText != null)
+            {
+                _stackText.text = $"+{overflowCount}";
                 _stackText.gameObject.SetActive(true);
             }
-            else
+
+            if (_durationRing != null)
+                _durationRing.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        ///     Fallback color when no <see cref="StatusEffectDefinition" /> is available.
+        /// </summary>
+        private static Color GetFallbackColor(string effectId)
+        {
+            return effectId.ToLower() switch
             {
-                _stackText.gameObject.SetActive(false);
-            }
+                "poison" => new Color(0.5f, 0f, 0.8f),
+                "bleed"  => new Color(0.8f, 0f, 0f),
+                "burn"   => new Color(1f, 0.5f, 0f),
+                "stun"   => new Color(1f, 1f, 0f),
+                _        => Color.white
+            };
         }
-
-        // Set duration
-        if (_durationText != null)
-        {
-            if (duration > 0)
-            {
-                _durationText.text = duration.ToString();
-                _durationText.gameObject.SetActive(true);
-            }
-            else
-            {
-                _durationText.gameObject.SetActive(false);
-            }
-        }
-
-        // Update duration ring fill
-        if (_durationRing != null)
-        {
-            _durationRing.gameObject.SetActive(duration > 0);
-            // TODO: Animate fill amount based on max duration
-        }
-    }
-
-    /// <summary>
-    /// Set this icon to display overflow indicator.
-    /// </summary>
-    public void SetOverflow(int overflowCount)
-    {
-        if (_iconImage != null)
-        {
-            _iconImage.color = Color.gray;
-        }
-
-        if (_stackText != null)
-        {
-            _stackText.text = $"+{overflowCount}";
-            _stackText.gameObject.SetActive(true);
-        }
-
-        if (_durationText != null)
-        {
-            _durationText.gameObject.SetActive(false);
-        }
-
-        if (_durationRing != null)
-        {
-            _durationRing.gameObject.SetActive(false);
-        }
-    }
-
-    /// <summary>
-    /// Get placeholder color for effect type.
-    /// In production, this would load actual sprites.
-    /// </summary>
-    private Color GetEffectColor(string effectId)
-    {
-        return effectId.ToLower() switch
-        {
-            "poison" => new Color(0.5f, 0f, 0.8f),  // Purple
-            "bleed" => new Color(0.8f, 0f, 0f),     // Red
-            "burn" => new Color(1f, 0.5f, 0f),      // Orange
-            "stun" => new Color(1f, 1f, 0f),        // Yellow
-            _ => Color.white
-        };
     }
 }

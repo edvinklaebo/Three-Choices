@@ -1,11 +1,14 @@
-public readonly struct StatViewData
+namespace UI.Stats
 {
-    public readonly string Name;
-    public readonly int Value;
-
-    public StatViewData(string name, int value)
+    public readonly struct StatViewData
     {
-        Name = name;
-        Value = value;
+        public readonly string Name;
+        public readonly int Value;
+
+        public StatViewData(string name, int value)
+        {
+            Name = name;
+            Value = value;
+        }
     }
 }

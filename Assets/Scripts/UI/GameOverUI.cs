@@ -1,42 +1,53 @@
+using Controllers;
+
+using Events;
+
+using UI.Stats;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-/// <summary>
-/// Displays run statistics on the game-over screen and provides a button to return to the main menu.
-/// Reads stats from <see cref="RunStatsTrackerBootstrap"/> which persists across scene loads.
-/// </summary>
-public class GameOverUI : MonoBehaviour
+using Utils;
+
+namespace UI
 {
-    private const string MainMenuScene = "MainMenu";
-
-    [Header("References")]
-    [SerializeField] private StatsPanelUI _statsPanel;
-    [SerializeField] private Button _backToMenuButton;
-
-    private void Awake()
+    /// <summary>
+    /// Displays run statistics on the game-over screen and provides a button to return to the main menu.
+    /// Reads stats from <see cref="RunStatsTrackerBootstrap"/> which persists across scene loads.
+    /// </summary>
+    public class GameOverUI : MonoBehaviour
     {
-        if (_statsPanel == null)
-            Log.Error("GameOverUI: _statsPanel is not assigned.");
-        if (_backToMenuButton == null)
-            Log.Error("GameOverUI: _backToMenuButton is not assigned.");
-        else
-            _backToMenuButton.onClick.AddListener(OnBackToMenuClicked);
-    }
+        private const string MainMenuScene = "MainMenu";
 
-    private void Start()
-    {
-        var stats = RunStatsTrackerBootstrap.Instance?.Stats;
+        [Header("References")]
+        [SerializeField] private StatsPanelUI _statsPanel;
+        [SerializeField] private Button _backToMenuButton;
 
-        if (stats != null)
-            _statsPanel.Show(stats.ToViewData());
-        else
-            Log.Warning("Stats tracker missing.");
-    }
+        private void Awake()
+        {
+            if (_statsPanel == null)
+                Log.Error("GameOverUI: _statsPanel is not assigned.");
+            if (_backToMenuButton == null)
+                Log.Error("GameOverUI: _backToMenuButton is not assigned.");
+            else
+                _backToMenuButton.onClick.AddListener(OnBackToMenuClicked);
+        }
 
-    private static void OnBackToMenuClicked()
-    {
-        GameEvents.ReturnToMainMenu_Event?.Invoke();
-        SceneManager.LoadScene(MainMenuScene);
+        private void Start()
+        {
+            var stats = RunStatsTrackerBootstrap.Instance?.Stats;
+
+            if (stats != null)
+                _statsPanel.Show(stats.ToViewData());
+            else
+                Log.Warning("Stats tracker missing.");
+        }
+
+        private static void OnBackToMenuClicked()
+        {
+            GameEvents.ReturnToMainMenu_Event?.Invoke();
+            SceneManager.LoadScene(MainMenuScene);
+        }
     }
 }

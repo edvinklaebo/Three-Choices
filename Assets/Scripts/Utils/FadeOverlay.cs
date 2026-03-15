@@ -1,53 +1,57 @@
 using System.Collections;
+
 using UnityEngine;
 
-[RequireComponent(typeof(CanvasGroup))]
-public class FadeOverlay : MonoBehaviour
+namespace Utils
 {
-    private CanvasGroup canvasGroup;
-
-    private void Awake()
+    [RequireComponent(typeof(CanvasGroup))]
+    public class FadeOverlay : MonoBehaviour
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-    }
+        private CanvasGroup canvasGroup;
 
-    /// <summary>
-    ///     Fade the overlay from current alpha to target alpha over duration.
-    /// </summary>
-    public void FadeTo(float targetAlpha, float duration)
-    {
-        StopAllCoroutines();
-        StartCoroutine(FadeCoroutine(targetAlpha, duration));
-    }
-
-    /// <summary>
-    ///     Fade in (from black to transparent)
-    /// </summary>
-    public void FadeIn(float duration = 0.5f)
-    {
-        FadeTo(0f, duration);
-    }
-
-    /// <summary>
-    ///     Fade out (from transparent to black)
-    /// </summary>
-    public void FadeOut(float duration = 0.5f)
-    {
-        FadeTo(1f, duration);
-    }
-
-    private IEnumerator FadeCoroutine(float targetAlpha, float duration)
-    {
-        var startAlpha = canvasGroup.alpha;
-        var elapsed = 0f;
-
-        while (elapsed < duration)
+        private void Awake()
         {
-            elapsed += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / duration);
-            yield return null;
+            canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        canvasGroup.alpha = targetAlpha;
+        /// <summary>
+        ///     Fade the overlay from current alpha to target alpha over duration.
+        /// </summary>
+        public void FadeTo(float targetAlpha, float duration)
+        {
+            StopAllCoroutines();
+            StartCoroutine(FadeCoroutine(targetAlpha, duration));
+        }
+
+        /// <summary>
+        ///     Fade in (from black to transparent)
+        /// </summary>
+        public void FadeIn(float duration = 0.5f)
+        {
+            FadeTo(0f, duration);
+        }
+
+        /// <summary>
+        ///     Fade out (from transparent to black)
+        /// </summary>
+        public void FadeOut(float duration = 0.5f)
+        {
+            FadeTo(1f, duration);
+        }
+
+        private IEnumerator FadeCoroutine(float targetAlpha, float duration)
+        {
+            var startAlpha = canvasGroup.alpha;
+            var elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, elapsed / duration);
+                yield return null;
+            }
+
+            canvasGroup.alpha = targetAlpha;
+        }
     }
 }

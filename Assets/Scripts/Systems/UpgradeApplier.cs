@@ -1,9 +1,12 @@
-using System;
+using Core;
 
-public static class UpgradeApplier
+namespace Systems
 {
-    public static void Apply(UpgradeDefinition upgrade, Unit unit)
+    public static class UpgradeApplier
     {
-        upgrade.Apply(unit);
+        public static void Apply(UpgradeDefinition upgrade, Unit unit)
+        {
+            upgrade.Apply(unit);
+        }
     }
 }

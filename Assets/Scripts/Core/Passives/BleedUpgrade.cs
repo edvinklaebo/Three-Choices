@@ -1,37 +1,45 @@
 using System;
+
+using Core.StatusEffects;
+
+using Interfaces;
+
 using UnityEngine;
 
-/// <summary>
-///     Passive upgrade that applies Bleed status effect when owner hits a target.
-/// </summary>
-[Serializable]
-public class BleedUpgrade : IPassive
+namespace Core.Passives
 {
-    [SerializeField] private int stacks;
-    [SerializeField] private int duration;
-    [SerializeField] private int baseDamage;
-
-    public int Priority => 100;
-
-    public BleedUpgrade(Unit owner, int stacks = 2, int duration = 3, int baseDamage = 2)
+    /// <summary>
+    ///     Passive upgrade that applies Bleed status effect when owner hits a target.
+    /// </summary>
+    [Serializable]
+    public class BleedUpgrade : IPassive
     {
-        this.stacks = stacks;
-        this.duration = duration;
-        this.baseDamage = baseDamage;
-    }
+        [SerializeField] private int stacks;
+        [SerializeField] private int duration;
+        [SerializeField] private int baseDamage;
 
-    public void OnAttach(Unit owner)
-    {
-        owner.OnHit += ApplyBleed;
-    }
+        public int Priority => 100;
 
-    public void OnDetach(Unit owner)
-    {
-        owner.OnHit -= ApplyBleed;
-    }
+        public BleedUpgrade(Unit owner, int stacks = 2, int duration = 3, int baseDamage = 2)
+        {
+            this.stacks = stacks;
+            this.duration = duration;
+            this.baseDamage = baseDamage;
+        }
 
-    private void ApplyBleed(Unit attacker, Unit target, int _)
-    {
-        target?.ApplyStatus(new Bleed(stacks, duration, baseDamage));
+        public void OnAttach(Unit owner)
+        {
+            owner.OnHit += ApplyBleed;
+        }
+
+        public void OnDetach(Unit owner)
+        {
+            owner.OnHit -= ApplyBleed;
+        }
+
+        private void ApplyBleed(Unit attacker, Unit target, int _)
+        {
+            target?.ApplyStatus(new Bleed(stacks, duration, baseDamage));
+        }
     }
 }

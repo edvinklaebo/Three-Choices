@@ -1,18 +1,21 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+namespace UI.Tooltip
 {
-    public string Content;
-    public string Label;
-
-    public void OnPointerEnter(PointerEventData eventData)
+    public class TooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        TooltipSystem.Show(Content, Label);
-    }
+        public string Content;
+        public string Label;
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        TooltipSystem.Hide();
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            TooltipSystem.Show(Content, Label);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            TooltipSystem.Hide();
+        }
     }
 }

@@ -1,5 +1,9 @@
 ﻿using System;
+using Core;
+using Core.Abilities;
+using Interfaces;
 using UnityEngine;
+using Utils;
 
 [CreateAssetMenu(menuName = "Upgrades/Ability Definition")]
 public class AbilityDefinition : UpgradeDefinition

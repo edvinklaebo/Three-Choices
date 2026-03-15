@@ -1,194 +1,209 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Modifiers;
+using Interfaces;
+using Utils;
 
-/// <summary>
-/// Instance-based combat engine that uses event-driven architecture.
-/// Replaces static CombatSystem with extensible pattern.
-/// Not thread-safe: a single instance must not run concurrent fights.
-/// </summary>
-public class CombatEngine
+namespace Core.Combat
 {
-    private readonly CombatContext _context = new();
-
-    private Unit _attacker;
-    private Unit _defender;
-    private bool _attackerTurn;
-    private int _round;
-
-    public List<ICombatAction> RunFight(Unit attacker, Unit defender)
+    /// <summary>
+    /// Instance-based combat engine that uses event-driven architecture.
+    /// Replaces static CombatSystem with extensible pattern.
+    /// Not thread-safe: a single instance must not run concurrent fights.
+    /// </summary>
+    public class CombatEngine
     {
-        Initialize(attacker, defender);
+        private readonly CombatContext _context = new();
 
-        try
-        {
-            while (!IsFinished())
-                ExecuteRound();
+        private Unit _attacker;
+        private Unit _defender;
+        private bool _attackerTurn;
+        private int _round;
 
-            return BuildResult();
-        }
-        catch (Exception ex)
+        public List<ICombatAction> RunFight(Unit attacker, Unit defender)
         {
-            Log.Exception(ex, "CombatEngine.RunFight failed", new
+            Initialize(attacker, defender);
+
+            try
             {
-                attacker = _attacker.Name,
-                defender = _defender.Name,
-                round = _round,
-                attackerHp = _attacker.Stats.CurrentHP,
-                defenderHp = _defender.Stats.CurrentHP,
-                attackerTurn = _attackerTurn
-            });
+                while (!IsFinished())
+                    ExecuteRound();
 
-            throw;
+                return BuildResult();
+            }
+            catch (Exception ex)
+            {
+                Log.Exception(ex, "CombatEngine.RunFight failed", new
+                {
+                    attacker = _attacker.Name,
+                    defender = _defender.Name,
+                    round = _round,
+                    attackerHp = _attacker.Stats.CurrentHP,
+                    defenderHp = _defender.Stats.CurrentHP,
+                    attackerTurn = _attackerTurn
+                });
+
+                throw;
+            }
+            finally
+            {
+                // Clean up listeners
+                _context.Clear();
+            }
         }
-        finally
+
+        private void Initialize(Unit attacker, Unit defender)
         {
-            // Clean up listeners
+            _attacker = attacker;
+            _defender = defender;
+            _round = 0;
+
             _context.Clear();
+            DamagePipeline.Clear();
+
+            // Register armor mitigation as a global combat rule (applied in Mitigation phase)
+            _context.RegisterListener(new ArmorMitigationModifier());
+
+            // Register combat listeners from both units
+            RegisterListeners(attacker);
+            RegisterListeners(defender);
+
+            _attackerTurn = attacker.Stats.Speed >= defender.Stats.Speed;
         }
-    }
 
-    private void Initialize(Unit attacker, Unit defender)
-    {
-        _attacker = attacker;
-        _defender = defender;
-        _round = 0;
+        private bool IsFinished()
+        {
+            // HP-based check is used between rounds so that units starting at 0 HP are handled correctly.
+            // isDead-based checks inside ExecuteRound serve as within-round early exits when a unit
+            // dies from a status effect or ability before the normal attack phase.
+            return _attacker.Stats.CurrentHP <= 0 || _defender.Stats.CurrentHP <= 0;
+        }
 
-        _context.Clear();
-        DamagePipeline.Clear();
+        private void ExecuteRound()
+        {
+            _round++;
 
-        // Register armor mitigation as a global combat rule (applied in Mitigation phase)
-        _context.RegisterListener(new ArmorMitigationModifier());
+            var acting = _attackerTurn ? _attacker : _defender;
+            var target = _attackerTurn ? _defender : _attacker;
 
-        // Register combat listeners from both units
-        RegisterListeners(attacker);
-        RegisterListeners(defender);
+            TickStatusesTurnStart(acting, target);
+            if (acting.IsDead || target.IsDead)
+                return;
 
-        _attackerTurn = attacker.Stats.Speed >= defender.Stats.Speed;
-    }
+            TriggerAbilities(acting, target);
 
-    private bool IsFinished()
-    {
-        // HP-based check is used between rounds so that units starting at 0 HP are handled correctly.
-        // isDead-based checks inside ExecuteRound serve as within-round early exits when a unit
-        // dies from a status effect or ability before the normal attack phase.
-        return _attacker.Stats.CurrentHP <= 0 || _defender.Stats.CurrentHP <= 0;
-    }
+            if (acting.IsDead || target.IsDead)
+                return;
 
-    private void ExecuteRound()
-    {
-        _round++;
-
-        var acting = _attackerTurn ? _attacker : _defender;
-        var target = _attackerTurn ? _defender : _attacker;
-
-        TickStatusesTurnStart(acting, target);
-        if (acting.IsDead || target.IsDead)
-            return;
-
-        TriggerAbilities(acting, target);
-
-        if (acting.IsDead || target.IsDead)
-            return;
-
-        Attack(acting, target);
-        if (acting.IsDead || target.IsDead)
-            return;
+            Attack(acting, target);
+            if (acting.IsDead || target.IsDead)
+                return;
         
-        TickStatusesTurnEnd(acting, target);
+            TickStatusesTurnEnd(acting, target);
 
-        _attackerTurn = !_attackerTurn;
-    }
-
-    private List<ICombatAction> BuildResult()
-    {
-        return _context.Actions.ToList();
-    }
-
-    private void RegisterListeners(Unit unit)
-    {
-        foreach (var passive in unit.Passives)
-        {
-            if (passive is ICombatListener listener)
-                _context.RegisterListener(listener);
-
-            if (passive is ICombatHandlerProvider provider)
-                _context.RegisterListener(provider.CreateCombatHandler(unit));
+            _attackerTurn = !_attackerTurn;
         }
-    }
 
-    private void Attack(Unit source, Unit target)
-    {
-        // Raise before attack event for pre-resolution listeners
-        _context.Raise(new BeforeAttackEvent(source, target));
-
-        // Pass raw AttackPower — armor reduction is applied in the Mitigation phase by ArmorMitigationModifier
-        _context.DealDamage(source, target, source.Stats.AttackPower);
-
-        // Raise AfterAttackEvent after full resolution so post-resolution effects (e.g. DoubleStrike) can react
-        _context.Raise(new AfterAttackEvent(source, target));
-    }
-
-    private void TickStatusesTurnStart(Unit source, Unit target)
-    {
-        if (!source.StatusEffects.Any())
-            return;
-
-        for (var i = source.StatusEffects.Count - 1; i >= 0; i--)
+        private List<ICombatAction> BuildResult()
         {
-            var effect = source.StatusEffects[i];
+            return _context.Actions.ToList();
+        }
 
-            var damage = effect.OnTurnStart(source);
-
-            if (damage > 0)
-                _context.DealDamage(null, source, damage, effectId: effect.Id);
-
-            // Remove expired effects
-            if (effect.Duration <= 0)
+        private void RegisterListeners(Unit unit)
+        {
+            foreach (var passive in unit.Passives)
             {
-                effect.OnExpire(source);
-                source.StatusEffects.RemoveAt(i);
+                if (passive is ICombatListener listener)
+                    _context.RegisterListener(listener);
+
+                if (passive is ICombatHandlerProvider provider)
+                    _context.RegisterListener(provider.CreateCombatHandler(unit));
             }
 
-            if (source.IsDead) 
-                return;
-        }
-    }
-
-    private void TriggerAbilities(Unit source, Unit target)
-    {
-        if (!source.Abilities.Any())
-            return;
-
-        foreach (var ability in source.Abilities)
-        {
-            ability.OnCast(source, target, _context);
-        }
-    }
-
-    private void TickStatusesTurnEnd(Unit source, Unit target)
-    {
-        if (!source.StatusEffects.Any())
-            return;
-
-        for (var i = source.StatusEffects.Count - 1; i >= 0; i--)
-        {
-            var effect = source.StatusEffects[i];
-
-            var damage = effect.OnTurnEnd(source);
-
-            if (damage > 0)
-                _context.DealDamage(null, source, damage, effectId: effect.Id);
-
-            // Remove expired effects
-            if (effect.Duration <= 0)
+            foreach (var artifact in unit.Artifacts)
             {
-                effect.OnExpire(source);
-                source.StatusEffects.RemoveAt(i);
-            }
+                if (artifact is ICombatListener listener)
+                    _context.RegisterListener(listener);
 
-            if (source.IsDead) 
+                if (artifact is ICombatHandlerProvider provider)
+                    _context.RegisterListener(provider.CreateCombatHandler(unit));
+            }
+        }
+
+        private void Attack(Unit source, Unit target)
+        {
+            // Raise before attack event for pre-resolution listeners
+            _context.Raise(new BeforeAttackEvent(source, target));
+
+            // Pass raw AttackPower — armor reduction is applied in the Mitigation phase by ArmorMitigationModifier
+            _context.DealDamage(source, target, source.Stats.AttackPower);
+
+            // Raise AfterAttackEvent after full resolution so post-resolution effects (e.g. DoubleStrike) can react
+            _context.Raise(new AfterAttackEvent(source, target));
+        }
+
+        private void TickStatusesTurnStart(Unit source, Unit target)
+        {
+            if (!source.StatusEffects.Any())
                 return;
+
+            for (var i = source.StatusEffects.Count - 1; i >= 0; i--)
+            {
+                var effect = source.StatusEffects[i];
+
+                var damage = effect.OnTurnStart(source);
+
+                if (damage > 0)
+                    _context.DealDamage(null, source, damage, effectId: effect.Id);
+
+                // Remove expired effects
+                if (effect.Duration <= 0)
+                {
+                    effect.OnExpire(source);
+                    source.StatusEffects.RemoveAt(i);
+                }
+
+                if (source.IsDead) 
+                    return;
+            }
+        }
+
+        private void TriggerAbilities(Unit source, Unit target)
+        {
+            if (!source.Abilities.Any())
+                return;
+
+            foreach (var ability in source.Abilities)
+            {
+                ability.OnCast(source, target, _context);
+            }
+        }
+
+        private void TickStatusesTurnEnd(Unit source, Unit target)
+        {
+            if (!source.StatusEffects.Any())
+                return;
+
+            for (var i = source.StatusEffects.Count - 1; i >= 0; i--)
+            {
+                var effect = source.StatusEffects[i];
+
+                var damage = effect.OnTurnEnd(source);
+
+                if (damage > 0)
+                    _context.DealDamage(null, source, damage, effectId: effect.Id);
+
+                // Remove expired effects
+                if (effect.Duration <= 0)
+                {
+                    effect.OnExpire(source);
+                    source.StatusEffects.RemoveAt(i);
+                }
+
+                if (source.IsDead) 
+                    return;
+            }
         }
     }
 }

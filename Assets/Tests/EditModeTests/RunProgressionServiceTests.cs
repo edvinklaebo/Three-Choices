@@ -1,4 +1,12 @@
+using Core;
+using Core.Boss;
+
+using Events;
+
 using NUnit.Framework;
+
+using Systems;
+
 using UnityEngine;
 
 namespace Tests.EditModeTests
@@ -32,7 +40,7 @@ namespace Tests.EditModeTests
 
         private static BossManager CreateBossManager(params BossDefinition[] bosses)
         {
-            var registry = ScriptableObject.CreateInstance<BossRegistry>();
+            var registry = ScriptableObject.CreateInstance<BossPool>();
             foreach (var boss in bosses)
                 registry.EditorAddBoss(boss);
             return new BossManager(registry);

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 537d9e37a2448614a9de81b3beef58cd, type: 3}
+  m_Name: demon_lord
+  m_EditorClassIdentifier: Ropa::Core.Boss.BossDefinition
+  _id: demon_lord
+  _displayName: Demon Lord
+  _prefab: {fileID: 0}
+  _phases: []
+  _artifactReward: {fileID: 0}
+  _stats:
+    MaxHP: 750
+    CurrentHP: 750
+    AttackPower: 25
+    Armor: 20
+    Speed: 35
+  _difficultyRating: 4

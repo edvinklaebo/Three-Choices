@@ -1,4 +1,11 @@
+using Core;
+using Core.Abilities;
+using Core.Combat;
+using Core.Modifiers;
+
 using NUnit.Framework;
+
+using Systems;
 
 namespace Tests.EditModeTests
 {

@@ -1,41 +1,45 @@
 using System;
+
 using UnityEngine;
 
-public class CharacterSelectInput : MonoBehaviour
+namespace CharacterSelect
 {
-    [Header("References")] [SerializeField]
-    private CharacterSelectController _controller;
-
-    private void Awake()
+    public class CharacterSelectInput : MonoBehaviour
     {
-        if (_controller == null)
-            throw new InvalidOperationException("CharacterSelectInput requires a CharacterSelectController.");
-    }
+        [Header("References")] [SerializeField]
+        private CharacterSelectController _controller;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-            OnNextClicked();
+        private void Awake()
+        {
+            if (_controller == null)
+                throw new InvalidOperationException("CharacterSelectInput requires a CharacterSelectController.");
+        }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-            OnPreviousClicked();
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+                OnNextClicked();
 
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-            OnConfirmClicked();
-    }
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+                OnPreviousClicked();
 
-    private void OnNextClicked()
-    {
-        _controller.Next();
-    }
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+                OnConfirmClicked();
+        }
 
-    private void OnPreviousClicked()
-    {
-        _controller.Previous();
-    }
+        private void OnNextClicked()
+        {
+            _controller.Next();
+        }
 
-    private void OnConfirmClicked()
-    {
-        _controller.Confirm();
+        private void OnPreviousClicked()
+        {
+            _controller.Previous();
+        }
+
+        private void OnConfirmClicked()
+        {
+            _controller.Confirm();
+        }
     }
 }

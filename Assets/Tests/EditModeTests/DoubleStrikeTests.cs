@@ -1,6 +1,11 @@
 using NUnit.Framework;
 using System.Linq;
 
+using Core;
+using Core.Passives;
+
+using Systems;
+
 namespace Tests.EditModeTests
 {
     public class DoubleStrikeTests

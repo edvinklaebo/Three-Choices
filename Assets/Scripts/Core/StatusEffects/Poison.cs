@@ -1,73 +1,92 @@
 using System;
+
+using Interfaces;
+
 using UnityEngine;
 
-[Serializable]
-public class Poison : IStatusEffect
+using Utils;
+
+namespace Core.StatusEffects
 {
-    public Poison(int stacks, int duration, int baseDamage)
+    [Serializable]
+    public class Poison : IStatusEffect, IHealingModifier
     {
-        Stacks = stacks;
-        Duration = duration;
-        BaseDamage = baseDamage;
-    }
-
-    public string Id => "Poison";
-
-    [field: SerializeField] public int Stacks { get; set; }
-
-    [field: SerializeField] public int Duration { get; set; }
-
-    [field: SerializeField] public int BaseDamage { get; set; }
-
-    public void OnApply(Unit target)
-    {
-        Log.Info("Poison applied", new
+        public Poison(int stacks, int duration, int baseDamage)
         {
-            target = target.Name,
-            stacks = Stacks,
-            duration = Duration
-        });
-    }
+            Stacks = stacks;
+            Duration = duration;
+            BaseDamage = baseDamage;
+        }
 
-    public int OnTurnStart(Unit target)
-    {
-        Log.Info("Poison ticking", new
+        public string Id => "Poison";
+
+        [field: SerializeField] public int Stacks { get; set; }
+
+        [field: SerializeField] public int Duration { get; set; }
+
+        [field: SerializeField] public int BaseDamage { get; set; }
+
+        public void OnApply(Unit target)
         {
-            target = target.Name,
-            damage = Stacks,
-            duration = Duration,
-            hpBefore = target.Stats.CurrentHP
-        });
+            Log.Info("Poison applied", new
+            {
+                target = target.Name,
+                stacks = Stacks,
+                duration = Duration
+            });
+        }
 
-        var damage = Stacks;
-        Duration--;
-
-        Log.Info("Poison damage calculated", new
+        public int OnTurnStart(Unit target)
         {
-            target = target.Name,
-            damage,
-            remainingDuration = Duration
-        });
+            Log.Info("Poison ticking", new
+            {
+                target = target.Name,
+                damage = Stacks,
+                duration = Duration,
+                hpBefore = target.Stats.CurrentHP
+            });
 
-        return damage;
-    }
+            var damage = Stacks;
+            Duration--;
 
-    public int OnTurnEnd(Unit target)
-    {
-        // No behavior on turn end
-        return 0;
-    }
+            Log.Info("Poison damage calculated", new
+            {
+                target = target.Name,
+                damage,
+                remainingDuration = Duration
+            });
 
-    public void OnExpire(Unit target)
-    {
-        Log.Info("Poison expired", new
+            return damage;
+        }
+
+        public int OnTurnEnd(Unit target)
         {
-            target = target.Name
-        });
-    }
+            // No behavior on turn end
+            return 0;
+        }
 
-    public void AddStacks(IStatusEffect effect)
-    {
-        Stacks += effect.Stacks;
+        public void OnExpire(Unit target)
+        {
+            Log.Info("Poison expired", new
+            {
+                target = target.Name
+            });
+        }
+
+        public void AddStacks(IStatusEffect effect)
+        {
+            Stacks += effect.Stacks;
+        }
+
+        public int ModifyHealing(Unit unit, int amount)
+        {
+            Log.Info("Poison blocked healing", new
+            {
+                target = unit.Name,
+                blockedAmount = amount
+            });
+
+            return 0;
+        }
     }
 }

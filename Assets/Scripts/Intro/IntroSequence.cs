@@ -1,73 +1,76 @@
 using System;
 
-public class IntroSequence
+namespace Intro
 {
-    public static readonly string[] DefaultLines =
+    public class IntroSequence
     {
-        "The world once feared necromancers.",
-        "Kings burned them.",
-        "Priests hunted them.",
-        "People hated them.",
-        "Cities drove them into the wastelands.",
-        "But death is patient.",
-        "And the dead are many.",
-        "In time, the necromancers returned.",
-        "Not as conquerors.",
-        "Not as slaves.",
-        "Not as warriors.",
-        "As something no one remembers fearing.",
-        "Steel.",
-        "Magic.",
-        "And the dead.",
-        "The weak are broken apart...",
-        "And used again.",
-        "You are no champion.",
-        "You are only a skull..",
-        "Pulled from a pile of forgotten bones.",
-        "But even the smallest fragment of death..",
-        "Can become a weapon...",
-        "Grow stronger.",
-        "And perhaps...",
-        "One day...",
-        "You will sit upon the Bone Throne."
-    };
+        public static readonly string[] DefaultLines =
+        {
+            "The world once feared necromancers.",
+            "Kings burned them.",
+            "Priests hunted them.",
+            "People hated them.",
+            "Cities drove them into the wastelands.",
+            "But death is patient.",
+            "And the dead are many.",
+            "In time, the necromancers returned.",
+            "Not as conquerors.",
+            "Not as slaves.",
+            "Not as warriors.",
+            "As something no one remembers fearing.",
+            "Steel.",
+            "Magic.",
+            "And the dead.",
+            "The weak are broken apart...",
+            "And used again.",
+            "You are no champion.",
+            "You are only a skull..",
+            "Pulled from a pile of forgotten bones.",
+            "But even the smallest fragment of death..",
+            "Can become a weapon...",
+            "Grow stronger.",
+            "And perhaps...",
+            "One day...",
+            "You will sit upon the Bone Throne."
+        };
 
-    private readonly string[] _lines;
-    private int _currentIndex;
+        private readonly string[] _lines;
+        private int _currentIndex;
 
-    public event Action<string> OnLineShown;
-    public event Action OnComplete;
+        public event Action<string> OnLineShown;
+        public event Action OnComplete;
 
-    public int CurrentIndex => _currentIndex;
-    public int TotalLines => _lines.Length;
-    public bool IsComplete => _currentIndex >= _lines.Length;
+        public int CurrentIndex => _currentIndex;
+        public int TotalLines => _lines.Length;
+        public bool IsComplete => _currentIndex >= _lines.Length;
 
-    public IntroSequence(string[] lines)
-    {
-        if (lines == null || lines.Length == 0)
-            throw new ArgumentException("Lines cannot be null or empty.", nameof(lines));
+        public IntroSequence(string[] lines)
+        {
+            if (lines == null || lines.Length == 0)
+                throw new ArgumentException("Lines cannot be null or empty.", nameof(lines));
 
-        _lines = lines;
-    }
+            _lines = lines;
+        }
 
-    public void ShowNext()
-    {
-        if (IsComplete)
-            return;
+        public void ShowNext()
+        {
+            if (IsComplete)
+                return;
 
-        OnLineShown?.Invoke(_lines[_currentIndex]);
-        _currentIndex++;
+            OnLineShown?.Invoke(_lines[_currentIndex]);
+            _currentIndex++;
 
-        if (IsComplete)
+            if (IsComplete)
+                OnComplete?.Invoke();
+        }
+
+        public void Skip()
+        {
+            if (IsComplete)
+                return;
+
+            _currentIndex = _lines.Length;
             OnComplete?.Invoke();
-    }
-
-    public void Skip()
-    {
-        if (IsComplete)
-            return;
-
-        _currentIndex = _lines.Length;
-        OnComplete?.Invoke();
+        }
     }
 }

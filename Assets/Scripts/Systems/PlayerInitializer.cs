@@ -1,22 +1,31 @@
-/// <summary>
-///     Registers a player <see cref="Unit" /> with the <see cref="CombatLogger" /> and wires up the death event.
-/// </summary>
-public static class PlayerInitializer
+using Core;
+
+using Events;
+
+using Utils;
+
+namespace Systems
 {
     /// <summary>
-    ///     Unregisters <paramref name="previous" /> from <see cref="CombatLogger" />, registers
-    ///     <paramref name="next" />, and subscribes <paramref name="playerDiedEvent" /> to its death.
+    ///     Registers a player <see cref="Unit" /> with the <see cref="CombatLogger" /> and wires up the death event.
     /// </summary>
-    public static void Initialize(Unit previous, Unit next, VoidEventChannel playerDiedEvent)
+    public static class PlayerInitializer
     {
-        if (next == null)
+        /// <summary>
+        ///     Unregisters <paramref name="previous" /> from <see cref="CombatLogger" />, registers
+        ///     <paramref name="next" />, and subscribes <paramref name="playerDiedEvent" /> to its death.
+        /// </summary>
+        public static void Initialize(Unit previous, Unit next, VoidEventChannel playerDiedEvent)
         {
-            Log.Error("[PlayerInitializer] Cannot initialize null player");
-            return;
-        }
+            if (next == null)
+            {
+                Log.Error("[PlayerInitializer] Cannot initialize null player");
+                return;
+            }
 
-        CombatLogger.Instance.UnregisterUnit(previous);
-        CombatLogger.Instance.RegisterUnit(next);
-        next.Died += _ => playerDiedEvent.Raise();
+            CombatLogger.Instance.UnregisterUnit(previous);
+            CombatLogger.Instance.RegisterUnit(next);
+            next.Died += _ => playerDiedEvent.Raise();
+        }
     }
 }

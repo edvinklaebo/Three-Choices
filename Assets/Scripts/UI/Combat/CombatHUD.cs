@@ -1,98 +1,105 @@
+using Core;
+
 using UnityEngine;
 
-/// <summary>
-/// Container for player and enemy HUD panels.
-/// Manages health bars, names, and status effects display.
-/// </summary>
-public class CombatHUD : MonoBehaviour
+using Utils;
+
+namespace UI.Combat
 {
-    [SerializeField] private UnitHUDPanel _playerHUD;
-    [SerializeField] private UnitHUDPanel _enemyHUD;
-
-    private void Awake()
-    {
-        if (_playerHUD == null)
-        {
-            Log.Error("CombatHUD: PlayerHUD not assigned");
-        }
-
-        if (_enemyHUD == null)
-        {
-            Log.Error("CombatHUD: EnemyHUD not assigned");
-        }
-    }
-
     /// <summary>
-    /// Initialize both HUD panels with their respective units.
+    /// Container for player and enemy HUD panels.
+    /// Manages health bars, names, and status effects display.
     /// </summary>
-    public void Initialize(Unit player, Unit enemy)
+    public class CombatHUD : MonoBehaviour
     {
-        if (player == null || enemy == null)
+        [SerializeField] private UnitHUDPanel _playerHUD;
+        [SerializeField] private UnitHUDPanel _enemyHUD;
+
+        private void Awake()
         {
-            Log.Error("CombatHUD: Cannot initialize with null units");
-            return;
+            if (_playerHUD == null)
+            {
+                Log.Error("CombatHUD: PlayerHUD not assigned");
+            }
+
+            if (_enemyHUD == null)
+            {
+                Log.Error("CombatHUD: EnemyHUD not assigned");
+            }
         }
 
-        if (_playerHUD != null)
+        /// <summary>
+        /// Initialize both HUD panels with their respective units.
+        /// </summary>
+        public void Initialize(Unit player, Unit enemy)
         {
-            _playerHUD.Initialize(player);
+            if (player == null || enemy == null)
+            {
+                Log.Error("CombatHUD: Cannot initialize with null units");
+                return;
+            }
+
+            if (_playerHUD != null)
+            {
+                _playerHUD.Initialize(player);
+            }
+
+            if (_enemyHUD != null)
+            {
+                _enemyHUD.Initialize(enemy);
+            }
+
+            Log.Info("CombatHUD initialized", new
+            {
+                player = player.Name,
+                enemy = enemy.Name
+            });
         }
 
-        if (_enemyHUD != null)
+        /// <summary>
+        /// Get the health bar for a specific unit.
+        /// </summary>
+        public HealthBarUI GetHealthBar(Unit unit)
         {
-            _enemyHUD.Initialize(enemy);
-        }
+            if (unit == null)
+                return null;
 
-        Log.Info("CombatHUD initialized", new
-        {
-            player = player.Name,
-            enemy = enemy.Name
-        });
-    }
+            // Check player HUD
+            if (_playerHUD != null && _playerHUD.GetUnit() == unit)
+            {
+                return _playerHUD.GetHealthBar();
+            }
 
-    /// <summary>
-    /// Get the health bar for a specific unit.
-    /// </summary>
-    public HealthBarUI GetHealthBar(Unit unit)
-    {
-        if (unit == null)
+            // Check enemy HUD
+            if (_enemyHUD != null && _enemyHUD.GetUnit() == unit)
+            {
+                return _enemyHUD.GetHealthBar();
+            }
+
             return null;
-
-        // Check player HUD
-        if (_playerHUD != null && _playerHUD.GetUnit() == unit)
-        {
-            return _playerHUD.GetHealthBar();
         }
 
-        // Check enemy HUD
-        if (_enemyHUD != null && _enemyHUD.GetUnit() == unit)
+        /// <summary>
+        /// Get the HUD panel for a specific unit.
+        /// </summary>
+        public UnitHUDPanel GetHUDPanel(Unit unit)
         {
-            return _enemyHUD.GetHealthBar();
-        }
+            if (unit == null)
+                return null;
 
-        return null;
-    }
+            // Check player HUD
+            if (_playerHUD != null && _playerHUD.GetUnit() == unit)
+            {
+                return _playerHUD;
+            }
 
-    /// <summary>
-    /// Get the HUD panel for a specific unit.
-    /// </summary>
-    public UnitHUDPanel GetHUDPanel(Unit unit)
-    {
-        if (unit == null)
+            // Check enemy HUD
+            if (_enemyHUD != null && _enemyHUD.GetUnit() == unit)
+            {
+                return _enemyHUD;
+            }
+
             return null;
-
-        // Check player HUD
-        if (_playerHUD != null && _playerHUD.GetUnit() == unit)
-        {
-            return _playerHUD;
         }
-
-        // Check enemy HUD
-        if (_enemyHUD != null && _enemyHUD.GetUnit() == unit)
-        {
-            return _enemyHUD;
-        }
-
-        return null;
     }
 }

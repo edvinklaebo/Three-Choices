@@ -1,5 +1,11 @@
 using NUnit.Framework;
 using System.Linq;
+
+using Core;
+using Core.Passives;
+
+using Systems;
+
 using UnityEngine;
 
 namespace Tests.EditModeTests

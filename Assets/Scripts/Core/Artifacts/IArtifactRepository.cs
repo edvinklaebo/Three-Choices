@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 
-public interface IArtifactRepository
+namespace Core.Artifacts
 {
-    IReadOnlyList<ArtifactDefinition> GetAll();
+    public interface IArtifactRepository
+    {
+        IReadOnlyList<ArtifactDefinition> GetAll();
+    }
 }

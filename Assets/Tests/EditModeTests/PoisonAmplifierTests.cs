@@ -1,3 +1,9 @@
+using Core;
+using Core.Artifacts;
+using Core.Artifacts.Passives;
+using Core.Passives;
+using Core.StatusEffects;
+
 using NUnit.Framework;
 using UnityEngine;
 

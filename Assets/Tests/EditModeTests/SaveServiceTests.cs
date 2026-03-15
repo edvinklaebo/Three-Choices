@@ -1,4 +1,11 @@
+using Core;
+using Core.Abilities;
+using Core.Passives;
+using Core.StatusEffects;
+
 using NUnit.Framework;
+
+using Systems;
 
 namespace Tests.EditModeTests
 {

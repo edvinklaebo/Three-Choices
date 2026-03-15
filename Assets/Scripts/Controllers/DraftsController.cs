@@ -1,33 +1,39 @@
+using Events;
+using Systems;
 using UnityEngine;
+using Utils;
 
-public class DraftController : MonoBehaviour
+namespace Controllers
 {
-    [Header("Events")]
-    [SerializeField] private DraftEventChannel _showDraft;
-    [SerializeField] private VoidEventChannel fightEnded;
-
-    private DraftSystem _draft;
-
-    private void Awake()
+    public class DraftController : MonoBehaviour
     {
-        Log.Info($"Awake called on {nameof(DraftController)}");
+        [Header("Events")]
+        [SerializeField] private DraftEventChannel _showDraft;
+        [SerializeField] private VoidEventChannel fightEnded;
 
-        _draft = new DraftSystem(ScriptableObject.CreateInstance<UpgradePool>());
-    }
+        private DraftSystem _draft;
 
-    private void OnEnable()
-    {
-        fightEnded.OnRaised += OfferDraft;
-    }
+        private void Awake()
+        {
+            Log.Info($"Awake called on {nameof(DraftController)}");
 
-    private void OnDisable()
-    {
-        fightEnded.OnRaised -= OfferDraft;
-    }
+            _draft = new DraftSystem(ScriptableObject.CreateInstance<UpgradePool>());
+        }
 
-    private void OfferDraft()
-    {
-        var draft = _draft.GenerateDraft(3);
-        _showDraft.Raise(draft);
+        private void OnEnable()
+        {
+            fightEnded.OnRaised += OfferDraft;
+        }
+
+        private void OnDisable()
+        {
+            fightEnded.OnRaised -= OfferDraft;
+        }
+
+        private void OfferDraft()
+        {
+            var draft = _draft.GenerateDraft(3);
+            _showDraft.Raise(draft);
+        }
     }
 }

@@ -1,5 +1,12 @@
 using System.Collections.Generic;
 using System.Reflection;
+
+using Characters;
+
+using CharacterSelect;
+
+using Events;
+
 using NUnit.Framework;
 using UnityEngine;
 

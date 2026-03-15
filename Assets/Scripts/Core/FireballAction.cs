@@ -1,5 +1,9 @@
 using System.Collections;
+using Core;
+using Interfaces;
+using UI.Combat;
 using UnityEngine;
+using Utils;
 
 /// <summary>
 /// Represents a Fireball ability action in combat.

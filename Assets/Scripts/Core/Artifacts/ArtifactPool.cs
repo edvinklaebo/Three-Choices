@@ -1,28 +1,37 @@
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
-[CreateAssetMenu(menuName = "Artifacts/Artifact Pool")]
-public class ArtifactPool : ScriptableObject, IArtifactRepository
+namespace Core.Artifacts
 {
-    private List<ArtifactDefinition> _artifacts;
-
-    private void OnEnable()
+    [CreateAssetMenu(menuName = "Artifacts/Artifact Pool")]
+    public class ArtifactPool : ScriptableObject, IArtifactRepository
     {
-        var loaded = Resources.LoadAll<ArtifactDefinition>("Artifacts");
-        _artifacts = new List<ArtifactDefinition>(loaded);
+        [SerializeField]
+        private List<ArtifactDefinition> artifacts = new();
 
-        Log.Info($"[ArtifactPool] Loaded {_artifacts.Count} artifact definitions");
-    }
+        public IReadOnlyList<ArtifactDefinition> GetAll() => artifacts;
 
-    public IReadOnlyList<ArtifactDefinition> GetAll()
-    {
-        if (_artifacts == null)
+#if UNITY_EDITOR
+        [ContextMenu("Auto Populate")]
+        public void AutoPopulate()
         {
-            var loaded = Resources.LoadAll<ArtifactDefinition>("Artifacts");
-            _artifacts = new List<ArtifactDefinition>(loaded);
-            Log.Info($"[ArtifactPool] Lazy-loaded {_artifacts.Count} artifact definitions");
-        }
+            artifacts.Clear();
 
-        return _artifacts;
+            var guids = AssetDatabase.FindAssets("t:ArtifactDefinition");
+
+            foreach (var guid in guids)
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                var artifact = AssetDatabase.LoadAssetAtPath<ArtifactDefinition>(path);
+
+                artifacts.Add(artifact);
+            }
+
+            EditorUtility.SetDirty(this);
+        }
+#endif
     }
 }

@@ -1,40 +1,48 @@
 using System;
+
+using Interfaces;
+
 using UnityEngine;
 
-/// <summary>
-///     Increases damage based on missing health percentage.
-///     Applied as a late-stage multiplier (priority 200).
-/// </summary>
-[Serializable]
-public class Rage : IPassive, IDamageModifier
+namespace Core.Passives
 {
-    private Unit _owner;
-
-    public Rage(Unit owner)
+    /// <summary>
+    ///     Increases damage based on missing health percentage.
+    ///     Applied as a late-stage multiplier (priority 200).
+    /// </summary>
+    [Serializable]
+    public class Rage : IPassive, IDamageModifier
     {
-        _owner = owner;
-    }
+        private Unit _owner;
 
-    public int Priority => 200; // Late-stage multiplier
+        public Rage(Unit owner)
+        {
+            _owner = owner;
+        }
 
-    public void Modify(DamageContext ctx)
-    {
-        if (ctx.Source != _owner)
-            return;
+        public int Priority => 200; // Late-stage multiplier
 
-        var missingHpPercent =
-            1f - (float)_owner.Stats.CurrentHP / _owner.Stats.MaxHP;
+        public void Modify(DamageContext ctx)
+        {
+            if (ctx.Source != _owner)
+                return;
 
-        var bonus = 1f + missingHpPercent; // up to +100%
+            var missingHpPercent =
+                1f - (float)_owner.Stats.CurrentHP / _owner.Stats.MaxHP;
 
-        ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * bonus);
-    }
+            var bonus = 1f + missingHpPercent; // up to +100%
 
-    public void OnAttach(Unit owner)
-    {
-    }
+            ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * bonus);
+        }
 
-    public void OnDetach(Unit owner)
-    {
+        public void OnAttach(Unit owner)
+        {
+            _owner = owner;
+        }
+
+        public void OnDetach(Unit owner)
+        {
+            _owner = null;
+        }
     }
 }

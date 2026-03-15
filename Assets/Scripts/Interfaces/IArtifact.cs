@@ -1,4 +1,6 @@
-﻿public interface IArtifact
+﻿using Core;
+
+public interface IArtifact
 {
     /// <summary>
     /// Priority for passive ordering. Lower values = earlier execution and event subscription.

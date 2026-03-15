@@ -83,7 +83,7 @@ This PR implements a complete MVP pause system for the Unity game with clean arc
 ## Setup Instructions
 
 ### Quick Start (Automated)
-1. Open DraftScene in Unity Editor
+1. Open GameScene in Unity Editor
 2. Add an empty GameObject
 3. Add `PauseMenuBootstrap` component
 4. Play and press Esc
@@ -145,7 +145,7 @@ All 11 tests pass:
 
 ## Next Steps
 The system is fully functional and ready to use. To integrate into your game:
-1. Add PauseMenuBootstrap to DraftScene (or any gameplay scene)
+1. Add PauseMenuBootstrap to GameScene (or any gameplay scene)
 2. Test in play mode
 3. Replace with proper UI prefabs for production polish
 

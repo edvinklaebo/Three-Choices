@@ -1,14 +1,18 @@
 ﻿using TMPro;
+
 using UnityEngine;
 
-public class StatRowUI : MonoBehaviour
+namespace UI.Stats
 {
-    [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI valueText;
-
-    public void Bind(StatViewData data)
+    public class StatRowUI : MonoBehaviour
     {
-        nameText.text = data.Name;
-        valueText.text = data.Value.ToString();
+        [SerializeField] private TextMeshProUGUI nameText;
+        [SerializeField] private TextMeshProUGUI valueText;
+
+        public void Bind(StatViewData data)
+        {
+            nameText.text = data.Name;
+            valueText.text = data.Value.ToString();
+        }
     }
 }

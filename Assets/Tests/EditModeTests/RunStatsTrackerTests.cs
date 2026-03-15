@@ -1,4 +1,10 @@
+using Core;
+
 using NUnit.Framework;
+
+using Systems;
+
+using UI.Stats;
 
 namespace Tests.EditModeTests
 {
