@@ -46,11 +46,9 @@ namespace Core.Combat
         public DamageContext Context { get; }
 
         public DamagePhaseEvent(CombatPhase phase, DamageContext context)
-            : base((context ?? throw new ArgumentNullException(nameof(context))).Source,
-                   context.Target,
-                   phase)
+            : base(context.Source, context.Target, phase)
         {
-            Context = context;
+            Context = context ?? throw new ArgumentNullException(nameof(context));
         }
     }
 
