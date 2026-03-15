@@ -149,45 +149,10 @@ namespace Core.Combat
                 return;
 
             // Apply statuses on source
-            for (var i = source.StatusEffects.Count - 1; i >= 0; i--)
-            {
-                var effect = source.StatusEffects[i];
-
-                var damage = effect.OnTurnStart(source);
-
-                if (damage > 0)
-                    _context.DealDamage(target, source, damage, effectId: effect.Id);
-
-                // Remove expired effects
-                if (effect.Duration <= 0)
-                {
-                    effect.OnExpire(source);
-                    source.StatusEffects.RemoveAt(i);
-                }
-
-                if (source.IsDead)
-                    return;
-            }
-
+            ApplyStatus(source, target);
+            
             // Apply statuses on target
-            for (var i = target.StatusEffects.Count - 1; i >= 0; i--)
-            {
-                var effect = target.StatusEffects[i];
-
-                var damage = effect.OnTurnStart(target);
-
-                if (damage > 0)
-                    _context.DealDamage(source, target, damage, effectId: effect.Id);
-
-                if (effect.Duration <= 0)
-                {
-                    effect.OnExpire(target);
-                    target.StatusEffects.RemoveAt(i);
-                }
-                
-                if(target.IsDead)
-                    return;
-            }
+            ApplyStatus(target, source);
         }
 
         private void TriggerAbilities(Unit source, Unit target)
@@ -209,23 +174,31 @@ namespace Core.Combat
             if (!source.StatusEffects.Any())
                 return;
 
-            for (var i = source.StatusEffects.Count - 1; i >= 0; i--)
+            // Apply statuses on source
+            ApplyStatus(source, target);
+            
+            // Apply statuses on target
+            ApplyStatus(target, source);
+        }
+        
+        private void ApplyStatus(Unit owner, Unit damageSource)
+        {
+            for (var i = owner.StatusEffects.Count - 1; i >= 0; i--)
             {
-                var effect = source.StatusEffects[i];
+                var effect = owner.StatusEffects[i];
 
-                var damage = effect.OnTurnEnd(source);
+                var damage = effect.OnTurnStart(owner);
 
                 if (damage > 0)
-                    _context.DealDamage(null, source, damage, effectId: effect.Id);
+                    _context.DealDamage(damageSource, owner, damage, effectId: effect.Id);
 
-                // Remove expired effects
                 if (effect.Duration <= 0)
                 {
-                    effect.OnExpire(source);
-                    source.StatusEffects.RemoveAt(i);
+                    effect.OnExpire(owner);
+                    owner.StatusEffects.RemoveAt(i);
                 }
 
-                if (source.IsDead)
+                if (owner.IsDead)
                     return;
             }
         }
