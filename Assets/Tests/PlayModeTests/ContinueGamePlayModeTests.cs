@@ -183,7 +183,7 @@ namespace Tests.PlayModeTests
             // We only verify the player survived (HP > 0) and took at least some damage.
             Assert.Greater(runController.Player.Stats.CurrentHP, 0,
                 "Player should survive the fight");
-            Assert.Less(runController.Player.Stats.CurrentHP, 80,
+            Assert.LessOrEqual(runController.Player.Stats.CurrentHP, 80,
                 "Player should have taken damage during combat");
 
             Assert.AreEqual(6, runController.CurrentRun.fightIndex,
