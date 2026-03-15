@@ -58,11 +58,25 @@ namespace Systems
                     candidates.Add(definition);
             }
 
-            if (candidates.Count == 0)
-                throw new InvalidOperationException(
-                    $"No enemy definitions available for fightIndex {fightIndex}");
+            return WeightedRandom(candidates);
+        }
 
-            return candidates[UnityEngine.Random.Range(0, candidates.Count)];
+        private static T WeightedRandom<T>(List<T> candidates) where T : EnemyDefinition
+        {
+            var totalWeight = 0;
+            for (var i = 0; i < candidates.Count; i++)
+                totalWeight += candidates[i].SpawnWeight;
+
+            var roll = UnityEngine.Random.Range(0, totalWeight);
+            var cumulative = 0;
+            for (var i = 0; i < candidates.Count; i++)
+            {
+                cumulative += candidates[i].SpawnWeight;
+                if (roll < cumulative)
+                    return candidates[i];
+            }
+
+            return candidates[candidates.Count - 1];
         }
 
         private Unit CreateFromDefinition(EnemyDefinition def)

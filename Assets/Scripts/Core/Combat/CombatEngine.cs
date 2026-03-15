@@ -60,6 +60,7 @@ namespace Core.Combat
             _round = 0;
 
             _context.Clear();
+            DamagePipeline.Clear();
 
             // Register armor mitigation as a global combat rule (applied in Mitigation phase)
             _context.RegisterListener(new ArmorMitigationModifier());
