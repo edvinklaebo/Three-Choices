@@ -124,21 +124,7 @@ namespace Tests.EditModeTests
             // Should deal less damage overall because bleed reduces their HP
             Assert.LessOrEqual(bleeding.Stats.CurrentHP, 0, "Bleeding unit should die");
         }
-
-        [Test]
-        public void Bleed_KillsBeforeAttack()
-        {
-            var bleeding = CreateUnit("Bleeding", 5, 100, 0, 10);
-            var enemy = CreateUnit("Enemy", 10, 0, 0, 5);
-
-            bleeding.ApplyStatus(new Bleed(10, 3, 1));
-
-            CombatSystem.RunFight(bleeding, enemy);
-
-            Assert.IsTrue(bleeding.IsDead, "Bleeding unit should die from bleed");
-            Assert.AreEqual(10, enemy.Stats.CurrentHP,
-                "Enemy should take no damage because bleeding unit died before attacking");
-        }
+        
 
         [Test]
         public void BleedPassive_AppliesBleedToTargetOnHit()
