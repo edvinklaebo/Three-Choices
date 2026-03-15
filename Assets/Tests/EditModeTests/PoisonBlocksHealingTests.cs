@@ -126,11 +126,11 @@ namespace Tests.EditModeTests
         [Test]
         public void Poison_BlocksLifesteal_NoHealActionsApplied()
         {
-            var attacker = CreateUnit("Vampire", 100, 20, 0, 10);
+            var attacker = CreateUnit("Vampire", 100, 10, 0, 10);
             attacker.Stats.CurrentHP = 80;
             var defender = CreateUnit("Victim", 100, 0, 0, 5);
 
-            var lifesteal = new Lifesteal(attacker, 0.2f);
+            var lifesteal = new Lifesteal(attacker, 1.2f);
             lifesteal.OnAttach(attacker);
             attacker.Passives.Add(lifesteal);
 
@@ -141,8 +141,7 @@ namespace Tests.EditModeTests
             // Any HealAction that was queued should have resolved to 0 actual HP gain
             var healActions = actions.OfType<HealAction>().ToList();
             foreach (var h in healActions)
-                Assert.AreEqual(h.TargetHPBefore, h.TargetHPAfter,
-                    "Heal action should not change HP when attacker is poisoned");
+                Assert.AreEqual(h.TargetHPBefore, h.TargetHPAfter, "Heal action should not change HP when attacker is poisoned");
         }
     }
 }
