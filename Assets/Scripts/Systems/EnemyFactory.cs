@@ -23,6 +23,9 @@ namespace Systems
 
         public Unit Create(int fightIndex)
         {
+            if(fightIndex == 0)
+                throw new InvalidOperationException(nameof(fightIndex));
+            
             try
             {
                 var definition = SelectEnemy(fightIndex);
