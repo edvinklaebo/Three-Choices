@@ -16,5 +16,6 @@ public enum ArtifactId
     ThornArmor,
     TwinBlades,
     VampiricFang,
-    WarGauntlet
+    WarGauntlet,
+    SpellEcho
 }

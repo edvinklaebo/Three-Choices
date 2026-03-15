@@ -175,7 +175,10 @@ namespace Core.Combat
 
             foreach (var ability in source.Abilities)
             {
+                if (target == null || target.IsDead) break;
+
                 ability.OnCast(source, target, _context);
+                _context.Raise(new OnAbilityTriggerEvent(source, target, ability));
             }
         }
 

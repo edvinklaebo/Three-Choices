@@ -49,6 +49,7 @@ namespace Core.Artifacts
                 ArtifactId.TwinBlades     => new TwinBlades(),
                 ArtifactId.VampiricFang   => new VampiricFang(),
                 ArtifactId.WarGauntlet    => new WarGauntlet(),
+                ArtifactId.SpellEcho      => new SpellEcho(),
                 _ => throw new ArgumentOutOfRangeException(artifactDefinition.ArtifactId.ToString())
                 };
 
