@@ -149,10 +149,10 @@ namespace Core.Combat
                 return;
 
             // Apply statuses on source
-            ApplyStatus(source, target);
+            // ApplyStatus(source, target);
             
             // Apply statuses on target
-            ApplyStatus(target, source);
+            // ApplyStatus(target, source);
         }
 
         private void TriggerAbilities(Unit source, Unit target)
