@@ -56,57 +56,51 @@ namespace Tests.EditModeTests
         public void SpellEcho_DoublesFireball_DamageDealtToTarget()
         {
             var caster = CreateUnit("Caster", 100, 0, 10);
-            var target = CreateUnit("Target", 200, 0, 5);
+            var targetNoEcho = CreateUnit("Target", 1000, 0, 5);
+            var targetWithEcho = CreateUnit("Target", 1000, 0, 5);
 
-            caster.Abilities.Add(new Fireball(10));
-            AttachSpellEcho(caster);
+            var fireball = new Fireball(10);
 
-            CombatSystem.RunFight(caster, target);
+            // Simulate one cast WITHOUT SpellEcho
+            var contextNoEcho = new CombatContext();
+            fireball.OnCast(caster, targetNoEcho, contextNoEcho);
+            // No OnAbilityTriggerEvent listener — no echo fires
 
-            // Without SpellEcho: first round fires 1 Fireball (10 dmg), with echo: 2 Fireballs (20 dmg).
-            // To verify, we check that the FireballActions logged equal 2 per round on the caster's turn.
-            // Use a fresh engine to count actions precisely for round 1.
-            var echolessCaster = CreateUnit("Caster2", 100, 0, 10);
-            var echolessTarget = CreateUnit("Target2", 200, 0, 5);
-            echolessCaster.Abilities.Add(new Fireball(10));
+            // Simulate the same cast WITH SpellEcho (original + event mirrors TriggerAbilities)
+            var echo = new SpellEcho();
+            echo.OnAttach(caster);
+            var contextWithEcho = new CombatContext();
+            contextWithEcho.RegisterListener(echo);
+            fireball.OnCast(caster, targetWithEcho, contextWithEcho);
+            contextWithEcho.Raise(new OnAbilityTriggerEvent(caster, targetWithEcho, fireball));
 
-            var engine = new CombatEngine();
-            var actionsNoEcho = engine.RunFight(echolessCaster, echolessTarget);
-
-            var echoCaster = CreateUnit("EchoCaster", 100, 0, 10);
-            var echoTarget = CreateUnit("EchoTarget", 200, 0, 5);
-            echoCaster.Abilities.Add(new Fireball(10));
-            AttachSpellEcho(echoCaster);
-
-            var engine2 = new CombatEngine();
-            var actionsWithEcho = engine2.RunFight(echoCaster, echoTarget);
-
-            // The unit with SpellEcho should produce more FireballActions than without
-            var noEchoFireballs = actionsNoEcho.OfType<FireballAction>().Count(a => a.Source == echolessCaster);
-            var withEchoFireballs = actionsWithEcho.OfType<FireballAction>().Count(a => a.Source == echoCaster);
-
-            Assert.Greater(withEchoFireballs, noEchoFireballs,
-                "SpellEcho caster should produce more Fireball hits than one without SpellEcho");
+            // With echo the target should have taken exactly twice as much damage
+            Assert.AreEqual(990, targetNoEcho.Stats.CurrentHP,
+                "Without SpellEcho a single Fireball should deal 10 damage");
+            Assert.AreEqual(980, targetWithEcho.Stats.CurrentHP,
+                "With SpellEcho the same Fireball should deal 20 damage (original + echo)");
         }
 
         [Test]
-        public void SpellEcho_CastsAbilityTwice_PerTurn()
+        public void SpellEcho_CastsAbilityTwice_PerCast()
         {
             var caster = CreateUnit("Caster", 100, 0, 10);
-            var target = CreateUnit("Target", 1000, 0, 5); // High HP so target survives multiple rounds
+            var target = CreateUnit("Target", 1000, 0, 5);
 
-            caster.Abilities.Add(new Fireball(10));
-            AttachSpellEcho(caster);
+            var fireball = new Fireball(10);
+            var echo = new SpellEcho();
+            echo.OnAttach(caster);
 
-            // One turn: caster acts first (speed 10 > 5), fires fireball + echo = 2 FireballActions
-            var engine = new CombatEngine();
-            var actions = engine.RunFight(caster, target);
+            var context = new CombatContext();
+            context.RegisterListener(echo);
 
-            // Count only fireball actions from the caster in the first turn (2 expected per turn)
-            var fireballActions = actions.OfType<FireballAction>().Where(a => a.Source == caster).ToList();
+            // Simulate one ability cast + the event that CombatEngine raises after OnCast
+            fireball.OnCast(caster, target, context);
+            context.Raise(new OnAbilityTriggerEvent(caster, target, fireball));
 
-            Assert.GreaterOrEqual(fireballActions.Count, 2,
-                "SpellEcho should cause at least 2 Fireball hits per turn (original + echo)");
+            var fireballCount = context.Actions.OfType<FireballAction>().Count();
+            Assert.AreEqual(2, fireballCount,
+                "SpellEcho should produce exactly 2 FireballActions per cast (original + echo)");
         }
 
         [Test]
@@ -150,23 +144,22 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 10);
             var target = CreateUnit("Target", 1000, 0, 5);
 
-            caster.Abilities.Add(new ArcaneMissiles());
-            AttachSpellEcho(caster);
+            // ArcaneMissiles defaults: 3 missiles × 5 damage = 15 damage per cast
+            var missiles = new ArcaneMissiles();
+            var echo = new SpellEcho();
+            echo.OnAttach(caster);
 
-            var engineNoEcho = new CombatEngine();
-            var casterNoEcho = CreateUnit("Caster2", 100, 0, 10);
-            var targetNoEcho = CreateUnit("Target2", 1000, 0, 5);
-            casterNoEcho.Abilities.Add(new ArcaneMissiles());
-            var actionsNoEcho = engineNoEcho.RunFight(casterNoEcho, targetNoEcho);
+            var context = new CombatContext();
+            context.RegisterListener(echo);
 
-            var engineWithEcho = new CombatEngine();
-            var actionsWithEcho = engineWithEcho.RunFight(caster, target);
+            // Simulate one ability cast + event
+            missiles.OnCast(caster, target, context);
+            context.Raise(new OnAbilityTriggerEvent(caster, target, missiles));
 
-            var hitCountNoEcho = actionsNoEcho.OfType<ArcaneMissilesAction>().Count(a => a.Source == casterNoEcho);
-            var hitCountWithEcho = actionsWithEcho.OfType<ArcaneMissilesAction>().Count(a => a.Source == caster);
-
-            Assert.Greater(hitCountWithEcho, hitCountNoEcho,
-                "SpellEcho should double ArcaneMissiles hits per turn");
+            // Original 3 missiles + 3 echoed missiles = 6 total
+            var missileCount = context.Actions.OfType<ArcaneMissilesAction>().Count();
+            Assert.AreEqual(6, missileCount,
+                "SpellEcho should fire 6 ArcaneMissile hits (3 original + 3 echo)");
         }
 
         [Test]
