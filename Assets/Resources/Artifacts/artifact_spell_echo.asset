@@ -15,7 +15,7 @@ MonoBehaviour:
   _id: artifact_spell_echo
   _displayName: Spell Echo
   _description: Your spells are cast twice each turn.
-  _icon: {fileID: 0}
+  _icon: {fileID: 4291691949817711522, guid: 24a6794f89942d045a23f1946f919b73, type: 3}
   _rarity: 10
   _tags: 0
   _effectType: 1
