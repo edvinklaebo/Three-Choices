@@ -33,7 +33,7 @@ namespace Core.Modifiers
             if (ctx.Source != _owner) return;
             if (ctx.IsCritical) return; // Already a crit
 
-            var roll = Random.value;
+            var roll = UnityEngine.Random.value;
             if (roll < _critChance)
             {
                 ctx.IsCritical = true;
