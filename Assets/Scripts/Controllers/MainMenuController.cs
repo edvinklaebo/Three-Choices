@@ -1,3 +1,7 @@
+using System.Collections;
+
+using Discord;
+
 using Events;
 
 using Systems;
@@ -14,6 +18,7 @@ namespace Controllers
     public class MainMenuController : MonoBehaviour
     {
         private const string CharacterSelectSceneName = "CharacterSelectScene";
+        private const float DiscordCalloutDelay = 2f;
 
         [Header("Events")] 
         [SerializeField] private VoidEventChannel _continueRunRequested;
@@ -23,7 +28,10 @@ namespace Controllers
         [SerializeField] private Button quitButton;
         [SerializeField] private Button continueButton;
         [SerializeField] private Button newGameButton;
+        [SerializeField] private DiscordCalloutBubble _discordCalloutBubble;
 
+
+        private Coroutine _discordCalloutCoroutine;
 
         private void Awake()
         {
@@ -38,6 +46,21 @@ namespace Controllers
         {
             continueButton.gameObject.SetActive(SaveService.HasSave());
             quitButton.gameObject.SetActive(PlatformUtils.IsQuitSupported());
+
+            if (_discordCalloutBubble != null)
+                _discordCalloutCoroutine = StartCoroutine(ShowDiscordCalloutAfterDelay());
+        }
+
+        private void OnDestroy()
+        {
+            if (_discordCalloutCoroutine != null)
+                StopCoroutine(_discordCalloutCoroutine);
+        }
+
+        private IEnumerator ShowDiscordCalloutAfterDelay()
+        {
+            yield return new WaitForSeconds(DiscordCalloutDelay);
+            _discordCalloutBubble.PlayAnimation();
         }
 
         private static void OnQuitClicked()
