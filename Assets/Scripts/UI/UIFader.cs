@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 
 using UnityEngine;
@@ -12,8 +13,8 @@ namespace UI
 
         public UIFader(CanvasGroup canvasGroup, MonoBehaviour coroutineRunner, float fadeDuration = 0.3f)
         {
-            _canvasGroup = canvasGroup;
-            _coroutineRunner = coroutineRunner;
+            _canvasGroup = canvasGroup ?? throw new ArgumentNullException(nameof(canvasGroup));
+            _coroutineRunner = coroutineRunner ?? throw new ArgumentNullException(nameof(coroutineRunner));
             _fadeDuration = fadeDuration;
         }
 

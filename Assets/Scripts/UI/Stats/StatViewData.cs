@@ -1,3 +1,5 @@
+using System;
+
 namespace UI.Stats
 {
     public readonly struct StatViewData
@@ -7,7 +9,7 @@ namespace UI.Stats
 
         public StatViewData(string name, int value)
         {
-            Name = name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
             Value = value;
         }
     }

@@ -1,3 +1,5 @@
+using System;
+
 using Interfaces;
 
 namespace Core.Modifiers
@@ -17,7 +19,7 @@ namespace Core.Modifiers
         /// <param name="bonusDamage">Flat damage to add to each attack</param>
         public FlatDamageModifier(Unit owner, int bonusDamage)
         {
-            _owner = owner;
+            _owner = owner ?? throw new ArgumentNullException(nameof(owner));
             _bonusDamage = bonusDamage;
         }
 

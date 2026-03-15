@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 
 using Interfaces;
@@ -16,7 +17,7 @@ namespace Core
 
         public DeathAction(Unit target)
         {
-            Target = target;
+            Target = target ?? throw new ArgumentNullException(nameof(target));
         }
 
         public IEnumerator Play(AnimationContext ctx)

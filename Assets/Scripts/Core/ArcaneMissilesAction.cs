@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 
 using Interfaces;
@@ -26,8 +27,8 @@ namespace Core
 
         public ArcaneMissilesAction(Unit source, Unit target, int damage, int targetHPBefore, int targetHPAfter, int targetMaxHP, Sprite sprite = null)
         {
-            Source = source;
-            Target = target;
+            Source = source ?? throw new ArgumentNullException(nameof(source));
+            Target = target ?? throw new ArgumentNullException(nameof(target));
             Damage = damage;
             TargetHPBefore = targetHPBefore;
             TargetHPAfter = targetHPAfter;

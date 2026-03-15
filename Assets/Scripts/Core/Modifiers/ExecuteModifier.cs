@@ -1,3 +1,5 @@
+using System;
+
 using Interfaces;
 
 using UnityEngine;
@@ -23,7 +25,7 @@ namespace Core.Modifiers
         /// <param name="damageBonus">Damage multiplier when threshold is met (e.g., 1.5 = +50% damage)</param>
         public ExecuteModifier(Unit owner, float healthThreshold, float damageBonus)
         {
-            _owner = owner;
+            _owner = owner ?? throw new ArgumentNullException(nameof(owner));
             _healthThreshold = Mathf.Clamp01(healthThreshold);
             _damageBonus = damageBonus;
         }

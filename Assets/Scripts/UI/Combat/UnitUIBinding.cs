@@ -1,3 +1,5 @@
+using System;
+
 namespace UI.Combat
 {
     /// <summary>
@@ -15,9 +17,9 @@ namespace UI.Combat
             HealthBarUI healthBar,
             UnitHUDPanel hudPanel)
         {
-            UnitView = unitView;
-            HealthBar = healthBar;
-            HUDPanel = hudPanel;
+            UnitView = unitView ?? throw new ArgumentNullException(nameof(unitView));
+            HealthBar = healthBar ?? throw new ArgumentNullException(nameof(healthBar));
+            HUDPanel = hudPanel ?? throw new ArgumentNullException(nameof(hudPanel));
         }
     }
 }

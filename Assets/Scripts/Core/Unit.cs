@@ -25,7 +25,7 @@ namespace Core
 
         public Unit(string name)
         {
-            Name = name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
         /// <summary>

@@ -1,3 +1,5 @@
+using System;
+
 using Controllers;
 
 using Core;
@@ -27,7 +29,7 @@ namespace Systems
                                      BossManager bossManager = null,
                                      BossFightEventChannel bossFightStarted = null)
         {
-            _fightStarted = fightStarted;
+            _fightStarted = fightStarted ?? throw new ArgumentNullException(nameof(fightStarted));
             _bossManager = bossManager;
             _bossFightStarted = bossFightStarted;
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Interfaces;
 
@@ -14,8 +15,8 @@ namespace Core.Combat
 
         public CombatResult(Unit player, Unit enemy, List<ICombatAction> actions)
         {
-            Player = player;
-            Enemy = enemy;
+            Player = player ?? throw new ArgumentNullException(nameof(player));
+            Enemy = enemy ?? throw new ArgumentNullException(nameof(enemy));
             Actions = actions ?? new List<ICombatAction>();
         }
     }

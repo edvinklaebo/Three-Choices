@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Core;
 using Interfaces;
@@ -22,8 +23,8 @@ public class FireballAction : ICombatAction
 
     public FireballAction(Unit source, Unit target, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP, Sprite sprite = null)
     {
-        Source = source;
-        Target = target;
+        Source = source ?? throw new ArgumentNullException(nameof(source));
+        Target = target ?? throw new ArgumentNullException(nameof(target));
         Amount = amount;
         TargetHPBefore = targetHPBefore;
         TargetHPAfter = targetHPAfter;

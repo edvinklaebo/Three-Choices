@@ -1,3 +1,5 @@
+using System;
+
 using Interfaces;
 
 using UnityEngine;
@@ -19,7 +21,7 @@ namespace Core.Modifiers
         /// <param name="multiplier">Damage multiplier (e.g., 1.25 = +25% damage, 0.8 = -20% damage)</param>
         public PercentageDamageModifier(Unit owner, float multiplier)
         {
-            _owner = owner;
+            _owner = owner ?? throw new ArgumentNullException(nameof(owner));
             _multiplier = multiplier;
         }
 

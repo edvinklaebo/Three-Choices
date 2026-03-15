@@ -1,7 +1,7 @@
+using System;
 using System.Collections;
 using Core;
 using Interfaces;
-using UnityEngine;
 using Utils;
 
 /// <summary>
@@ -20,9 +20,8 @@ public class ThornsAction : ICombatAction
 
     public ThornsAction(Unit source, Unit target, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP)
     {
-        Debug.Assert(target != null, "ThornsAction: target must not be null");
-        Source = source;
-        Target = target;
+        Source = source ?? throw new ArgumentNullException(nameof(source));
+        Target = target ?? throw new ArgumentNullException(nameof(target));
         Amount = amount;
         TargetHPBefore = targetHPBefore;
         TargetHPAfter = targetHPAfter;

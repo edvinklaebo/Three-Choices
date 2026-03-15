@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using Interfaces;
@@ -24,7 +25,7 @@ namespace Core
 
         public DamageContext(Unit source, Unit target, int value)
         {
-            Source = source;
+            Source = source ?? throw new ArgumentNullException(nameof(source));
             Target = target;
             BaseValue = value;
             FinalValue = value;
