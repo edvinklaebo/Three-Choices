@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 
 using Interfaces;
@@ -21,7 +22,7 @@ namespace Core
 
         public HealAction(Unit target, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP)
         {
-            Target = target;
+            Target = target ?? throw new ArgumentNullException(nameof(target));
             Amount = amount;
             TargetHPBefore = targetHPBefore;
             TargetHPAfter = targetHPAfter;

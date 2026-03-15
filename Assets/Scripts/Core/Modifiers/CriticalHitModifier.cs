@@ -1,3 +1,5 @@
+using System;
+
 using Interfaces;
 
 using UnityEngine;
@@ -19,7 +21,7 @@ namespace Core.Modifiers
 
         public CriticalHitModifier(Unit owner, float critChance, float critMultiplier)
         {
-            _owner = owner;
+            _owner = owner ?? throw new ArgumentNullException(nameof(owner));
             _critChance = Mathf.Clamp01(critChance);
             _critMultiplier = critMultiplier;
         }
@@ -31,7 +33,7 @@ namespace Core.Modifiers
             if (ctx.Source != _owner) return;
             if (ctx.IsCritical) return; // Already a crit
 
-            var roll = Random.value;
+            var roll = UnityEngine.Random.value;
             if (roll < _critChance)
             {
                 ctx.IsCritical = true;

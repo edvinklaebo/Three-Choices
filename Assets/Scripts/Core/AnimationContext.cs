@@ -1,3 +1,5 @@
+using System;
+
 using Systems;
 
 namespace Core
@@ -15,10 +17,10 @@ namespace Core
 
         public AnimationContext(AnimationService anim, UIService ui, VFXService vfx, SFXService sfx)
         {
-            Anim = anim;
-            UI = ui;
-            VFX = vfx;
-            SFX = sfx;
+            Anim = anim ?? throw new ArgumentNullException(nameof(anim));
+            UI = ui ?? throw new ArgumentNullException(nameof(ui));
+            VFX = vfx ?? throw new ArgumentNullException(nameof(vfx));
+            SFX = sfx ?? throw new ArgumentNullException(nameof(sfx));
         }
     }
 }

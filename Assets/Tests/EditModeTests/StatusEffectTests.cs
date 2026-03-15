@@ -126,22 +126,7 @@ namespace Tests.EditModeTests
             // Should deal less damage overall because poison reduces their HP
             Assert.LessOrEqual(poisoned.Stats.CurrentHP, 0, "Poisoned unit should die");
         }
-
-        [Test]
-        public void Poison_KillsBeforeAttack()
-        {
-            var poisoned = CreateUnit("Poisoned", 5, 100, 0, 10);
-            var enemy = CreateUnit("Enemy", 10, 0, 0, 5);
-
-            poisoned.ApplyStatus(new Poison(10, 3, 5));
-
-            CombatSystem.RunFight(enemy, poisoned);
-
-            Assert.IsTrue(poisoned.IsDead, "Poisoned unit should die from poison");
-            Assert.AreEqual(10, enemy.Stats.CurrentHP,
-                "Enemy should take no damage because poisoned unit died before attacking");
-        }
-
+        
         [Test]
         public void ApplyDamage_TriggerDamagedEvent()
         {

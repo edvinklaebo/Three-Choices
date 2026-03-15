@@ -1,3 +1,5 @@
+using System;
+
 using Core.Combat;
 using Core.Passives;
 
@@ -24,8 +26,8 @@ namespace Core.Handlers
 
         public ExtraAttackHandler(Unit owner, DoubleStrike passive)
         {
-            _owner = owner;
-            _passive = passive;
+            _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+            _passive = passive ?? throw new ArgumentNullException(nameof(passive));
         }
 
         public void RegisterHandlers(CombatContext context)

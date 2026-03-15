@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 
 using Interfaces;
@@ -23,8 +24,8 @@ namespace Core
 
         public StatusEffectAction(Unit target, string effectName, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP)
         {
-            Target = target;
-            EffectName = effectName;
+            Target = target ?? throw new ArgumentNullException(nameof(target));
+            EffectName = effectName ?? throw new ArgumentNullException(nameof(effectName));
             Amount = amount;
             TargetHPBefore = targetHPBefore;
             TargetHPAfter = targetHPAfter;

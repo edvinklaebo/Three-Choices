@@ -1,3 +1,5 @@
+using System;
+
 using Interfaces;
 
 namespace Core.Combat
@@ -46,7 +48,7 @@ namespace Core.Combat
         public DamagePhaseEvent(CombatPhase phase, DamageContext context)
             : base(context.Source, context.Target, phase)
         {
-            Context = context;
+            Context = context ?? throw new ArgumentNullException(nameof(context));
         }
     }
 
@@ -105,7 +107,7 @@ namespace Core.Combat
         public OnAbilityTriggerEvent(Unit source, Unit target, IAbility ability) 
             : base(source, target)
         {
-            Ability = ability;
+            Ability = ability ?? throw new ArgumentNullException(nameof(ability));
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Core.Passives
 
         public Rage(Unit owner)
         {
-            _owner = owner;
+            _owner = owner ?? throw new ArgumentNullException(nameof(owner));
         }
 
         public int Priority => 200; // Late-stage multiplier

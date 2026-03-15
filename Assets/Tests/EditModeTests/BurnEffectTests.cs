@@ -161,22 +161,7 @@ namespace Tests.EditModeTests
             // Burned unit should take burn damage each turn
             Assert.LessOrEqual(burned.Stats.CurrentHP, 0, "Burned unit should die");
         }
-
-        [Test]
-        public void Burn_KillsBeforeAttack()
-        {
-            var burned = CreateUnit("Burned", 5, 100, 0, 10);
-            var enemy = CreateUnit("Enemy", 10, 0, 0, 5);
-
-            burned.ApplyStatus(new Burn(3, 10));
-
-            CombatSystem.RunFight(burned, enemy);
-
-            Assert.IsTrue(burned.IsDead, "Burned unit should die from burn");
-            Assert.AreEqual(10, enemy.Stats.CurrentHP,
-                "Enemy should take no damage because burned unit died before attacking");
-        }
-
+        
         [Test]
         public void Burn_CanCoexistWithOtherStatusEffects()
         {

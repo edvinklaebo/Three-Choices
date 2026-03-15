@@ -73,7 +73,7 @@ namespace Core.Passives
 
             public DoubleStrikeData(Unit target, float damageMultiplier)
             {
-                Target = target;
+                Target = target ?? throw new ArgumentNullException(nameof(target));
                 DamageMultiplier = damageMultiplier;
             }
         }
