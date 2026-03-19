@@ -14,12 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::EnemyDefinition
   _enemyName: Rat Thief
   _portrait: {fileID: 21300000, guid: 6556a476bd309364c9f531e33ac85211, type: 3}
-  _maxHP: 54
-  _attackPower: 9
+  _maxHP: 8
+  _attackPower: 6
   _armor: 12
-  _speed: 32
+  _speed: 17
   _minFightIndex: 0
   _maxFightIndex: 10
   _spawnWeight: 10
-  _traits:
-  - {fileID: 11400000, guid: 55eba872a88df494186071499baf7860, type: 2}
+  _traits: []

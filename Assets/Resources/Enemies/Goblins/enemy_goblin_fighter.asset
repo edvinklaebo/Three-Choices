@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::EnemyDefinition
   _enemyName: Goblin Fighter
   _portrait: {fileID: 21300000, guid: 96fb2eba270cc40428fea3b680adf29f, type: 3}
-  _maxHP: 120
-  _attackPower: 9
-  _armor: 55
+  _maxHP: 23
+  _attackPower: 3
+  _armor: 34
   _speed: 44
   _minFightIndex: 10
   _maxFightIndex: 20

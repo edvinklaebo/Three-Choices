@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::EnemyDefinition
   _enemyName: Human Thug
   _portrait: {fileID: 0}
-  _maxHP: 175
-  _attackPower: 32
-  _armor: 100
+  _maxHP: 90
+  _attackPower: 12
+  _armor: 67
   _speed: 44
   _minFightIndex: 50
   _maxFightIndex: 60

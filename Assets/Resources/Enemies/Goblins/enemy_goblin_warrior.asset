@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::EnemyDefinition
   _enemyName: Goblin Warrior
   _portrait: {fileID: 21300000, guid: 3597ef5775705ab489d6465e5c1f2524, type: 3}
-  _maxHP: 100
-  _attackPower: 10
+  _maxHP: 27
+  _attackPower: 7
   _armor: 60
-  _speed: 67
+  _speed: 34
   _minFightIndex: 10
   _maxFightIndex: 20
   _spawnWeight: 10

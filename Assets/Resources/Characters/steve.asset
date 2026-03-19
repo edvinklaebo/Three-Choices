@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::CharacterDefinition
   Id: 3
   DisplayName: Steve
-  MaxHp: 400
-  Attack: 6
+  MaxHp: 45
+  Attack: 4
   Armor: 67
   Speed: 16
   Portrait: {fileID: 21300000, guid: ba53f63a44c483791ab924627b624069, type: 3}

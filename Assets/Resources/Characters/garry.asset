@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::CharacterDefinition
   Id: 2
   DisplayName: Garry
-  MaxHp: 56
-  Attack: 64
-  Armor: 67
-  Speed: 23
+  MaxHp: 42
+  Attack: 5
+  Armor: 40
+  Speed: 3
   Portrait: {fileID: 21300000, guid: 280559b628214e84e9a288b5184b1360, type: 3}

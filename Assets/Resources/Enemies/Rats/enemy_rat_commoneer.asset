@@ -14,12 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::EnemyDefinition
   _enemyName: Rat Commoneer
   _portrait: {fileID: 21300000, guid: 6556a476bd309364c9f531e33ac85211, type: 3}
-  _maxHP: 32
-  _attackPower: 5
+  _maxHP: 12
+  _attackPower: 3
   _armor: 5
   _speed: 7
   _minFightIndex: 0
   _maxFightIndex: 10
   _spawnWeight: 10
-  _traits:
-  - {fileID: 11400000, guid: 55eba872a88df494186071499baf7860, type: 2}
+  _traits: []

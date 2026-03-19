@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::EnemyDefinition
   _enemyName: Ogre Brute
   _portrait: {fileID: 0}
-  _maxHP: 243
-  _attackPower: 55
-  _armor: 54
-  _speed: 12
+  _maxHP: 100
+  _attackPower: 16
+  _armor: 44
+  _speed: 3
   _minFightIndex: 30
   _maxFightIndex: 40
   _spawnWeight: 10
