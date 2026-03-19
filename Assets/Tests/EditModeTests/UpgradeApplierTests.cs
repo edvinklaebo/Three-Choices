@@ -2,6 +2,7 @@ using System;
 
 using Core;
 using Core.Abilities;
+using Core.Abilities.Definitions;
 using Core.Combat;
 
 using NUnit.Framework;
@@ -112,8 +113,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_Fireball_FirstApplication_AddsAbility()
         {
-            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
-            upgrade.EditorInit("A", "A", AbilityId.Fireball);
+            var upgrade = ScriptableObject.CreateInstance<FireballDefinition>();
+            upgrade.EditorInit("A", "A");
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -124,8 +125,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_Fireball_DuplicateApplication_DoesNotAddAbility()
         {
-            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
-            upgrade.EditorInit("A", "A", AbilityId.Fireball);
+            var upgrade = ScriptableObject.CreateInstance<FireballDefinition>();
+            upgrade.EditorInit("A", "A");
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -136,8 +137,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_Fireball_DuplicateApplication_Adds5Damage()
         {
-            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
-            upgrade.EditorInit("A", "A", AbilityId.Fireball);
+            var upgrade = ScriptableObject.CreateInstance<FireballDefinition>();
+            upgrade.EditorInit("A", "A");
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -154,8 +155,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_ArcaneMissiles_FirstApplication_AddsAbility()
         {
-            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
-            upgrade.EditorInit("A", "A", AbilityId.ArcaneMissiles);
+            var upgrade = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
+            upgrade.EditorInit("A", "A");
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -166,8 +167,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_ArcaneMissiles_DuplicateApplication_DoesNotAddAbility()
         {
-            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
-            upgrade.EditorInit("A", "A", AbilityId.ArcaneMissiles);
+            var upgrade = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
+            upgrade.EditorInit("A", "A");
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -178,8 +179,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_ArcaneMissiles_DuplicateApplication_Adds1Damage()
         {
-            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
-            upgrade.EditorInit("A", "A", AbilityId.ArcaneMissiles);
+            var upgrade = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
+            upgrade.EditorInit("A", "A");
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -191,17 +192,6 @@ namespace Tests.EditModeTests
 
             // Default: 5 damage × 3 missiles = 15. After +1 damage: 6 × 3 = 18
             Assert.AreEqual(82, target.Stats.CurrentHP, "Arcane Missiles should deal 18 damage after one duplicate upgrade");
-        }
-
-        [Test]
-        public void ApplyAbility_AlwaysThrows_ForUnknownAbility()
-        {
-            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
-
-            upgrade.EditorInit("A", "A", (AbilityId)999);
-
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
-                UpgradeApplier.Apply(upgrade, _unit));
         }
 
         // ---------- PASSIVE UPGRADES ----------
@@ -252,17 +242,6 @@ namespace Tests.EditModeTests
             LogAssert.Expect(LogType.Log, "[INFO] Passive Applied: Poison");
 
             UpgradeApplier.Apply(upgrade, _unit);
-        }
-
-        [Test]
-        public void ApplyAbility_UnknownAbility_Throws()
-        {
-            var upgrade = ScriptableObject.CreateInstance<AbilityDefinition>();
-
-            upgrade.EditorInit("A", "A", (AbilityId)999);
-
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
-                UpgradeApplier.Apply(upgrade, _unit));
         }
 
         [Test]

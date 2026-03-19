@@ -9,13 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81af15fd593a47d699a60e9c7072fafa, type: 3}
+  m_Script: {fileID: 11500000, guid: c0d6e8f102b3c5d7e9f001b3c5d7e9f1, type: 3}
   m_Name: ability_fireball
-  m_EditorClassIdentifier: Ropa::AbilityDefinition
+  m_EditorClassIdentifier: Core.Abilities.Definitions::FireballDefinition
   id: 1
   displayName: Fireball
-  description: Hurl a firey boulder applying burn.
+  description: Hurl a fiery boulder applying burn.
   icon: {fileID: 21300000, guid: 827cd4e177baf6645bc39967e1841bd6, type: 3}
   rarityWeight: 100
-  projectileSprite: {fileID: 21300000, guid: 827cd4e177baf6645bc39967e1841bd6, type: 3}
-  abilityId: 1
+  _data: {fileID: 11400000, guid: e2f800b3c4d5e7f900b1c3d5e7f9a0b2, type: 2}
