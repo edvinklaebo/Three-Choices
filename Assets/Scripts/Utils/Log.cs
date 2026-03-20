@@ -12,7 +12,7 @@ namespace Utils
     {
         public static void Info(string message, object data = null)
         {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if UNITY_EDITOR
             Debug.Log(Format("INFO", message, data));
 #endif
             SentrySdk.AddBreadcrumb(message, "info", data: ToDict(data));
@@ -20,7 +20,7 @@ namespace Utils
 
         public static void Warning(string message, object data = null)
         {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if UNITY_EDITOR
             Debug.LogWarning(Format("WARN", message, data));
 #endif
             SentrySdk.AddBreadcrumb(message, "warn", data: ToDict(data));
