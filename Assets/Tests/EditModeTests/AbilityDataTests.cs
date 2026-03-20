@@ -1,3 +1,4 @@
+using System.Linq;
 using Core;
 using Core.Abilities;
 using Core.Abilities.Definitions;
@@ -124,7 +125,7 @@ namespace Tests.EditModeTests
             data.EditorInit(baseDamage: 3, damagePerUpgrade: 1, cooldownRounds: 0, missileCount: 2);
 
             var missiles = new ArcaneMissiles(data);
-            missiles.AddMissile(1); // +1 extra missile
+            missiles.AddMissile(); // +1 extra missile
 
             var caster = CreateUnit("Caster", 100);
             var target = CreateUnit("Target", 100);

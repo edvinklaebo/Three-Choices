@@ -26,7 +26,7 @@ namespace Core.Abilities
 
         [Header("Timing")]
         [Tooltip("0 = fires every turn. N = must wait N turns between casts.")]
-        [Min(0)] [SerializeField] private int _cooldownRounds = 0;
+        [Min(0)] [SerializeField] private int _cooldownRounds;
 
         [Header("Tags")]
         [SerializeField] private List<string> _tags = new();
