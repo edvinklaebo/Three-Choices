@@ -12,7 +12,7 @@ namespace Core.Abilities
     ///     Implements <see cref="IActionCreator"/> to produce an <see cref="ArcaneMissilesAction"/>
     ///     (projectile animation) instead of the default lunge-based DamageAction.
     ///
-    ///     Static config lives in <see cref="ArcaneMissilesData"/> (ScriptableObject).
+    ///     Static config lives in <see cref="ArcaneMissilesDefinition"/> (ScriptableObject).
     ///     This class owns all mutable runtime state: upgrade stacks, cooldown counter.
     /// </summary>
     [Serializable]
@@ -28,14 +28,14 @@ namespace Core.Abilities
 
         public int Priority => 40;
 
-        /// <summary>Data-driven constructor: reads all config from an <see cref="ArcaneMissilesData"/> SO.</summary>
-        public ArcaneMissiles(ArcaneMissilesData data)
+        /// <summary>Data-driven constructor: reads all config from an <see cref="ArcaneMissilesDefinition"/> SO.</summary>
+        public ArcaneMissiles(ArcaneMissilesDefinition definition)
         {
-            Debug.Assert(data != null, "ArcaneMissiles: data must not be null");
-            _baseDamage = data.BaseDamage;
-            _missileCount = data.MissileCount;
-            _projectileSprite = data.ProjectileSprite;
-            _cooldownRounds = data.CooldownRounds;
+            Debug.Assert(definition != null, "ArcaneMissiles: definition must not be null");
+            _baseDamage = definition.BaseDamage;
+            _missileCount = definition.MissileCount;
+            _projectileSprite = definition.ProjectileSprite;
+            _cooldownRounds = definition.CooldownRounds;
         }
 
         /// <summary>Increases per-missile damage. Called when the player picks up the ability again or applies a modifier.</summary>
@@ -86,9 +86,9 @@ namespace Core.Abilities
         /// <summary>Creates an ArcaneMissiles for editor/test use without a full asset. Do not use in production code.</summary>
         public static ArcaneMissiles EditorCreate(int baseDamage = 5, int missileCount = 3, Sprite projectileSprite = null)
         {
-            var data = ScriptableObject.CreateInstance<ArcaneMissilesData>();
-            data.EditorInit(baseDamage, DamagePerStack, 0, missileCount);
-            return new ArcaneMissiles(data);
+            var definition = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
+            definition.EditorInit("_editor", "_editor", baseDamage, DamagePerStack, 0, missileCount);
+            return new ArcaneMissiles(definition);
         }
 #endif
     }

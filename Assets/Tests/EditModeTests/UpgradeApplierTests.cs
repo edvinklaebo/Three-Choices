@@ -113,10 +113,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_Fireball_FirstApplication_AddsAbility()
         {
-            var data = ScriptableObject.CreateInstance<FireballData>();
-            data.EditorInit(10, 5, 0, 3, 0.5f);
             var upgrade = ScriptableObject.CreateInstance<FireballDefinition>();
-            upgrade.EditorInit("A", "A", data);
+            upgrade.EditorInit("A", "A", baseDamage: 10, damagePerUpgrade: 5);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -127,10 +125,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_Fireball_DuplicateApplication_DoesNotAddAbility()
         {
-            var data = ScriptableObject.CreateInstance<FireballData>();
-            data.EditorInit(10, 5, 0, 3, 0.5f);
             var upgrade = ScriptableObject.CreateInstance<FireballDefinition>();
-            upgrade.EditorInit("A", "A", data);
+            upgrade.EditorInit("A", "A", baseDamage: 10, damagePerUpgrade: 5);
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -141,10 +137,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_Fireball_DuplicateApplication_Adds5Damage()
         {
-            var data = ScriptableObject.CreateInstance<FireballData>();
-            data.EditorInit(10, 5, 0, 3, 0.5f);
             var upgrade = ScriptableObject.CreateInstance<FireballDefinition>();
-            upgrade.EditorInit("A", "A", data);
+            upgrade.EditorInit("A", "A", baseDamage: 10, damagePerUpgrade: 5);
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -161,10 +155,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_ArcaneMissiles_FirstApplication_AddsAbility()
         {
-            var data = ScriptableObject.CreateInstance<ArcaneMissilesData>();
-            data.EditorInit(5, 1, 0, 3);
             var upgrade = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
-            upgrade.EditorInit("A", "A", data);
+            upgrade.EditorInit("A", "A", baseDamage: 5, damagePerUpgrade: 1, missileCount: 3);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -175,10 +167,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_ArcaneMissiles_DuplicateApplication_DoesNotAddAbility()
         {
-            var data = ScriptableObject.CreateInstance<ArcaneMissilesData>();
-            data.EditorInit(5, 1, 0, 3);
             var upgrade = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
-            upgrade.EditorInit("A", "A", data);
+            upgrade.EditorInit("A", "A", baseDamage: 5, damagePerUpgrade: 1, missileCount: 3);
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -189,10 +179,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_ArcaneMissiles_DuplicateApplication_Adds1Damage()
         {
-            var data = ScriptableObject.CreateInstance<ArcaneMissilesData>();
-            data.EditorInit(5, 1, 0, 3);
             var upgrade = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
-            upgrade.EditorInit("A", "A", data);
+            upgrade.EditorInit("A", "A", baseDamage: 5, damagePerUpgrade: 1, missileCount: 3);
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);

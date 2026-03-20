@@ -12,7 +12,7 @@ namespace Tests.EditModeTests
 {
     /// <summary>
     ///     Tests for the data-driven ability system:
-    ///     <see cref="FireballData"/>, <see cref="ArcaneMissilesData"/> ScriptableObjects
+    ///     <see cref="FireballDefinition"/>, <see cref="ArcaneMissilesDefinition"/> ScriptableObjects
     ///     and the runtime modifiers that can be applied without touching those assets.
     /// </summary>
     public class AbilityDataTests
@@ -23,50 +23,50 @@ namespace Tests.EditModeTests
         [SetUp]
         public void Setup() => DamagePipeline.Clear();
 
-        // ---- FireballData construction ----
+        // ---- FireballDefinition construction ----
 
         [Test]
-        public void FireballData_CreateRuntimeAbility_ReturnFireball()
+        public void FireballDefinition_CreateRuntimeAbility_ReturnsFireball()
         {
-            var data = ScriptableObject.CreateInstance<FireballData>();
-            var ability = data.CreateRuntimeAbility();
+            var definition = ScriptableObject.CreateInstance<FireballDefinition>();
+            var ability = definition.CreateRuntimeAbility();
             Assert.IsInstanceOf<Fireball>(ability);
         }
 
         [Test]
-        public void FireballData_Ctor_SeedsBaseDamageFromData()
+        public void FireballDefinition_Ctor_SeedsBaseDamageFromDefinition()
         {
-            // Arrange: create data asset with known base damage
-            var data = ScriptableObject.CreateInstance<FireballData>();
-            data.EditorInit(baseDamage: 4, damagePerUpgrade: 2, cooldownRounds: 0,
-                            burnDuration: 3, burnDamagePercent: 0.5f);
+            var definition = ScriptableObject.CreateInstance<FireballDefinition>();
+            definition.EditorInit("fb", "Fireball", baseDamage: 4, damagePerUpgrade: 2, cooldownRounds: 0,
+                                  burnDuration: 3, burnDamagePercent: 0.5f);
 
-            var fireball = new Fireball(data);
+            var fireball = new Fireball(definition);
             var caster = CreateUnit("Caster", 100);
             var target = CreateUnit("Target", 100);
 
             fireball.OnCast(caster, target, new CombatContext());
 
-            Assert.AreEqual(96, target.Stats.CurrentHP, "Fireball should deal 4 damage (from FireballData.BaseDamage)");
+            Assert.AreEqual(96, target.Stats.CurrentHP, "Fireball should deal 4 damage (from FireballDefinition.BaseDamage)");
         }
 
-        // ---- ArcaneMissilesData construction ----
+        // ---- ArcaneMissilesDefinition construction ----
 
         [Test]
-        public void ArcaneMissilesData_CreateRuntimeAbility_ReturnsArcaneMissiles()
+        public void ArcaneMissilesDefinition_CreateRuntimeAbility_ReturnsArcaneMissiles()
         {
-            var data = ScriptableObject.CreateInstance<ArcaneMissilesData>();
-            var ability = data.CreateRuntimeAbility();
+            var definition = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
+            var ability = definition.CreateRuntimeAbility();
             Assert.IsInstanceOf<ArcaneMissiles>(ability);
         }
 
         [Test]
-        public void ArcaneMissilesData_Ctor_SeedsMissileCountAndDamageFromData()
+        public void ArcaneMissilesDefinition_Ctor_SeedsMissileCountAndDamageFromDefinition()
         {
-            var data = ScriptableObject.CreateInstance<ArcaneMissilesData>();
-            data.EditorInit(baseDamage: 2, damagePerUpgrade: 1, cooldownRounds: 0, missileCount: 4);
+            var definition = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
+            definition.EditorInit("am", "Arcane Missiles", baseDamage: 2, damagePerUpgrade: 1,
+                                  cooldownRounds: 0, missileCount: 4);
 
-            var missiles = new ArcaneMissiles(data);
+            var missiles = new ArcaneMissiles(definition);
             var caster = CreateUnit("Caster", 100);
             var target = CreateUnit("Target", 100);
 
@@ -79,14 +79,13 @@ namespace Tests.EditModeTests
         // ---- AddDamage (single modifier method) ----
 
         [Test]
-        public void Fireball_AddDamage_IncreasesEffectiveDamageWithoutTouchingSO()
+        public void Fireball_AddDamage_IncreasesEffectiveDamageWithoutTouchingDefinition()
         {
-            var data = ScriptableObject.CreateInstance<FireballData>();
-            data.EditorInit(baseDamage: 4, damagePerUpgrade: 2, cooldownRounds: 0,
-                            burnDuration: 3, burnDamagePercent: 0.5f);
+            var definition = ScriptableObject.CreateInstance<FireballDefinition>();
+            definition.EditorInit("fb", "Fireball", baseDamage: 4, damagePerUpgrade: 2, cooldownRounds: 0,
+                                  burnDuration: 3, burnDamagePercent: 0.5f);
 
-            var fireball = new Fireball(data);
-            // Simulate "Fireball deals +2 damage" via AddDamage
+            var fireball = new Fireball(definition);
             fireball.AddDamage(2);
 
             var caster = CreateUnit("Caster", 100);
@@ -96,17 +95,17 @@ namespace Tests.EditModeTests
             // base 4 + added 2 = 6 damage
             Assert.AreEqual(94, target.Stats.CurrentHP, "AddDamage(2) should increase 4 base to 6 total");
             // Confirm SO was not mutated
-            Assert.AreEqual(4, data.BaseDamage, "ScriptableObject BaseDamage must not change");
+            Assert.AreEqual(4, definition.BaseDamage, "ScriptableObject BaseDamage must not change");
         }
 
         [Test]
-        public void ArcaneMissiles_AddDamage_IncreasesPerMissileDamageWithoutTouchingSO()
+        public void ArcaneMissiles_AddDamage_IncreasesPerMissileDamageWithoutTouchingDefinition()
         {
-            var data = ScriptableObject.CreateInstance<ArcaneMissilesData>();
-            data.EditorInit(baseDamage: 2, damagePerUpgrade: 1, cooldownRounds: 0, missileCount: 3);
+            var definition = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
+            definition.EditorInit("am", "Arcane Missiles", baseDamage: 2, damagePerUpgrade: 1,
+                                  cooldownRounds: 0, missileCount: 3);
 
-            var missiles = new ArcaneMissiles(data);
-            // Simulate "Missiles deal +1 damage" via AddDamage
+            var missiles = new ArcaneMissiles(definition);
             missiles.AddDamage(1);
 
             var caster = CreateUnit("Caster", 100);
@@ -115,16 +114,17 @@ namespace Tests.EditModeTests
 
             // (2 + 1) × 3 = 9 damage
             Assert.AreEqual(91, target.Stats.CurrentHP, "(2 base + 1 added) × 3 missiles = 9 damage");
-            Assert.AreEqual(2, data.BaseDamage, "ScriptableObject BaseDamage must not change");
+            Assert.AreEqual(2, definition.BaseDamage, "ScriptableObject BaseDamage must not change");
         }
 
         [Test]
         public void ArcaneMissiles_AddMissile_IncreasesSalvoSize()
         {
-            var data = ScriptableObject.CreateInstance<ArcaneMissilesData>();
-            data.EditorInit(baseDamage: 3, damagePerUpgrade: 1, cooldownRounds: 0, missileCount: 2);
+            var definition = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
+            definition.EditorInit("am", "Arcane Missiles", baseDamage: 3, damagePerUpgrade: 1,
+                                  cooldownRounds: 0, missileCount: 2);
 
-            var missiles = new ArcaneMissiles(data);
+            var missiles = new ArcaneMissiles(definition);
             missiles.AddMissile(); // +1 extra missile
 
             var caster = CreateUnit("Caster", 100);
@@ -140,11 +140,11 @@ namespace Tests.EditModeTests
         [Test]
         public void Fireball_WithCooldown_SkipsTurnsBeforeNextCast()
         {
-            var data = ScriptableObject.CreateInstance<FireballData>();
-            data.EditorInit(baseDamage: 5, damagePerUpgrade: 1, cooldownRounds: 1,
-                            burnDuration: 1, burnDamagePercent: 0f);
+            var definition = ScriptableObject.CreateInstance<FireballDefinition>();
+            definition.EditorInit("fb", "Fireball", baseDamage: 5, damagePerUpgrade: 1, cooldownRounds: 1,
+                                  burnDuration: 1, burnDamagePercent: 0f);
 
-            var fireball = new Fireball(data);
+            var fireball = new Fireball(definition);
             var caster = CreateUnit("Caster", 100);
             var target = CreateUnit("Target", 100);
             var ctx = new CombatContext();
@@ -165,10 +165,11 @@ namespace Tests.EditModeTests
         [Test]
         public void ArcaneMissiles_WithCooldown_SkipsTurnsBeforeNextCast()
         {
-            var data = ScriptableObject.CreateInstance<ArcaneMissilesData>();
-            data.EditorInit(baseDamage: 2, damagePerUpgrade: 1, cooldownRounds: 2, missileCount: 1);
+            var definition = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
+            definition.EditorInit("am", "Arcane Missiles", baseDamage: 2, damagePerUpgrade: 1,
+                                  cooldownRounds: 2, missileCount: 1);
 
-            var missiles = new ArcaneMissiles(data);
+            var missiles = new ArcaneMissiles(definition);
             var caster = CreateUnit("Caster", 100);
             var target = CreateUnit("Target", 100);
             var ctx = new CombatContext();
@@ -191,14 +192,14 @@ namespace Tests.EditModeTests
         // ---- Tags ----
 
         [Test]
-        public void AbilityData_Tags_AreReadableFromConfig()
+        public void AbilityDefinition_Tags_AreReadableFromConfig()
         {
-            var data = ScriptableObject.CreateInstance<FireballData>();
-            data.EditorInitTags(new[] { "fire", "projectile" });
+            var definition = ScriptableObject.CreateInstance<FireballDefinition>();
+            definition.EditorInitTags(new[] { "fire", "projectile" });
 
-            Assert.AreEqual(2, data.Tags.Count);
-            Assert.IsTrue(data.Tags.Contains("fire"));
-            Assert.IsTrue(data.Tags.Contains("projectile"));
+            Assert.AreEqual(2, definition.Tags.Count);
+            Assert.IsTrue(definition.Tags.Contains("fire"));
+            Assert.IsTrue(definition.Tags.Contains("projectile"));
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Core.Abilities
     ///     Implements <see cref="IActionCreator"/> to produce a <see cref="FireballAction"/>
     ///     (projectile animation) instead of the default lunge-based DamageAction.
     ///
-    ///     Static config lives in <see cref="FireballData"/> (ScriptableObject).
+    ///     Static config lives in <see cref="FireballDefinition"/> (ScriptableObject).
     ///     This class owns all mutable runtime state: upgrade stacks, cooldown counter.
     /// </summary>
     [Serializable]
@@ -31,15 +31,15 @@ namespace Core.Abilities
 
         public int Priority => 50;
 
-        /// <summary>Data-driven constructor: reads all config from a <see cref="FireballData"/> SO.</summary>
-        public Fireball(FireballData data)
+        /// <summary>Data-driven constructor: reads all config from a <see cref="FireballDefinition"/> SO.</summary>
+        public Fireball(FireballDefinition definition)
         {
-            Debug.Assert(data != null, "Fireball: data must not be null");
-            _baseDamage = data.BaseDamage;
-            _burnDuration = data.BurnDuration;
-            _burnDamagePercent = data.BurnDamagePercent;
-            _projectileSprite = data.ProjectileSprite;
-            _cooldownRounds = data.CooldownRounds;
+            Debug.Assert(definition != null, "Fireball: definition must not be null");
+            _baseDamage = definition.BaseDamage;
+            _burnDuration = definition.BurnDuration;
+            _burnDamagePercent = definition.BurnDamagePercent;
+            _projectileSprite = definition.ProjectileSprite;
+            _cooldownRounds = definition.CooldownRounds;
         }
 
         /// <summary>Increases base damage. Called when the player picks up the ability again or applies a modifier.</summary>
@@ -76,9 +76,9 @@ namespace Core.Abilities
         /// <summary>Creates a Fireball for editor/test use without a full asset. Do not use in production code.</summary>
         public static Fireball EditorCreate(int baseDamage = 10, int burnDuration = 3, float burnDamagePercent = 0.5f, Sprite projectileSprite = null)
         {
-            var data = ScriptableObject.CreateInstance<FireballData>();
-            data.EditorInit(baseDamage, DamagePerStack, 0, burnDuration, burnDamagePercent);
-            return new Fireball(data);
+            var definition = ScriptableObject.CreateInstance<FireballDefinition>();
+            definition.EditorInit("_editor", "_editor", baseDamage, DamagePerStack, 0, burnDuration, burnDamagePercent);
+            return new Fireball(definition);
         }
 #endif
     }
