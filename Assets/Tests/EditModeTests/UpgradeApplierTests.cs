@@ -113,8 +113,10 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_Fireball_FirstApplication_AddsAbility()
         {
+            var data = ScriptableObject.CreateInstance<FireballData>();
+            data.EditorInit(10, 5, 0, 3, 0.5f);
             var upgrade = ScriptableObject.CreateInstance<FireballDefinition>();
-            upgrade.EditorInit("A", "A");
+            upgrade.EditorInit("A", "A", data);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -125,8 +127,10 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_Fireball_DuplicateApplication_DoesNotAddAbility()
         {
+            var data = ScriptableObject.CreateInstance<FireballData>();
+            data.EditorInit(10, 5, 0, 3, 0.5f);
             var upgrade = ScriptableObject.CreateInstance<FireballDefinition>();
-            upgrade.EditorInit("A", "A");
+            upgrade.EditorInit("A", "A", data);
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -137,8 +141,10 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_Fireball_DuplicateApplication_Adds5Damage()
         {
+            var data = ScriptableObject.CreateInstance<FireballData>();
+            data.EditorInit(10, 5, 0, 3, 0.5f);
             var upgrade = ScriptableObject.CreateInstance<FireballDefinition>();
-            upgrade.EditorInit("A", "A");
+            upgrade.EditorInit("A", "A", data);
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -148,15 +154,17 @@ namespace Tests.EditModeTests
             var fireball = (Fireball)_unit.Abilities[0];
             fireball.OnCast(caster, target, new CombatContext());
 
-            // Default damage is 10, +5 from duplicate = 15
+            // baseDamage=10, DamagePerUpgrade=5 → after one upgrade: 15
             Assert.AreEqual(85, target.Stats.CurrentHP, "Fireball should deal 15 damage after one duplicate upgrade");
         }
 
         [Test]
         public void ApplyAbility_ArcaneMissiles_FirstApplication_AddsAbility()
         {
+            var data = ScriptableObject.CreateInstance<ArcaneMissilesData>();
+            data.EditorInit(5, 1, 0, 3);
             var upgrade = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
-            upgrade.EditorInit("A", "A");
+            upgrade.EditorInit("A", "A", data);
 
             UpgradeApplier.Apply(upgrade, _unit);
 
@@ -167,8 +175,10 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_ArcaneMissiles_DuplicateApplication_DoesNotAddAbility()
         {
+            var data = ScriptableObject.CreateInstance<ArcaneMissilesData>();
+            data.EditorInit(5, 1, 0, 3);
             var upgrade = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
-            upgrade.EditorInit("A", "A");
+            upgrade.EditorInit("A", "A", data);
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -179,8 +189,10 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyAbility_ArcaneMissiles_DuplicateApplication_Adds1Damage()
         {
+            var data = ScriptableObject.CreateInstance<ArcaneMissilesData>();
+            data.EditorInit(5, 1, 0, 3);
             var upgrade = ScriptableObject.CreateInstance<ArcaneMissilesDefinition>();
-            upgrade.EditorInit("A", "A");
+            upgrade.EditorInit("A", "A", data);
 
             UpgradeApplier.Apply(upgrade, _unit);
             UpgradeApplier.Apply(upgrade, _unit);
@@ -190,7 +202,7 @@ namespace Tests.EditModeTests
             var missiles = (ArcaneMissiles)_unit.Abilities[0];
             missiles.OnCast(caster, target, new CombatContext());
 
-            // Default: 5 damage × 3 missiles = 15. After +1 damage: 6 × 3 = 18
+            // baseDamage=5, DamagePerUpgrade=1, missileCount=3 → after one upgrade: 6 × 3 = 18
             Assert.AreEqual(82, target.Stats.CurrentHP, "Arcane Missiles should deal 18 damage after one duplicate upgrade");
         }
 

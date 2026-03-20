@@ -75,45 +75,45 @@ namespace Tests.EditModeTests
             Assert.AreEqual(92, target.Stats.CurrentHP, "4 missiles at 2 damage = 8 total");
         }
 
-        // ---- Runtime damage bonus (modifier without touching SO) ----
+        // ---- AddDamage (single modifier method) ----
 
         [Test]
-        public void Fireball_AddDamageBonus_IncreasesEffectiveDamageWithoutTouchingSO()
+        public void Fireball_AddDamage_IncreasesEffectiveDamageWithoutTouchingSO()
         {
             var data = ScriptableObject.CreateInstance<FireballData>();
             data.EditorInit(baseDamage: 4, damagePerUpgrade: 2, cooldownRounds: 0,
                             burnDuration: 3, burnDamagePercent: 0.5f);
 
             var fireball = new Fireball(data);
-            // Simulate "Fireball deals +2 damage" artifact
-            fireball.AddDamageBonus(2);
+            // Simulate "Fireball deals +2 damage" via AddDamage
+            fireball.AddDamage(2);
 
             var caster = CreateUnit("Caster", 100);
             var target = CreateUnit("Target", 100);
             fireball.OnCast(caster, target, new CombatContext());
 
-            // base 4 + bonus 2 = 6 damage
-            Assert.AreEqual(94, target.Stats.CurrentHP, "Bonus 2 should add to 4 base = 6 damage total");
+            // base 4 + added 2 = 6 damage
+            Assert.AreEqual(94, target.Stats.CurrentHP, "AddDamage(2) should increase 4 base to 6 total");
             // Confirm SO was not mutated
             Assert.AreEqual(4, data.BaseDamage, "ScriptableObject BaseDamage must not change");
         }
 
         [Test]
-        public void ArcaneMissiles_AddDamageBonus_IncreasesPerMissileDamageWithoutTouchingSO()
+        public void ArcaneMissiles_AddDamage_IncreasesPerMissileDamageWithoutTouchingSO()
         {
             var data = ScriptableObject.CreateInstance<ArcaneMissilesData>();
             data.EditorInit(baseDamage: 2, damagePerUpgrade: 1, cooldownRounds: 0, missileCount: 3);
 
             var missiles = new ArcaneMissiles(data);
-            // Simulate "Missiles deal +1 damage" artifact
-            missiles.AddDamageBonus(1);
+            // Simulate "Missiles deal +1 damage" via AddDamage
+            missiles.AddDamage(1);
 
             var caster = CreateUnit("Caster", 100);
             var target = CreateUnit("Target", 100);
             missiles.OnCast(caster, target, new CombatContext());
 
             // (2 + 1) × 3 = 9 damage
-            Assert.AreEqual(91, target.Stats.CurrentHP, "(2 base + 1 bonus) × 3 missiles = 9 damage");
+            Assert.AreEqual(91, target.Stats.CurrentHP, "(2 base + 1 added) × 3 missiles = 9 damage");
             Assert.AreEqual(2, data.BaseDamage, "ScriptableObject BaseDamage must not change");
         }
 

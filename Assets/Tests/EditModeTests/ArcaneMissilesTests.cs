@@ -38,7 +38,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
-            var arcaneMissiles = new ArcaneMissiles();
+            var arcaneMissiles = ArcaneMissiles.EditorCreate();
             var context = new CombatContext();
             arcaneMissiles.OnCast(caster, target, context);
 
@@ -53,7 +53,7 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
             // 3 missiles at 5 damage each = 15 total
-            var arcaneMissiles = new ArcaneMissiles(baseDamage: 5, missileCount: 3);
+            var arcaneMissiles = ArcaneMissiles.EditorCreate(baseDamage: 5, missileCount: 3);
             var context = new CombatContext();
 
             arcaneMissiles.OnCast(caster, target, context);
@@ -68,8 +68,8 @@ namespace Tests.EditModeTests
             var target1 = CreateUnit("Target1", 100, 0, 0, 5);
             var target2 = CreateUnit("Target2", 100, 0, 0, 5);
 
-            var twoMissiles = new ArcaneMissiles(baseDamage: 5, missileCount: 2);
-            var fiveMissiles = new ArcaneMissiles(baseDamage: 5, missileCount: 5);
+            var twoMissiles = ArcaneMissiles.EditorCreate(baseDamage: 5, missileCount: 2);
+            var fiveMissiles = ArcaneMissiles.EditorCreate(baseDamage: 5, missileCount: 5);
             var context = new CombatContext();
 
             twoMissiles.OnCast(caster, target1, context);
@@ -88,7 +88,7 @@ namespace Tests.EditModeTests
             // 100% crit chance with 2x multiplier: each missile should crit
             DamagePipeline.Register(new CriticalHitModifier(caster, 1.0f, 2.0f));
 
-            var arcaneMissiles = new ArcaneMissiles(baseDamage: 5, missileCount: 3);
+            var arcaneMissiles = ArcaneMissiles.EditorCreate(baseDamage: 5, missileCount: 3);
             var context = new CombatContext();
             arcaneMissiles.OnCast(caster, target, context);
 
@@ -106,7 +106,7 @@ namespace Tests.EditModeTests
             Assert.IsTrue(target.IsDead, "Target should be dead");
 
             var hpBefore = target.Stats.CurrentHP;
-            var arcaneMissiles = new ArcaneMissiles();
+            var arcaneMissiles = ArcaneMissiles.EditorCreate();
             var context = new CombatContext();
             arcaneMissiles.OnCast(caster, target, context);
 
@@ -119,7 +119,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 50, 0, 10);
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
-            caster.Abilities.Add(new ArcaneMissiles(baseDamage: 15, missileCount: 3));
+            caster.Abilities.Add(ArcaneMissiles.EditorCreate(baseDamage: 15, missileCount: 3));
 
             CombatSystem.RunFight(caster, target);
 
@@ -133,7 +133,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 10, 0, 10);
             var target = CreateUnit("Target", 60, 0, 0, 5);
 
-            caster.Abilities.Add(new ArcaneMissiles(baseDamage: 10, missileCount: 3));
+            caster.Abilities.Add(ArcaneMissiles.EditorCreate(baseDamage: 10, missileCount: 3));
 
             var actions = CombatSystem.RunFight(caster, target);
 
@@ -156,7 +156,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 0, 10);
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
-            caster.Abilities.Add(new ArcaneMissiles(baseDamage: 50, missileCount: 2));
+            caster.Abilities.Add(ArcaneMissiles.EditorCreate(baseDamage: 50, missileCount: 2));
 
             var actions = CombatSystem.RunFight(caster, target);
 
@@ -175,8 +175,8 @@ namespace Tests.EditModeTests
         [Test]
         public void ArcaneMissiles_HasLowerPriorityThanFireball()
         {
-            var fireball = new Fireball();
-            var arcaneMissiles = new ArcaneMissiles();
+            var fireball = Fireball.EditorCreate();
+            var arcaneMissiles = ArcaneMissiles.EditorCreate();
 
             Assert.Less(arcaneMissiles.Priority, fireball.Priority,
                 "Arcane Missiles (40) should have lower priority value than Fireball (50)");

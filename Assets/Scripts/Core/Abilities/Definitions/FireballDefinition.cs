@@ -19,19 +19,14 @@ namespace Core.Abilities.Definitions
 
         public override void Apply(Unit unit)
         {
+            Debug.Assert(_data != null, "FireballDefinition: _data must be assigned before calling Apply");
             Log.Info("Ability Applied: Fireball");
 
             var existing = FindExistingAbility<Fireball>(unit);
             if (existing != null)
-            {
-                var upgradeAmount = _data != null ? _data.DamagePerUpgrade : Fireball.DamagePerStack;
-                existing.AddDamage(upgradeAmount);
-            }
+                existing.AddDamage(_data.DamagePerUpgrade);
             else
-            {
-                var ability = _data != null ? new Fireball(_data) : new Fireball();
-                unit.Abilities.Add(ability);
-            }
+                unit.Abilities.Add(new Fireball(_data));
         }
 
 #if UNITY_EDITOR

@@ -13,7 +13,7 @@ namespace Core.Abilities
     ///     (projectile animation) instead of the default lunge-based DamageAction.
     ///
     ///     Static config lives in <see cref="ArcaneMissilesData"/> (ScriptableObject).
-    ///     This class owns all mutable runtime state: upgrade stacks, modifiers, cooldown counter.
+    ///     This class owns all mutable runtime state: upgrade stacks, cooldown counter.
     /// </summary>
     [Serializable]
     public class ArcaneMissiles : IAbility, IActionCreator
@@ -21,9 +21,6 @@ namespace Core.Abilities
         [SerializeField] private int _baseDamage;
         [SerializeField] private int _missileCount;
         [SerializeField] private Sprite _projectileSprite;
-        // Runtime modifier — applied on top of _baseDamage without touching the SO.
-        [SerializeField] private int _damageBonus;
-        // Rounds remaining before this ability can fire again.
         [SerializeField] private int _currentCooldown;
         [SerializeField] private int _cooldownRounds;
 
@@ -41,15 +38,7 @@ namespace Core.Abilities
             _cooldownRounds = data.CooldownRounds;
         }
 
-        /// <summary>Legacy constructor kept for backward-compatibility with tests and older code.</summary>
-        public ArcaneMissiles(int baseDamage = 5, int missileCount = 3, Sprite projectileSprite = null)
-        {
-            _baseDamage = baseDamage;
-            _missileCount = missileCount;
-            _projectileSprite = projectileSprite;
-        }
-
-        /// <summary>Permanently increases per-missile damage. Called when the player picks up the ability again.</summary>
+        /// <summary>Increases per-missile damage. Called when the player picks up the ability again or applies a modifier.</summary>
         public void AddDamage(int amount)
         {
             Debug.Assert(amount > 0, "AddDamage: amount must be positive");
@@ -57,7 +46,7 @@ namespace Core.Abilities
         }
 
         /// <summary>
-        ///     Adds one or more missiles to the salvo as an upgrade modifier.
+        ///     Adds one or more missiles to the salvo.
         ///     Example: an upgrade card that says "Fire +1 extra missile" calls <c>missiles.AddMissile(1)</c>.
         /// </summary>
         public void AddMissile(int count = 1)
@@ -65,13 +54,6 @@ namespace Core.Abilities
             Debug.Assert(count > 0, "AddMissile: count must be positive");
             _missileCount += count;
         }
-
-        /// <summary>
-        ///     Adds a one-time runtime damage bonus per missile without modifying the ScriptableObject.
-        ///     Use this from artifacts or other external systems.
-        ///     Example: "Missiles deal +1 damage" artifact calls <c>missiles.AddDamageBonus(1)</c>.
-        /// </summary>
-        public void AddDamageBonus(int amount) => _damageBonus += amount;
 
         public void OnCast(Unit self, Unit target, CombatContext context)
         {
@@ -85,13 +67,12 @@ namespace Core.Abilities
             if (target == null || target.IsDead)
                 return;
 
-            var damage = _baseDamage + _damageBonus;
             for (var i = 0; i < _missileCount; i++)
             {
                 if (target.IsDead)
                     break;
 
-                context.DealDamage(self, target, damage, actionCreator: this);
+                context.DealDamage(self, target, _baseDamage, actionCreator: this);
             }
 
             // Reset cooldown after casting.
@@ -100,5 +81,15 @@ namespace Core.Abilities
 
         public ICombatAction CreateAction(Unit source, Unit target, int finalDamage, int hpBefore, int hpAfter, int maxHP)
             => new ArcaneMissilesAction(source, target, finalDamage, hpBefore, hpAfter, maxHP, _projectileSprite);
+
+#if UNITY_EDITOR
+        /// <summary>Creates an ArcaneMissiles for editor/test use without a full asset. Do not use in production code.</summary>
+        public static ArcaneMissiles EditorCreate(int baseDamage = 5, int missileCount = 3, Sprite projectileSprite = null)
+        {
+            var data = ScriptableObject.CreateInstance<ArcaneMissilesData>();
+            data.EditorInit(baseDamage, DamagePerStack, 0, missileCount);
+            return new ArcaneMissiles(data);
+        }
+#endif
     }
 }

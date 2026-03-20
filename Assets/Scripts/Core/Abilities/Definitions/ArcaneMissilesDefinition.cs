@@ -19,19 +19,14 @@ namespace Core.Abilities.Definitions
 
         public override void Apply(Unit unit)
         {
+            Debug.Assert(_data != null, "ArcaneMissilesDefinition: _data must be assigned before calling Apply");
             Log.Info("Ability Applied: Arcane Missiles");
 
             var existing = FindExistingAbility<ArcaneMissiles>(unit);
             if (existing != null)
-            {
-                var upgradeAmount = _data != null ? _data.DamagePerUpgrade : ArcaneMissiles.DamagePerStack;
-                existing.AddDamage(upgradeAmount);
-            }
+                existing.AddDamage(_data.DamagePerUpgrade);
             else
-            {
-                var ability = _data != null ? new ArcaneMissiles(_data) : new ArcaneMissiles();
-                unit.Abilities.Add(ability);
-            }
+                unit.Abilities.Add(new ArcaneMissiles(_data));
         }
 
 #if UNITY_EDITOR
