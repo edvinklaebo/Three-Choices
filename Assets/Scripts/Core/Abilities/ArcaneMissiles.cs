@@ -28,6 +28,8 @@ namespace Core.Abilities
 
         public int Priority => 40;
 
+        private int _upgradeCount;
+
         /// <summary>Data-driven constructor: reads all config from an <see cref="ArcaneMissilesDefinition"/> SO.</summary>
         public ArcaneMissiles(ArcaneMissilesDefinition definition)
         {
@@ -77,6 +79,16 @@ namespace Core.Abilities
 
             // Reset cooldown after casting.
             _currentCooldown = _cooldownRounds;
+        }
+
+        public void Upgrade(int value)
+        {
+            _upgradeCount++;
+            AddDamage(value);
+            if (_upgradeCount % 10 == 0)
+            {
+                AddMissile();
+            }
         }
 
         public ICombatAction CreateAction(Unit source, Unit target, int finalDamage, int hpBefore, int hpAfter, int maxHP)

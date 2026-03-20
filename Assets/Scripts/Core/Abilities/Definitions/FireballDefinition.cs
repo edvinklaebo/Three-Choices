@@ -38,6 +38,11 @@ namespace Core.Abilities.Definitions
                 unit.Abilities.Add(new Fireball(this));
         }
 
+        public override void Upgrade(IAbility ability)
+        {
+            throw new System.NotImplementedException();
+        }
+
 #if UNITY_EDITOR
         public void EditorInit(string identifier, string soName,
                                int baseDamage = 10, int damagePerUpgrade = 5, int cooldownRounds = 0,

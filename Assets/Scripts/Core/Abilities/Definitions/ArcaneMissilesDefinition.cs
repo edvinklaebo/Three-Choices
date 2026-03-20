@@ -30,9 +30,14 @@ namespace Core.Abilities.Definitions
 
             var existing = FindExistingAbility<ArcaneMissiles>(unit);
             if (existing != null)
-                existing.AddDamage(DamagePerUpgrade);
+                Upgrade(existing);
             else
                 unit.Abilities.Add(new ArcaneMissiles(this));
+        }
+
+        public override void Upgrade(IAbility ability)
+        {
+            ability.Upgrade(DamagePerUpgrade);
         }
 
 #if UNITY_EDITOR

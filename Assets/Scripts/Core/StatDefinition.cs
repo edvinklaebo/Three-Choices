@@ -1,5 +1,6 @@
 ﻿using System;
 using Core;
+using Interfaces;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Upgrades/Stat Definition")]
@@ -35,7 +36,13 @@ public class StatDefinition : UpgradeDefinition
                 throw new ArgumentOutOfRangeException(stat.ToString());
         }
     }
-    
+
+    public override void Upgrade(IAbility ability)
+    {
+        // We are throwing a bit
+        throw new NotImplementedException();
+    }
+
 #if UNITY_EDITOR
     public void EditorInit(string identifier, string soName, StatType type, int value)
     {

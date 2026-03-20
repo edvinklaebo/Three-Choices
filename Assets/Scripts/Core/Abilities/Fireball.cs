@@ -69,6 +69,11 @@ namespace Core.Abilities
             _currentCooldown = _cooldownRounds;
         }
 
+        public void Upgrade(int value)
+        {
+            AddDamage(value);
+        }
+
         public ICombatAction CreateAction(Unit source, Unit target, int finalDamage, int hpBefore, int hpAfter, int maxHP)
             => new FireballAction(source, target, finalDamage, hpBefore, hpAfter, maxHP, _projectileSprite);
 

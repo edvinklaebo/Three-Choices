@@ -57,5 +57,6 @@ namespace Core
 #endif
 
         public abstract void Apply(Unit unit);
+        public abstract void Upgrade(IAbility ability);
     }
 }
