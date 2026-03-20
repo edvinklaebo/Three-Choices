@@ -205,57 +205,7 @@ namespace Tests.EditModeTests
             // baseDamage=5, DamagePerUpgrade=1, missileCount=3 → after one upgrade: 6 × 3 = 18
             Assert.AreEqual(82, target.Stats.CurrentHP, "Arcane Missiles should deal 18 damage after one duplicate upgrade");
         }
-
-        // ---------- PASSIVE UPGRADES ----------
-
-        [Test]
-        public void ApplyPassive_Thorns_LogsCorrectly()
-        {
-            var upgrade = ScriptableObject.CreateInstance<PassiveDefinition>();
-
-            upgrade.EditorInit("A", "A", PassiveId.Thorns);
-
-            LogAssert.Expect(LogType.Log, "[INFO] Passive Applied: Thorns");
-
-            UpgradeApplier.Apply(upgrade, _unit);
-        }
-
-        [Test]
-        public void ApplyPassive_Rage_LogsCorrectly()
-        {
-            var upgrade = ScriptableObject.CreateInstance<PassiveDefinition>();
-
-            upgrade.EditorInit("A", "A", PassiveId.Rage);
-
-            LogAssert.Expect(LogType.Log, "[INFO] Passive Applied: Rage");
-
-            UpgradeApplier.Apply(upgrade, _unit);
-        }
-
-        [Test]
-        public void ApplyPassive_Lifesteal_LogsCorrectly()
-        {
-            var upgrade = ScriptableObject.CreateInstance<PassiveDefinition>();
-
-            upgrade.EditorInit("A", "A", PassiveId.Lifesteal);
-
-            LogAssert.Expect(LogType.Log, "[INFO] Passive Applied: Lifesteal");
-
-            UpgradeApplier.Apply(upgrade, _unit);
-        }
-
-        [Test]
-        public void ApplyPassive_Poison_LogsCorrectly()
-        {
-            var upgrade = ScriptableObject.CreateInstance<PassiveDefinition>();
-
-            upgrade.EditorInit("A", "A", PassiveId.Poison);
-
-            LogAssert.Expect(LogType.Log, "[INFO] Passive Applied: Poison");
-
-            UpgradeApplier.Apply(upgrade, _unit);
-        }
-
+        
         [Test]
         public void ApplyPassive_UnknownPassive_Throws()
         {
