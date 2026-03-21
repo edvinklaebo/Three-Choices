@@ -254,7 +254,6 @@ namespace Tests.EditModeTests
             Assert.AreEqual(1f, slider.value, 0.1f, "Slider should be at starting value");
 
             // Note: Target value is 0.5, but lerping happens in Update()
-
             Object.DestroyImmediate(go);
         }
 

@@ -42,7 +42,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
-            var fireball = new Fireball();
+            var fireball = Fireball.EditorCreate();
             var context = new CombatContext();
             fireball.OnCast(caster, target, context);
 
@@ -56,7 +56,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
-            var fireball = new Fireball();
+            var fireball = Fireball.EditorCreate();
             var context = new CombatContext();
             fireball.OnCast(caster, target, context);
 
@@ -71,7 +71,7 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
             // Fireball with 10 base damage, 50% burn
-            var fireball = new Fireball();
+            var fireball = Fireball.EditorCreate();
             var context = new CombatContext();
             fireball.OnCast(caster, target, context);
 
@@ -87,7 +87,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
             var tank = CreateUnit("Tank", 100, 0, 100, 5); // 100 armor
 
-            var fireball = new Fireball(20);
+            var fireball = Fireball.EditorCreate(20);
             var context = new CombatContext();
             context.RegisterListener(new ArmorMitigationModifier());
             fireball.OnCast(caster, tank, context);
@@ -105,7 +105,7 @@ namespace Tests.EditModeTests
             // Add 100% crit chance modifier to ensure crit
             DamagePipeline.Register(new CriticalHitModifier(caster, 1.0f, 2.0f));
 
-            var fireball = new Fireball();
+            var fireball = Fireball.EditorCreate();
             var context = new CombatContext();
             fireball.OnCast(caster, target, context);
 
@@ -122,7 +122,7 @@ namespace Tests.EditModeTests
             // Add 100% crit chance modifier
             DamagePipeline.Register(new CriticalHitModifier(caster, 1.0f, 2.0f));
 
-            var fireball = new Fireball();
+            var fireball = Fireball.EditorCreate();
             var context = new CombatContext();
             fireball.OnCast(caster, target, context);
 
@@ -139,7 +139,7 @@ namespace Tests.EditModeTests
 
             Assert.IsTrue(target.IsDead, "Target should be dead");
 
-            var fireball = new Fireball();
+            var fireball = Fireball.EditorCreate();
             var context = new CombatContext();
             fireball.OnCast(caster, target, context);
 
@@ -153,7 +153,7 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
             // Add fireball ability
-            caster.Abilities.Add(new Fireball(15));
+            caster.Abilities.Add(Fireball.EditorCreate(15));
 
             CombatSystem.RunFight(caster, target);
 
@@ -169,7 +169,7 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Target", 30, 0, 0, 5);
 
             // Add fireball that should kill or severely damage target
-            caster.Abilities.Add(new Fireball(20));
+            caster.Abilities.Add(Fireball.EditorCreate(20));
 
             var actions = CombatSystem.RunFight(caster, target);
 
@@ -194,7 +194,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 200, 5, 0, 10);
             var target = CreateUnit("Target", 50, 5, 0, 5);
 
-            caster.Abilities.Add(new Fireball());
+            caster.Abilities.Add(Fireball.EditorCreate());
 
             var actions = CombatSystem.RunFight(caster, target);
 
@@ -212,7 +212,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
             var target = CreateUnit("Target", 200, 0, 0, 5);
 
-            var fireball = new Fireball();
+            var fireball = Fireball.EditorCreate();
             var context = new CombatContext();
 
             // First application
@@ -220,7 +220,7 @@ namespace Tests.EditModeTests
             var firstBurnDamage = target.StatusEffects[0].Stacks;
 
             // Second application with higher base damage
-            var strongerFireball = new Fireball(20, burnDamagePercent: 0.5f);
+            var strongerFireball = Fireball.EditorCreate(20, burnDamagePercent: 0.5f);
             strongerFireball.OnCast(caster, target, context);
 
             if (target.StatusEffects[0] is not Burn burn)
@@ -236,7 +236,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
-            var fireball = new Fireball();
+            var fireball = Fireball.EditorCreate();
             var context = new CombatContext();
             fireball.OnCast(caster, target, context);
 

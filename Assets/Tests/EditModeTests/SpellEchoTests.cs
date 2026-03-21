@@ -59,7 +59,7 @@ namespace Tests.EditModeTests
             var targetNoEcho = CreateUnit("Target", 1000, 0, 5);
             var targetWithEcho = CreateUnit("Target", 1000, 0, 5);
 
-            var fireball = new Fireball(10);
+            var fireball = Fireball.EditorCreate(10);
 
             // Simulate one cast WITHOUT SpellEcho
             var contextNoEcho = new CombatContext();
@@ -87,7 +87,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 10);
             var target = CreateUnit("Target", 1000, 0, 5);
 
-            var fireball = new Fireball(10);
+            var fireball = Fireball.EditorCreate(10);
             var echo = new SpellEcho();
             echo.OnAttach(caster);
 
@@ -109,7 +109,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 10);
             var target = CreateUnit("Target", 5, 0, 5); // Low HP: dies from the first Fireball (10 dmg)
 
-            caster.Abilities.Add(new Fireball(10));
+            caster.Abilities.Add(Fireball.EditorCreate(10));
             AttachSpellEcho(caster);
 
             var engine = new CombatEngine();
@@ -127,7 +127,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 10);
             var target = CreateUnit("Target", 1000, 0, 5);
 
-            caster.Abilities.Add(new Fireball(1));
+            caster.Abilities.Add(Fireball.EditorCreate(1));
             AttachSpellEcho(caster);
 
             // If re-entrance guard is missing this would cause infinite recursion / stack overflow
@@ -145,7 +145,7 @@ namespace Tests.EditModeTests
             var target = CreateUnit("Target", 1000, 0, 5);
 
             // ArcaneMissiles defaults: 3 missiles × 5 damage = 15 damage per cast
-            var missiles = new ArcaneMissiles();
+            var missiles = ArcaneMissiles.EditorCreate();
             var echo = new SpellEcho();
             echo.OnAttach(caster);
 
@@ -168,8 +168,8 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 10);
             var opponent = CreateUnit("Opponent", 1000, 0, 5);
 
-            caster.Abilities.Add(new Fireball(5));
-            opponent.Abilities.Add(new Fireball(5));
+            caster.Abilities.Add(Fireball.EditorCreate(5));
+            opponent.Abilities.Add(Fireball.EditorCreate(5));
 
             // Only caster gets SpellEcho
             AttachSpellEcho(caster);

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 using Core;
+using Core.Abilities.Definitions;
 using Core.Artifacts;
 
 using UI;
@@ -93,7 +94,7 @@ namespace Tests.EditModeTests
             var draft = new List<DraftOption>
             {
                 new (ScriptableObject.CreateInstance<StatDefinition>()),
-                new (ScriptableObject.CreateInstance<AbilityDefinition>()),
+                new (ScriptableObject.CreateInstance<FireballDefinition>()),
                 new (ScriptableObject.CreateInstance<PassiveDefinition>())
             };
 

@@ -46,7 +46,7 @@ namespace Tests.EditModeTests
             };
 
             // Add abilities
-            player.Abilities.Add(new Fireball());
+            player.Abilities.Add(Fireball.EditorCreate());
 
             // Add passives
             var thorns = new Thorns();

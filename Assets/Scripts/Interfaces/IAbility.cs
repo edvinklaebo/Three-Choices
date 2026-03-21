@@ -16,5 +16,11 @@ namespace Interfaces
         /// the context handles pipeline processing, HP mutation, action creation, and events.
         /// </summary>
         void OnCast(Unit self, Unit target, CombatContext context);
+
+        /// <summary>
+        /// Upgrades the ability based on the input value 
+        /// </summary>
+        /// <param name="value"></param>
+        void Upgrade(int value);
     }
 }

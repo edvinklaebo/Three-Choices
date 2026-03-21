@@ -1,6 +1,7 @@
 ﻿using System;
 using Core;
 using Core.Passives;
+using Interfaces;
 using UnityEngine;
 using Utils;
 
@@ -60,7 +61,13 @@ public class PassiveDefinition : UpgradeDefinition
                 throw new ArgumentOutOfRangeException(passiveId.ToString());
         }
     }
-            
+
+    public override void Upgrade(IAbility ability)
+    {
+        // I am cooking with some questionable shit here a bit but fuck it.
+        throw new NotImplementedException();
+    }
+
 #if UNITY_EDITOR
     public void EditorInit(string identifier, string soName, PassiveId passive)
     {
