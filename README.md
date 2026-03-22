@@ -8,7 +8,7 @@
 [![CI](https://github.com/edvinklaebo/ropa/actions/workflows/unity-build.yml/badge.svg)](https://github.com/edvinklaebo/ropa/actions/workflows/unity-build.yml)
 [![Unity](https://img.shields.io/badge/Unity-6000.3.6f1-blue?logo=unity)](https://unity.com/)
 [![Made with C#](https://img.shields.io/badge/Made%20with-C%23-239120?logo=c-sharp)](https://docs.microsoft.com/en-us/dotnet/csharp/)
-[![License](https://img.shields.io/badge/license-MIT-green)](#)
+[![License: Custom](https://img.shields.io/badge/license-Custom--Restricted-red)](LICENSE.txt)
 
 [Features](#-features) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [Contributing](#-contributing)
 
@@ -241,7 +241,7 @@ All dependencies are managed via Unity Package Manager (`Packages/manifest.json`
 
 ## 📜 License & Credits
 
-**ROPA** is an open-source project. Please add a `LICENSE` file to clarify usage terms.
+**Three Choices** is released under the [Custom Source-Available License](LICENSE).
 
 ### Acknowledgments
 
