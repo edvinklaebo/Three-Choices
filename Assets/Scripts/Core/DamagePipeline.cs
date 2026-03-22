@@ -45,6 +45,12 @@ namespace Core
                     if (artifact is IDamageModifier modifier && !_globalModifiers.Contains(modifier))
                         allModifiers.Add(modifier);
 
+            // Add unit-specific modifiers (from status effects, e.g. Weak reduces outgoing damage)
+            if (ctx.Source != null)
+                foreach (var effect in ctx.Source.StatusEffects)
+                    if (effect is IDamageModifier modifier && !_globalModifiers.Contains(modifier))
+                        allModifiers.Add(modifier);
+
             // Sort once by priority and apply
             allModifiers.Sort((a, b) => a.Priority.CompareTo(b.Priority));
 
