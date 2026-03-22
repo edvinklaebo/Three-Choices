@@ -7,9 +7,8 @@ using UnityEngine;
 namespace Core.Abilities
 {
     /// <summary>
-    ///     Shadow Bolt ability that triggers at turn start.
-    ///     Deals direct damage once, then applies the Weak status effect to the target.
-    ///     Weak reduces the target's outgoing damage for its duration.
+    ///     Shadow Bolt ability that fires once per cast.
+    ///     Deals direct damage and applies the <see cref="Weak"/> status effect to the target.
     ///
     ///     Static config lives in <see cref="ShadowBoltDefinition"/> (ScriptableObject).
     ///     This class owns all mutable runtime state: upgrade stacks, cooldown counter.
@@ -22,6 +21,8 @@ namespace Core.Abilities
         [SerializeField] private int _weakDuration;
         [SerializeField] private int _currentCooldown;
         [SerializeField] private int _cooldownRounds;
+
+        public const int DamagePerStack = 3;
 
         public int Priority => 30;
 
@@ -66,10 +67,10 @@ namespace Core.Abilities
 
 #if UNITY_EDITOR
         /// <summary>Creates a ShadowBolt for editor/test use without a full asset. Do not use in production code.</summary>
-        public static ShadowBolt EditorCreate(int baseDamage = 8, int weakStacks = 1, int weakDuration = 2)
+        public static ShadowBolt EditorCreate(int baseDamage = 8, int weakStacks = 2, int weakDuration = 2)
         {
             var definition = ScriptableObject.CreateInstance<ShadowBoltDefinition>();
-            definition.EditorInit("_editor", "_editor", baseDamage, 2, 0, weakStacks, weakDuration);
+            definition.EditorInit("_editor", "_editor", baseDamage, DamagePerStack, 0, weakStacks, weakDuration);
             return new ShadowBolt(definition);
         }
 #endif
