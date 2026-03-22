@@ -1,3 +1,4 @@
+using Core.StatusEffects;
 using Interfaces;
 using UnityEngine;
 
@@ -20,6 +21,16 @@ namespace Core.Artifacts
         [SerializeField] private ArtifactEffectType _effectType;
         [SerializeField] private ArtifactId _artifactId;
 
+        [Header("Status Effect Data (Optional)")]
+        [Tooltip("Balance data for Bleed-based artifacts (e.g. BloodRitual). Leave empty to use code defaults.")]
+        [SerializeField] private BleedDefinition _bleedDefinition;
+
+        [Tooltip("Balance data for Poison-based artifacts (e.g. PoisonAmplifier). Leave empty to use code defaults.")]
+        [SerializeField] private PoisonDefinition _poisonDefinition;
+
+        [Tooltip("Balance data for Burn-based artifacts (e.g. BlazingTorch). Leave empty to use code defaults.")]
+        [SerializeField] private BurnDefinition _burnDefinition;
+
         [Header("Meta-Progression")]
         [SerializeField] private bool _lockedByDefault = true;
 
@@ -34,6 +45,9 @@ namespace Core.Artifacts
         public ArtifactEffectType EffectType => _effectType;
         public ArtifactId ArtifactId => _artifactId;
         public bool LockedByDefault => _lockedByDefault;
+        public BleedDefinition BleedDefinition => _bleedDefinition;
+        public PoisonDefinition PoisonDefinition => _poisonDefinition;
+        public BurnDefinition BurnDefinition => _burnDefinition;
 
 #if UNITY_EDITOR
         public void EditorInit(string id, string displayName, string description,
@@ -58,6 +72,13 @@ namespace Core.Artifacts
             _tags = tags;
             _effectType = effectType;
             _lockedByDefault = lockedByDefault;
+        }
+
+        public void EditorInitStatusEffectData(BleedDefinition bleedDefinition = null, PoisonDefinition poisonDefinition = null, BurnDefinition burnDefinition = null)
+        {
+            _bleedDefinition = bleedDefinition;
+            _poisonDefinition = poisonDefinition;
+            _burnDefinition = burnDefinition;
         }
 #endif
     }

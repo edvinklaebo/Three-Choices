@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccb59456caae47b429d0994f066cfd5c, type: 3}
+  m_Script: {fileID: 11500000, guid: b2c3d4e5f6a102c3d4e5f6b2c3d4e5f6, type: 3}
   m_Name: status_poison
-  m_EditorClassIdentifier: Ropa::Core.StatusEffects.StatusEffectDefinition
+  m_EditorClassIdentifier: Ropa::Core.StatusEffects.PoisonDefinition
   _id: Poison
   _displayName: Poison
   _description: Deals toxic damage at end of turn.
   _icon: {fileID: 21300000, guid: a25eae792d35bc545ae1c6aab852eca5, type: 3}
   _color: {r: 0.32941985, g: 1, b: 0, a: 1}
+  _stacks: 2
+  _duration: 3
+  _baseDamage: 2

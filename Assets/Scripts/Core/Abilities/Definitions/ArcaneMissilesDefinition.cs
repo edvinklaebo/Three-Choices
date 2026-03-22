@@ -7,7 +7,7 @@ namespace Core.Abilities.Definitions
     /// <summary>
     ///     Single source of truth for the Arcane Missiles ability.
     ///     Holds both the balance config (damage, missile count, cooldown) and the upgrade-card
-    ///     behaviour (first-pickup creates the ability; subsequent pickups stack damage).
+    ///     behavior (first-pickup creates the ability; subsequent pickups stack damage).
     ///     Tweak all values in the Unity Editor without touching code.
     /// </summary>
     [CreateAssetMenu(menuName = "Abilities/Arcane Missiles")]

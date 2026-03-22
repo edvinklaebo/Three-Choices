@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccb59456caae47b429d0994f066cfd5c, type: 3}
+  m_Script: {fileID: 11500000, guid: c3d4e5f6a1b203d4e5f6c3d4e5f6a1b2, type: 3}
   m_Name: status_burn
-  m_EditorClassIdentifier: Ropa::Core.StatusEffects.StatusEffectDefinition
+  m_EditorClassIdentifier: Ropa::Core.StatusEffects.BurnDefinition
   _id: Burn
   _displayName: Burn
   _description: Deals fire damage at the end of turn.
   _icon: {fileID: 21300000, guid: 827cd4e177baf6645bc39967e1841bd6, type: 3}
   _color: {r: 1, g: 0.46986115, b: 0.051886797, a: 1}
+  _duration: 3
+  _baseDamage: 4

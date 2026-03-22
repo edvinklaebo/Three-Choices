@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Core;
 using Core.Abilities.Definitions;
 using Core.Artifacts;
+using Core.Passives.Definitions;
 
 using UI;
 using UI.Tooltip;
@@ -95,7 +96,7 @@ namespace Tests.EditModeTests
             {
                 new (ScriptableObject.CreateInstance<StatDefinition>()),
                 new (ScriptableObject.CreateInstance<FireballDefinition>()),
-                new (ScriptableObject.CreateInstance<PassiveDefinition>())
+                new (ScriptableObject.CreateInstance<ThornsDefinition>())
             };
 
             // Show without animation

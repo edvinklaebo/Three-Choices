@@ -30,6 +30,15 @@ namespace Core.Artifacts.Passives
             _bonusBaseDamage = bonusBaseDamage;
         }
 
+        /// <summary>Data-driven constructor: reads all config from a <see cref="PoisonDefinition"/> ScriptableObject.</summary>
+        public PoisonAmplifier(PoisonDefinition data)
+        {
+            UnityEngine.Debug.Assert(data != null, "PoisonAmplifier: data must not be null");
+            _bonusStacks = data.Stacks;
+            _bonusDuration = data.Duration;
+            _bonusBaseDamage = data.BaseDamage;
+        }
+
         public void OnAttach(Unit owner)
         {
             owner.OnHit += OnHit;
