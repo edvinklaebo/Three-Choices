@@ -241,7 +241,7 @@ All dependencies are managed via Unity Package Manager (`Packages/manifest.json`
 
 ## 📜 License & Credits
 
-**Three Choices** is released under the [MIT License](LICENSE). You are free to use, modify, and distribute this project in accordance with its terms.
+**Three Choices** is released under the [Custom Source-Available License](LICENSE). You are free to use, modify, and distribute this project in accordance with its terms.
 
 ### Acknowledgments
 
