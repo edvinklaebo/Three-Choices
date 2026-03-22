@@ -99,6 +99,7 @@ namespace UI.Combat
                 DamageType.Burn => new Color(1f, 0.5f, 0f),          // Orange
                 DamageType.Heal => new Color(0.2f, 1f, 0.2f),        // Green
                 DamageType.Arcane => new Color(0.3f, 0.8f, 1f),      // Blue
+                DamageType.Shadow => new Color(0.4f, 0f, 0.6f),       // Dark purple
                 _ => Color.white
                 };
         }
@@ -127,6 +128,7 @@ namespace UI.Combat
         Bleed,
         Burn,
         Heal,
-        Arcane
+        Arcane,
+        Shadow
     }
 }
