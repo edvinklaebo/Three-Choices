@@ -33,16 +33,24 @@ namespace Core.Artifacts
             IArtifact artifact = artifactDefinition.ArtifactId switch
             {
                 ArtifactId.BerserkerMask  => new BerserkerMask(),
-                ArtifactId.BlazingTorch   => new BlazingTorch(),
-                ArtifactId.BloodRitual    => new BloodRitual(),
+                ArtifactId.BlazingTorch   => artifactDefinition.BurnData != null
+                                                 ? new BlazingTorch(artifactDefinition.BurnData)
+                                                 : new BlazingTorch(),
+                ArtifactId.BloodRitual    => artifactDefinition.BleedData != null
+                                                 ? new BloodRitual(artifactDefinition.BleedData)
+                                                 : new BloodRitual(),
                 ArtifactId.CorruptedTome  => new CorruptedTome(),
                 ArtifactId.CrownOfEchoes  => new PhantomStrike(),
                 ArtifactId.HeartOfOak     => new HeartOfOak(),
                 ArtifactId.Hourglass      => new DeathShield(),
                 ArtifactId.IronHeart      => new IronHeart(),
                 ArtifactId.LuckyHorseshoe => new CritChance(0.1f),
-                ArtifactId.PoisonDarts    => new PoisonAmplifier(),
-                ArtifactId.PoisonedBlade  => new PoisonAmplifier(),
+                ArtifactId.PoisonDarts    => artifactDefinition.PoisonData != null
+                                                 ? new PoisonAmplifier(artifactDefinition.PoisonData)
+                                                 : new PoisonAmplifier(),
+                ArtifactId.PoisonedBlade  => artifactDefinition.PoisonData != null
+                                                 ? new PoisonAmplifier(artifactDefinition.PoisonData)
+                                                 : new PoisonAmplifier(),
                 ArtifactId.Quickboots     => new Quickboots(),
                 ArtifactId.SteelScales    => new SteelScales(),
                 ArtifactId.ThornArmor     => new ThornArmor(),

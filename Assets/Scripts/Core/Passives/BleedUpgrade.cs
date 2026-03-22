@@ -27,6 +27,15 @@ namespace Core.Passives
             this.baseDamage = baseDamage;
         }
 
+        /// <summary>Data-driven constructor: reads all config from a <see cref="BleedData"/> ScriptableObject.</summary>
+        public BleedUpgrade(Unit owner, BleedData data)
+        {
+            UnityEngine.Debug.Assert(data != null, "BleedUpgrade: data must not be null");
+            stacks = data.Stacks;
+            duration = data.Duration;
+            baseDamage = data.BaseDamage;
+        }
+
         public void OnAttach(Unit owner)
         {
             owner.OnHit += ApplyBleed;

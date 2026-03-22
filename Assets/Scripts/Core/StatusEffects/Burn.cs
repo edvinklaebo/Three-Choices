@@ -25,6 +25,15 @@ namespace Core.StatusEffects
             BaseDamage = baseDamage;
         }
 
+        /// <summary>Data-driven constructor: reads all config from a <see cref="BurnData"/> ScriptableObject.</summary>
+        public Burn(BurnData data)
+        {
+            UnityEngine.Debug.Assert(data != null, "Burn: data must not be null");
+            _baseDuration = data.Duration;
+            Duration = data.Duration;
+            BaseDamage = data.BaseDamage;
+        }
+
         public string Id => "Burn";
 
         // Burn does not have traditional stacks - it uses damage value instead. Stacks is always 1 for simplicity.

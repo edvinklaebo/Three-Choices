@@ -1,6 +1,7 @@
 ﻿using System;
 using Core;
 using Core.Passives;
+using Core.StatusEffects;
 using Interfaces;
 using UnityEngine;
 using Utils;
@@ -10,7 +11,14 @@ public class PassiveDefinition : UpgradeDefinition
 {
     [Header("Passive")] 
     [SerializeField] private PassiveId passiveId;
-    
+
+    [Header("Status Effect Data")]
+    [Tooltip("Balance data for the Bleed passive. Assign a BleedData asset to override the code defaults.")]
+    [SerializeField] private BleedData _bleedData;
+
+    [Tooltip("Balance data for the Poison passive. Assign a PoisonData asset to override the code defaults.")]
+    [SerializeField] private PoisonData _poisonData;
+
     public override void Apply(Unit unit)
     {
         switch (passiveId)
@@ -38,14 +46,22 @@ public class PassiveDefinition : UpgradeDefinition
 
             case PassiveId.Poison:
                 Log.Info("Passive Applied: Poison");
-                var poison = new PoisonUpgrade(unit);
+                if (_poisonData == null)
+                    Log.Warning($"PassiveDefinition '{displayName}': PoisonData not assigned — using code defaults.");
+                var poison = _poisonData != null
+                    ? new PoisonUpgrade(unit, _poisonData)
+                    : new PoisonUpgrade(unit);
                 poison.OnAttach(unit);
                 unit.Passives.Add(poison);
                 break;
 
             case PassiveId.Bleed:
                 Log.Info("Passive Applied: Bleed");
-                var bleed = new BleedUpgrade(unit);
+                if (_bleedData == null)
+                    Log.Warning($"PassiveDefinition '{displayName}': BleedData not assigned — using code defaults.");
+                var bleed = _bleedData != null
+                    ? new BleedUpgrade(unit, _bleedData)
+                    : new BleedUpgrade(unit);
                 bleed.OnAttach(unit);
                 unit.Passives.Add(bleed);
                 break;
@@ -74,6 +90,16 @@ public class PassiveDefinition : UpgradeDefinition
         id = identifier;
         displayName = soName;
         passiveId = passive;
+    }
+
+    public void EditorInit(string identifier, string soName, PassiveId passive,
+                           BleedData bleedData, PoisonData poisonData)
+    {
+        id = identifier;
+        displayName = soName;
+        passiveId = passive;
+        _bleedData = bleedData;
+        _poisonData = poisonData;
     }
 #endif
 }
