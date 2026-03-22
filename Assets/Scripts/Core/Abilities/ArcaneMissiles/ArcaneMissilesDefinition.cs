@@ -2,7 +2,7 @@ using Interfaces;
 using UnityEngine;
 using Utils;
 
-namespace Core.Abilities.Definitions
+namespace Core.Abilities
 {
     /// <summary>
     ///     Single source of truth for the Arcane Missiles ability.

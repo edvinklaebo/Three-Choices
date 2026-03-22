@@ -1,7 +1,6 @@
 using System;
 using Core;
 using Core.Abilities;
-using Core.Abilities.Definitions;
 using Core.Combat;
 using Core.Passives;
 using Core.Passives.Definitions;

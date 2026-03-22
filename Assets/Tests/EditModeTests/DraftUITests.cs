@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 using Core;
-using Core.Abilities.Definitions;
+using Core.Abilities;
 using Core.Artifacts;
 using Core.Passives.Definitions;
 

@@ -1,5 +1,4 @@
 using System;
-using Core.Abilities.Definitions;
 using Core.Combat;
 using Core.StatusEffects;
 using Interfaces;
