@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7cd7303c63eb944682c5fa177af0682, type: 3}
+  m_Name: ability_shadowbolt
+  m_EditorClassIdentifier: Ropa::Core.Abilities.ShadowBoltDefinition
+  id: 
+  displayName: 
+  description: 
+  icon: {fileID: 0}
+  rarityWeight: 100
+  _baseDamage: 3
+  _damagePerUpgrade: 1
+  _cooldownRounds: 0
+  _tags: []
+  _weakStacks: 2
+  _weakDuration: 2
