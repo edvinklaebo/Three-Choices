@@ -24,7 +24,7 @@ namespace Core.StatusEffects
         [UnityEngine.Min(1)] [UnityEngine.SerializeField] private int _maxStacks = 10;
 
         [UnityEngine.Tooltip("Number of stacks removed at the start of each turn. Set to 0 to disable decay.")]
-        [UnityEngine.Min(0)] [UnityEngine.SerializeField] private int _stackDecayPerTurn = 0;
+        [UnityEngine.Min(0)] [UnityEngine.SerializeField] private int _stackDecayPerTurn;
 
         [UnityEngine.Tooltip("When true, reapplying Weak refreshes the duration to the base value.")]
         [UnityEngine.SerializeField] private bool _refreshDurationOnReapply = true;
