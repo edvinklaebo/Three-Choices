@@ -30,8 +30,8 @@ namespace Core.Artifacts.Passives
             _bleedDamage = baseDamage;
         }
 
-        /// <summary>Data-driven constructor: reads all config from a <see cref="BleedData"/> ScriptableObject.</summary>
-        public BloodRitual(BleedData data)
+        /// <summary>Data-driven constructor: reads all config from a <see cref="BleedDefinition"/> ScriptableObject.</summary>
+        public BloodRitual(BleedDefinition data)
         {
             UnityEngine.Debug.Assert(data != null, "BloodRitual: data must not be null");
             _bleedStacks = data.Stacks;

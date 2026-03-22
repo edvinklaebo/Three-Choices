@@ -27,8 +27,8 @@ namespace Core.Artifacts.Passives
             _burnDamage = burnDamage;
         }
 
-        /// <summary>Data-driven constructor: reads all config from a <see cref="BurnData"/> ScriptableObject.</summary>
-        public BlazingTorch(BurnData data)
+        /// <summary>Data-driven constructor: reads all config from a <see cref="BurnDefinition"/> ScriptableObject.</summary>
+        public BlazingTorch(BurnDefinition data)
         {
             UnityEngine.Debug.Assert(data != null, "BlazingTorch: data must not be null");
             _burnDuration = data.Duration;

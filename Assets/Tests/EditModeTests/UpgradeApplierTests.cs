@@ -1,9 +1,9 @@
-using System;
-
 using Core;
 using Core.Abilities;
 using Core.Abilities.Definitions;
 using Core.Combat;
+using Core.Passives;
+using Core.Passives.Definitions;
 
 using NUnit.Framework;
 
@@ -195,14 +195,15 @@ namespace Tests.EditModeTests
         }
         
         [Test]
-        public void ApplyPassive_UnknownPassive_Throws()
+        public void ApplyPassive_Thorns_AddsThornsToUnit()
         {
-            var upgrade = ScriptableObject.CreateInstance<PassiveDefinition>();
+            var upgrade = ScriptableObject.CreateInstance<ThornsDefinition>();
+            upgrade.EditorInit("thorns", "Thorns");
 
-            upgrade.EditorInit("A", "A", (PassiveId)999);
+            UpgradeApplier.Apply(upgrade, _unit);
 
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
-                UpgradeApplier.Apply(upgrade, _unit));
+            Assert.AreEqual(1, _unit.Passives.Count, "ThornsDefinition should add one passive");
+            Assert.IsInstanceOf<Thorns>(_unit.Passives[0], "The passive added should be a Thorns instance");
         }
     }
 }

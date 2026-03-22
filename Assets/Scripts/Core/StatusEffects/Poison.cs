@@ -18,8 +18,8 @@ namespace Core.StatusEffects
             BaseDamage = baseDamage;
         }
 
-        /// <summary>Data-driven constructor: reads all config from a <see cref="PoisonData"/> ScriptableObject.</summary>
-        public Poison(PoisonData data)
+        /// <summary>Data-driven constructor: reads all config from a <see cref="PoisonDefinition"/> ScriptableObject.</summary>
+        public Poison(PoisonDefinition data)
         {
             UnityEngine.Debug.Assert(data != null, "Poison: data must not be null");
             Stacks = data.Stacks;

@@ -22,8 +22,8 @@ namespace Core.StatusEffects
             BaseDamage = baseDamage;
         }
 
-        /// <summary>Data-driven constructor: reads all config from a <see cref="BleedData"/> ScriptableObject.</summary>
-        public Bleed(BleedData data)
+        /// <summary>Data-driven constructor: reads all config from a <see cref="BleedDefinition"/> ScriptableObject.</summary>
+        public Bleed(BleedDefinition data)
         {
             UnityEngine.Debug.Assert(data != null, "Bleed: data must not be null");
             Stacks = data.Stacks;

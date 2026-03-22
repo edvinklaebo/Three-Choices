@@ -26,8 +26,8 @@ namespace Core.Passives
             _baseDamage = baseDamage;
         }
 
-        /// <summary>Data-driven constructor: reads all config from a <see cref="PoisonData"/> ScriptableObject.</summary>
-        public PoisonUpgrade(Unit owner, PoisonData data)
+        /// <summary>Data-driven constructor: reads all config from a <see cref="PoisonDefinition"/> ScriptableObject.</summary>
+        public PoisonUpgrade(Unit owner, PoisonDefinition data)
         {
             UnityEngine.Debug.Assert(data != null, "PoisonUpgrade: data must not be null");
             _stacks = data.Stacks;

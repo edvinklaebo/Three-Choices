@@ -23,13 +23,13 @@ namespace Core.Artifacts
 
         [Header("Status Effect Data (Optional)")]
         [Tooltip("Balance data for Bleed-based artifacts (e.g. BloodRitual). Leave empty to use code defaults.")]
-        [SerializeField] private BleedData _bleedData;
+        [SerializeField] private BleedDefinition _bleedDefinition;
 
         [Tooltip("Balance data for Poison-based artifacts (e.g. PoisonAmplifier). Leave empty to use code defaults.")]
-        [SerializeField] private PoisonData _poisonData;
+        [SerializeField] private PoisonDefinition _poisonDefinition;
 
         [Tooltip("Balance data for Burn-based artifacts (e.g. BlazingTorch). Leave empty to use code defaults.")]
-        [SerializeField] private BurnData _burnData;
+        [SerializeField] private BurnDefinition _burnDefinition;
 
         [Header("Meta-Progression")]
         [SerializeField] private bool _lockedByDefault = true;
@@ -45,9 +45,9 @@ namespace Core.Artifacts
         public ArtifactEffectType EffectType => _effectType;
         public ArtifactId ArtifactId => _artifactId;
         public bool LockedByDefault => _lockedByDefault;
-        public BleedData BleedData => _bleedData;
-        public PoisonData PoisonData => _poisonData;
-        public BurnData BurnData => _burnData;
+        public BleedDefinition BleedDefinition => _bleedDefinition;
+        public PoisonDefinition PoisonDefinition => _poisonDefinition;
+        public BurnDefinition BurnDefinition => _burnDefinition;
 
 #if UNITY_EDITOR
         public void EditorInit(string id, string displayName, string description,
@@ -74,11 +74,11 @@ namespace Core.Artifacts
             _lockedByDefault = lockedByDefault;
         }
 
-        public void EditorInitStatusEffectData(BleedData bleedData = null, PoisonData poisonData = null, BurnData burnData = null)
+        public void EditorInitStatusEffectData(BleedDefinition bleedDefinition = null, PoisonDefinition poisonDefinition = null, BurnDefinition burnDefinition = null)
         {
-            _bleedData = bleedData;
-            _poisonData = poisonData;
-            _burnData = burnData;
+            _bleedDefinition = bleedDefinition;
+            _poisonDefinition = poisonDefinition;
+            _burnDefinition = burnDefinition;
         }
 #endif
     }

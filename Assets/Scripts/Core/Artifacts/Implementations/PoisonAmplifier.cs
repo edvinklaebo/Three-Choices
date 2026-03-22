@@ -30,8 +30,8 @@ namespace Core.Artifacts.Passives
             _bonusBaseDamage = bonusBaseDamage;
         }
 
-        /// <summary>Data-driven constructor: reads all config from a <see cref="PoisonData"/> ScriptableObject.</summary>
-        public PoisonAmplifier(PoisonData data)
+        /// <summary>Data-driven constructor: reads all config from a <see cref="PoisonDefinition"/> ScriptableObject.</summary>
+        public PoisonAmplifier(PoisonDefinition data)
         {
             UnityEngine.Debug.Assert(data != null, "PoisonAmplifier: data must not be null");
             _bonusStacks = data.Stacks;

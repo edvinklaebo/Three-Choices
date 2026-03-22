@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37230211e59b4f1aa1d600ac925d6186, type: 3}
+  m_Script: {fileID: 11500000, guid: bb2233445566778899aabb22bb334455, type: 3}
   m_Name: passive_rage
-  m_EditorClassIdentifier: Ropa::PassiveDefinition
+  m_EditorClassIdentifier: Ropa::Core.Passives.Definitions.RageDefinition
   id: 4
   displayName: Rage
   description: Deal increased damage when low on life.
   icon: {fileID: 21300000, guid: bacbc37de937ce447bf14448dc133257, type: 3}
   rarityWeight: 100
-  passiveId: 4

@@ -25,8 +25,8 @@ namespace Core.StatusEffects
             BaseDamage = baseDamage;
         }
 
-        /// <summary>Data-driven constructor: reads all config from a <see cref="BurnData"/> ScriptableObject.</summary>
-        public Burn(BurnData data)
+        /// <summary>Data-driven constructor: reads all config from a <see cref="BurnDefinition"/> ScriptableObject.</summary>
+        public Burn(BurnDefinition data)
         {
             UnityEngine.Debug.Assert(data != null, "Burn: data must not be null");
             _baseDuration = data.Duration;

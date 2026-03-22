@@ -2,6 +2,7 @@ using Core;
 using Core.Artifacts;
 using Core.Artifacts.Passives;
 using Core.Passives;
+using Core.Passives.Definitions;
 using Core.StatusEffects;
 
 using NUnit.Framework;
@@ -12,7 +13,7 @@ namespace Tests.EditModeTests
 {
     /// <summary>
     ///     Tests for the data-driven status effect system:
-    ///     <see cref="BleedData"/>, <see cref="PoisonData"/>, <see cref="BurnData"/> ScriptableObjects
+    ///     <see cref="BleedDefinition"/>, <see cref="PoisonDefinition"/>, <see cref="BurnDefinition"/> ScriptableObjects
     ///     and the runtime instances seeded from them.
     ///     Verifies that all balance values come from the SO and that the SO is never mutated at runtime.
     /// </summary>
@@ -21,12 +22,12 @@ namespace Tests.EditModeTests
         private static Unit CreateUnit(string name, int hp, int armor = 0)
             => new Unit(name) { Stats = new Stats { MaxHP = hp, CurrentHP = hp, Armor = armor } };
 
-        // ---- BleedData ----
+        // ---- BleedDefinition ----
 
         [Test]
-        public void BleedData_Ctor_SeedsFieldsFromDefinition()
+        public void BleedDefinition_Ctor_SeedsFieldsFromDefinition()
         {
-            var data = ScriptableObject.CreateInstance<BleedData>();
+            var data = ScriptableObject.CreateInstance<BleedDefinition>();
             data.EditorInit(stacks: 5, duration: 4, baseDamage: 3);
 
             var bleed = new Bleed(data);
@@ -37,9 +38,9 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void BleedData_DoesNotMutateSOAtRuntime()
+        public void BleedDefinition_DoesNotMutateSOAtRuntime()
         {
-            var data = ScriptableObject.CreateInstance<BleedData>();
+            var data = ScriptableObject.CreateInstance<BleedDefinition>();
             data.EditorInit(stacks: 3, duration: 2, baseDamage: 1);
 
             var unit = CreateUnit("Target", 100);
@@ -49,17 +50,17 @@ namespace Tests.EditModeTests
             unit.TickStatusesTurnStart();
 
             // The SO should retain the original values despite ticks
-            Assert.AreEqual(3, data.Stacks, "BleedData.Stacks must not be mutated at runtime");
-            Assert.AreEqual(2, data.Duration, "BleedData.Duration must not be mutated at runtime");
-            Assert.AreEqual(1, data.BaseDamage, "BleedData.BaseDamage must not be mutated at runtime");
+            Assert.AreEqual(3, data.Stacks, "BleedDefinition.Stacks must not be mutated at runtime");
+            Assert.AreEqual(2, data.Duration, "BleedDefinition.Duration must not be mutated at runtime");
+            Assert.AreEqual(1, data.BaseDamage, "BleedDefinition.BaseDamage must not be mutated at runtime");
         }
 
-        // ---- PoisonData ----
+        // ---- PoisonDefinition ----
 
         [Test]
-        public void PoisonData_Ctor_SeedsFieldsFromDefinition()
+        public void PoisonDefinition_Ctor_SeedsFieldsFromDefinition()
         {
-            var data = ScriptableObject.CreateInstance<PoisonData>();
+            var data = ScriptableObject.CreateInstance<PoisonDefinition>();
             data.EditorInit(stacks: 4, duration: 6, baseDamage: 2);
 
             var poison = new Poison(data);
@@ -70,9 +71,9 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void PoisonData_DoesNotMutateSOAtRuntime()
+        public void PoisonDefinition_DoesNotMutateSOAtRuntime()
         {
-            var data = ScriptableObject.CreateInstance<PoisonData>();
+            var data = ScriptableObject.CreateInstance<PoisonDefinition>();
             data.EditorInit(stacks: 2, duration: 3, baseDamage: 1);
 
             var unit = CreateUnit("Target", 100);
@@ -81,17 +82,17 @@ namespace Tests.EditModeTests
             unit.TickStatusesTurnStart();
             unit.TickStatusesTurnStart();
 
-            Assert.AreEqual(2, data.Stacks, "PoisonData.Stacks must not be mutated at runtime");
-            Assert.AreEqual(3, data.Duration, "PoisonData.Duration must not be mutated at runtime");
-            Assert.AreEqual(1, data.BaseDamage, "PoisonData.BaseDamage must not be mutated at runtime");
+            Assert.AreEqual(2, data.Stacks, "PoisonDefinition.Stacks must not be mutated at runtime");
+            Assert.AreEqual(3, data.Duration, "PoisonDefinition.Duration must not be mutated at runtime");
+            Assert.AreEqual(1, data.BaseDamage, "PoisonDefinition.BaseDamage must not be mutated at runtime");
         }
 
-        // ---- BurnData ----
+        // ---- BurnDefinition ----
 
         [Test]
-        public void BurnData_Ctor_SeedsFieldsFromDefinition()
+        public void BurnDefinition_Ctor_SeedsFieldsFromDefinition()
         {
-            var data = ScriptableObject.CreateInstance<BurnData>();
+            var data = ScriptableObject.CreateInstance<BurnDefinition>();
             data.EditorInit(duration: 5, baseDamage: 8);
 
             var burn = new Burn(data);
@@ -101,9 +102,9 @@ namespace Tests.EditModeTests
         }
 
         [Test]
-        public void BurnData_DoesNotMutateSOAtRuntime()
+        public void BurnDefinition_DoesNotMutateSOAtRuntime()
         {
-            var data = ScriptableObject.CreateInstance<BurnData>();
+            var data = ScriptableObject.CreateInstance<BurnDefinition>();
             data.EditorInit(duration: 3, baseDamage: 6);
 
             var unit = CreateUnit("Target", 100);
@@ -112,14 +113,14 @@ namespace Tests.EditModeTests
             unit.TickStatusesTurnStart();
             unit.TickStatusesTurnStart();
 
-            Assert.AreEqual(3, data.Duration, "BurnData.Duration must not be mutated at runtime");
-            Assert.AreEqual(6, data.BaseDamage, "BurnData.BaseDamage must not be mutated at runtime");
+            Assert.AreEqual(3, data.Duration, "BurnDefinition.Duration must not be mutated at runtime");
+            Assert.AreEqual(6, data.BaseDamage, "BurnDefinition.BaseDamage must not be mutated at runtime");
         }
 
         [Test]
-        public void BurnData_RefreshesDuration_OnReapply()
+        public void BurnDefinition_RefreshesDuration_OnReapply()
         {
-            var data = ScriptableObject.CreateInstance<BurnData>();
+            var data = ScriptableObject.CreateInstance<BurnDefinition>();
             data.EditorInit(duration: 4, baseDamage: 5);
 
             var unit = CreateUnit("Target", 100);
@@ -132,12 +133,12 @@ namespace Tests.EditModeTests
             Assert.AreEqual(4, burn.Duration, "Duration should reset to data.Duration on re-apply");
         }
 
-        // ---- BleedUpgrade with BleedData ----
+        // ---- BleedUpgrade with BleedDefinition ----
 
         [Test]
         public void BleedUpgrade_DataCtor_AppliesCorrectStacksOnHit()
         {
-            var data = ScriptableObject.CreateInstance<BleedData>();
+            var data = ScriptableObject.CreateInstance<BleedDefinition>();
             data.EditorInit(stacks: 3, duration: 4, baseDamage: 1);
 
             var attacker = CreateUnit("Attacker", 100);
@@ -151,14 +152,14 @@ namespace Tests.EditModeTests
             Assert.AreEqual(1, defender.StatusEffects.Count);
             var bleed = defender.StatusEffects[0];
             Assert.AreEqual("Bleed", bleed.Id);
-            Assert.AreEqual(3, bleed.Stacks, "Stacks should match BleedData");
-            Assert.AreEqual(4, bleed.Duration, "Duration should match BleedData");
+            Assert.AreEqual(3, bleed.Stacks, "Stacks should match BleedDefinition");
+            Assert.AreEqual(4, bleed.Duration, "Duration should match BleedDefinition");
         }
 
         [Test]
-        public void BleedData_DoesNotMutate_WhenBleedUpgradeApplies()
+        public void BleedDefinition_DoesNotMutate_WhenBleedUpgradeApplies()
         {
-            var data = ScriptableObject.CreateInstance<BleedData>();
+            var data = ScriptableObject.CreateInstance<BleedDefinition>();
             data.EditorInit(stacks: 2, duration: 3, baseDamage: 2);
 
             var attacker = CreateUnit("Attacker", 100);
@@ -170,15 +171,15 @@ namespace Tests.EditModeTests
             defender.ApplyDamage(attacker, 10);
             defender.ApplyDamage(attacker, 10);
 
-            Assert.AreEqual(2, data.Stacks, "BleedData.Stacks must not change after multiple hits");
+            Assert.AreEqual(2, data.Stacks, "BleedDefinition.Stacks must not change after multiple hits");
         }
 
-        // ---- PoisonUpgrade with PoisonData ----
+        // ---- PoisonUpgrade with PoisonDefinition ----
 
         [Test]
         public void PoisonUpgrade_DataCtor_AppliesCorrectStacksOnHit()
         {
-            var data = ScriptableObject.CreateInstance<PoisonData>();
+            var data = ScriptableObject.CreateInstance<PoisonDefinition>();
             data.EditorInit(stacks: 5, duration: 6, baseDamage: 3);
 
             var attacker = CreateUnit("Attacker", 100);
@@ -192,15 +193,15 @@ namespace Tests.EditModeTests
             Assert.AreEqual(1, defender.StatusEffects.Count);
             var poison = defender.StatusEffects[0];
             Assert.AreEqual("Poison", poison.Id);
-            Assert.AreEqual(5, poison.Stacks, "Stacks should match PoisonData");
-            Assert.AreEqual(6, poison.Duration, "Duration should match PoisonData");
-            Assert.AreEqual(3, poison.BaseDamage, "BaseDamage should match PoisonData");
+            Assert.AreEqual(5, poison.Stacks, "Stacks should match PoisonDefinition");
+            Assert.AreEqual(6, poison.Duration, "Duration should match PoisonDefinition");
+            Assert.AreEqual(3, poison.BaseDamage, "BaseDamage should match PoisonDefinition");
         }
 
         [Test]
-        public void PoisonData_DoesNotMutate_WhenPoisonUpgradeApplies()
+        public void PoisonDefinition_DoesNotMutate_WhenPoisonUpgradeApplies()
         {
-            var data = ScriptableObject.CreateInstance<PoisonData>();
+            var data = ScriptableObject.CreateInstance<PoisonDefinition>();
             data.EditorInit(stacks: 2, duration: 3, baseDamage: 2);
 
             var attacker = CreateUnit("Attacker", 100);
@@ -212,15 +213,15 @@ namespace Tests.EditModeTests
             defender.ApplyDamage(attacker, 10);
             defender.ApplyDamage(attacker, 10);
 
-            Assert.AreEqual(2, data.Stacks, "PoisonData.Stacks must not change after multiple hits");
+            Assert.AreEqual(2, data.Stacks, "PoisonDefinition.Stacks must not change after multiple hits");
         }
 
-        // ---- BlazingTorch with BurnData ----
+        // ---- BlazingTorch with BurnDefinition ----
 
         [Test]
         public void BlazingTorch_DataCtor_AppliesCorrectBurnOnHit()
         {
-            var data = ScriptableObject.CreateInstance<BurnData>();
+            var data = ScriptableObject.CreateInstance<BurnDefinition>();
             data.EditorInit(duration: 2, baseDamage: 7);
 
             var attacker = CreateUnit("Attacker", 100);
@@ -234,16 +235,16 @@ namespace Tests.EditModeTests
             Assert.AreEqual(1, defender.StatusEffects.Count);
             var burn = defender.StatusEffects[0] as Burn;
             Assert.IsNotNull(burn);
-            Assert.AreEqual(7, burn.BaseDamage, "BaseDamage should match BurnData");
-            Assert.AreEqual(2, burn.Duration, "Duration should match BurnData");
+            Assert.AreEqual(7, burn.BaseDamage, "BaseDamage should match BurnDefinition");
+            Assert.AreEqual(2, burn.Duration, "Duration should match BurnDefinition");
         }
 
-        // ---- BloodRitual with BleedData ----
+        // ---- BloodRitual with BleedDefinition ----
 
         [Test]
         public void BloodRitual_DataCtor_AppliesCorrectBleedOnHit()
         {
-            var data = ScriptableObject.CreateInstance<BleedData>();
+            var data = ScriptableObject.CreateInstance<BleedDefinition>();
             data.EditorInit(stacks: 4, duration: 5, baseDamage: 2);
 
             var attacker = CreateUnit("Attacker", 100);
@@ -257,19 +258,19 @@ namespace Tests.EditModeTests
             Assert.AreEqual(1, defender.StatusEffects.Count);
             var bleed = defender.StatusEffects[0];
             Assert.AreEqual("Bleed", bleed.Id);
-            Assert.AreEqual(4, bleed.Stacks, "Stacks should match BleedData");
-            Assert.AreEqual(5, bleed.Duration, "Duration should match BleedData");
+            Assert.AreEqual(4, bleed.Stacks, "Stacks should match BleedDefinition");
+            Assert.AreEqual(5, bleed.Duration, "Duration should match BleedDefinition");
         }
 
-        // ---- PoisonAmplifier with PoisonData ----
+        // ---- PoisonAmplifier with PoisonDefinition ----
 
         [Test]
         public void PoisonAmplifier_DataCtor_AppliesCorrectBonusStacks()
         {
-            var poisonData = ScriptableObject.CreateInstance<PoisonData>();
+            var poisonData = ScriptableObject.CreateInstance<PoisonDefinition>();
             poisonData.EditorInit(stacks: 2, duration: 3, baseDamage: 2);
 
-            var amplifierData = ScriptableObject.CreateInstance<PoisonData>();
+            var amplifierData = ScriptableObject.CreateInstance<PoisonDefinition>();
             amplifierData.EditorInit(stacks: 3, duration: 3, baseDamage: 2);
 
             var attacker = CreateUnit("Attacker", 100);
@@ -291,16 +292,16 @@ namespace Tests.EditModeTests
             Assert.AreEqual(5, poison.Stacks, "Stacks should be PoisonUpgrade stacks + amplifier bonus stacks");
         }
 
-        // ---- PassiveDefinition with data SOs ----
+        // ---- PassiveDefinition concrete classes with data SOs ----
 
         [Test]
-        public void PassiveDefinition_BleedPassive_UsesBleedData_WhenSet()
+        public void BleedPassiveDefinition_UsesBleedDefinition_WhenSet()
         {
-            var data = ScriptableObject.CreateInstance<BleedData>();
+            var data = ScriptableObject.CreateInstance<BleedDefinition>();
             data.EditorInit(stacks: 7, duration: 5, baseDamage: 3);
 
-            var definition = ScriptableObject.CreateInstance<PassiveDefinition>();
-            definition.EditorInit("bleed", "Bleed Upgrade", PassiveId.Bleed, bleedData: data, poisonData: null);
+            var definition = ScriptableObject.CreateInstance<BleedPassiveDefinition>();
+            definition.EditorInit("bleed", "Bleed Upgrade", bleedDefinition: data);
 
             var unit = CreateUnit("Hero", 100);
             definition.Apply(unit);
@@ -311,18 +312,18 @@ namespace Tests.EditModeTests
 
             Assert.AreEqual(1, defender.StatusEffects.Count);
             var bleed = defender.StatusEffects[0];
-            Assert.AreEqual(7, bleed.Stacks, "Bleed stacks should come from BleedData asset");
-            Assert.AreEqual(5, bleed.Duration, "Bleed duration should come from BleedData asset");
+            Assert.AreEqual(7, bleed.Stacks, "Bleed stacks should come from BleedDefinition asset");
+            Assert.AreEqual(5, bleed.Duration, "Bleed duration should come from BleedDefinition asset");
         }
 
         [Test]
-        public void PassiveDefinition_PoisonPassive_UsesPoisonData_WhenSet()
+        public void PoisonPassiveDefinition_UsesPoisonDefinition_WhenSet()
         {
-            var data = ScriptableObject.CreateInstance<PoisonData>();
+            var data = ScriptableObject.CreateInstance<PoisonDefinition>();
             data.EditorInit(stacks: 6, duration: 4, baseDamage: 2);
 
-            var definition = ScriptableObject.CreateInstance<PassiveDefinition>();
-            definition.EditorInit("poison", "Poison Upgrade", PassiveId.Poison, bleedData: null, poisonData: data);
+            var definition = ScriptableObject.CreateInstance<PoisonPassiveDefinition>();
+            definition.EditorInit("poison", "Poison Upgrade", poisonDefinition: data);
 
             var unit = CreateUnit("Hero", 100);
             definition.Apply(unit);
@@ -332,22 +333,22 @@ namespace Tests.EditModeTests
 
             Assert.AreEqual(1, defender.StatusEffects.Count);
             var poison = defender.StatusEffects[0];
-            Assert.AreEqual(6, poison.Stacks, "Poison stacks should come from PoisonData asset");
-            Assert.AreEqual(4, poison.Duration, "Poison duration should come from PoisonData asset");
+            Assert.AreEqual(6, poison.Stacks, "Poison stacks should come from PoisonDefinition asset");
+            Assert.AreEqual(4, poison.Duration, "Poison duration should come from PoisonDefinition asset");
         }
 
         // ---- ArtifactDefinition with data SOs ----
 
         [Test]
-        public void ArtifactDefinition_BlazingTorch_UsesBurnData_WhenSet()
+        public void ArtifactDefinition_BlazingTorch_UsesBurnDefinition_WhenSet()
         {
-            var burnData = ScriptableObject.CreateInstance<BurnData>();
+            var burnData = ScriptableObject.CreateInstance<BurnDefinition>();
             burnData.EditorInit(duration: 2, baseDamage: 9);
 
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
             artifact.EditorInit(ArtifactId.BlazingTorch, "Blazing Torch", "desc",
                                 Rarity.Common, ArtifactTag.None, ArtifactEffectType.AddArtifact, false);
-            artifact.EditorInitStatusEffectData(burnData: burnData);
+            artifact.EditorInitStatusEffectData(burnDefinition: burnData);
 
             var unit = CreateUnit("Hero", 100);
             ArtifactApplier.ApplyToPlayer(artifact, unit);
@@ -358,20 +359,20 @@ namespace Tests.EditModeTests
             Assert.AreEqual(1, target.StatusEffects.Count);
             var burn = target.StatusEffects[0] as Burn;
             Assert.IsNotNull(burn);
-            Assert.AreEqual(9, burn.BaseDamage, "Burn damage should come from BurnData asset");
-            Assert.AreEqual(2, burn.Duration, "Burn duration should come from BurnData asset");
+            Assert.AreEqual(9, burn.BaseDamage, "Burn damage should come from BurnDefinition asset");
+            Assert.AreEqual(2, burn.Duration, "Burn duration should come from BurnDefinition asset");
         }
 
         [Test]
-        public void ArtifactDefinition_BloodRitual_UsesBleedData_WhenSet()
+        public void ArtifactDefinition_BloodRitual_UsesBleedDefinition_WhenSet()
         {
-            var bleedData = ScriptableObject.CreateInstance<BleedData>();
+            var bleedData = ScriptableObject.CreateInstance<BleedDefinition>();
             bleedData.EditorInit(stacks: 5, duration: 3, baseDamage: 2);
 
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
             artifact.EditorInit(ArtifactId.BloodRitual, "Blood Ritual", "desc",
                                 Rarity.Common, ArtifactTag.None, ArtifactEffectType.AddArtifact, false);
-            artifact.EditorInitStatusEffectData(bleedData: bleedData);
+            artifact.EditorInitStatusEffectData(bleedDefinition: bleedData);
 
             var unit = CreateUnit("Hero", 100);
             ArtifactApplier.ApplyToPlayer(artifact, unit);
@@ -382,16 +383,16 @@ namespace Tests.EditModeTests
             Assert.AreEqual(1, target.StatusEffects.Count);
             var bleed = target.StatusEffects[0];
             Assert.AreEqual("Bleed", bleed.Id);
-            Assert.AreEqual(5, bleed.Stacks, "Bleed stacks should come from BleedData asset");
+            Assert.AreEqual(5, bleed.Stacks, "Bleed stacks should come from BleedDefinition asset");
         }
 
         [Test]
-        public void ArtifactDefinition_PoisonDarts_UsesPoisonData_WhenSet()
+        public void ArtifactDefinition_PoisonDarts_UsesPoisonDefinition_WhenSet()
         {
-            var poisonData = ScriptableObject.CreateInstance<PoisonData>();
+            var poisonData = ScriptableObject.CreateInstance<PoisonDefinition>();
             poisonData.EditorInit(stacks: 2, duration: 3, baseDamage: 2);
 
-            var amplifierData = ScriptableObject.CreateInstance<PoisonData>();
+            var amplifierData = ScriptableObject.CreateInstance<PoisonDefinition>();
             amplifierData.EditorInit(stacks: 4, duration: 3, baseDamage: 2);
 
             var attacker = CreateUnit("Hero", 100);
@@ -404,7 +405,7 @@ namespace Tests.EditModeTests
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
             artifact.EditorInit(ArtifactId.PoisonDarts, "Poison Darts", "desc",
                                 Rarity.Common, ArtifactTag.None, ArtifactEffectType.AddArtifact, false);
-            artifact.EditorInitStatusEffectData(poisonData: amplifierData);
+            artifact.EditorInitStatusEffectData(poisonDefinition: amplifierData);
 
             ArtifactApplier.ApplyToPlayer(artifact, attacker);
 
@@ -414,18 +415,18 @@ namespace Tests.EditModeTests
             // PoisonUpgrade: 2 stacks; PoisonAmplifier: 4 bonus stacks → total 6
             var poison = target.StatusEffects[0] as Poison;
             Assert.IsNotNull(poison);
-            Assert.AreEqual(6, poison.Stacks, "Stacks should be upgrade + amplifier from PoisonData asset");
+            Assert.AreEqual(6, poison.Stacks, "Stacks should be upgrade + amplifier from PoisonDefinition asset");
         }
 
         // ---- Backward-compat: fallback to code defaults when no data SO is set ----
 
         [Test]
-        public void ArtifactDefinition_BlazingTorch_FallsBackToDefaults_WhenNoBurnData()
+        public void ArtifactDefinition_BlazingTorch_FallsBackToDefaults_WhenNoBurnDefinition()
         {
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
             artifact.EditorInit(ArtifactId.BlazingTorch, "Blazing Torch", "desc",
                                 Rarity.Common, ArtifactTag.None, ArtifactEffectType.AddArtifact, false);
-            // No EditorInitStatusEffectData call → BurnData remains null
+            // No EditorInitStatusEffectData call → BurnDefinition remains null
 
             var unit = CreateUnit("Hero", 100);
             ArtifactApplier.ApplyToPlayer(artifact, unit);
