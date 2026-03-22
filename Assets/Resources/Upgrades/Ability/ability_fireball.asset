@@ -20,7 +20,11 @@ MonoBehaviour:
   _baseDamage: 4
   _damagePerUpgrade: 2
   _cooldownRounds: 0
-  _tags: []
+  _tags:
+  - Fire
+  - Projetile
+  - Spell
+  - Burn
   _burnDuration: 3
   _burnDamagePercent: 0.5
   _projectileSprite: {fileID: 21300000, guid: 827cd4e177baf6645bc39967e1841bd6, type: 3}

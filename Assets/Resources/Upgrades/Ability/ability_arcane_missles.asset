@@ -16,10 +16,13 @@ MonoBehaviour:
   displayName: Arcane Missiles
   description: Fire 3 missiles at the enemy.
   icon: {fileID: 21300000, guid: 80db9b12908058840881888d2346ea66, type: 3}
-  rarityWeight: 100
+  rarityWeight: 50
   _baseDamage: 2
   _damagePerUpgrade: 1
   _cooldownRounds: 0
-  _tags: []
+  _tags:
+  - Arcane
+  - Projectile
+  - Spell
   _missileCount: 3
   _projectileSprite: {fileID: 21300000, guid: 80db9b12908058840881888d2346ea66, type: 3}
