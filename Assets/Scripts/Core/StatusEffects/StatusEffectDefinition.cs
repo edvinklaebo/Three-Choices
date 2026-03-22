@@ -31,7 +31,7 @@ namespace Core.StatusEffects
         private void OnValidate()
         {
             if (string.IsNullOrWhiteSpace(_id))
-                UnityEngine.Debug.LogWarning($"StatusEffectDefinition '{name}': Id must not be empty.", this);
+                Debug.LogWarning($"StatusEffectDefinition '{name}': Id must not be empty.", this);
         }
 
         public void EditorInit(string id, string displayName, string description, Color color, Sprite icon = null)

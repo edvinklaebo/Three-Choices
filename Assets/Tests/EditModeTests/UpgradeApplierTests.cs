@@ -1,3 +1,4 @@
+using System;
 using Core;
 using Core.Abilities;
 using Core.Abilities.Definitions;
@@ -10,7 +11,6 @@ using NUnit.Framework;
 using Systems;
 
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests.EditModeTests
 {
