@@ -9,16 +9,19 @@ namespace Core.Abilities
     /// <summary>
     ///     Shadow Bolt ability that fires once per cast.
     ///     Deals direct damage and applies the <see cref="Weak"/> status effect to the target.
+    ///     Implements <see cref="IActionCreator"/> to produce a <see cref="ShadowBoltAction"/>
+    ///     (projectile animation) instead of the default lunge-based DamageAction.
     ///
     ///     Static config lives in <see cref="ShadowBoltDefinition"/> (ScriptableObject).
     ///     This class owns all mutable runtime state: upgrade stacks, cooldown counter.
     /// </summary>
     [Serializable]
-    public class ShadowBolt : IAbility
+    public class ShadowBolt : IAbility, IActionCreator
     {
         [SerializeField] private int _baseDamage;
         [SerializeField] private int _weakStacks;
         [SerializeField] private int _weakDuration;
+        [SerializeField] private Sprite _projectileSprite;
         [SerializeField] private int _currentCooldown;
         [SerializeField] private int _cooldownRounds;
 
@@ -33,6 +36,7 @@ namespace Core.Abilities
             _baseDamage = definition.BaseDamage;
             _weakStacks = definition.WeakStacks;
             _weakDuration = definition.WeakDuration;
+            _projectileSprite = definition.ProjectileSprite;
             _cooldownRounds = definition.CooldownRounds;
         }
 
@@ -55,7 +59,8 @@ namespace Core.Abilities
                 return;
 
             context.DealDamage(self, target, _baseDamage,
-                               _ => new Weak(_weakStacks, _weakDuration));
+                               _ => new Weak(_weakStacks, _weakDuration),
+                               actionCreator: this);
 
             _currentCooldown = _cooldownRounds;
         }
@@ -64,6 +69,9 @@ namespace Core.Abilities
         {
             AddDamage(value);
         }
+
+        public ICombatAction CreateAction(Unit source, Unit target, int finalDamage, int hpBefore, int hpAfter, int maxHP)
+            => new ShadowBoltAction(source, target, finalDamage, hpBefore, hpAfter, maxHP, _projectileSprite);
 
 #if UNITY_EDITOR
         /// <summary>Creates a ShadowBolt for editor/test use without a full asset. Do not use in production code.</summary>

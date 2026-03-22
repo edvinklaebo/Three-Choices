@@ -190,5 +190,27 @@ namespace Tests.EditModeTests
             Assert.Less(shadowBolt.Priority, arcaneMissiles.Priority,
                 "Shadow Bolt (30) should have lower priority than Arcane Missiles (40)");
         }
+
+        [Test]
+        public void ShadowBolt_ProducesShadowBoltAction_NotDamageAction()
+        {
+            var caster = CreateUnit("Caster", 100, 0, 0, 5);
+            var target = CreateUnit("Target", 100, 0, 0, 5);
+
+            var shadowBolt = ShadowBolt.EditorCreate();
+            var context = new CombatContext();
+            shadowBolt.OnCast(caster, target, context);
+
+            var shadowBoltActions = 0;
+            var damageActions = 0;
+            foreach (var action in context.Actions)
+            {
+                if (action is ShadowBoltAction) shadowBoltActions++;
+                else if (action is DamageAction) damageActions++;
+            }
+
+            Assert.AreEqual(1, shadowBoltActions, "Shadow Bolt should produce exactly one ShadowBoltAction");
+            Assert.AreEqual(0, damageActions, "Shadow Bolt should not produce a plain DamageAction");
+        }
     }
 }

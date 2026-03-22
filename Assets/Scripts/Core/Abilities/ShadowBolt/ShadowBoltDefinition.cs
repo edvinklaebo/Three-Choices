@@ -18,9 +18,12 @@ namespace Core.Abilities
         [Min(1)] [SerializeField] private int _weakStacks = 2;
         [Tooltip("Duration (in turns) of the Weak status effect applied to the target on hit.")]
         [Min(1)] [SerializeField] private int _weakDuration = 2;
+        [Tooltip("Sprite used for the projectile animation.")]
+        [SerializeField] private Sprite _projectileSprite;
 
         public int WeakStacks => _weakStacks;
         public int WeakDuration => _weakDuration;
+        public Sprite ProjectileSprite => _projectileSprite;
 
         public override IAbility CreateRuntimeAbility() => new ShadowBolt(this);
 
