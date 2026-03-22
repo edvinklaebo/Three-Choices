@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd7714da5fa4435aae305fd536bbbb7, type: 3}
+  m_Name: status_weak
+  m_EditorClassIdentifier: Ropa::Core.StatusEffects.WeakDefinition
+  _id: Weak
+  _displayName: Weak
+  _description: Reduce damage done by 1 per stack.
+  _icon: {fileID: 21300000, guid: e463834606b779e4b9405a89ea34e181, type: 3}
+  _color: {r: 0.33962262, g: 0.33370474, b: 0.33161265, a: 1}
+  _stacks: 1
+  _duration: 2
+  _damageReductionPerStack: 1
+  _maxStacks: 100
+  _stackDecayPerTurn: 0
+  _refreshDurationOnReapply: 1

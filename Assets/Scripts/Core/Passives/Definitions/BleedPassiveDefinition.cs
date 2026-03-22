@@ -1,4 +1,3 @@
-using Core.Passives;
 using Core.StatusEffects;
 using Interfaces;
 using UnityEngine;
