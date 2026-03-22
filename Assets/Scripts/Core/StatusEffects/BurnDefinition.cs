@@ -18,7 +18,6 @@ namespace Core.StatusEffects
 
         [UnityEngine.Tooltip("Flat damage dealt each turn.")]
         [UnityEngine.Min(1)] [UnityEngine.SerializeField] private int _baseDamage = 4;
-        // Defaults above match the original hardcoded values from BlazingTorch (burnDuration=3, burnDamage=4).
 
         public int Duration => _duration;
         public int BaseDamage => _baseDamage;

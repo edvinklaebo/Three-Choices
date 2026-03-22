@@ -19,8 +19,6 @@ namespace Core.StatusEffects
 
         [UnityEngine.Tooltip("Base damage applied per stack each turn.")]
         [UnityEngine.Min(0)] [UnityEngine.SerializeField] private int _baseDamage = 2;
-        // Defaults above match the original hardcoded values from PoisonUpgrade (stacks=2, duration=3, baseDamage=2)
-        // and PoisonAmplifier (bonusStacks=2, bonusDuration=3, bonusBaseDamage=2).
 
         public int Stacks => _stacks;
         public int Duration => _duration;

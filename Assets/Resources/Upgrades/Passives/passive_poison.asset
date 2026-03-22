@@ -17,4 +17,4 @@ MonoBehaviour:
   description: Deals damage over time, stacking.
   icon: {fileID: 21300000, guid: a25eae792d35bc545ae1c6aab852eca5, type: 3}
   rarityWeight: 100
-  _poisonDefinition: {fileID: 0}
+  _poisonDefinition: {fileID: 11400000, guid: 3662a7b7c88fb8d4481a6cb550cb1d2a, type: 2}
