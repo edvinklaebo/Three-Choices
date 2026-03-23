@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7cd7303c63eb944682c5fa177af0682, type: 3}
   m_Name: ability_shadowbolt
   m_EditorClassIdentifier: Ropa::Core.Abilities.ShadowBoltDefinition
-  id: 
-  displayName: 
-  description: 
-  icon: {fileID: 0}
+  id: 2
+  displayName: Shadow Bolt
+  description: "\t"
+  icon: {fileID: 21300000, guid: 3fe0af9740674754bb86b63daa08a1bb, type: 3}
   rarityWeight: 100
   _baseDamage: 3
   _damagePerUpgrade: 1
@@ -23,3 +23,4 @@ MonoBehaviour:
   _tags: []
   _weakStacks: 2
   _weakDuration: 2
+  _projectileSprite: {fileID: 21300000, guid: 3fe0af9740674754bb86b63daa08a1bb, type: 3}
