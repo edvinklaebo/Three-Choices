@@ -24,6 +24,7 @@ namespace Core.StatusEffects
         [SerializeField] private int _stackDecayPerTurn;
         [SerializeField] private bool _refreshDurationOnReapply;
         [SerializeField] private int _baseDuration;
+        [NonSerialized] private Unit _owner;
 
         public Vulnerable(int stacks, int duration, int damageIncreasePerStack = 1,
             int maxStacks = 10, int stackDecayPerTurn = 0, bool refreshDurationOnReapply = true)
@@ -70,6 +71,8 @@ namespace Core.StatusEffects
 
         public void OnApply(Unit target)
         {
+            Debug.Assert(target != null, "Vulnerable: OnApply target must not be null");
+            _owner = target;
             Log.Info("Vulnerable applied", new
             {
                 target = target.Name,
@@ -126,9 +129,13 @@ namespace Core.StatusEffects
 
         /// <summary>
         ///     Increases incoming damage to the target by <c>Stacks * DamageIncreasePerStack</c>.
+        ///     Only fires when the vulnerable unit is the target (receiver) of the damage context.
         /// </summary>
         public void Modify(DamageContext context)
         {
+            if (_owner == null || context.Target != _owner)
+                return;
+
             var increase = _stacks * _damageIncreasePerStack;
             context.FinalValue += increase;
 

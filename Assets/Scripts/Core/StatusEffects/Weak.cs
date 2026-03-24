@@ -24,6 +24,7 @@ namespace Core.StatusEffects
         [SerializeField] private int _stackDecayPerTurn;
         [SerializeField] private bool _refreshDurationOnReapply;
         [SerializeField] private int _baseDuration;
+        [NonSerialized] private Unit _owner;
 
         public Weak(int stacks, int duration, int damageReductionPerStack = 1,
             int maxStacks = 10, int stackDecayPerTurn = 0, bool refreshDurationOnReapply = true)
@@ -70,6 +71,8 @@ namespace Core.StatusEffects
 
         public void OnApply(Unit target)
         {
+            Debug.Assert(target != null, "Weak: OnApply target must not be null");
+            _owner = target;
             Log.Info("Weak applied", new
             {
                 target = target.Name,
@@ -127,9 +130,13 @@ namespace Core.StatusEffects
         /// <summary>
         ///     Reduces the source unit's outgoing damage by <c>Stacks * DamageReductionPerStack</c>.
         ///     Final damage is clamped to a minimum of zero.
+        ///     Only fires when the weakened unit is the source (attacker) of the damage context.
         /// </summary>
         public void Modify(DamageContext context)
         {
+            if (_owner == null || context.Source != _owner)
+                return;
+
             var reduction = _stacks * _damageReductionPerStack;
             context.FinalValue = Math.Max(0, context.FinalValue - reduction);
 

@@ -73,6 +73,22 @@ namespace Tests.EditModeTests
         }
 
         [Test]
+        public void Vulnerable_OnAttacker_StillIncreasesIncomingDamageWhenAttackerIsHit()
+        {
+            var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
+            var enemy = CreateUnit("Enemy", 100, 10, 0, 5);
+
+            // Vulnerable is on attacker — when THEY are hit, they take more damage
+            attacker.ApplyStatus(new Vulnerable(5, 3));
+
+            DamagePipeline.Clear();
+            var ctx = new DamageContext(enemy, attacker, 10);
+            DamagePipeline.Process(ctx);
+
+            Assert.AreEqual(15, ctx.FinalValue, "Vulnerable on the unit being hit should increase damage taken");
+        }
+
+        [Test]
         public void Vulnerable_DoesNotDealTickDamage()
         {
             var unit = CreateUnit("Test", 100, 0, 0, 5);
