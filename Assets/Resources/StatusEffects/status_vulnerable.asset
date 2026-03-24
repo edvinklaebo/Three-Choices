@@ -15,7 +15,7 @@ MonoBehaviour:
   _id: Vulnerable
   _displayName: Vulnerable
   _description: Increase damage taken by 1 per stack.
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 012bb2fc593ac9d419060b9584f29cf0, type: 3}
   _color: {r: 0.8, g: 0.4, b: 0.1, a: 1}
   _stacks: 1
   _duration: 2
