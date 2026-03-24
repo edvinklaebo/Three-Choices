@@ -9,61 +9,61 @@ using Utils;
 namespace Core.StatusEffects
 {
     /// <summary>
-    ///     Weak status effect that reduces the affected unit's outgoing damage.
-    ///     Each stack reduces outgoing damage by <see cref="_damageReductionPerStack"/> (flat).
+    ///     Vulnerable status effect that increases the affected unit's incoming damage.
+    ///     Each stack increases incoming flat damage by <see cref="_damageIncreasePerStack"/>.
     ///     Stacks are capped at <see cref="_maxStacks"/>. Optionally decays stacks each turn.
     ///     Duration decrements each turn; the effect expires when it reaches zero.
     /// </summary>
     [Serializable]
-    public class Weak : IStatusEffect, IDamageModifier
+    public class Vulnerable : IStatusEffect, IDamageModifier
     {
         [SerializeField] private int _stacks;
         [SerializeField] private int _duration;
-        [SerializeField] private int _damageReductionPerStack;
+        [SerializeField] private int _damageIncreasePerStack;
         [SerializeField] private int _maxStacks;
         [SerializeField] private int _stackDecayPerTurn;
         [SerializeField] private bool _refreshDurationOnReapply;
         [SerializeField] private int _baseDuration;
         [NonSerialized] private Unit _owner;
 
-        public Weak(int stacks, int duration, int damageReductionPerStack = 1,
+        public Vulnerable(int stacks, int duration, int damageIncreasePerStack = 1,
             int maxStacks = 10, int stackDecayPerTurn = 0, bool refreshDurationOnReapply = true)
         {
-            Debug.Assert(stacks > 0, "Weak: stacks must be > 0");
-            Debug.Assert(duration > 0, "Weak: duration must be > 0");
-            Debug.Assert(damageReductionPerStack >= 0, "Weak: damageReductionPerStack must be >= 0");
-            Debug.Assert(maxStacks > 0, "Weak: maxStacks must be > 0");
+            Debug.Assert(stacks > 0, "Vulnerable: stacks must be > 0");
+            Debug.Assert(duration > 0, "Vulnerable: duration must be > 0");
+            Debug.Assert(damageIncreasePerStack >= 0, "Vulnerable: damageIncreasePerStack must be >= 0");
+            Debug.Assert(maxStacks > 0, "Vulnerable: maxStacks must be > 0");
 
             _stacks = Math.Min(stacks, maxStacks);
             _duration = duration;
             _baseDuration = duration;
-            _damageReductionPerStack = damageReductionPerStack;
+            _damageIncreasePerStack = damageIncreasePerStack;
             _maxStacks = maxStacks;
             _stackDecayPerTurn = stackDecayPerTurn;
             _refreshDurationOnReapply = refreshDurationOnReapply;
         }
 
-        /// <summary>Data-driven constructor: reads all config from a <see cref="WeakDefinition"/> ScriptableObject.</summary>
-        public Weak(WeakDefinition data)
+        /// <summary>Data-driven constructor: reads all config from a <see cref="VulnerableDefinition"/> ScriptableObject.</summary>
+        public Vulnerable(VulnerableDefinition data)
         {
-            Debug.Assert(data != null, "Weak: data must not be null");
+            Debug.Assert(data != null, "Vulnerable: data must not be null");
 
             _stacks = data.Stacks;
             _duration = data.Duration;
             _baseDuration = data.Duration;
-            _damageReductionPerStack = data.DamageReductionPerStack;
+            _damageIncreasePerStack = data.DamageIncreasePerStack;
             _maxStacks = data.MaxStacks;
             _stackDecayPerTurn = data.StackDecayPerTurn;
             _refreshDurationOnReapply = data.RefreshDurationOnReapply;
         }
 
-        public string Id => "Weak";
+        public string Id => "Vulnerable";
 
         public int Stacks => _stacks;
 
         public int Duration => _duration;
 
-        /// <summary>Weak deals no direct tick damage; BaseDamage is always 0.</summary>
+        /// <summary>Vulnerable deals no direct tick damage; BaseDamage is always 0.</summary>
         public int BaseDamage => 0;
 
         /// <summary>Standard priority — applied after armor penetration, before final multipliers.</summary>
@@ -71,9 +71,9 @@ namespace Core.StatusEffects
 
         public void OnApply(Unit target)
         {
-            Debug.Assert(target != null, "Weak: OnApply target must not be null");
+            Debug.Assert(target != null, "Vulnerable: OnApply target must not be null");
             _owner = target;
-            Log.Info("Weak applied", new
+            Log.Info("Vulnerable applied", new
             {
                 target = target.Name,
                 stacks = _stacks,
@@ -88,7 +88,7 @@ namespace Core.StatusEffects
             if (_stackDecayPerTurn > 0)
             {
                 _stacks = Math.Max(0, _stacks - _stackDecayPerTurn);
-                Log.Info("Weak stacks decayed", new
+                Log.Info("Vulnerable stacks decayed", new
                 {
                     target = target.Name,
                     remainingStacks = _stacks,
@@ -106,7 +106,7 @@ namespace Core.StatusEffects
 
         public void OnExpire(Unit target)
         {
-            Log.Info("Weak expired", new
+            Log.Info("Vulnerable expired", new
             {
                 target = target.Name
             });
@@ -119,7 +119,7 @@ namespace Core.StatusEffects
             if (_refreshDurationOnReapply)
                 _duration = _baseDuration;
 
-            Log.Info("Weak stacks added", new
+            Log.Info("Vulnerable stacks added", new
             {
                 addedStacks = effect.Stacks,
                 newStacks = _stacks,
@@ -128,22 +128,21 @@ namespace Core.StatusEffects
         }
 
         /// <summary>
-        ///     Reduces the source unit's outgoing damage by <c>Stacks * DamageReductionPerStack</c>.
-        ///     Final damage is clamped to a minimum of zero.
-        ///     Only fires when the weakened unit is the source (attacker) of the damage context.
+        ///     Increases incoming damage to the target by <c>Stacks * DamageIncreasePerStack</c>.
+        ///     Only fires when the vulnerable unit is the target (receiver) of the damage context.
         /// </summary>
         public void Modify(DamageContext context)
         {
-            if (_owner == null || context.Source != _owner)
+            if (_owner == null || context.Target != _owner)
                 return;
 
-            var reduction = _stacks * _damageReductionPerStack;
-            context.FinalValue = Math.Max(0, context.FinalValue - reduction);
+            var increase = _stacks * _damageIncreasePerStack;
+            context.FinalValue += increase;
 
-            Log.Info("Weak reduced outgoing damage", new
+            Log.Info("Vulnerable increased incoming damage", new
             {
-                source = context.Source?.Name,
-                reduction,
+                target = context.Target?.Name,
+                increase,
                 finalValue = context.FinalValue
             });
         }

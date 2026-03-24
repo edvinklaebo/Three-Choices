@@ -51,6 +51,12 @@ namespace Core
                     if (effect is IDamageModifier modifier && !_globalModifiers.Contains(modifier))
                         allModifiers.Add(modifier);
 
+            // Add target-specific modifiers (from status effects, e.g. Vulnerable increases incoming damage)
+            if (ctx.Target != null)
+                foreach (var effect in ctx.Target.StatusEffects)
+                    if (effect is IDamageModifier modifier && !_globalModifiers.Contains(modifier))
+                        allModifiers.Add(modifier);
+
             // Sort once by priority and apply
             allModifiers.Sort((a, b) => a.Priority.CompareTo(b.Priority));
 
