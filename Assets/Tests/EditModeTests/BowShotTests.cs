@@ -7,6 +7,8 @@ using NUnit.Framework;
 
 using Systems;
 
+using UnityEngine;
+
 namespace Tests.EditModeTests
 {
     public class BowShotTests
@@ -24,6 +26,13 @@ namespace Tests.EditModeTests
                     Speed = speed
                 }
             };
+        }
+
+        private static BleedDefinition CreateBleedDefinition(int stacks = 2, int duration = 3, int baseDamage = 2)
+        {
+            var data = ScriptableObject.CreateInstance<BleedDefinition>();
+            data.EditorInit(stacks, duration, baseDamage);
+            return data;
         }
 
         [SetUp]
@@ -85,11 +94,14 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
-            var bowShot = BowShot.EditorCreate(bleedStacks: 3);
+            var bleedDef = CreateBleedDefinition(stacks: 3);
+            var bowShot = BowShot.EditorCreate(bleedDefinition: bleedDef);
             var context = new CombatContext();
             bowShot.OnCast(caster, target, context);
 
             Assert.AreEqual(3, target.StatusEffects[0].Stacks, "Bow Shot should apply 3 Bleed stacks");
+
+            Object.DestroyImmediate(bleedDef);
         }
 
         [Test]
@@ -98,11 +110,29 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 0, 5);
             var target = CreateUnit("Target", 100, 0, 0, 5);
 
-            var bowShot = BowShot.EditorCreate(bleedDuration: 4);
+            var bleedDef = CreateBleedDefinition(duration: 4);
+            var bowShot = BowShot.EditorCreate(bleedDefinition: bleedDef);
             var context = new CombatContext();
             bowShot.OnCast(caster, target, context);
 
             Assert.AreEqual(4, target.StatusEffects[0].Duration, "Bow Shot should apply Bleed with duration 4");
+
+            Object.DestroyImmediate(bleedDef);
+        }
+
+        [Test]
+        public void BowShot_UsesCodeDefaults_WhenBleedDefinitionIsNull()
+        {
+            var caster = CreateUnit("Caster", 100, 0, 0, 5);
+            var target = CreateUnit("Target", 100, 0, 0, 5);
+
+            var bowShot = BowShot.EditorCreate(bleedDefinition: null);
+            var context = new CombatContext();
+            bowShot.OnCast(caster, target, context);
+
+            Assert.AreEqual("Bleed", target.StatusEffects[0].Id, "Bleed should be applied using code defaults");
+            Assert.Greater(target.StatusEffects[0].Stacks, 0, "Bleed stacks should be positive");
+            Assert.Greater(target.StatusEffects[0].Duration, 0, "Bleed duration should be positive");
         }
 
         // ---- Upgrade stacking ----
@@ -129,14 +159,14 @@ namespace Tests.EditModeTests
         {
             var unit = CreateUnit("Player", 100, 0, 0, 5);
 
-            var definition = UnityEngine.ScriptableObject.CreateInstance<BowShotDefinition>();
+            var definition = ScriptableObject.CreateInstance<BowShotDefinition>();
             definition.EditorInit("bow_shot", "Bow Shot");
             definition.Apply(unit);
 
             Assert.AreEqual(1, unit.Abilities.Count, "First pickup should add Bow Shot to the unit");
             Assert.IsInstanceOf<BowShot>(unit.Abilities[0]);
 
-            UnityEngine.Object.DestroyImmediate(definition);
+            Object.DestroyImmediate(definition);
         }
 
         [Test]
@@ -145,7 +175,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Player", 100, 0, 0, 5);
             var target = CreateUnit("Target", 200, 0, 0, 5);
 
-            var definition = UnityEngine.ScriptableObject.CreateInstance<BowShotDefinition>();
+            var definition = ScriptableObject.CreateInstance<BowShotDefinition>();
             definition.EditorInit("bow_shot", "Bow Shot", baseDamage: 8, damagePerUpgrade: 5);
 
             // First pickup
@@ -162,7 +192,29 @@ namespace Tests.EditModeTests
             Assert.AreEqual(200 - 13, target.Stats.CurrentHP,
                 "Duplicate pickup should stack damage via AddDamage");
 
-            UnityEngine.Object.DestroyImmediate(definition);
+            Object.DestroyImmediate(definition);
+        }
+
+        [Test]
+        public void BowShotDefinition_UsesBleedDefinition_WhenSet()
+        {
+            var caster = CreateUnit("Caster", 100, 0, 0, 5);
+            var target = CreateUnit("Target", 100, 0, 0, 5);
+
+            var bleedDef = CreateBleedDefinition(stacks: 5, duration: 4, baseDamage: 3);
+            var definition = ScriptableObject.CreateInstance<BowShotDefinition>();
+            definition.EditorInit("bow_shot", "Bow Shot", bleedDefinition: bleedDef);
+            definition.Apply(caster);
+
+            var context = new CombatContext();
+            caster.Abilities[0].OnCast(caster, target, context);
+
+            Assert.AreEqual(5, target.StatusEffects[0].Stacks, "Bleed stacks should come from BleedDefinition asset");
+            Assert.AreEqual(4, target.StatusEffects[0].Duration, "Bleed duration should come from BleedDefinition asset");
+            Assert.AreEqual(3, target.StatusEffects[0].BaseDamage, "Bleed base damage should come from BleedDefinition asset");
+
+            Object.DestroyImmediate(bleedDef);
+            Object.DestroyImmediate(definition);
         }
 
         // ---- Integration ----

@@ -19,12 +19,14 @@ namespace Core.Abilities
     public class BowShot : IAbility, IActionCreator
     {
         [SerializeField] private int _baseDamage;
-        [SerializeField] private int _bleedStacks;
-        [SerializeField] private int _bleedDuration;
-        [SerializeField] private int _bleedBaseDamage;
+        [SerializeField] private BleedDefinition _bleedDefinition;
         [SerializeField] private Sprite _projectileSprite;
         [SerializeField] private int _currentCooldown;
         [SerializeField] private int _cooldownRounds;
+
+        private const int DefaultBleedStacks = 2;
+        private const int DefaultBleedDuration = 3;
+        private const int DefaultBleedBaseDamage = 2;
 
         public const int DamagePerStack = 3;
 
@@ -35,9 +37,7 @@ namespace Core.Abilities
         {
             Debug.Assert(definition != null, "BowShot: definition must not be null");
             _baseDamage = definition.BaseDamage;
-            _bleedStacks = definition.BleedStacks;
-            _bleedDuration = definition.BleedDuration;
-            _bleedBaseDamage = definition.BleedBaseDamage;
+            _bleedDefinition = definition.BleedDefinition;
             _projectileSprite = definition.ProjectileSprite;
             _cooldownRounds = definition.CooldownRounds;
         }
@@ -61,7 +61,11 @@ namespace Core.Abilities
                 return;
 
             context.DealDamage(self, target, _baseDamage,
-                               _ => new Bleed(_bleedStacks, _bleedDuration, _bleedBaseDamage),
+                               // Use the BleedDefinition SO when available so balance values stay data-driven;
+                               // fall back to safe code defaults when none is assigned (e.g. loaded saves or tests).
+                               _ => _bleedDefinition != null
+                                   ? new Bleed(_bleedDefinition)
+                                   : new Bleed(DefaultBleedStacks, DefaultBleedDuration, DefaultBleedBaseDamage),
                                actionCreator: this);
 
             _currentCooldown = _cooldownRounds;
@@ -77,10 +81,10 @@ namespace Core.Abilities
 
 #if UNITY_EDITOR
         /// <summary>Creates a BowShot for editor/test use without a full asset. Do not use in production code.</summary>
-        public static BowShot EditorCreate(int baseDamage = 8, int bleedStacks = 2, int bleedDuration = 3, int bleedBaseDamage = 2)
+        public static BowShot EditorCreate(int baseDamage = 8, BleedDefinition bleedDefinition = null)
         {
             var definition = ScriptableObject.CreateInstance<BowShotDefinition>();
-            definition.EditorInit("_editor", "_editor", baseDamage, DamagePerStack, 0, bleedStacks, bleedDuration, bleedBaseDamage);
+            definition.EditorInit("_editor", "_editor", baseDamage, DamagePerStack, 0, bleedDefinition);
             return new BowShot(definition);
         }
 #endif
