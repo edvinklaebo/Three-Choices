@@ -2,6 +2,7 @@ using NUnit.Framework;
 
 using Core;
 using Core.Passives;
+using Core.Passives.Definitions;
 
 using Systems;
 
@@ -46,7 +47,7 @@ namespace Tests.EditModeTests
             var cannon = CreateUnit("Cannon", 100, 10, 0, 10);
             var target = CreateUnit("Target", 200, 0, 0, 5);
 
-            var passive = new GlassCannon(cannon);
+            var passive = new GlassCannon(cannon, 0.6f, 0.4f);
             passive.OnAttach(cannon);
             cannon.Passives.Add(passive);
 
@@ -62,7 +63,7 @@ namespace Tests.EditModeTests
             var cannon = CreateUnit("Cannon", 100, 10, 0, 10);
             var target = CreateUnit("Target", 200, 0, 0, 5);
 
-            var passive = new GlassCannon(cannon);
+            var passive = new GlassCannon(cannon, 0.6f, 0.4f);
             passive.OnAttach(cannon);
             cannon.Passives.Add(passive);
 
@@ -81,7 +82,7 @@ namespace Tests.EditModeTests
             var cannon = CreateUnit("Cannon", 100, 10, 0, 10);
             var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
 
-            var passive = new GlassCannon(cannon);
+            var passive = new GlassCannon(cannon, 0.6f, 0.4f);
             passive.OnAttach(cannon);
             cannon.Passives.Add(passive);
 
@@ -97,7 +98,7 @@ namespace Tests.EditModeTests
             var cannon = CreateUnit("Cannon", 100, 10, 0, 10);
             var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
 
-            var passive = new GlassCannon(cannon);
+            var passive = new GlassCannon(cannon, 0.6f, 0.4f);
             passive.OnAttach(cannon);
             cannon.Passives.Add(passive);
 
@@ -117,7 +118,7 @@ namespace Tests.EditModeTests
             var otherAttacker = CreateUnit("Other", 100, 10, 0, 5);
             var target = CreateUnit("Target", 200, 0, 0, 5);
 
-            var passive = new GlassCannon(cannon);
+            var passive = new GlassCannon(cannon, 0.6f, 0.4f);
             passive.OnAttach(cannon);
             cannon.Passives.Add(passive);
 
@@ -134,7 +135,7 @@ namespace Tests.EditModeTests
             var attacker = CreateUnit("Attacker", 100, 10, 0, 5);
             var otherTarget = CreateUnit("OtherTarget", 100, 0, 0, 5);
 
-            var passive = new GlassCannon(cannon);
+            var passive = new GlassCannon(cannon, 0.6f, 0.4f);
             passive.OnAttach(cannon);
             cannon.Passives.Add(passive);
 
@@ -154,11 +155,10 @@ namespace Tests.EditModeTests
             var enemyForCannon = CreateUnit("EnemyA", 1000, 0, 0, 5);
             var enemyForBaseline = CreateUnit("EnemyB", 1000, 0, 0, 5);
 
-            var passive = new GlassCannon(cannonUnit);
+            var passive = new GlassCannon(cannonUnit, 0.6f, 0.4f);
             passive.OnAttach(cannonUnit);
             cannonUnit.Passives.Add(passive);
 
-            // Run one round to measure damage
             var ctxCannon = new DamageContext(cannonUnit, enemyForCannon, 10);
             var ctxBaseline = new DamageContext(baseline, enemyForBaseline, 10);
             DamagePipeline.Process(ctxCannon);
@@ -176,7 +176,7 @@ namespace Tests.EditModeTests
             var attackerForCannon = CreateUnit("AttackerA", 100, 10, 0, 10);
             var attackerForBaseline = CreateUnit("AttackerB", 100, 10, 0, 10);
 
-            var passive = new GlassCannon(cannonUnit);
+            var passive = new GlassCannon(cannonUnit, 0.6f, 0.4f);
             passive.OnAttach(cannonUnit);
             cannonUnit.Passives.Add(passive);
 
@@ -197,7 +197,7 @@ namespace Tests.EditModeTests
             var cannon = CreateUnit("Cannon", 100, 10, 0, 10);
             var target = CreateUnit("Target", 200, 0, 0, 5);
 
-            var passive = new GlassCannon(cannon);
+            var passive = new GlassCannon(cannon, 0.6f, 0.4f);
             passive.OnAttach(cannon);
             cannon.Passives.Add(passive);
 
@@ -208,6 +208,45 @@ namespace Tests.EditModeTests
             DamagePipeline.Process(ctx);
 
             Assert.AreEqual(10, ctx.FinalValue, "Detached Glass Cannon should not modify damage");
+        }
+
+        // ---- Definition: data-driven constructor ----
+
+        [Test]
+        public void GlassCannonDefinition_CreatesPassive_WithConfiguredValues()
+        {
+            var unit = CreateUnit("Cannon", 100, 10, 0, 10);
+            var target = CreateUnit("Target", 200, 0, 0, 5);
+
+            var definition = ScriptableObject.CreateInstance<GlassCannonDefinition>();
+            definition.EditorInit("glass_cannon", "Glass Cannon", outgoingBonus: 1.0f, incomingPenalty: 0.5f);
+            definition.Apply(unit);
+
+            var ctx = new DamageContext(unit, target, 10);
+            DamagePipeline.Process(ctx);
+
+            // 10 * (1 + 1.0) = 20
+            Assert.AreEqual(20, ctx.FinalValue, "Definition-configured outgoingBonus=1.0 should double damage");
+
+            ScriptableObject.DestroyImmediate(definition);
+        }
+
+        [Test]
+        public void GlassCannonDefinition_DefaultValues_Are60And40Percent()
+        {
+            var unit = CreateUnit("Cannon", 100, 10, 0, 10);
+            var target = CreateUnit("Target", 200, 0, 0, 5);
+
+            var definition = ScriptableObject.CreateInstance<GlassCannonDefinition>();
+            definition.EditorInit("glass_cannon", "Glass Cannon");
+            definition.Apply(unit);
+
+            var ctx = new DamageContext(unit, target, 10);
+            DamagePipeline.Process(ctx);
+
+            Assert.AreEqual(16, ctx.FinalValue, "Default outgoingBonus=0.6 should give 10 * 1.6 = 16");
+
+            ScriptableObject.DestroyImmediate(definition);
         }
     }
 }
