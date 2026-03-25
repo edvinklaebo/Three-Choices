@@ -51,6 +51,12 @@ namespace Core
                     if (effect is IDamageModifier modifier && !_globalModifiers.Contains(modifier))
                         allModifiers.Add(modifier);
 
+            // Add target-specific modifiers (from passives, e.g. Glass Cannon increases incoming damage)
+            if (ctx.Target != null)
+                foreach (var passive in ctx.Target.Passives)
+                    if (passive is IDamageModifier modifier && !_globalModifiers.Contains(modifier) && !allModifiers.Contains(modifier))
+                        allModifiers.Add(modifier);
+
             // Add target-specific modifiers (from status effects, e.g. Vulnerable increases incoming damage)
             if (ctx.Target != null)
                 foreach (var effect in ctx.Target.StatusEffects)
