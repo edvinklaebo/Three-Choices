@@ -4,6 +4,8 @@ using Core.Combat;
 
 using Interfaces;
 
+using UnityEngine;
+
 using Utils;
 
 namespace Core.Passives
@@ -27,7 +29,7 @@ namespace Core.Passives
 
         public Thorns(float armorMultiplier = 0.5f)
         {
-            UnityEngine.Debug.Assert(armorMultiplier > 0f, "Thorns: armorMultiplier must be > 0");
+            Debug.Assert(armorMultiplier > 0f, "Thorns: armorMultiplier must be > 0");
             _armorMultiplier = armorMultiplier;
         }
 
@@ -71,7 +73,7 @@ namespace Core.Passives
             if (_isReflecting)
                 return;
 
-            var thornsDamage = UnityEngine.Mathf.CeilToInt(_owner.Stats.Armor * _armorMultiplier);
+            var thornsDamage = Mathf.CeilToInt(_owner.Stats.Armor * _armorMultiplier);
             if (thornsDamage <= 0)
                 return;
 
