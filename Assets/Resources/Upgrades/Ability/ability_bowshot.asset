@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 3
   displayName: Bow Shot
   description: Shoot your bow, apply bleed.
-  icon: {fileID: 460636609087254574, guid: 7058177f1dd0988409eaea1c4db4c7c9, type: 3}
+  icon: {fileID: -3224261183847945018, guid: 2ca6fa4d7d62cc548aaf7c0c3179d4cc, type: 3}
   rarityWeight: 100
   _baseDamage: 3
   _damagePerUpgrade: 1

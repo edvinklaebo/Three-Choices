@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50d4dbf2a6147214684b61f3eeb3c980, type: 3}
   m_Name: status_stunned
   m_EditorClassIdentifier: Ropa::Core.StatusEffects.StunnedDefinition
-  _id: 
-  _displayName: 
-  _description: 
-  _icon: {fileID: 0}
-  _color: {r: 1, g: 1, b: 1, a: 1}
+  _id: Stunned
+  _displayName: Stunned
+  _description: You are stunned.
+  _icon: {fileID: -3827984619865659161, guid: c115f899d9d90484a9bb730f8f26a549, type: 3}
+  _color: {r: 0.9528302, g: 0.7761085, b: 0.15730685, a: 1}
   _stacks: 1
