@@ -8,7 +8,7 @@ namespace Core
 {
     /// <summary>
     /// Accumulated statistics for a single run. Populated by <see cref="RunStatsTracker"/>.
-    /// Read-only outside of the tracker.
+    /// Read-only outside the tracker.
     /// </summary>
     public class RunStats
     {

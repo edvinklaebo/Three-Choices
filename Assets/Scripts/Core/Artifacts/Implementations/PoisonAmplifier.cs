@@ -1,7 +1,6 @@
 using System;
 
 using Core.StatusEffects;
-
 using UnityEngine;
 
 using Utils;
@@ -33,7 +32,7 @@ namespace Core.Artifacts.Passives
         /// <summary>Data-driven constructor: reads all config from a <see cref="PoisonDefinition"/> ScriptableObject.</summary>
         public PoisonAmplifier(PoisonDefinition data)
         {
-            UnityEngine.Debug.Assert(data != null, "PoisonAmplifier: data must not be null");
+            Debug.Assert(data != null, "PoisonAmplifier: data must not be null");
             _bonusStacks = data.Stacks;
             _bonusDuration = data.Duration;
             _bonusBaseDamage = data.BaseDamage;
@@ -54,9 +53,9 @@ namespace Core.Artifacts.Passives
             if (target == null || target.IsDead)
                 return;
 
-            for (var i = 0; i < target.StatusEffects.Count; i++)
+            foreach (var statusEffect in target.StatusEffects)
             {
-                if (target.StatusEffects[i].Id != "Poison")
+                if (statusEffect.Id != "Poison")
                     continue;
 
                 target.ApplyStatus(new Poison(_bonusStacks, _bonusDuration, _bonusBaseDamage));

@@ -13,13 +13,13 @@ using Utils;
 /// </summary>
 public class ShadowBoltAction : ICombatAction
 {
-    public Unit Source { get; }
-    public Unit Target { get; }
-    public int Amount { get; }
-    public int TargetHPBefore { get; }
-    public int TargetHPAfter { get; }
-    public int TargetMaxHP { get; }
-    public Sprite Sprite { get; }
+    private Unit Source { get; }
+    private Unit Target { get; }
+    private int Amount { get; }
+    private int TargetHPBefore { get; }
+    private int TargetHPAfter { get; }
+    private int TargetMaxHP { get; }
+    private Sprite Sprite { get; }
 
     public ShadowBoltAction(Unit source, Unit target, int amount, int targetHPBefore, int targetHPAfter, int targetMaxHP, Sprite sprite = null)
     {

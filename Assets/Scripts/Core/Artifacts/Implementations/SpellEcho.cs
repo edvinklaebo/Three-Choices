@@ -1,9 +1,6 @@
 using System;
 
 using Core.Combat;
-
-using UnityEngine;
-
 using Utils;
 
 namespace Core.Artifacts.Passives

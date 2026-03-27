@@ -8,15 +8,11 @@ using Core.Combat;
 
 using NUnit.Framework;
 
-using Systems;
-
-using UnityEngine;
-
 namespace Tests.EditModeTests
 {
     public class SpellEchoTests
     {
-        private Unit CreateUnit(string name, int hp, int attack, int speed)
+        private static Unit CreateUnit(string name, int hp, int attack, int speed)
         {
             return new Unit(name)
             {
@@ -59,7 +55,7 @@ namespace Tests.EditModeTests
             var targetNoEcho = CreateUnit("Target", 1000, 0, 5);
             var targetWithEcho = CreateUnit("Target", 1000, 0, 5);
 
-            var fireball = Fireball.EditorCreate(10);
+            var fireball = Fireball.EditorCreate();
 
             // Simulate one cast WITHOUT SpellEcho
             var contextNoEcho = new CombatContext();
@@ -87,7 +83,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 10);
             var target = CreateUnit("Target", 1000, 0, 5);
 
-            var fireball = Fireball.EditorCreate(10);
+            var fireball = Fireball.EditorCreate();
             var echo = new SpellEcho();
             echo.OnAttach(caster);
 
@@ -109,7 +105,7 @@ namespace Tests.EditModeTests
             var caster = CreateUnit("Caster", 100, 0, 10);
             var target = CreateUnit("Target", 5, 0, 5); // Low HP: dies from the first Fireball (10 dmg)
 
-            caster.Abilities.Add(Fireball.EditorCreate(10));
+            caster.Abilities.Add(Fireball.EditorCreate());
             AttachSpellEcho(caster);
 
             var engine = new CombatEngine();
@@ -193,7 +189,7 @@ namespace Tests.EditModeTests
             var unit = CreateUnit("Hero", 100, 10, 5);
             var artifactDef = UnityEngine.ScriptableObject.CreateInstance<ArtifactDefinition>();
             artifactDef.EditorInit(ArtifactId.SpellEcho, "Spell Echo", "Your spells are cast twice.",
-                Core.Rarity.Epic, ArtifactTag.None, ArtifactEffectType.AddArtifact, true);
+                Rarity.Epic, ArtifactTag.None, ArtifactEffectType.AddArtifact);
 
             ArtifactApplier.ApplyToPlayer(artifactDef, unit);
 

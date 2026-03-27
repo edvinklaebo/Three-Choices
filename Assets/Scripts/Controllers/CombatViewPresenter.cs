@@ -44,11 +44,11 @@ namespace Controllers
             var ui = _servicesInstaller.Context?.UI;
             ui?.SetBindings(combatView.BuildBindings(result.Player, result.Enemy));
 
-            if (ui != null)
-            {
-                ui.InitializeHealthDisplay(result.Player, GetInitialHP(result.Player, result.Actions), result.Player.Stats.MaxHP);
-                ui.InitializeHealthDisplay(result.Enemy, GetInitialHP(result.Enemy, result.Actions), result.Enemy.Stats.MaxHP);
-            }
+            if (ui == null) 
+                return;
+            
+            ui.InitializeHealthDisplay(result.Player, GetInitialHP(result.Player, result.Actions), result.Player.Stats.MaxHP);
+            ui.InitializeHealthDisplay(result.Enemy, GetInitialHP(result.Enemy, result.Actions), result.Enemy.Stats.MaxHP);
         }
 
         private static int GetInitialHP(Unit unit, List<ICombatAction> actions)

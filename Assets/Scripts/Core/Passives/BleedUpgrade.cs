@@ -30,7 +30,7 @@ namespace Core.Passives
         /// <summary>Data-driven constructor: reads all config from a <see cref="BleedDefinition"/> ScriptableObject.</summary>
         public BleedUpgrade(Unit owner, BleedDefinition data)
         {
-            UnityEngine.Debug.Assert(data != null, "BleedUpgrade: data must not be null");
+            Debug.Assert(data != null, "BleedUpgrade: data must not be null");
             stacks = data.Stacks;
             duration = data.Duration;
             baseDamage = data.BaseDamage;

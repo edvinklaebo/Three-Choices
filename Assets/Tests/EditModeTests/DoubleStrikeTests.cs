@@ -10,7 +10,7 @@ namespace Tests.EditModeTests
 {
     public class DoubleStrikeTests
     {
-        private Unit CreateUnit(string name, int hp, int attack, int speed)
+        private static Unit CreateUnit(string name, int hp, int attack, int speed)
         {
             return new Unit(name)
             {

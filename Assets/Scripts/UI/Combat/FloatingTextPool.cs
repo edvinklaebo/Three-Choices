@@ -60,10 +60,7 @@ namespace UI.Combat
         {
             FloatingText text;
 
-            if (_pool.Count > 0)
-                text = _pool.Pop();
-            else
-                text = CreateNewInstance();
+            text = _pool.Count > 0 ? _pool.Pop() : CreateNewInstance();
 
             text.gameObject.SetActive(true);
             text.Reset();

@@ -3,9 +3,6 @@ using System;
 using Core.Combat;
 
 using Interfaces;
-
-using UnityEngine;
-
 using Utils;
 
 namespace Core.Artifacts.Passives

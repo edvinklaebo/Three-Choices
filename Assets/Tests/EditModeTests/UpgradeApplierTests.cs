@@ -21,14 +21,16 @@ namespace Tests.EditModeTests
         public void Setup()
         {
             DamagePipeline.Clear();
-            _unit = new Unit("Hero");
-            _unit.Stats = new Stats
+            _unit = new Unit("Hero")
             {
-                MaxHP = 100,
-                CurrentHP = 50,
-                AttackPower = 10,
-                Armor = 5,
-                Speed = 3
+                Stats = new Stats
+                {
+                    MaxHP = 100,
+                    CurrentHP = 50,
+                    AttackPower = 10,
+                    Armor = 5,
+                    Speed = 3
+                }
             };
         }
 

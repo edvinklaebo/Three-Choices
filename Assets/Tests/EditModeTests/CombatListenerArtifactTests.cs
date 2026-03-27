@@ -15,7 +15,7 @@ namespace Tests.EditModeTests
     /// </summary>
     public class CombatListenerArtifactTests
     {
-        private Unit CreateUnit(string name, int hp, int attack, int armor, int speed)
+        private static Unit CreateUnit(string name, int hp, int attack, int armor, int speed)
         {
             return new Unit(name)
             {
@@ -40,7 +40,7 @@ namespace Tests.EditModeTests
 
             var defender = CreateUnit("Victim", 100, 0, 0, 5);
 
-            var artifact = new VampiricFang(0.2f);
+            var artifact = new VampiricFang();
             artifact.OnAttach(attacker);
             attacker.Artifacts.Add(artifact);
 
@@ -58,7 +58,7 @@ namespace Tests.EditModeTests
             attacker.Stats.CurrentHP = 80;
             var defender = CreateUnit("Victim", 100, 0, 0, 5);
 
-            var artifact = new VampiricFang(0.2f);
+            var artifact = new VampiricFang();
             artifact.OnAttach(attacker);
             attacker.Artifacts.Add(artifact);
 

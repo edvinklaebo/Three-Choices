@@ -9,14 +9,14 @@ namespace Tests.EditModeTests
 {
     public class BossRewardResolverTests
     {
-        private BossDefinition CreateBoss(string id, ArtifactDefinition reward = null)
+        private static BossDefinition CreateBoss(string id, ArtifactDefinition reward = null)
         {
             var boss = ScriptableObject.CreateInstance<BossDefinition>();
             boss.EditorInit(id, id, 1, reward);
             return boss;
         }
 
-        private ArtifactDefinition CreateArtifact(string id)
+        private static ArtifactDefinition CreateArtifact(string id)
         {
             var artifact = ScriptableObject.CreateInstance<ArtifactDefinition>();
             artifact.EditorInit(id, id, "desc", Rarity.Common, ArtifactTag.None,

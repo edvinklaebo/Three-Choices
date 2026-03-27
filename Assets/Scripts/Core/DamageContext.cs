@@ -19,7 +19,7 @@ namespace Core
         public int ModifiedDamage;
         public int FinalDamage;
         public int PendingHealing;
-        public int PendingResourceGain;
+        public readonly int PendingResourceGain;
         public readonly List<IStatusEffect> PendingStatuses = new();
         public bool Cancelled;
 
@@ -31,6 +31,7 @@ namespace Core
             FinalValue = value;
             ModifiedDamage = value;
             FinalDamage = value;
+            PendingResourceGain = 0; // TODO implement resources
         }
     }
 }

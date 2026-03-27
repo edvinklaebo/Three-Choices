@@ -23,11 +23,6 @@ namespace Core.Combat
             Target = target;
         }
 
-        protected CombatEvent(CombatPhase phase)
-        {
-            Phase = phase;
-        }
-
         protected CombatEvent(Unit source, Unit target, CombatPhase phase)
         {
             Source = source;
@@ -48,7 +43,7 @@ namespace Core.Combat
         public DamagePhaseEvent(CombatPhase phase, DamageContext context)
             : base(context.Source, context.Target, phase)
         {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
+            Context = context;
         }
     }
 
@@ -58,22 +53,6 @@ namespace Core.Combat
     public class BeforeAttackEvent : CombatEvent
     {
         public BeforeAttackEvent(Unit source, Unit target) : base(source, target) { }
-    }
-
-    /// <summary>
-    /// Fired after damage is calculated but before it's applied
-    /// </summary>
-    public class OnDamageCalculatedEvent : CombatEvent
-    {
-        public int Damage { get; set; }
-        public bool IsCritical { get; set; }
-
-        public OnDamageCalculatedEvent(Unit source, Unit target, int damage, bool isCritical) 
-            : base(source, target)
-        {
-            Damage = damage;
-            IsCritical = isCritical;
-        }
     }
 
     /// <summary>

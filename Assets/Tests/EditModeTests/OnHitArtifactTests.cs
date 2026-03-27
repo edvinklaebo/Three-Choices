@@ -1,6 +1,5 @@
 using Core;
 using Core.Artifacts.Passives;
-using Core.StatusEffects;
 
 using NUnit.Framework;
 

@@ -10,7 +10,7 @@ namespace Tests.EditModeTests
 {
     public class ThornsTests
     {
-        private Unit CreateUnit(string name, int hp, int attack, int armor, int speed)
+        private static Unit CreateUnit(string name, int hp, int attack, int armor, int speed)
         {
             return new Unit(name)
             {

@@ -1,7 +1,6 @@
 using Core;
 using Core.Abilities;
 using Core.Combat;
-using Core.StatusEffects;
 
 using NUnit.Framework;
 
@@ -205,8 +204,15 @@ namespace Tests.EditModeTests
             var damageActions = 0;
             foreach (var action in context.Actions)
             {
-                if (action is ShadowBoltAction) shadowBoltActions++;
-                else if (action is DamageAction) damageActions++;
+                switch (action)
+                {
+                    case ShadowBoltAction:
+                        shadowBoltActions++;
+                        break;
+                    case DamageAction:
+                        damageActions++;
+                        break;
+                }
             }
 
             Assert.AreEqual(1, shadowBoltActions, "Shadow Bolt should produce exactly one ShadowBoltAction");

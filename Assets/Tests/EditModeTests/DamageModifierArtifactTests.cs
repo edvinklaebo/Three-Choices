@@ -82,7 +82,7 @@ namespace Tests.EditModeTests
         [Test]
         public void WarGauntlet_AddsFlatDamage()
         {
-            var artifact = new WarGauntlet(7);
+            var artifact = new WarGauntlet();
             artifact.OnAttach(_owner);
             _owner.Artifacts.Add(artifact);
 
@@ -95,7 +95,7 @@ namespace Tests.EditModeTests
         [Test]
         public void WarGauntlet_DoesNotApplyToOtherAttacker()
         {
-            var artifact = new WarGauntlet(7);
+            var artifact = new WarGauntlet();
             artifact.OnAttach(_owner);
             _owner.Artifacts.Add(artifact);
 
@@ -112,7 +112,7 @@ namespace Tests.EditModeTests
         [Test]
         public void CorruptedTome_MultipliesDamage()
         {
-            var artifact = new CorruptedTome(1.3f);
+            var artifact = new CorruptedTome();
             artifact.OnAttach(_owner);
             _owner.Artifacts.Add(artifact);
 
@@ -125,7 +125,7 @@ namespace Tests.EditModeTests
         [Test]
         public void CorruptedTome_RoundsUpDamage()
         {
-            var artifact = new CorruptedTome(1.3f);
+            var artifact = new CorruptedTome();
             artifact.OnAttach(_owner);
             _owner.Artifacts.Add(artifact);
 
@@ -139,7 +139,7 @@ namespace Tests.EditModeTests
         [Test]
         public void CorruptedTome_DoesNotApplyToOtherAttacker()
         {
-            var artifact = new CorruptedTome(1.3f);
+            var artifact = new CorruptedTome();
             artifact.OnAttach(_owner);
             _owner.Artifacts.Add(artifact);
 

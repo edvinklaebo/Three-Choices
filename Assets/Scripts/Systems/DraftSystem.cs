@@ -130,15 +130,15 @@ namespace Systems
             if (_upgradeRepository != null)
             {
                 var upgrades = _upgradeRepository.GetAll();
-                for (var i = 0; i < upgrades.Count; i++)
-                    pool.Add(new DraftOption(upgrades[i]));
+                foreach (var upgrade in upgrades)
+                    pool.Add(new DraftOption(upgrade));
             }
 
             if (_artifactRepository != null)
             {
                 var artifacts = _artifactRepository.GetAll();
-                for (var i = 0; i < artifacts.Count; i++)
-                    pool.Add(new DraftOption(artifacts[i]));
+                foreach (var artifact in artifacts)
+                    pool.Add(new DraftOption(artifact));
             }
 
             return pool;

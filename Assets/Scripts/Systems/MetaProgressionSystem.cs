@@ -38,10 +38,8 @@ namespace Systems
         /// </summary>
         public static void UnlockModifier(string id, IDamageModifier modifier)
         {
-            if (!_unlockedModifiers.ContainsKey(id))
+            if (_unlockedModifiers.TryAdd(id, modifier))
             {
-                _unlockedModifiers.Add(id, modifier);
-
                 Log.Info("Meta-progression modifier unlocked", new
                 {
                     modifierId = id,
@@ -143,10 +141,7 @@ namespace Systems
         /// </summary>
         public static void RegisterUnlockedModifier(string id, IDamageModifier modifier)
         {
-            if (!_unlockedModifiers.ContainsKey(id))
-            {
-                _unlockedModifiers.Add(id, modifier);
-            }
+            _unlockedModifiers.TryAdd(id, modifier);
         }
 
         /// <summary>

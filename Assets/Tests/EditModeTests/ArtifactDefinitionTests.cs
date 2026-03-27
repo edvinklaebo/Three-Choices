@@ -8,7 +8,7 @@ namespace Tests.EditModeTests
 {
     public class ArtifactDefinitionTests
     {
-        private ArtifactDefinition CreateArtifact(
+        private static ArtifactDefinition CreateArtifact(
             string id = "test_artifact",
             string displayName = "Test Artifact",
             string description = "A test artifact.",

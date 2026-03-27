@@ -18,12 +18,12 @@ namespace Core
     public class ArcaneMissilesAction : ICombatAction
     {
         public Unit Source { get; }
-        public Unit Target { get; }
-        public int Damage { get; }
-        public int TargetHPBefore { get; }
-        public int TargetHPAfter { get; }
-        public int TargetMaxHP { get; }
-        public Sprite Sprite { get; }
+        private Unit Target { get; }
+        private int Damage { get; }
+        private int TargetHPBefore { get; }
+        private int TargetHPAfter { get; }
+        private int TargetMaxHP { get; }
+        private Sprite Sprite { get; }
 
         public ArcaneMissilesAction(Unit source, Unit target, int damage, int targetHPBefore, int targetHPAfter, int targetMaxHP, Sprite sprite = null)
         {

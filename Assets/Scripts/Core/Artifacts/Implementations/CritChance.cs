@@ -41,17 +41,17 @@ public class CritChance : IPassive, IArtifact, IDamageModifier
         if (ctx.Source != _owner) return;
         if (ctx.IsCritical) return;
 
-        if (Random.value < _critChance)
-        {
-            ctx.IsCritical = true;
-            ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * CritMultiplier);
+        if (!(Random.value < _critChance)) 
+            return;
+        
+        ctx.IsCritical = true;
+        ctx.FinalValue = Mathf.CeilToInt(ctx.FinalValue * CritMultiplier);
 
-            Log.Info("[CritChancePassive] Critical hit!", new
-            {
-                source = _owner.Name,
-                critChance = _critChance,
-                damage = ctx.FinalValue
-            });
-        }
+        Log.Info("[CritChancePassive] Critical hit!", new
+        {
+            source = _owner.Name,
+            critChance = _critChance,
+            damage = ctx.FinalValue
+        });
     }
 }

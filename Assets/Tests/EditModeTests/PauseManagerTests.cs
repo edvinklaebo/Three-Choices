@@ -82,8 +82,8 @@ namespace Tests.EditModeTests
         [Test]
         public void Pause_RaisesEventWithTrueParameter()
         {
-            bool eventRaised = false;
-            bool eventValue = false;
+            var eventRaised = false;
+            var eventValue = false;
 
             PauseManager.OnPauseStateChanged += (isPaused) =>
             {
@@ -102,8 +102,8 @@ namespace Tests.EditModeTests
         {
             PauseManager.Pause();
 
-            bool eventRaised = false;
-            bool eventValue = true;
+            var eventRaised = false;
+            var eventValue = true;
 
             PauseManager.OnPauseStateChanged += (isPaused) =>
             {
@@ -122,7 +122,7 @@ namespace Tests.EditModeTests
         {
             PauseManager.Pause();
 
-            int eventCount = 0;
+            var eventCount = 0;
             PauseManager.OnPauseStateChanged += (_) => eventCount++;
 
             PauseManager.Pause();
@@ -133,7 +133,7 @@ namespace Tests.EditModeTests
         [Test]
         public void Resume_WhenNotPaused_DoesNotRaiseEvent()
         {
-            int eventCount = 0;
+            var eventCount = 0;
             PauseManager.OnPauseStateChanged += (_) => eventCount++;
 
             PauseManager.Resume();

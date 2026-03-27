@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using Intro;
@@ -19,13 +20,13 @@ namespace Tests.EditModeTests
         [Test]
         public void Constructor_ThrowsOnNullLines()
         {
-            Assert.Throws<System.ArgumentException>(() => new IntroSequence(null));
+            Assert.Throws<ArgumentException>(() => { _ = new IntroSequence(null); });
         }
 
         [Test]
         public void Constructor_ThrowsOnEmptyLines()
         {
-            Assert.Throws<System.ArgumentException>(() => new IntroSequence(new string[0]));
+            Assert.Throws<ArgumentException>(() => { _ = new IntroSequence(Array.Empty<string>()); });
         }
 
         [Test]
@@ -153,7 +154,7 @@ namespace Tests.EditModeTests
         [Test]
         public void DefaultLines_ContainsExpectedLastLine()
         {
-            var last = IntroSequence.DefaultLines[IntroSequence.DefaultLines.Length - 1];
+            var last = IntroSequence.DefaultLines[^1];
             Assert.AreEqual("You will sit upon the Bone Throne.", last);
         }
     }

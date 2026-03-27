@@ -115,7 +115,7 @@ namespace Systems
         ///     Cancels the animation playback immediately.
         ///     Clears the queue and stops the runner.
         /// </summary>
-        public void Cancel()
+        private void Cancel()
         {
             if (_runCoroutine != null)
             {

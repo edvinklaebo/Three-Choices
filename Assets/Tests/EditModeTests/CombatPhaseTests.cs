@@ -295,7 +295,7 @@ namespace Tests.EditModeTests
         [Test]
         public void ApplyDamage_CombatEngine_StatusTick_CreatesStatusEffectAction()
         {
-            var attacker = CreateUnit("A", 100, 5, 10);
+            var attacker = CreateUnit("A", 100, 5);
             var defender = CreateUnit("B", 100, 0, 5);
             defender.ApplyStatus(new Poison(10, 3, 1));
 
@@ -311,7 +311,7 @@ namespace Tests.EditModeTests
         public void ApplyDamage_CombatEngine_StatusTick_DeathCreatesDeathAction()
         {
             var attacker = CreateUnit("A", 100, 0, 5);
-            var defender = CreateUnit("B", 5, 0, 10);
+            var defender = CreateUnit("B", 5, 0);
             defender.ApplyStatus(new Poison(10, 3, 1)); // 10 damage kills 5 HP unit
 
             var engine = new CombatEngine();

@@ -79,7 +79,7 @@ namespace Tests.EditModeTests
             idlePointGo.transform.position = new Vector3(5, 0, 0);
 
             var field = typeof(UnitView).GetField("_idlePoint", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            field.SetValue(unitView, idlePointGo.transform);
+            field?.SetValue(unitView, idlePointGo.transform);
 
             var unit = CreateUnit("TestUnit", 100, 10, 5, 5);
             unitView.Initialize(unit, isPlayer: true, null);
@@ -100,7 +100,7 @@ namespace Tests.EditModeTests
             idlePointGo.transform.SetParent(go.transform);
 
             var field = typeof(UnitView).GetField("_idlePoint", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            field.SetValue(unitView, idlePointGo.transform);
+            field?.SetValue(unitView, idlePointGo.transform);
 
             Assert.AreEqual(idlePointGo.transform, unitView.IdlePoint);
 
@@ -119,7 +119,7 @@ namespace Tests.EditModeTests
             var spriteRenderer = spriteGo.AddComponent<SpriteRenderer>();
 
             var field = typeof(UnitView).GetField("_spriteRenderer", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            field.SetValue(unitView, spriteRenderer);
+            field?.SetValue(unitView, spriteRenderer);
 
             var texture = new Texture2D(1, 1);
             var portrait = Sprite.Create(texture, new Rect(0, 0, 1, 1), Vector2.zero);
@@ -142,7 +142,7 @@ namespace Tests.EditModeTests
             lungePointGo.transform.SetParent(go.transform);
 
             var field = typeof(UnitView).GetField("_lungePoint", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            field.SetValue(unitView, lungePointGo.transform);
+            field?.SetValue(unitView, lungePointGo.transform);
 
             Assert.AreEqual(lungePointGo.transform, unitView.LungePoint);
 

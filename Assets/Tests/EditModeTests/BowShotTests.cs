@@ -247,8 +247,15 @@ namespace Tests.EditModeTests
             var damageActions = 0;
             foreach (var action in context.Actions)
             {
-                if (action is BowShotAction) bowShotActions++;
-                else if (action is DamageAction) damageActions++;
+                switch (action)
+                {
+                    case BowShotAction:
+                        bowShotActions++;
+                        break;
+                    case DamageAction:
+                        damageActions++;
+                        break;
+                }
             }
 
             Assert.AreEqual(1, bowShotActions, "Bow Shot should produce exactly one BowShotAction");

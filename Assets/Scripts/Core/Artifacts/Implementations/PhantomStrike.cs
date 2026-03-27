@@ -18,8 +18,6 @@ namespace Core.Artifacts.Passives
         [SerializeField] private float _damagePercent;
         [SerializeField] private int _hitCount;
 
-        [NonSerialized] private Unit _owner;
-
         public int Priority => 100;
 
         public PhantomStrike(int hitsPerTrigger = 5, float damagePercent = 0.5f)
@@ -30,14 +28,12 @@ namespace Core.Artifacts.Passives
 
         public void OnAttach(Unit owner)
         {
-            _owner = owner;
             owner.OnHit += OnHit;
         }
 
         public void OnDetach(Unit owner)
         {
             owner.OnHit -= OnHit;
-            _owner = null;
         }
 
         private void OnHit(Unit self, Unit target, int damage)

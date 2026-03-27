@@ -183,7 +183,7 @@ namespace Tests.EditModeTests
 
             var initialDefenderHP = defender.Stats.CurrentHP;
 
-            var actions = CombatSystem.RunFight(attacker, defender);
+            CombatSystem.RunFight(attacker, defender);
 
             Assert.Less(defender.Stats.CurrentHP, initialDefenderHP,
                 "Combat should still apply damage to units");

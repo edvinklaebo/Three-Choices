@@ -46,13 +46,13 @@ namespace Tests.EditModeTests
 
             // Set serialized fields via reflection (in production would use inspector)
             var playerViewField = typeof(CombatView).GetField("_playerView", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            playerViewField.SetValue(combatView, playerView);
+            playerViewField?.SetValue(combatView, playerView);
 
             var enemyViewField = typeof(CombatView).GetField("_enemyView", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            enemyViewField.SetValue(combatView, enemyView);
+            enemyViewField?.SetValue(combatView, enemyView);
 
             var hudField = typeof(CombatView).GetField("_combatHUD", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            hudField.SetValue(combatView, hud);
+            hudField?.SetValue(combatView, hud);
 
             var player = CreateUnit("Player", 100, 10, 5, 5);
             var enemy = CreateUnit("Enemy", 80, 8, 3, 4);
@@ -73,7 +73,7 @@ namespace Tests.EditModeTests
             var playerView = playerViewGo.AddComponent<UnitView>();
 
             var field = typeof(CombatView).GetField("_playerView", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            field.SetValue(combatView, playerView);
+            field?.SetValue(combatView, playerView);
 
             Assert.AreEqual(playerView, combatView.PlayerView);
 
@@ -91,7 +91,7 @@ namespace Tests.EditModeTests
             var enemyView = enemyViewGo.AddComponent<UnitView>();
 
             var field = typeof(CombatView).GetField("_enemyView", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            field.SetValue(combatView, enemyView);
+            field?.SetValue(combatView, enemyView);
 
             Assert.AreEqual(enemyView, combatView.EnemyView);
 

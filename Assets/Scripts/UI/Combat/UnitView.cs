@@ -76,7 +76,7 @@ namespace UI.Combat
         /// <summary>
         /// Set the sprite for this unit.
         /// </summary>
-        public void SetSprite(Sprite sprite)
+        private void SetSprite(Sprite sprite)
         {
             if (_spriteRenderer != null)
             {
@@ -92,25 +92,6 @@ namespace UI.Combat
             if (_spriteRenderer != null)
             {
                 _spriteRenderer.transform.localPosition = _spriteOriginalLocalPosition;
-            }
-        }
-
-        /// <summary>
-        /// Set facing direction based on role.
-        /// Player faces right, enemy faces left.
-        /// </summary>
-        private void SetFacingDirection(bool isPlayer)
-        {
-            // Ensure sprite renderer is found if not already assigned
-            if (_spriteRenderer == null)
-            {
-                _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-            }
-
-            if (_spriteRenderer != null)
-            {
-                // Player faces right (positive X), enemy faces left (negative X)
-                _spriteRenderer.flipX = !isPlayer;
             }
         }
 

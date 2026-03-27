@@ -126,6 +126,7 @@ namespace Core.Combat
                 if (artifact is ICombatListener listener)
                     _context.RegisterListener(listener);
 
+                // ReSharper disable once SuspiciousTypeConversion.Global
                 if (artifact is ICombatHandlerProvider provider)
                     _context.RegisterListener(provider.CreateCombatHandler(unit));
             }
@@ -145,14 +146,7 @@ namespace Core.Combat
 
         private void TickStatusesTurnStart(Unit source, Unit target)
         {
-            if (!source.StatusEffects.Any() && !target.StatusEffects.Any())
-                return;
-
-            // Apply statuses on source
-            // ApplyStatus(source, target);
-            
-            // Apply statuses on target
-            // ApplyStatus(target, source);
+            Log.Info($"Tick statuses turn start on: {source.Name} and {target.Name}");
         }
 
         private void TriggerAbilities(Unit source, Unit target)

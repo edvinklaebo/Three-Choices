@@ -6,13 +6,11 @@ using NUnit.Framework;
 
 using Systems;
 
-using UnityEngine;
-
 namespace Tests.EditModeTests
 {
     public class ModifierSystemTests
     {
-        private Unit CreateUnit(string name, int hp, int attack, int armor, int speed)
+        private static Unit CreateUnit(string name, int hp, int attack, int armor, int speed)
         {
             return new Unit(name)
             {

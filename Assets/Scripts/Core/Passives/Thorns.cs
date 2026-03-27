@@ -9,7 +9,7 @@ using Utils;
 namespace Core.Passives
 {
     /// <summary>
-    /// Deals damage equal to half the owner's armour to any unit that attacks them.
+    /// Deals damage equal to half the owner's armor to any unit that attacks them.
     /// Reflects only on direct attacks (attacker != null) to avoid triggering on status effects.
     /// Uses a re-entrance guard to prevent infinite reflect chains when both units carry Thorns.
     /// Reflects via <see cref="CombatContext.DealDamage"/> (through <see cref="OnHitEvent"/>) so a

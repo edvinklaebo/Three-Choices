@@ -86,10 +86,10 @@ namespace Tests.EditModeTests
             var attacker = CreateUnit("Attacker");
             var defender = CreateUnit("Defender");
 
-            var damagedAttacker = (Unit)null;
+            Unit damagedAttacker = null;
             var damagedAmount = 0;
 
-            defender.Damaged += (self, a, d) =>
+            defender.Damaged += (_, a, d) =>
             {
                 damagedAttacker = a;
                 damagedAmount = d;

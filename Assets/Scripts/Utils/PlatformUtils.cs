@@ -1,7 +1,7 @@
 using UnityEngine;
 
 /// <summary>
-/// Utility helpers for platform-specific behaviour.
+/// Utility helpers for platform-specific behavior.
 /// </summary>
 public static class PlatformUtils
 {

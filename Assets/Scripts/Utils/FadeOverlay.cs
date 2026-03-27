@@ -17,7 +17,7 @@ namespace Utils
         /// <summary>
         ///     Fade the overlay from current alpha to target alpha over duration.
         /// </summary>
-        public void FadeTo(float targetAlpha, float duration)
+        private void FadeTo(float targetAlpha, float duration)
         {
             StopAllCoroutines();
             StartCoroutine(FadeCoroutine(targetAlpha, duration));

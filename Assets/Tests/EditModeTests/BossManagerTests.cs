@@ -7,7 +7,7 @@ namespace Tests.EditModeTests
 {
     public class BossManagerTests
     {
-        private BossPool CreateRegistry(params BossDefinition[] bosses)
+        private static BossPool CreateRegistry(params BossDefinition[] bosses)
         {
             var registry = ScriptableObject.CreateInstance<BossPool>();
             foreach (var boss in bosses)
@@ -15,7 +15,7 @@ namespace Tests.EditModeTests
             return registry;
         }
 
-        private BossDefinition CreateBoss(string id, int difficultyRating)
+        private static BossDefinition CreateBoss(string id, int difficultyRating)
         {
             var boss = ScriptableObject.CreateInstance<BossDefinition>();
             boss.EditorInit(id, id, difficultyRating);

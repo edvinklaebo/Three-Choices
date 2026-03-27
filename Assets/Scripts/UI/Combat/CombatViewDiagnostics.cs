@@ -122,24 +122,21 @@ namespace UI.Combat
 
             // Check CombatOrchestrator
             var combatOrchestrator = FindFirstObjectByType<CombatOrchestrator>();
-            if (combatOrchestrator == null)
-                report.AppendLine("⚠️  CombatOrchestrator not found in scene\n");
-            else
-                report.AppendLine("✓ CombatOrchestrator found");
+            report.AppendLine(combatOrchestrator == null
+                ? "⚠️  CombatOrchestrator not found in scene\n"
+                : "✓ CombatOrchestrator found");
 
             // Check CombatPresentationCoordinator
             var presentationCoordinator = FindFirstObjectByType<CombatPresentationCoordinator>();
-            if (presentationCoordinator == null)
-                report.AppendLine("⚠️  CombatPresentationCoordinator not found in scene\n");
-            else
-                report.AppendLine("✓ CombatPresentationCoordinator found");
+            report.AppendLine(presentationCoordinator == null
+                ? "⚠️  CombatPresentationCoordinator not found in scene\n"
+                : "✓ CombatPresentationCoordinator found");
 
             // Check GameFlowController
             var gameFlowController = FindFirstObjectByType<GameFlowController>();
-            if (gameFlowController == null)
-                report.AppendLine("⚠️  GameFlowController not found in scene\n");
-            else
-                report.AppendLine("✓ GameFlowController found");
+            report.AppendLine(gameFlowController == null
+                ? "⚠️  GameFlowController not found in scene\n"
+                : "✓ GameFlowController found");
 
             report.AppendLine("\n=== END DIAGNOSTICS ===");
         
@@ -148,32 +145,17 @@ namespace UI.Combat
 
         private void CheckUnitView(UnitView unitView, string componentName, StringBuilder report)
         {
-            if (unitView.IdlePoint == null)
-            {
-                report.AppendLine($"    ❌ {componentName} IdlePoint not assigned");
-            }
-            else
-            {
-                report.AppendLine($"    ✓ {componentName} IdlePoint: {unitView.IdlePoint.localPosition}");
-            }
+            report.AppendLine(unitView.IdlePoint == null
+                ? $"    ❌ {componentName} IdlePoint not assigned"
+                : $"    ✓ {componentName} IdlePoint: {unitView.IdlePoint.localPosition}");
 
-            if (unitView.LungePoint == null)
-            {
-                report.AppendLine($"    ❌ {componentName} LungePoint not assigned");
-            }
-            else
-            {
-                report.AppendLine($"    ✓ {componentName} LungePoint: {unitView.LungePoint.localPosition}");
-            }
+            report.AppendLine(unitView.LungePoint == null
+                ? $"    ❌ {componentName} LungePoint not assigned"
+                : $"    ✓ {componentName} LungePoint: {unitView.LungePoint.localPosition}");
 
-            if (unitView.SpriteTransform == null)
-            {
-                report.AppendLine($"    ⚠️  {componentName} has no SpriteRenderer child");
-            }
-            else
-            {
-                report.AppendLine($"    ✓ {componentName} SpriteRenderer found");
-            }
+            report.AppendLine(unitView.SpriteTransform == null
+                ? $"    ⚠️  {componentName} has no SpriteRenderer child"
+                : $"    ✓ {componentName} SpriteRenderer found");
         }
     }
 }

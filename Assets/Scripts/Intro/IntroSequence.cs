@@ -35,14 +35,14 @@ namespace Intro
         };
 
         private readonly string[] _lines;
-        private int _currentIndex;
 
         public event Action<string> OnLineShown;
         public event Action OnComplete;
 
-        public int CurrentIndex => _currentIndex;
+        public int CurrentIndex { get; private set; }
+
         public int TotalLines => _lines.Length;
-        public bool IsComplete => _currentIndex >= _lines.Length;
+        public bool IsComplete => CurrentIndex >= _lines.Length;
 
         public IntroSequence(string[] lines)
         {
@@ -57,8 +57,8 @@ namespace Intro
             if (IsComplete)
                 return;
 
-            OnLineShown?.Invoke(_lines[_currentIndex]);
-            _currentIndex++;
+            OnLineShown?.Invoke(_lines[CurrentIndex]);
+            CurrentIndex++;
 
             if (IsComplete)
                 OnComplete?.Invoke();
@@ -69,7 +69,7 @@ namespace Intro
             if (IsComplete)
                 return;
 
-            _currentIndex = _lines.Length;
+            CurrentIndex = _lines.Length;
             OnComplete?.Invoke();
         }
     }

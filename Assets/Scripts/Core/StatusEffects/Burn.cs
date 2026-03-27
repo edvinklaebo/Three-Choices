@@ -28,7 +28,7 @@ namespace Core.StatusEffects
         /// <summary>Data-driven constructor: reads all config from a <see cref="BurnDefinition"/> ScriptableObject.</summary>
         public Burn(BurnDefinition data)
         {
-            UnityEngine.Debug.Assert(data != null, "Burn: data must not be null");
+            Debug.Assert(data != null, "Burn: data must not be null");
             _baseDuration = data.Duration;
             Duration = data.Duration;
             BaseDamage = data.BaseDamage;
@@ -92,7 +92,7 @@ namespace Core.StatusEffects
 
         public void AddStacks(IStatusEffect effect)
         {
-            // Burn does not stack - instead, refresh duration and keep highest damage
+            // Burn does not stack - instead, refresh duration and keep the highest damage
             // This is called when a new burn is applied
             if (effect.BaseDamage > BaseDamage)
             {

@@ -1,6 +1,5 @@
 using System;
 using Core.Artifacts.Passives;
-using Core.Passives;
 using Utils;
 
 namespace Core.Artifacts

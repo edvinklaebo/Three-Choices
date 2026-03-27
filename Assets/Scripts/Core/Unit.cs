@@ -137,9 +137,9 @@ namespace Core
             if (IsDead || amount <= 0)
                 return;
 
-            for (var i = 0; i < StatusEffects.Count; i++)
+            foreach (var statusEffect in StatusEffects)
             {
-                if (StatusEffects[i] is IHealingModifier modifier)
+                if (statusEffect is IHealingModifier modifier)
                     amount = modifier.ModifyHealing(this, amount);
 
                 if (amount <= 0)
@@ -164,12 +164,12 @@ namespace Core
         
             IStatusEffect existing = null;
 
-            for (var i = 0; i < StatusEffects.Count; i++)
+            foreach (var statusEffect in StatusEffects)
             {
-                if (StatusEffects[i].Id != effect.Id) 
+                if (statusEffect.Id != effect.Id) 
                     continue;
-                existing = StatusEffects[i];
-                break;
+                existing = statusEffect;
+                break; 
             }
 
             if (existing != null)

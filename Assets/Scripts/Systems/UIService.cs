@@ -109,7 +109,7 @@ namespace Systems
 
         /// <summary>
         ///     Animates the health bar for a unit from a specific old HP to a specific new HP.
-        ///     This allows proper animation even when the unit's state has already been modified.
+        ///     This allows proper animation even when the units state has already been modified.
         /// </summary>
         public void AnimateHealthBarToValue(Unit target, int hpBefore, int hpAfter)
         {

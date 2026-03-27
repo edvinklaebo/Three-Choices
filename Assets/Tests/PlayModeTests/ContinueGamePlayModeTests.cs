@@ -81,6 +81,7 @@ namespace Tests.PlayModeTests
             Assert.IsTrue(SaveService.HasSave(), "Save file should exist");
 
             // === PHASE 1: Load main menu ===
+            // ReSharper disable once Unity.LoadSceneUnknownSceneName
             yield return SceneManager.LoadSceneAsync("MainMenu");
             yield return new WaitForSeconds(0.5f);
 
@@ -103,6 +104,7 @@ namespace Tests.PlayModeTests
             Assert.IsFalse(SaveService.HasSave(), "Save file should not exist");
 
             // === PHASE 1: Load main menu ===
+            // ReSharper disable once Unity.LoadSceneUnknownSceneName
             yield return SceneManager.LoadSceneAsync("MainMenu");
             yield return new WaitForSeconds(0.5f);
 
@@ -121,6 +123,7 @@ namespace Tests.PlayModeTests
         public IEnumerator ContinueGame_LoadsPlayerStateCorrectly()
         {
             // === SETUP: Create RunController and save a game state ===
+            // ReSharper disable once Unity.UnknownResource
             var runControllerPrefab = Resources.Load<GameObject>("RunController");
             if (runControllerPrefab == null)
             {
@@ -148,6 +151,7 @@ namespace Tests.PlayModeTests
             SaveService.Save(savedRun);
 
             // === PHASE 1: Load main menu ===
+            // ReSharper disable once Unity.LoadSceneUnknownSceneName
             yield return SceneManager.LoadSceneAsync("MainMenu");
             yield return new WaitForSeconds(0.5f);
 

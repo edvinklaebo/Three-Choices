@@ -9,7 +9,7 @@ namespace Tests.EditModeTests
 {
     public class UpgradeDefinitionTests
     {
-        private UpgradeDefinition CreateUpgradeWithRarityWeight(int rarityWeight)
+        private static UpgradeDefinition CreateUpgradeWithRarityWeight(int rarityWeight)
         {
             var upgrade = ScriptableObject.CreateInstance<StatDefinition>();
             upgrade.EditorInit("test", "Test Upgrade");

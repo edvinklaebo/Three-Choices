@@ -13,7 +13,7 @@ namespace Tests.EditModeTests
 {
     public class EnemyFactoryTests
     {
-        private EnemyDefinition CreateDefinition(string name, int maxHP, int attackPower,
+        private static EnemyDefinition CreateDefinition(string name, int maxHP, int attackPower,
             int armor, int speed, int minFightIndex = 0, int maxFightIndex = 999)
         {
             var def = ScriptableObject.CreateInstance<EnemyDefinition>();
@@ -21,7 +21,7 @@ namespace Tests.EditModeTests
             return def;
         }
 
-        private EnemyPool CreateDatabase(params EnemyDefinition[] definitions)
+        private static EnemyPool CreateDatabase(params EnemyDefinition[] definitions)
         {
             var db = ScriptableObject.CreateInstance<EnemyPool>();
             foreach (var def in definitions)
@@ -29,7 +29,7 @@ namespace Tests.EditModeTests
             return db;
         }
 
-        private EnemyFactory CreateFactory(EnemyPool database)
+        private static EnemyFactory CreateFactory(EnemyPool database)
         {
             var factory = ScriptableObject.CreateInstance<EnemyFactory>();
             factory.EditorInit(database);

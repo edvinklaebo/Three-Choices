@@ -13,7 +13,7 @@ namespace Systems
 {
     /// <summary>
     ///     ScriptableObject factory that creates enemy <see cref="Unit"/> instances from
-    ///     <see cref="EnemyDefinition"/> assets stored in an <see cref="EnemyDatabase"/>.
+    ///     <see cref="EnemyDefinition"/> assets stored in an <see cref="EnemyPool"/>.
     ///     Create via the asset menu: Game/Enemy Factory.
     /// </summary>
     [CreateAssetMenu(menuName = "Game/Enemy Factory")]
@@ -51,9 +51,8 @@ namespace Systems
         {
             var candidates = new List<EnemyDefinition>();
 
-            for (var i = 0; i < _pool.Enemies.Count; i++)
+            foreach (var definition in _pool.Enemies)
             {
-                var definition = _pool.Enemies[i];
                 if (fightIndex >= definition.MinFightIndex && fightIndex <= definition.MaxFightIndex)
                     candidates.Add(definition);
             }
@@ -64,16 +63,16 @@ namespace Systems
         private static T WeightedRandom<T>(List<T> candidates) where T : EnemyDefinition
         {
             var totalWeight = 0;
-            for (var i = 0; i < candidates.Count; i++)
-                totalWeight += candidates[i].SpawnWeight;
+            foreach (var spawn in candidates)
+                totalWeight += spawn.SpawnWeight;
 
             var roll = UnityEngine.Random.Range(0, totalWeight);
             var cumulative = 0;
-            for (var i = 0; i < candidates.Count; i++)
+            foreach (var spawn in candidates)
             {
-                cumulative += candidates[i].SpawnWeight;
+                cumulative += spawn.SpawnWeight;
                 if (roll < cumulative)
-                    return candidates[i];
+                    return spawn;
             }
             
             return candidates.Count == 0 
@@ -96,8 +95,8 @@ namespace Systems
                 }
             };
 
-            for (var i = 0; i < def.Traits.Count; i++)
-                def.Traits[i].Apply(unit);
+            foreach (var trait in def.Traits)
+                trait.Apply(unit);
 
             return unit;
         }

@@ -62,6 +62,7 @@ namespace Tests.PlayModeTests
         public IEnumerator FullGameFlow_FromStartToFirstDraft()
         {
             // === PHASE 1: Game starts and splash screen is displayed ===
+            // ReSharper disable once Unity.LoadSceneUnexistingScene
             yield return SceneManager.LoadSceneAsync("SplashScreen");
             yield return new WaitForSeconds(0.5f);
 

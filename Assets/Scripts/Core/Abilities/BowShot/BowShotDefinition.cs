@@ -8,7 +8,7 @@ namespace Core.Abilities
     /// <summary>
     ///     Single source of truth for the Bow Shot ability.
     ///     Holds both the balance config (damage, bleed definition, cooldown) and the
-    ///     upgrade-card behaviour (first-pickup creates the ability; subsequent pickups stack damage).
+    ///     upgrade-card behavior (first-pickup creates the ability; subsequent pickups stack damage).
     ///     Assign a <see cref="BleedDefinition"/> asset to drive all bleed values from the Inspector.
     ///     Falls back to code defaults when none is assigned.
     ///     Tweak all values in the Unity Editor without touching code.

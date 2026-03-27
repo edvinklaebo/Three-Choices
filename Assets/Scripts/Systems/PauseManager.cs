@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Systems
 {
     /// <summary>
-    /// Static pause manager handling pause state, time scale, and cursor visibility.
+    /// Static pause manager handling pause state, timescale, and cursor visibility.
     /// Follows single responsibility principle - only manages pause state and time.
     /// </summary>
     public static class PauseManager

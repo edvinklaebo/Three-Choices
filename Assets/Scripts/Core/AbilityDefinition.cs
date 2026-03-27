@@ -7,8 +7,8 @@ using UnityEngine;
 ///     Abstract base for all ability upgrade ScriptableObjects.
 ///     Holds both the balance data (damage, cooldown, tags) and the upgrade-card
 ///     identity fields inherited from <see cref="UpgradeDefinition"/>.
-///     Concrete subclasses (e.g. <see cref="Core.Abilities.Definitions.FireballDefinition"/>,
-///     <see cref="Core.Abilities.Definitions.ArcaneMissilesDefinition"/>) live in
+///     Concrete subclasses (e.g. <see cref="Core.Abilities.FireballDefinition"/>,
+///     <see cref="Core.Abilities.ArcaneMissilesDefinition"/>) live in
 ///     Core/Abilities/Definitions/ and override <see cref="UpgradeDefinition.Apply"/> to handle
 ///     first-pickup creation and duplicate stacking.
 /// </summary>
@@ -28,7 +28,7 @@ public abstract class AbilityDefinition : UpgradeDefinition
     [SerializeField] private List<string> _tags = new();
 
     public int BaseDamage => _baseDamage;
-    public int DamagePerUpgrade => _damagePerUpgrade;
+    protected int DamagePerUpgrade => _damagePerUpgrade;
     public int CooldownRounds => _cooldownRounds;
     public IReadOnlyList<string> Tags => _tags;
 
@@ -49,7 +49,7 @@ public abstract class AbilityDefinition : UpgradeDefinition
     }
 
 #if UNITY_EDITOR
-    public void EditorInitAbility(int baseDamage, int damagePerUpgrade, int cooldownRounds)
+    protected void EditorInitAbility(int baseDamage, int damagePerUpgrade, int cooldownRounds)
     {
         _baseDamage = baseDamage;
         _damagePerUpgrade = damagePerUpgrade;
