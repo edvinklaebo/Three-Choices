@@ -3,8 +3,11 @@ using System.Linq;
 
 using Core;
 using Core.Passives;
+using Core.Passives.Definitions;
 
 using Systems;
+
+using UnityEngine;
 
 namespace Tests.EditModeTests
 {
@@ -141,6 +144,46 @@ namespace Tests.EditModeTests
 
             Assert.IsNotEmpty(thornsActions,
                 "Thorn reflect must produce at least one ThornsAction targeting the attacker so the shake animation and damage are displayed");
+        }
+
+        // ---- Definition: data-driven balance ----
+
+        [Test]
+        public void ThornsDefinition_CreatesPassive_WithConfiguredMultiplier()
+        {
+            var attacker = CreateUnit("Attacker", 100, 10, 0, 10);
+            var defender = CreateUnit("Defender", 1000, 0, 20, 5); // Armor = 20
+
+            var definition = ScriptableObject.CreateInstance<ThornsDefinition>();
+            definition.EditorInit("thorns", "Thorns", armorMultiplier: 1.0f); // reflect full armor
+            definition.Apply(defender);
+
+            var actions = CombatSystem.RunFight(attacker, defender);
+
+            var thornsAction = actions.OfType<ThornsAction>().FirstOrDefault(a => a.Target == attacker);
+            Assert.IsNotNull(thornsAction, "Thorns should produce a ThornsAction targeting the attacker");
+            Assert.AreEqual(20, thornsAction.Amount, "armorMultiplier=1.0 should reflect full armor (20)");
+
+            ScriptableObject.DestroyImmediate(definition);
+        }
+
+        [Test]
+        public void ThornsDefinition_DefaultMultiplier_IsHalfArmor()
+        {
+            var attacker = CreateUnit("Attacker", 100, 10, 0, 10);
+            var defender = CreateUnit("Defender", 1000, 0, 20, 5); // Armor = 20
+
+            var definition = ScriptableObject.CreateInstance<ThornsDefinition>();
+            definition.EditorInit("thorns", "Thorns"); // default 0.5
+            definition.Apply(defender);
+
+            var actions = CombatSystem.RunFight(attacker, defender);
+
+            var thornsAction = actions.OfType<ThornsAction>().FirstOrDefault(a => a.Target == attacker);
+            Assert.IsNotNull(thornsAction, "Thorns should produce a ThornsAction targeting the attacker");
+            Assert.AreEqual(10, thornsAction.Amount, "Default armorMultiplier=0.5 should reflect half armor (10)");
+
+            ScriptableObject.DestroyImmediate(definition);
         }
     }
 }

@@ -91,6 +91,13 @@ namespace Core.Combat
             if (acting.IsDead || target.IsDead)
                 return;
 
+            if (TryConsumeStun(acting))
+            {
+                TickStatusesTurnEnd(acting, target);
+                _attackerTurn = !_attackerTurn;
+                return;
+            }
+
             TriggerAbilities(acting, target);
 
             if (acting.IsDead || target.IsDead)
@@ -103,6 +110,21 @@ namespace Core.Combat
             TickStatusesTurnEnd(acting, target);
 
             _attackerTurn = !_attackerTurn;
+        }
+
+        /// <summary>
+        /// Checks whether the acting unit has a stun effect and consumes one stack.
+        /// Returns true if the turn should be skipped.
+        /// </summary>
+        private static bool TryConsumeStun(Unit unit)
+        {
+            for (var i = 0; i < unit.StatusEffects.Count; i++)
+            {
+                if (unit.StatusEffects[i] is ITurnSkipper skipper && skipper.ConsumeTurnSkip())
+                    return true;
+            }
+
+            return false;
         }
 
         private List<ICombatAction> BuildResult()

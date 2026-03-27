@@ -4,12 +4,16 @@ using Core.Combat;
 
 using Interfaces;
 
+using UnityEngine;
+
 using Utils;
 
 namespace Core.Passives
 {
     /// <summary>
     /// Deals damage equal to half the owner's armor to any unit that attacks them.
+    /// Deals damage equal to a fraction of the owner's armour to any unit that attacks them.
+    /// The fraction is controlled by <see cref="_armorMultiplier"/> (default 0.5 = half armour).
     /// Reflects only on direct attacks (attacker != null) to avoid triggering on status effects.
     /// Uses a re-entrance guard to prevent infinite reflect chains when both units carry Thorns.
     /// Reflects via <see cref="CombatContext.DealDamage"/> (through <see cref="OnHitEvent"/>) so a
@@ -18,9 +22,17 @@ namespace Core.Passives
     [Serializable]
     public class Thorns : IPassive, ICombatListener, IActionCreator
     {
+        [SerializeField] private float _armorMultiplier;
+
         [NonSerialized] private Unit _owner;
         [NonSerialized] private CombatContext _context;
         [NonSerialized] private bool _isReflecting;
+
+        public Thorns(float armorMultiplier = 0.5f)
+        {
+            Debug.Assert(armorMultiplier > 0f, "Thorns: armorMultiplier must be > 0");
+            _armorMultiplier = armorMultiplier;
+        }
 
         public int Priority => 100;
 
@@ -62,7 +74,7 @@ namespace Core.Passives
             if (_isReflecting)
                 return;
 
-            var thornsDamage = _owner.Stats.Armor / 2;
+            var thornsDamage = Mathf.CeilToInt(_owner.Stats.Armor * _armorMultiplier);
             if (thornsDamage <= 0)
                 return;
 
