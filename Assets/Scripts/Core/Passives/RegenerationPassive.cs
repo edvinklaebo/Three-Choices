@@ -31,6 +31,15 @@ namespace Core.Passives
             _healingPerStack = healingPerStack;
         }
 
+        /// <summary>Data-driven constructor: reads all config from a <see cref="RegenerationDefinition"/> ScriptableObject.</summary>
+        public RegenerationPassive(Unit owner, RegenerationDefinition data)
+        {
+            _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+            if (data == null) throw new ArgumentNullException(nameof(data));
+            _stacks = data.Stacks;
+            _healingPerStack = data.HealingPerStack;
+        }
+
         public int Priority => 100;
 
         public void OnAttach(Unit owner)

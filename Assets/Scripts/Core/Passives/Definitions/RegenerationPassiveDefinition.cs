@@ -10,29 +10,27 @@ namespace Core.Passives.Definitions
     /// <summary>
     ///     Definition for the Regeneration passive upgrade.
     ///     At the start of each fight the unit receives a <see cref="Regeneration"/>
-    ///     status effect that heals it for <see cref="_healingPerStack"/> HP per remaining
-    ///     stack each round.
+    ///     status effect whose balance is driven by the assigned <see cref="RegenerationDefinition"/>
+    ///     asset. Falls back to code defaults (3 stacks, 5 healing/stack) when none is assigned.
     /// </summary>
     [CreateAssetMenu(menuName = "Upgrades/Passive/Regeneration")]
     public class RegenerationPassiveDefinition : PassiveDefinition
     {
-        [Tooltip("Number of regeneration stacks applied at the start of each fight.")]
-        [Range(1, 20)] [SerializeField] private int _stacks = 3;
+        [Tooltip("Balance data for the Regeneration effect. Leave empty to use code defaults.")]
+        [SerializeField] private RegenerationDefinition _regenerationDefinition;
 
-        [Tooltip("Amount healed per stack each round.")]
-        [Range(1, 50)] [SerializeField] private int _healingPerStack = 5;
-
-        protected override IPassive CreatePassive(Unit unit) =>
-            new RegenerationPassive(unit, _stacks, _healingPerStack);
+        protected override IPassive CreatePassive(Unit unit)
+            => _regenerationDefinition != null
+                ? new RegenerationPassive(unit, _regenerationDefinition)
+                : new RegenerationPassive(unit, stacks: 3, healingPerStack: 5);
 
 #if UNITY_EDITOR
         public void EditorInit(string identifier, string soName,
-            int stacks = 3, int healingPerStack = 5)
+            RegenerationDefinition regenerationDefinition = null)
         {
             id = identifier;
             displayName = soName;
-            _stacks = stacks;
-            _healingPerStack = healingPerStack;
+            _regenerationDefinition = regenerationDefinition;
         }
 #endif
     }

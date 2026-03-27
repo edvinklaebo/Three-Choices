@@ -142,17 +142,50 @@ namespace Tests.EditModeTests
         // ---- Definition: data-driven constructor ----
 
         [Test]
-        public void RegenerationPassiveDefinition_CreatesPassive_WithConfiguredValues()
+        public void RegenerationPassive_DataDrivenConstructor_ReadsValuesFromDefinition()
         {
             var player = CreateUnit("Player", 100, 10, 0, 10);
 
+            var regenDef = ScriptableObject.CreateInstance<RegenerationDefinition>();
+            regenDef.EditorInit(stacks: 5, healingPerStack: 10);
+
+            var passive = new RegenerationPassive(player, regenDef);
+            passive.OnAttach(player);
+            player.Passives.Add(passive);
+
+            var context = new CombatContext();
+            context.RegisterListener(passive);
+
+            var regen = (Regeneration)player.StatusEffects[0];
+            Assert.AreEqual(5, regen.Stacks, "Stacks should come from RegenerationDefinition");
+
+            ScriptableObject.DestroyImmediate(regenDef);
+        }
+
+        [Test]
+        public void RegenerationPassiveDefinition_CreatesPassive_UsingRegenerationDefinition()
+        {
+            var player = CreateUnit("Player", 100, 10, 0, 10);
+
+            var regenDef = ScriptableObject.CreateInstance<RegenerationDefinition>();
+            regenDef.EditorInit(stacks: 5, healingPerStack: 10);
+
             var definition = ScriptableObject.CreateInstance<RegenerationPassiveDefinition>();
-            definition.EditorInit("regen_passive", "Regeneration", stacks: 5, healingPerStack: 10);
+            definition.EditorInit("regen_passive", "Regeneration", regenerationDefinition: regenDef);
             definition.Apply(player);
 
             Assert.AreEqual(1, player.Passives.Count, "Should have 1 passive after applying definition");
             Assert.IsInstanceOf<RegenerationPassive>(player.Passives[0]);
 
+            // Trigger combat start and verify stacks come from the SO
+            var context = new CombatContext();
+            context.RegisterListener((RegenerationPassive)player.Passives[0]);
+
+            Assert.IsInstanceOf<Regeneration>(player.StatusEffects[0], "Status effect should be Regeneration");
+            var regen = (Regeneration)player.StatusEffects[0];
+            Assert.AreEqual(5, regen.Stacks, "Stacks should come from assigned RegenerationDefinition");
+
+            ScriptableObject.DestroyImmediate(regenDef);
             ScriptableObject.DestroyImmediate(definition);
         }
 
@@ -169,8 +202,9 @@ namespace Tests.EditModeTests
             var context = new CombatContext();
             context.RegisterListener((RegenerationPassive)player.Passives[0]);
 
+            Assert.IsInstanceOf<Regeneration>(player.StatusEffects[0], "Status effect should be Regeneration");
             var regen = (Regeneration)player.StatusEffects[0];
-            Assert.AreEqual(3, regen.Stacks, "Default stacks should be 3");
+            Assert.AreEqual(3, regen.Stacks, "Default stacks should be 3 when no RegenerationDefinition is assigned");
 
             ScriptableObject.DestroyImmediate(definition);
         }
