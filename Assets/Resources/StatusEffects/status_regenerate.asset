@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba09d8c3e90e1a845a2ce4c343a2d04f, type: 3}
   m_Name: status_regenerate
   m_EditorClassIdentifier: Ropa::Core.StatusEffects.RegenerationDefinition
-  _id: Regenerate
-  _displayName: Regenerate
+  _id: Regeneration
+  _displayName: Regeneration
   _description: You are regenerating health.
   _icon: {fileID: 1365539031471768751, guid: f9e7ddad80af26d498196f41b8a6f06a, type: 3}
   _color: {r: 0.641977, g: 1, b: 0.5801887, a: 1}
