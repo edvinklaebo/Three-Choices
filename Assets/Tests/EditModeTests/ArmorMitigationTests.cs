@@ -138,8 +138,7 @@ namespace Tests.EditModeTests
             var attacker = CreateUnit("Attacker", 200, 100, armor: 0, speed: 10);
             var target = CreateUnit("Target_Armored", 200, 0, armor: 100, speed: 5);
 
-            var engine = new CombatEngine();
-            var actions = engine.RunFight(attacker, target);
+            var actions = CombatSystem.RunFight(attacker, target);
 
             var damageActions = actions.OfType<DamageAction>()
                 .Where(a => a.Target == target)
