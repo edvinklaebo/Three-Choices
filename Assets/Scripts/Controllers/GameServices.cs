@@ -34,14 +34,14 @@ namespace Controllers
                 return;
             }
 
-            DontDestroyOnLoad(gameObject);
-            _isPrimaryInstance = true;
-
             if (_config == null)
             {
                 Log.Error("[GameServices] ProgressionConfig is not assigned. Assign it in the Inspector.");
                 return;
             }
+
+            DontDestroyOnLoad(gameObject);
+            _isPrimaryInstance = true;
 
             Progression = new ProgressionManager(_config);
             Progression.Initialize(loadSavedProgress: true);
