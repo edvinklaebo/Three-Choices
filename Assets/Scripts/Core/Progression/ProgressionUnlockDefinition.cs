@@ -37,12 +37,5 @@ namespace Core.Progression
             _dependencies = dependencies ?? new List<string>();
         }
 
-#if UNITY_EDITOR
-        public void EditorInit(string id, string name, string description, int unlockCost,
-                               ProgressionUnlockCategory category, List<string> dependencies = null)
-        {
-            Initialize(id, name, description, unlockCost, category, dependencies);
-        }
-#endif
     }
 }

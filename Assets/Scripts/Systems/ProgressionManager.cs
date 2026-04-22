@@ -15,6 +15,7 @@ namespace Systems
     public class ProgressionManager
     {
         private const string DefaultSaveKey = "meta_progression_state";
+        private const int AutoSavePointInterval = 10;
 
         [Serializable]
         private class SaveData
@@ -38,6 +39,7 @@ namespace Systems
         public IReadOnlyCollection<string> UnlockedIds => _unlockedIds;
 
         private int _totalPoints;
+        private int _unsavedPointDelta;
 
         public ProgressionManager(ProgressionConfig config, string saveKey = DefaultSaveKey)
         {
@@ -45,6 +47,11 @@ namespace Systems
             _saveKey = string.IsNullOrWhiteSpace(saveKey) ? DefaultSaveKey : saveKey;
 
             BuildLookupTables();
+            Debug.Assert(_unlockById.Count == _config.Unlocks.Count,
+                $"[ProgressionManager] Config contains invalid unlock entries. " +
+                $"Expected {_config.Unlocks.Count}, loaded {_unlockById.Count}.");
+            Debug.Assert(_config.IsValid(),
+                "[ProgressionManager] ProgressionConfig validation failed. Check unlock count and duplicate IDs.");
         }
 
         /// <summary>
@@ -73,6 +80,7 @@ namespace Systems
         {
             _unlockedIds.Clear();
             _totalPoints = 0;
+            _unsavedPointDelta = 0;
 
             if (!PlayerPrefs.HasKey(_saveKey))
                 return;
@@ -109,12 +117,14 @@ namespace Systems
             var json = JsonUtility.ToJson(data);
             PlayerPrefs.SetString(_saveKey, json);
             PlayerPrefs.Save();
+            _unsavedPointDelta = 0;
         }
 
         public void ResetProgress(bool deleteSave = true)
         {
             _totalPoints = 0;
             _unlockedIds.Clear();
+            _unsavedPointDelta = 0;
 
             if (!deleteSave)
                 return;
@@ -134,13 +144,17 @@ namespace Systems
         private void AddPoints(int points)
         {
             _totalPoints += points;
+            _unsavedPointDelta += points;
             PointsChanged?.Invoke(_totalPoints);
-            CheckUnlocks();
-            SaveProgress();
+            var unlockedAny = CheckUnlocks();
+
+            if (unlockedAny || _unsavedPointDelta >= AutoSavePointInterval || HasUnlockedEverything())
+                SaveProgress();
         }
 
-        private void CheckUnlocks()
+        private bool CheckUnlocks()
         {
+            var unlockedAny = false;
             for (var i = 0; i < _sortedUnlocks.Count; i++)
             {
                 var unlock = _sortedUnlocks[i];
@@ -154,8 +168,11 @@ namespace Systems
                     continue;
 
                 _unlockedIds.Add(unlock.Id);
+                unlockedAny = true;
                 UnlockAchieved?.Invoke(unlock);
             }
+
+            return unlockedAny;
         }
 
         private bool AreDependenciesMet(ProgressionUnlockDefinition unlock)

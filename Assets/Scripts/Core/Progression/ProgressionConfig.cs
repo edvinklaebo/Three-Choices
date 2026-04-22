@@ -14,6 +14,7 @@ namespace Core.Progression
     {
         public const int DefaultTargetPoints = 10000;
         public const int DefaultUnlockCount = 100;
+        private const float CostCurveExponent = 2.05f;
 
         [SerializeField] [Min(1)] private int _targetPoints = DefaultTargetPoints;
         [SerializeField] [Min(1)] private int _expectedUnlockCount = DefaultUnlockCount;
@@ -133,7 +134,8 @@ namespace Core.Progression
                 return targetPoints;
 
             var t = index / (unlockCount - 1f);
-            var curved = Mathf.Pow(t, 2.05f);
+            // Exponent above 2 keeps early unlocks frequent while stretching late-game pacing.
+            var curved = Mathf.Pow(t, CostCurveExponent);
             var cost = Mathf.RoundToInt(Mathf.Lerp(10f, targetPoints, curved));
 
             if (index == unlockCount - 1)
