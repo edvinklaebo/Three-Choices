@@ -103,6 +103,8 @@ namespace Systems
                 return;
 
             _totalPoints = Mathf.Max(0, loaded.totalPoints);
+            if (loaded.totalPoints < 0)
+                Log.Warning($"[ProgressionManager] Clamped negative saved totalPoints ({loaded.totalPoints}) to 0. Save data may be corrupted.");
 
             if (loaded.unlockedIds != null)
             {
