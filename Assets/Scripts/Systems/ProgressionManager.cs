@@ -11,7 +11,7 @@ namespace Systems
     /// Runtime metaprogression service.
     /// Tracks total points, unlocks entries from <see cref="ProgressionConfig"/>,
     /// and persists data through PlayerPrefs.
-    /// Saved state is loaded automatically in the constructor.
+    /// Call <see cref="Initialize"/> after construction to define whether saved progress should be loaded.
     /// </summary>
     public class ProgressionManager
     {
@@ -53,8 +53,14 @@ namespace Systems
                 $"Expected {_config.Unlocks.Count}, loaded {_unlockById.Count}.");
             Debug.Assert(_config.IsValid(),
                 "[ProgressionManager] ProgressionConfig validation failed. Check unlock count and duplicate IDs.");
+        }
 
-            LoadProgress();
+        public void Initialize(bool loadSavedProgress = true)
+        {
+            if (loadSavedProgress)
+                LoadProgress();
+            else
+                ResetProgress(deleteSave: false);
         }
 
         /// <summary>

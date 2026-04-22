@@ -23,7 +23,7 @@ namespace Tests.EditModeTests
             _config = ScriptableObject.CreateInstance<ProgressionConfig>();
             _config.GenerateExampleUnlocks();
             _manager = new ProgressionManager(_config, _saveKey);
-            _manager.ResetProgress();
+            _manager.Initialize(loadSavedProgress: false);
         }
 
         [TearDown]
@@ -65,7 +65,7 @@ namespace Tests.EditModeTests
 
             customConfig.SetUnlocks(unlocks, expectedUnlockCount: 2, targetPoints: 50);
             var manager = new ProgressionManager(customConfig, _saveKey + "_deps");
-            manager.ResetProgress();
+            manager.Initialize(loadSavedProgress: false);
 
             manager.OnEnemyKilled(20);
 
@@ -82,6 +82,7 @@ namespace Tests.EditModeTests
             _manager.OnEnemyKilled(120);
 
             var loadedManager = new ProgressionManager(_config, _saveKey);
+            loadedManager.Initialize(loadSavedProgress: false);
             loadedManager.LoadProgress();
 
             Assert.AreEqual(120, loadedManager.TotalPoints);
