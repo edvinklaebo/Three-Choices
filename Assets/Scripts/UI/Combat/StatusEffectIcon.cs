@@ -92,23 +92,6 @@ namespace UI.Combat
                 }
             }
 
-            private void UpdateTooltip()
-            {
-                if (_definition == null)
-                {
-                    _tooltipContent = string.Empty;
-                    HideTooltip();
-                    return;
-                }
-
-                _tooltipContent = $"{_definition.Description}\n\nStacks: {_stacks}";
-                if (_duration > 0)
-                    _tooltipContent += $"\nTurns remaining: {_duration}";
-
-                if (_isHovered)
-                    TooltipSystem.Show(_tooltipContent, _definition.DisplayName, this);
-            }
-
             if (_stackText != null)
             {
                 if (stacks > 1)
@@ -124,6 +107,23 @@ namespace UI.Combat
 
             if (_durationRing != null)
                 _durationRing.gameObject.SetActive(duration > 0);
+        }
+
+        private void UpdateTooltip()
+        {
+            if (_definition == null)
+            {
+                _tooltipContent = string.Empty;
+                HideTooltip();
+                return;
+            }
+
+            _tooltipContent = $"{_definition.Description}\n\nStacks: {_stacks}";
+            if (_duration > 0)
+                _tooltipContent += $"\nTurns remaining: {_duration}";
+
+            if (_isHovered)
+                TooltipSystem.Show(_tooltipContent, _definition.DisplayName, this);
         }
 
         /// <summary>
