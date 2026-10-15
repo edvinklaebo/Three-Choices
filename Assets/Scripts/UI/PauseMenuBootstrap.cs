@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using Utils;
 
 namespace UI
@@ -17,11 +16,14 @@ namespace UI
     /// </summary>
     public class PauseMenuBootstrap : MonoBehaviour
     {
+        private const float ReferenceWidth = 1920f;
+        private const float ReferenceHeight = 1080f;
+        private const float MatchWidthOrHeight = 0.5f;
+
         private static PauseMenuBootstrap _instance;
 
         [SerializeField] private bool _createUIAtStart = true;
-        [FormerlySerializedAs("canvas")]
-        [SerializeField] private Canvas _canvas = null;
+        [SerializeField] private Canvas canvas = null;
         [SerializeField] private FightStartedEventChannel _fightStarted = null;
 
         [System.NonSerialized] private Unit _player;
@@ -70,12 +72,32 @@ namespace UI
 
         private void CreatePauseMenuUI()
         {
-            if (_canvas == null)
-                throw new System.InvalidOperationException($"PauseMenuBootstrap '{name}' requires a canvas.");
+            if (FindFirstObjectByType<PauseMenuUI>() != null)
+            {
+                Log.Warning("PauseMenuUI already exists. Skipping creation.");
+                return;
+            }
+
+            if (canvas == null)
+            {
+                canvas = FindFirstObjectByType<Canvas>();
+            }
+
+            if (canvas == null)
+            {
+                var canvasObj = new GameObject("Canvas");
+                canvas = canvasObj.AddComponent<Canvas>();
+                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+                var scaler = canvasObj.AddComponent<CanvasScaler>();
+                scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                scaler.referenceResolution = new Vector2(ReferenceWidth, ReferenceHeight);
+                scaler.matchWidthOrHeight = MatchWidthOrHeight;
+                canvasObj.AddComponent<GraphicRaycaster>();
+            }
 
             // Create PauseMenuUI root
             var pauseMenuRoot = new GameObject("PauseMenuUI");
-            pauseMenuRoot.transform.SetParent(_canvas.transform, false);
+            pauseMenuRoot.transform.SetParent(canvas.transform, false);
             var rootRect = pauseMenuRoot.AddComponent<RectTransform>();
             rootRect.anchorMin = Vector2.zero;
             rootRect.anchorMax = Vector2.one;
@@ -129,8 +151,8 @@ namespace UI
             }
 
             // Add PauseInput to canvas
-            if (_canvas.GetComponent<PauseInput>() == null)
-                _canvas.gameObject.AddComponent<PauseInput>();
+            if (canvas.GetComponent<PauseInput>() == null)
+                canvas.gameObject.AddComponent<PauseInput>();
 
             Log.Info("PauseMenuUI created successfully");
         }

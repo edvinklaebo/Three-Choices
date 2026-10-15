@@ -54,7 +54,7 @@ namespace Core
                 return;
             }
 
-            _obtainedItems.Add(item);
+            _obtainedItems.Add(new ObtainedItem(item.Id, item.DisplayName, item.Description, item.Category));
         }
 
         /// <summary>

@@ -52,6 +52,28 @@ namespace Tests.EditModeTests
         }
 
         [Test]
+        public void SetText_ResetsScrollToTopAfterLayoutAndStopsInertia()
+        {
+            _root.AddComponent<Canvas>();
+            var overview = CreateOverview(out _);
+            var scroll = overview.GetComponent<ScrollRect>();
+            scroll.viewport = (RectTransform)overview.transform;
+            scroll.viewport.sizeDelta = new Vector2(300, 100);
+            scroll.content.anchorMin = new Vector2(0, 1);
+            scroll.content.anchorMax = new Vector2(1, 1);
+            scroll.content.pivot = new Vector2(0.5f, 1);
+            scroll.content.sizeDelta = new Vector2(0, 1000);
+            Canvas.ForceUpdateCanvases();
+            scroll.verticalNormalizedPosition = 0f;
+            scroll.velocity = new Vector2(0, 100);
+
+            overview.SetText("Refreshed acquisition details");
+
+            Assert.AreEqual(1f, scroll.verticalNormalizedPosition, 0.001f);
+            Assert.AreEqual(Vector2.zero, scroll.velocity);
+        }
+
+        [Test]
         public void PauseOverviewBackAndResume_RefreshesAndHidesAllPanels()
         {
             var pause = CreateChild("Pause");
@@ -130,7 +152,7 @@ namespace Tests.EditModeTests
             _root.SetActive(false);
             var canvas = _root.AddComponent<Canvas>();
             var bootstrap = _root.AddComponent<PauseMenuBootstrap>();
-            SetField(bootstrap, "_canvas", canvas);
+            SetField(bootstrap, "canvas", canvas);
             if (gameplay)
             {
                 _fightStarted = ScriptableObject.CreateInstance<FightStartedEventChannel>();

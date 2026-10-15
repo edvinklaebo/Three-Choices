@@ -6774,7 +6774,7 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Ropa::UI.PauseMenuBootstrap
   _createUIAtStart: 1
-  _canvas: {fileID: 2150000002}
+  canvas: {fileID: 2150000002}
   _fightStarted: {fileID: 11400000, guid: aabb1122cc334455667788990011aabb, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

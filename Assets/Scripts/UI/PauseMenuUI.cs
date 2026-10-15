@@ -101,12 +101,12 @@ namespace UI
             if (_overview == null || _getOverviewText == null)
                 return;
 
-            _overview.SetText(_getOverviewText());
             if (_pauseMenuPanel != null)
                 _pauseMenuPanel.SetActive(false);
             if (_settingsPanel != null)
                 _settingsPanel.SetActive(false);
             _overview.gameObject.SetActive(true);
+            _overview.SetText(_getOverviewText());
         }
 
         public void OnBackFromOverview()

@@ -151,8 +151,17 @@ namespace Tests.EditModeTests
         [Test]
         public void SeparateRuns_DoNotShareHistory()
         {
-            _player.RecordObtainedItem(new ObtainedItem("hp", "Fortitude", "", ObtainedItemCategory.Upgrades));
-            Assert.IsEmpty(new Unit("Other hero").ObtainedItems);
+            var item = new ObtainedItem("hp", "Fortitude", "", ObtainedItemCategory.Upgrades);
+            var otherPlayer = new Unit("Other hero");
+            Assert.IsEmpty(otherPlayer.ObtainedItems);
+
+            _player.RecordObtainedItem(item);
+            otherPlayer.RecordObtainedItem(item);
+            _player.RecordObtainedItem(item);
+
+            Assert.AreEqual(2, _player.ObtainedItems[0].Count);
+            Assert.AreEqual(1, otherPlayer.ObtainedItems[0].Count);
+            Assert.AreEqual(1, item.Count);
         }
 
         [Test]

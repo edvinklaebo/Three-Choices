@@ -23,6 +23,7 @@ namespace UI
                 throw new InvalidOperationException($"PlayerOverviewUI '{name}' must be initialized before use.");
 
             _content.text = text ?? string.Empty;
+            Canvas.ForceUpdateCanvases();
             _scroll.StopMovement();
             _scroll.verticalNormalizedPosition = 1f;
         }
