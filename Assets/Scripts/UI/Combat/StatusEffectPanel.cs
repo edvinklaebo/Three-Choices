@@ -25,7 +25,6 @@ namespace UI.Combat
 
         private readonly List<StatusEffectIcon> _activeIcons = new();
         private readonly Stack<StatusEffectIcon> _iconPool = new();
-        private int _lastEffectCount = -1;
 
         private Unit _unit;
 
@@ -42,11 +41,7 @@ namespace UI.Combat
             if (_unit == null || _unit.StatusEffects == null)
                 return;
 
-            if (_unit.StatusEffects.Count != _lastEffectCount)
-            {
-                RefreshDisplay();
-                _lastEffectCount = _unit.StatusEffects.Count;
-            }
+            RefreshDisplay();
         }
 
         /// <summary>
@@ -74,31 +69,41 @@ namespace UI.Combat
             if (_unit == null || _unit.StatusEffects == null)
                 return;
 
-            foreach (var icon in _activeIcons) ReturnIconToPool(icon);
-            _activeIcons.Clear();
-
             var effects = _unit.StatusEffects;
             var visibleCount = Mathf.Min(effects.Count, _maxVisibleIcons);
+            var overflow = effects.Count - visibleCount;
+            var iconCount = visibleCount + (overflow > 0 ? 1 : 0);
+            ResizeIcons(iconCount);
 
             for (var i = 0; i < visibleCount; i++)
             {
                 var effect = effects[i];
-                var definition = _library != null ? _library.GetDefinition(effect.Id) : null;
-                var icon = GetIconFromPool();
-
-                icon.SetEffect(effect.Id, effect.Stacks, effect.Duration, definition);
-                icon.gameObject.SetActive(true);
-
-                _activeIcons.Add(icon);
+                var icon = _activeIcons[i];
+                if (!icon.MatchesEffect(effect.Id, effect.Stacks, effect.Duration))
+                {
+                    var definition = _library != null ? _library.GetDefinition(effect.Id) : null;
+                    icon.SetEffect(effect.Id, effect.Stacks, effect.Duration, definition);
+                }
             }
 
-            var overflow = effects.Count - visibleCount;
             if (overflow > 0)
+                _activeIcons[visibleCount].SetOverflow(overflow);
+        }
+
+        private void ResizeIcons(int count)
+        {
+            while (_activeIcons.Count > count)
             {
-                var overflowIcon = GetIconFromPool();
-                overflowIcon.SetOverflow(overflow);
-                overflowIcon.gameObject.SetActive(true);
-                _activeIcons.Add(overflowIcon);
+                var lastIndex = _activeIcons.Count - 1;
+                ReturnIconToPool(_activeIcons[lastIndex]);
+                _activeIcons.RemoveAt(lastIndex);
+            }
+
+            while (_activeIcons.Count < count)
+            {
+                var icon = GetIconFromPool();
+                icon.gameObject.SetActive(true);
+                _activeIcons.Add(icon);
             }
         }
 
