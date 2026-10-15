@@ -22,6 +22,12 @@ namespace UI.Combat
         [SerializeField] private Image _durationRing;
 
         private StatusEffectDefinition _definition;
+        private string _effectId;
+        private string _tooltipContent;
+        private int _stacks;
+        private int _duration;
+        private int _overflowCount = -1;
+        private bool _isHovered;
 
         private void Awake()
         {
@@ -34,12 +40,29 @@ namespace UI.Combat
             if (_definition == null)
                 return;
 
-            TooltipSystem.Show(_definition.Description, _definition.DisplayName);
+            _isHovered = true;
+            TooltipSystem.Show(_tooltipContent, _definition.DisplayName, this);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            TooltipSystem.Hide();
+            HideTooltip();
+        }
+
+        private void OnDisable()
+        {
+            HideTooltip();
+        }
+
+        private void HideTooltip()
+        {
+            _isHovered = false;
+            TooltipSystem.Hide(this);
+        }
+
+        internal bool MatchesEffect(string effectId, int stacks, int duration)
+        {
+            return _effectId == effectId && _stacks == stacks && _duration == duration;
         }
 
         /// <summary>
@@ -49,6 +72,11 @@ namespace UI.Combat
         public void SetEffect(string effectId, int stacks, int duration, StatusEffectDefinition definition = null)
         {
             _definition = definition;
+            _effectId = effectId;
+            _stacks = stacks;
+            _duration = duration;
+            _overflowCount = -1;
+            UpdateTooltip();
 
             if (_iconImage != null)
             {
@@ -62,6 +90,23 @@ namespace UI.Combat
                     _iconImage.sprite = null;
                     _iconImage.color = GetFallbackColor(effectId);
                 }
+            }
+
+            private void UpdateTooltip()
+            {
+                if (_definition == null)
+                {
+                    _tooltipContent = string.Empty;
+                    HideTooltip();
+                    return;
+                }
+
+                _tooltipContent = $"{_definition.Description}\n\nStacks: {_stacks}";
+                if (_duration > 0)
+                    _tooltipContent += $"\nTurns remaining: {_duration}";
+
+                if (_isHovered)
+                    TooltipSystem.Show(_tooltipContent, _definition.DisplayName, this);
             }
 
             if (_stackText != null)
@@ -87,10 +132,19 @@ namespace UI.Combat
         /// </summary>
         public void SetOverflow(int overflowCount)
         {
+            if (_overflowCount == overflowCount)
+                return;
+
+            HideTooltip();
+            _overflowCount = overflowCount;
             _definition = null;
+            _effectId = null;
 
             if (_iconImage != null)
+            {
+                _iconImage.sprite = null;
                 _iconImage.color = Color.gray;
+            }
 
             if (_stackText != null)
             {

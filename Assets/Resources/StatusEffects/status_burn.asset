@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::Core.StatusEffects.BurnDefinition
   _id: Burn
   _displayName: Burn
-  _description: Deals fire damage at the end of turn.
+  _description: Deals fire damage at the start of the affected unit's turn.
   _icon: {fileID: 21300000, guid: 827cd4e177baf6645bc39967e1841bd6, type: 3}
   _color: {r: 1, g: 0.46986115, b: 0.051886797, a: 1}
   _duration: 3

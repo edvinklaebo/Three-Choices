@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::Core.StatusEffects.BleedDefinition
   _id: Bleed
   _displayName: Bleed
-  _description: Deals physical damage at end of turn.
+  _description: Deals physical damage at the start of the affected unit's turn.
   _icon: {fileID: 21300000, guid: 4d474a1a4e8373a44b9e1c9470cbf1fb, type: 3}
   _color: {r: 1, g: 0, b: 0.07710934, a: 1}
   _stacks: 2

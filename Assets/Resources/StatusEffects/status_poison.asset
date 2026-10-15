@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Ropa::Core.StatusEffects.PoisonDefinition
   _id: Poison
   _displayName: Poison
-  _description: Deals toxic damage at end of turn.
+  _description: Deals toxic damage at the start of the affected unit's turn. Blocks healing.
   _icon: {fileID: 21300000, guid: a25eae792d35bc545ae1c6aab852eca5, type: 3}
   _color: {r: 0.32941985, g: 1, b: 0, a: 1}
   _stacks: 2
