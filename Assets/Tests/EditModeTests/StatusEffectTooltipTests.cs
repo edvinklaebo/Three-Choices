@@ -109,6 +109,7 @@ namespace Tests.EditModeTests
             var icon = CreateHoveredIcon();
 
             icon.gameObject.SetActive(false);
+            InvokeDisable(icon);
 
             Assert.IsFalse(_tooltip.gameObject.activeSelf);
         }
@@ -120,6 +121,7 @@ namespace Tests.EditModeTests
             var second = CreateHoveredIcon();
 
             first.gameObject.SetActive(false);
+            InvokeDisable(first);
 
             Assert.IsTrue(_tooltip.gameObject.activeSelf);
             second.OnPointerExit(null);
@@ -197,10 +199,13 @@ namespace Tests.EditModeTests
             var unit = new Unit("Tooltip target");
             unit.StatusEffects.Add(new Poison(3, 1, 1));
             var panel = CreatePanel(unit);
-            panel.GetComponentInChildren<StatusEffectIcon>().OnPointerEnter(null);
+            var icon = panel.GetComponentInChildren<StatusEffectIcon>();
+            icon.OnPointerEnter(null);
             unit.StatusEffects.Clear();
 
             panel.SendMessage("Update");
+            Assert.IsFalse(icon.gameObject.activeSelf);
+            InvokeDisable(icon);
 
             Assert.IsFalse(_tooltip.gameObject.activeSelf);
         }
@@ -262,6 +267,13 @@ namespace Tests.EditModeTests
         private static void SetField(object target, string name, object value)
         {
             target.GetType().GetField(name, BindingFlags.NonPublic | BindingFlags.Instance).SetValue(target, value);
+        }
+
+        private static void InvokeDisable(StatusEffectIcon icon)
+        {
+            // Explicitly dispatch the runtime callback in synchronous EditMode tests.
+            typeof(StatusEffectIcon).GetMethod("OnDisable", BindingFlags.NonPublic | BindingFlags.Instance)
+                .Invoke(icon, null);
         }
     }
 }
