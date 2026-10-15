@@ -1,8 +1,11 @@
+using Core;
+using Events;
 using Systems;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Utils;
 
 namespace UI
@@ -14,14 +17,31 @@ namespace UI
     /// </summary>
     public class PauseMenuBootstrap : MonoBehaviour
     {
-        private const float ReferenceWidth = 1920f;
-        private const float ReferenceHeight = 1080f;
-        private const float MatchWidthOrHeight = 0.5f;
-
         private static PauseMenuBootstrap _instance;
 
         [SerializeField] private bool _createUIAtStart = true;
-        [SerializeField] private Canvas canvas;
+        [FormerlySerializedAs("canvas")]
+        [SerializeField] private Canvas _canvas = null;
+        [SerializeField] private FightStartedEventChannel _fightStarted = null;
+
+        [System.NonSerialized] private Unit _player;
+
+        private void OnEnable()
+        {
+            if (_fightStarted != null)
+                _fightStarted.OnRaised += HandleFightStarted;
+        }
+
+        private void OnDisable()
+        {
+            if (_fightStarted != null)
+                _fightStarted.OnRaised -= HandleFightStarted;
+        }
+
+        private void HandleFightStarted(Unit player, int fightIndex)
+        {
+            _player = player;
+        }
 
         private void Awake()
         {
@@ -50,32 +70,12 @@ namespace UI
 
         private void CreatePauseMenuUI()
         {
-            if (FindFirstObjectByType<PauseMenuUI>() != null)
-            {
-                Log.Warning("PauseMenuUI already exists. Skipping creation.");
-                return;
-            }
-
-            if (canvas == null)
-            {
-                canvas = FindFirstObjectByType<Canvas>();
-            }
-
-            if (canvas == null)
-            {
-                var canvasObj = new GameObject("Canvas");
-                canvas = canvasObj.AddComponent<Canvas>();
-                canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-                var scaler = canvasObj.AddComponent<CanvasScaler>();
-                scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-                scaler.referenceResolution = new Vector2(ReferenceWidth, ReferenceHeight);
-                scaler.matchWidthOrHeight = MatchWidthOrHeight;
-                canvasObj.AddComponent<GraphicRaycaster>();
-            }
+            if (_canvas == null)
+                throw new System.InvalidOperationException($"PauseMenuBootstrap '{name}' requires a canvas.");
 
             // Create PauseMenuUI root
             var pauseMenuRoot = new GameObject("PauseMenuUI");
-            pauseMenuRoot.transform.SetParent(canvas.transform, false);
+            pauseMenuRoot.transform.SetParent(_canvas.transform, false);
             var rootRect = pauseMenuRoot.AddComponent<RectTransform>();
             rootRect.anchorMin = Vector2.zero;
             rootRect.anchorMax = Vector2.one;
@@ -94,6 +94,8 @@ namespace UI
             CreateButton(menuContent.transform, "Resume", PauseMenuUI.OnResumeClicked);
             CreateButton(menuContent.transform, "Main Menu", PauseMenuUI.OnMainMenuClicked);
             CreateButton(menuContent.transform, "Settings", pauseMenuUI.OnSettingsClicked);
+            if (_fightStarted != null)
+                CreateButton(menuContent.transform, "Obtained Items", pauseMenuUI.OnObtainedItemsClicked);
             var quitBtn = CreateButton(menuContent.transform, "Quit", PauseMenuUI.OnQuitClicked);
 
             // Create Settings Panel
@@ -118,11 +120,83 @@ namespace UI
 
             // Wire up PauseMenuUI references
             pauseMenuUI.Initialize(pausePanel, settingsPanel, quitBtn.gameObject);
+            if (_fightStarted != null)
+            {
+                var overview = CreateOverview(pauseMenuRoot.transform, pauseMenuUI.OnBackFromOverview);
+                pauseMenuUI.InitializeOverview(overview,
+                    () => ObtainedItemsFormatter.Format(_player?.ObtainedItems,
+                        _player?.HasCompleteObtainedItemHistory ?? false));
+            }
 
             // Add PauseInput to canvas
-            canvas.gameObject.AddComponent<PauseInput>();
+            if (_canvas.GetComponent<PauseInput>() == null)
+                _canvas.gameObject.AddComponent<PauseInput>();
 
             Log.Info("PauseMenuUI created successfully");
+        }
+
+        private static PlayerOverviewUI CreateOverview(Transform parent, UnityAction onBack)
+        {
+            var panel = CreatePanel(parent, "ObtainedItemsPanel");
+            AddDarkBackground(panel.transform);
+            var title = CreatePanel(panel.transform, "Title");
+            SetRegion(title, new Vector2(0.1f, 0.88f), new Vector2(0.9f, 0.98f));
+            AddTitle(title.transform, "OBTAINED ITEMS");
+            var titleRect = (RectTransform)title.transform.GetChild(0);
+            titleRect.anchorMin = Vector2.zero;
+            titleRect.anchorMax = Vector2.one;
+            titleRect.sizeDelta = Vector2.zero;
+
+            var scroll = CreateOverviewScroll(panel.transform);
+            var overview = panel.AddComponent<PlayerOverviewUI>();
+            overview.Initialize(scroll.content.GetComponent<TMP_Text>(), scroll);
+            var back = CreateButton(panel.transform, "Back", onBack);
+            SetRegion(back.gameObject, new Vector2(0.4f, 0.02f), new Vector2(0.6f, 0.1f));
+            return overview;
+        }
+
+        private static ScrollRect CreateOverviewScroll(Transform parent)
+        {
+            var area = CreatePanel(parent, "Scroll");
+            SetRegion(area, new Vector2(0.12f, 0.14f), new Vector2(0.88f, 0.86f));
+            var scroll = area.AddComponent<ScrollRect>();
+            scroll.horizontal = false;
+            scroll.movementType = ScrollRect.MovementType.Clamped;
+            scroll.scrollSensitivity = 40f;
+
+            var viewport = CreatePanel(area.transform, "Viewport");
+            viewport.AddComponent<Image>().color = new Color(0, 0, 0, 0.01f);
+            viewport.AddComponent<RectMask2D>();
+            scroll.viewport = (RectTransform)viewport.transform;
+            scroll.content = CreateOverviewContent(viewport.transform);
+            return scroll;
+        }
+
+        private static RectTransform CreateOverviewContent(Transform parent)
+        {
+            var content = CreatePanel(parent, "Content");
+            var rect = (RectTransform)content.transform;
+            rect.anchorMin = new Vector2(0, 1);
+            rect.anchorMax = Vector2.one;
+            rect.pivot = new Vector2(0.5f, 1);
+            var text = content.AddComponent<TextMeshProUGUI>();
+            text.fontSize = 28;
+            text.color = Color.white;
+            text.alignment = TextAlignmentOptions.TopLeft;
+            text.richText = false;
+            text.raycastTarget = false;
+            var fitter = content.AddComponent<ContentSizeFitter>();
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            return rect;
+        }
+
+        private static void SetRegion(GameObject target, Vector2 min, Vector2 max)
+        {
+            var rect = (RectTransform)target.transform;
+            rect.anchorMin = min;
+            rect.anchorMax = max;
+            rect.anchoredPosition = Vector2.zero;
+            rect.sizeDelta = Vector2.zero;
         }
 
         private static GameObject CreatePanel(Transform parent, string name)

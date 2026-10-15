@@ -23,9 +23,38 @@ namespace Core
         [SerializeReference] public List<IPassive> Passives = new();
         [SerializeReference] public List<IStatusEffect> StatusEffects = new();
 
+        [SerializeField] private List<ObtainedItem> _obtainedItems = new();
+        // Missing in older saves, where historical stat picks cannot be reconstructed.
+        [SerializeField] private bool _hasCompleteObtainedItemHistory = false;
+
+        public IReadOnlyList<ObtainedItem> ObtainedItems => _obtainedItems ??= new List<ObtainedItem>();
+        public bool HasCompleteObtainedItemHistory => _hasCompleteObtainedItemHistory;
+
         public Unit(string name)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
+            _hasCompleteObtainedItemHistory = true;
+        }
+
+        public void RecordObtainedItem(ObtainedItem item)
+        {
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+            if (!item.IsValid)
+                throw new ArgumentException($"Invalid obtained item for unit '{Name}'.", nameof(item));
+
+            _obtainedItems ??= new List<ObtainedItem>();
+            for (var i = 0; i < _obtainedItems.Count; i++)
+            {
+                var existing = _obtainedItems[i];
+                if (existing.Category != item.Category || existing.Id != item.Id)
+                    continue;
+
+                existing.IncrementCount();
+                return;
+            }
+
+            _obtainedItems.Add(item);
         }
 
         /// <summary>
@@ -36,6 +65,7 @@ namespace Core
         public void RestorePlayerState()
         {
             Log.Info($"[Unit] Restoring player state for {Name}");
+            RestoreObtainedItems();
 
             Passives.Sort((a, b) => a.Priority.CompareTo(b.Priority));
 
@@ -53,6 +83,20 @@ namespace Core
 
             Log.Info(
                 $"[Unit] Player state restored - Abilities: {Abilities.Count}, Passives: {Passives.Count}, StatusEffects: {StatusEffects.Count}");
+        }
+
+        private void RestoreObtainedItems()
+        {
+            _obtainedItems ??= new List<ObtainedItem>();
+            for (var i = _obtainedItems.Count - 1; i >= 0; i--)
+            {
+                if (_obtainedItems[i] != null && _obtainedItems[i].IsValid)
+                    continue;
+
+                Log.Warning($"[Unit] Invalid obtained item at index {i} removed for '{Name}'");
+                _obtainedItems.RemoveAt(i);
+                _hasCompleteObtainedItemHistory = false;
+            }
         }
 
         public event Action<Unit, Unit, int> Damaged;

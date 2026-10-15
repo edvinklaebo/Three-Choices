@@ -15,6 +15,9 @@ namespace Core.Artifacts
             if (artifact == null) throw new ArgumentNullException(nameof(artifact));
             if (player == null) throw new ArgumentNullException(nameof(player));
 
+            var id = string.IsNullOrWhiteSpace(artifact.Id) ? artifact.ArtifactId.ToString() : artifact.Id;
+            var item = new ObtainedItem(id, artifact.DisplayName, artifact.Description, ObtainedItemCategory.Artifacts);
+
             Log.Info($"[ArtifactApplier] Applying artifact '{artifact.DisplayName}' to {player.Name}");
 
             switch (artifact.EffectType)
@@ -25,6 +28,8 @@ namespace Core.Artifacts
                 default:
                     throw new ArgumentOutOfRangeException(artifact.EffectType.ToString());
             }
+
+            player.RecordObtainedItem(item);
         }
 
         private static void ApplyArtifact(ArtifactDefinition artifactDefinition, Unit unit)
@@ -67,4 +72,3 @@ namespace Core.Artifacts
         }
     }
 }
-

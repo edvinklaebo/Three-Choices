@@ -15,9 +15,12 @@ namespace UI
     {
         private const string MainMenuScene = "MainMenu";
 
-        [SerializeField] private GameObject _pauseMenuPanel;
-        [SerializeField] private GameObject _settingsPanel;
-        [SerializeField] private GameObject _quitButton;
+        [SerializeField] private GameObject _pauseMenuPanel = null;
+        [SerializeField] private GameObject _settingsPanel = null;
+        [SerializeField] private GameObject _quitButton = null;
+        [SerializeField] private PlayerOverviewUI _overview = null;
+
+        [System.NonSerialized] private System.Func<string> _getOverviewText;
 
         private void OnEnable()
         {
@@ -36,6 +39,8 @@ namespace UI
                 _pauseMenuPanel.SetActive(false);
             if (_settingsPanel != null)
                 _settingsPanel.SetActive(false);
+            if (_overview != null)
+                _overview.gameObject.SetActive(false);
             if (_quitButton != null)
                 _quitButton.SetActive(PlatformUtils.IsQuitSupported());
         }
@@ -52,6 +57,8 @@ namespace UI
             {
                 _settingsPanel.SetActive(false);
             }
+            if (_overview != null)
+                _overview.gameObject.SetActive(false);
         }
 
         public static void OnMainMenuClicked()
@@ -80,6 +87,34 @@ namespace UI
                 _settingsPanel.SetActive(false);
             if (_pauseMenuPanel != null)
                 _pauseMenuPanel.SetActive(true);
+        }
+
+        public void InitializeOverview(PlayerOverviewUI overview, System.Func<string> getOverviewText)
+        {
+            _overview = overview ?? throw new System.ArgumentNullException(nameof(overview));
+            _getOverviewText = getOverviewText ?? throw new System.ArgumentNullException(nameof(getOverviewText));
+            _overview.gameObject.SetActive(false);
+        }
+
+        public void OnObtainedItemsClicked()
+        {
+            if (_overview == null || _getOverviewText == null)
+                return;
+
+            _overview.SetText(_getOverviewText());
+            if (_pauseMenuPanel != null)
+                _pauseMenuPanel.SetActive(false);
+            if (_settingsPanel != null)
+                _settingsPanel.SetActive(false);
+            _overview.gameObject.SetActive(true);
+        }
+
+        public void OnBackFromOverview()
+        {
+            if (_overview != null)
+                _overview.gameObject.SetActive(false);
+            if (_pauseMenuPanel != null)
+                _pauseMenuPanel.SetActive(PauseManager.IsPaused);
         }
 
         public static void OnQuitClicked()

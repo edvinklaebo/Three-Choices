@@ -94,6 +94,31 @@ namespace Tests.EditModeTests
         }
 
         [Test]
+        public void Save_ObtainedItems_PreservesIdentityDescriptionCategoryAndCounts()
+        {
+            var run = CreateDummyRun();
+            run.player.RecordObtainedItem(
+                new ObtainedItem("hp", "Fortitude", "More health", ObtainedItemCategory.Upgrades));
+            run.player.RecordObtainedItem(
+                new ObtainedItem("hp", "Fortitude", "More health", ObtainedItemCategory.Upgrades));
+            run.player.RecordObtainedItem(
+                new ObtainedItem("spell", "Fireball", "Fire damage", ObtainedItemCategory.Abilities));
+
+            SaveService.Save(run);
+            var loaded = SaveService.Load();
+
+            Assert.NotNull(loaded);
+            Assert.IsTrue(loaded.player.HasCompleteObtainedItemHistory);
+            Assert.AreEqual(2, loaded.player.ObtainedItems.Count);
+            Assert.AreEqual("hp", loaded.player.ObtainedItems[0].Id);
+            Assert.AreEqual("Fortitude", loaded.player.ObtainedItems[0].DisplayName);
+            Assert.AreEqual("More health", loaded.player.ObtainedItems[0].Description);
+            Assert.AreEqual(2, loaded.player.ObtainedItems[0].Count);
+            Assert.AreEqual(ObtainedItemCategory.Upgrades, loaded.player.ObtainedItems[0].Category);
+            Assert.AreEqual(ObtainedItemCategory.Abilities, loaded.player.ObtainedItems[1].Category);
+        }
+
+        [Test]
         public void Save_WithAbilitiesPassivesAndEffects_LoadsCorrectly()
         {
             var run = CreateRunWithAbilitiesAndEffects();

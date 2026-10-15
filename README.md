@@ -100,6 +100,17 @@ cd ropa
 2. **Press Play**: Experience the full game loop
 3. **Alt. Scene**: Try `Assets/Scenes/GameScene.unity` to jump straight into drafting
 
+### 📋 View Your Build
+
+During a run, press **Escape**, then select **Obtained Items** to review your
+upgrades, abilities, passives, and artifacts. The scrollable overview shows
+descriptions and acquisition counts (`x2` means picked twice, not effect strength).
+Use **Back** to return to the pause menu, or **Escape** to resume.
+
+The overview is saved with the run and cleared for a new run. Older saves remain
+loadable, but acquisitions made before this feature cannot be reconstructed;
+the overview marks their history as incomplete and tracks subsequent picks.
+
 ### 🧪 Run Tests
 
 **Via Unity Editor:**
