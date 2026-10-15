@@ -39,7 +39,8 @@ namespace Tests.EditModeTests
             Assert.Less(text.IndexOf("Passives", StringComparison.Ordinal),
                 text.IndexOf("Artifacts", StringComparison.Ordinal));
             Assert.AreEqual(4, player.ObtainedItems.Count);
-            Assert.AreEqual(2, upgrade.Count);
+            Assert.AreEqual(1, upgrade.Count);
+            Assert.AreEqual(2, player.ObtainedItems[0].Count);
         }
 
         [Test]
