@@ -148,4 +148,5 @@ plastic.workspace
 *.orig
 *.htm
 *.html
+!browser/index.html
 *.pdf
