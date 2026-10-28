@@ -90,6 +90,17 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
 
+      - name: Add standalone browser edition to Pages build
+        run: |
+          WEB_ROOT="build/WebGL/Three Choices"
+          mkdir -p "$WEB_ROOT/browser" "$WEB_ROOT/Assets/Art/BG" "$WEB_ROOT/Assets/Art/Characters" "$WEB_ROOT/Assets/Art/Enemies" "$WEB_ROOT/Assets/Fonts"
+          cp -R browser/. "$WEB_ROOT/browser/"
+          cp "Assets/Art/BG/Plains.png" "$WEB_ROOT/Assets/Art/BG/"
+          cp Assets/Art/Characters/{Bob.png,Garry.png,Kyle.png,steve_placeholder.png} "$WEB_ROOT/Assets/Art/Characters/"
+          cp "Assets/Art/Enemies/RAT_One.png" "Assets/Art/Enemies/slime.png" "Assets/Art/Enemies/Goblin_sword.png" "Assets/Art/Enemies/mage_golbin.png" "Assets/Art/Enemies/human warrior.png" "Assets/Art/Enemies/Ogre club.png" "Assets/Art/Enemies/Dwarf axe.png" "Assets/Art/Enemies/Blobl_monster.png" "$WEB_ROOT/Assets/Art/Enemies/"
+          cp "Assets/Fonts/ADayinSeptember.otf" "$WEB_ROOT/Assets/Fonts/"
+        shell: bash
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:

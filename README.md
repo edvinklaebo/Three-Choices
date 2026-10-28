@@ -100,6 +100,25 @@ cd ropa
 2. **Press Play**: Experience the full game loop
 3. **Alt. Scene**: Try `Assets/Scenes/GameScene.unity` to jump straight into drafting
 
+### 🌐 Browser Edition
+
+A standalone, dependency-free JavaScript adaptation lives in [`browser/`](browser/). Open `browser/index.html` through any static web server, or publish the repository with GitHub Pages and visit `/Three-Choices/browser/`. It reuses the project artwork and includes character selection, auto-battles, three-way upgrade drafts, and a final boss.
+
+To embed it from another site, point an iframe at the published game:
+
+```html
+<iframe
+  src="https://edvinklaebo.github.io/Three-Choices/browser/"
+  title="Three Choices browser game"
+  width="100%"
+  height="760"
+  loading="lazy"
+  allow="fullscreen"
+></iframe>
+```
+
+See [`browser/README.md`](browser/README.md) for standalone hosting notes.
+
 ### 🧪 Run Tests
 
 **Via Unity Editor:**

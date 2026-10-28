@@ -1,0 +1,361 @@
+@font-face {
+  font-family: "A Day in September";
+  src: url("../Assets/Fonts/ADayinSeptember.otf") format("opentype");
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #f0e9d8;
+  background: #101210;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --paper: #f0e9d8;
+  --muted: #a7a391;
+  --gold: #e2bc73;
+  --red: #d66e58;
+  --green: #94bb83;
+  --panel: rgba(24, 27, 24, 0.94);
+  --line: rgba(228, 203, 150, 0.18);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-width: 0;
+  min-height: 100vh;
+  margin: 0;
+  padding: clamp(12px, 3vw, 36px);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(108, 93, 59, .2), transparent 55%),
+    #101210;
+}
+
+button { font: inherit; }
+button:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+.game-shell {
+  width: min(1080px, 100%);
+  min-height: min(760px, calc(100vh - 48px));
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(238, 210, 151, .35);
+  border-radius: 12px;
+  background:
+    linear-gradient(160deg, rgba(24, 27, 24, .93), rgba(13, 16, 15, .97)),
+    #181b18;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, .45), inset 0 0 0 5px rgba(238, 210, 151, .035);
+}
+
+.game-shell::before, .game-shell::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--gold);
+  transform: rotate(45deg);
+  opacity: .7;
+}
+.game-shell::before { top: 16px; left: 16px; }
+.game-shell::after { top: 16px; right: 16px; }
+
+.topbar {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 28px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font: 700 11px/1.2 Arial, sans-serif;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.brand { color: var(--paper); letter-spacing: .2em; }
+.brand-mark { color: var(--gold); margin-right: 8px; }
+.topbar-note { letter-spacing: .12em; }
+
+.screen {
+  min-height: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(26px, 6vw, 66px);
+  text-align: center;
+  animation: rise-in .35s ease both;
+}
+.screen h1, .screen h2, .screen h3, p { margin-top: 0; }
+.eyebrow {
+  margin-bottom: 16px;
+  color: var(--gold);
+  font: 700 11px/1.2 Arial, sans-serif;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+}
+.hero-title {
+  margin: 0;
+  color: var(--paper);
+  font: 400 clamp(58px, 10vw, 108px)/.86 "A Day in September", Georgia, serif;
+  letter-spacing: -.055em;
+  text-shadow: 0 5px 28px rgba(226, 188, 115, .12);
+}
+.title-rule {
+  width: 112px;
+  height: 1px;
+  margin: 28px auto;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.tagline {
+  max-width: 430px;
+  color: #c4bdab;
+  font-size: 17px;
+  line-height: 1.65;
+}
+.ornament { margin: 12px 0 32px; color: var(--gold); letter-spacing: .7em; }
+.button {
+  min-height: 48px;
+  padding: 0 24px;
+  border: 1px solid rgba(226, 188, 115, .75);
+  border-radius: 5px;
+  color: #181610;
+  background: var(--gold);
+  cursor: pointer;
+  font: 700 11px/1 Arial, sans-serif;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+}
+.button:hover:not(:disabled) { transform: translateY(-2px); background: #f0cf8e; }
+.button:disabled { opacity: .4; cursor: not-allowed; }
+.button.secondary {
+  color: var(--paper);
+  background: transparent;
+  border-color: var(--line);
+}
+.button.secondary:hover:not(:disabled) { border-color: var(--gold); background: rgba(226, 188, 115, .08); }
+.small-note { margin: 18px 0 0; color: #7e8076; font: 11px/1.5 Arial, sans-serif; letter-spacing: .06em; }
+
+.select-screen, .draft-screen { justify-content: flex-start; }
+.section-heading { margin-bottom: 8px; font-size: clamp(28px, 4vw, 40px); font-weight: 400; }
+.section-copy { margin-bottom: 30px; color: var(--muted); line-height: 1.6; }
+.character-grid, .upgrade-grid {
+  width: min(840px, 100%);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.character-card, .upgrade-card {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--paper);
+  background: rgba(255, 255, 255, .025);
+  cursor: pointer;
+  text-align: left;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.character-card { min-height: 250px; padding: 14px; }
+.character-card:hover, .upgrade-card:hover { transform: translateY(-3px); border-color: rgba(226, 188, 115, .6); }
+.character-card.selected, .upgrade-card.selected {
+  border-color: var(--gold);
+  background: rgba(226, 188, 115, .09);
+  box-shadow: 0 0 0 1px rgba(226, 188, 115, .25);
+}
+.portrait-wrap {
+  height: 123px;
+  display: grid;
+  place-items: center;
+  margin: -2px -2px 12px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: radial-gradient(ellipse at 50% 65%, rgba(149, 132, 93, .25), transparent 72%);
+}
+.portrait-wrap img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+.character-card h3 { margin: 0 0 9px; font-size: 17px; font-weight: 400; }
+.character-description { min-height: 30px; margin: 0 0 12px; color: var(--muted); font: 11px/1.4 Arial, sans-serif; }
+.stat-line { display: flex; justify-content: space-between; gap: 6px; margin: 5px 0; color: #c7c1af; font: 10px/1 Arial, sans-serif; letter-spacing: .03em; }
+.stat-line strong { color: var(--gold); font-weight: 700; }
+.selection-actions { margin-top: 28px; }
+
+.battle-screen {
+  min-height: 650px;
+  justify-content: flex-start;
+  padding: 26px clamp(18px, 4vw, 44px) 34px;
+}
+.battle-topline {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  color: var(--muted);
+  font: 700 10px/1.2 Arial, sans-serif;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+.fight-count { color: var(--gold); }
+.arena {
+  width: 100%;
+  min-height: 310px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 100px 1fr;
+  align-items: center;
+  gap: 16px;
+  margin: 26px 0 18px;
+  padding: 18px clamp(12px, 4vw, 38px);
+  overflow: hidden;
+  border: 1px solid rgba(231, 210, 165, .16);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(15, 20, 17, .12), rgba(12, 14, 12, .76)),
+    url("../Assets/Art/BG/Plains.png") center 55% / cover,
+    #293129;
+}
+.arena::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 30%;
+  background: linear-gradient(transparent, rgba(7, 9, 8, .72));
+  pointer-events: none;
+}
+.unit-card { min-width: 0; position: relative; z-index: 1; }
+.unit-card.enemy { text-align: right; }
+.unit-name { margin-bottom: 10px; font-size: 17px; font-weight: 400; }
+.boss-label { margin-left: 7px; color: var(--red); font: 700 9px Arial, sans-serif; letter-spacing: .16em; }
+.unit-image {
+  width: min(190px, 100%);
+  height: 164px;
+  display: block;
+  margin: 0 auto 13px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 10px 12px rgba(0, 0, 0, .4));
+}
+.enemy .unit-image { transform: scaleX(-1); }
+.health-meta { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 6px; color: #ded8c8; font: 10px Arial, sans-serif; }
+.health-track { height: 7px; overflow: hidden; border: 1px solid rgba(255,255,255,.2); border-radius: 10px; background: rgba(0,0,0,.4); }
+.health-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, #6e9a5d, #a9cc80); transition: width .32s ease; }
+.enemy .health-fill { background: linear-gradient(90deg, #a64c3c, #e28a5c); }
+.unit-stats { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 12px; margin-top: 10px; color: #c5c0b1; font: 10px Arial, sans-serif; }
+.unit-stats span { white-space: nowrap; }
+.unit-stats b { color: var(--gold); font-weight: 700; }
+.versus { z-index: 1; display: grid; place-items: center; color: rgba(242, 228, 198, .56); font: 400 14px Arial, sans-serif; letter-spacing: .3em; }
+.versus::before, .versus::after { content: ""; width: 1px; height: 48px; background: linear-gradient(transparent, rgba(226,188,115,.45), transparent); }
+.versus span { padding: 14px 0; }
+.combat-layout {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 255px;
+  gap: 14px;
+}
+.combat-log, .run-build {
+  min-height: 150px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: rgba(0,0,0,.18);
+  text-align: left;
+}
+.panel-label { margin: 0 0 10px; color: var(--gold); font: 700 9px Arial, sans-serif; letter-spacing: .2em; text-transform: uppercase; }
+.log-entries { max-height: 110px; overflow: auto; margin: 0; padding: 0; list-style: none; scrollbar-color: #64583f transparent; }
+.log-entries li { padding: 5px 0; color: #c9c4b5; font: 11px/1.4 Arial, sans-serif; }
+.log-entries li:first-child { color: var(--paper); }
+.log-entries .damage { color: #e89378; }
+.log-entries .heal { color: var(--green); }
+.build-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.build-tag { padding: 5px 7px; border: 1px solid var(--line); border-radius: 3px; color: #d5cfbf; font: 9px Arial, sans-serif; }
+.empty-build { color: #888879; font: 11px/1.5 Arial, sans-serif; }
+.battle-actions { margin-top: 16px; }
+.battle-status { min-height: 17px; margin: 0 0 8px; color: var(--muted); font: 11px Arial, sans-serif; }
+
+.upgrade-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 4px 0 24px; }
+.upgrade-card { min-height: 205px; padding: 19px; }
+.upgrade-icon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  margin: 0 0 17px;
+  border: 1px solid rgba(226,188,115,.32);
+  border-radius: 50%;
+  color: var(--gold);
+  background: rgba(226,188,115,.06);
+  font-size: 23px;
+}
+.upgrade-kind { margin-bottom: 9px; color: var(--gold); font: 700 9px Arial, sans-serif; letter-spacing: .18em; text-transform: uppercase; }
+.upgrade-card h3 { margin: 0 0 8px; font-size: 19px; font-weight: 400; }
+.upgrade-card p { margin: 0; color: #aaa796; font: 12px/1.55 Arial, sans-serif; }
+.recovery-note { margin: 0 0 23px; color: #9bab88; font: 11px Arial, sans-serif; }
+
+.ending-screen { min-height: 600px; }
+.ending-screen.victory .eyebrow { color: var(--green); }
+.ending-screen.defeat .eyebrow { color: var(--red); }
+.ending-mark { margin-bottom: 17px; color: var(--gold); font-size: 40px; }
+.run-summary { margin: 20px 0 30px; color: #c0baa9; line-height: 1.8; }
+.run-summary strong { color: var(--gold); font-weight: 400; }
+
+@keyframes rise-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes strike { 50% { transform: translateX(12px); } }
+.unit-card.attacking .unit-image { animation: strike .22s ease; }
+
+@media (max-width: 760px) {
+  body { padding: 10px; }
+  .game-shell { min-height: calc(100vh - 20px); }
+  .topbar { padding: 14px 22px; }
+  .character-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 520px; }
+  .character-card { min-height: 236px; }
+  .battle-screen { min-height: 0; }
+  .arena { min-height: 270px; grid-template-columns: 1fr 44px 1fr; gap: 8px; padding: 14px 8px; }
+  .unit-image { height: 130px; }
+  .combat-layout { grid-template-columns: 1fr; }
+  .combat-log { min-height: 115px; }
+  .run-build { min-height: auto; }
+}
+@media (max-width: 480px) {
+  .topbar { padding-inline: 16px; font-size: 9px; }
+  .topbar-note { max-width: 100px; text-align: right; line-height: 1.4; }
+  .screen { min-height: 550px; padding: 28px 18px; }
+  .hero-title { font-size: 58px; }
+  .character-grid { gap: 8px; }
+  .character-card { padding: 10px; min-height: 218px; }
+  .portrait-wrap { height: 100px; }
+  .character-card h3 { font-size: 15px; }
+  .battle-screen { padding-inline: 12px; }
+  .arena { min-height: 230px; grid-template-columns: 1fr 30px 1fr; }
+  .unit-name { min-height: 32px; font-size: 13px; }
+  .unit-image { height: 100px; }
+  .unit-stats { gap: 5px 7px; font-size: 9px; }
+  .upgrade-grid { grid-template-columns: 1fr; gap: 9px; }
+  .upgrade-card { min-height: 0; padding: 14px; }
+  .upgrade-icon { float: left; width: 42px; height: 42px; margin: 0 14px 4px 0; font-size: 19px; }
+  .upgrade-card h3 { font-size: 17px; }
+}
+@media (max-width: 360px) {
+  body { padding: 4px; }
+  .topbar { min-height: 52px; padding: 11px 14px; }
+  .brand { font-size: 9px; letter-spacing: .12em; }
+  .brand-mark { margin-right: 4px; }
+  .topbar-note { max-width: 78px; font-size: 8px; letter-spacing: .08em; }
+  .screen { padding-inline: 12px; }
+  .battle-screen { padding-inline: 8px; }
+  .battle-topline { font-size: 8px; letter-spacing: .1em; }
+  .arena { min-height: 205px; grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1fr); gap: 4px; padding: 10px 5px; }
+  .unit-name { font-size: 12px; }
+  .unit-image { height: 88px; }
+  .unit-stats { gap: 4px; font-size: 8px; }
+  .health-meta { font-size: 9px; }
+  .versus { font-size: 10px; }
+  .character-grid { gap: 6px; }
+  .character-card { padding: 8px; }
+  .character-description { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
