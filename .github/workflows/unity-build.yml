@@ -93,6 +93,7 @@ jobs:
       - name: Add standalone browser edition to Pages build
         run: |
           WEB_ROOT="build/WebGL/Three Choices"
+          sudo chown -R "$(id -u):$(id -g)" "$WEB_ROOT"
           mkdir -p "$WEB_ROOT/browser" "$WEB_ROOT/Assets/Art/BG" "$WEB_ROOT/Assets/Art/Characters" "$WEB_ROOT/Assets/Art/Enemies" "$WEB_ROOT/Assets/Fonts"
           cp -R browser/. "$WEB_ROOT/browser/"
           cp "Assets/Art/BG/Plains.png" "$WEB_ROOT/Assets/Art/BG/"
